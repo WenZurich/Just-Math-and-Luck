@@ -1,0 +1,625 @@
+{
+  "asOf": "2026-09-15T14:04:10Z",
+  "disclaimer": "本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。",
+  "timezoneNote": "台股為當日收盤；美股可能為收盤或盤中快照，以 asOf 為準。",
+  "indices": {
+    "tw": {
+      "name": "台灣加權 TAIEX",
+      "value": 45511.49,
+      "dayPct": -0.77,
+      "dayAbs": -351.03
+    },
+    "otc": {
+      "name": "櫃買",
+      "dayPct": -1.51,
+      "value": null,
+      "incomplete": true
+    },
+    "spx": {
+      "name": "S&P 500",
+      "value": 7602.48,
+      "dayPct": -0.23,
+      "session": "intraday"
+    },
+    "nasdaq": {
+      "name": "Nasdaq",
+      "value": 26113.63,
+      "dayPct": -0.28,
+      "session": "intraday"
+    },
+    "sox": {
+      "name": "SOX",
+      "value": 11278.73,
+      "dayPct": 1.32,
+      "session": "intraday"
+    },
+    "usdTwd": {
+      "taipeiClose": 31.848,
+      "yahoo": 31.816
+    }
+  },
+  "top5": [
+    {
+      "ticker": "2468.TW",
+      "name": "華經",
+      "market": "TW",
+      "price": 43.25,
+      "currency": "TWD",
+      "dayPct": 9.91,
+      "rsVsIndexPp": 10.68,
+      "pct5d": 33.08,
+      "pct1m": 22.52,
+      "volRatio": 14.77,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "資訊系統整合：雲端／機房、資安、備份、文件數位化，自研 EasyWare WMS，並接保險金融資訊委外。",
+      "why": "日漲約 +9.91%，相對加權強約 10.7pp，量比約 14.8×，五日約 +33%，站上雙均線。",
+      "risk": "接近漲停、異常放量，波動風險高"
+    },
+    {
+      "ticker": "6226.TW",
+      "name": "光鼎",
+      "market": "TW",
+      "price": 36.3,
+      "currency": "TWD",
+      "dayPct": 10.0,
+      "rsVsIndexPp": 10.77,
+      "pct5d": 22.64,
+      "pct1m": 89.06,
+      "volRatio": 3.57,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "LED 封裝與模組（照明、家電、工控、車用等）；並布局高功率 LED 模組與 IGBT／SiC 功率半導體。",
+      "why": "漲停 +10%，相對加權強約 10.8pp，量比約 3.6×，一個月約 +89%。",
+      "risk": "已在漲停附近，追價風險高"
+    },
+    {
+      "ticker": "ZS",
+      "name": "Zscaler",
+      "market": "US",
+      "price": 190.73,
+      "currency": "USD",
+      "dayPct": -0.52,
+      "priorClosePct": 16.52,
+      "pct5d": 17.78,
+      "pct1m": 3.88,
+      "volRatio": 0.18,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "雲端資安／零信任網路存取，讓遠端連線走雲端安全閘道。",
+      "why": "週一約 +16.5%，五日約 +17.8%，站上 SMA20／SMA50。",
+      "risk": "週一已大漲，追價風險"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "market": "US",
+      "price": 236.22,
+      "currency": "USD",
+      "dayPct": 0.36,
+      "priorClosePct": 13.85,
+      "pct5d": 12.48,
+      "pct1m": 8.88,
+      "volRatio": 0.26,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "端點與雲端資安平台（防駭、偵測與回應），訂閱制為主。",
+      "why": "週一約 +13.9%，五日約 +12.5%，一個月約 +8.9%，站上雙均線。",
+      "risk": "週一已大漲，追價風險"
+    },
+    {
+      "ticker": "2308.TW",
+      "name": "台達電",
+      "market": "TW",
+      "price": 1670,
+      "currency": "TWD",
+      "dayPct": 3.09,
+      "rsVsIndexPp": 3.86,
+      "pct5d": -7.48,
+      "pct1m": -11.41,
+      "volRatio": 1.61,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "電源、散熱、工業自動化，以及電動車與資料中心相關電力解決方案。",
+      "why": "大盤 −0.77% 時逆勢約 +3.1%（RS 約 +3.9pp），量比約 1.6×。",
+      "risk": "近月偏弱；非漲停爆量型"
+    }
+  ],
+  "us": [
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "price": 236.22,
+      "currency": "USD",
+      "dayPct": 0.36,
+      "priorClosePct": 13.85,
+      "pct5d": 12.48,
+      "pct1m": 8.88,
+      "volRatio": 0.26,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "端點與雲端資安平台。",
+      "why": "週一約 +13.9%，五日約 +12.5%，站上雙均線。",
+      "risk": "追價風險"
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "price": 372.41,
+      "currency": "USD",
+      "dayPct": -0.41,
+      "priorClosePct": 13.09,
+      "pct5d": 10.51,
+      "pct1m": -3.09,
+      "volRatio": 0.16,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "企業防火牆與雲端資安平台。",
+      "why": "週一約 +13%，五日約 +10.5%，站上雙均線。",
+      "risk": "追價風險"
+    },
+    {
+      "ticker": "ZS",
+      "name": "Zscaler",
+      "price": 190.73,
+      "currency": "USD",
+      "dayPct": -0.52,
+      "priorClosePct": 16.52,
+      "pct5d": 17.78,
+      "pct1m": 3.88,
+      "volRatio": 0.18,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "雲端零信任資安。",
+      "why": "週一約 +16.5%，五日約 +17.8%。",
+      "risk": "追價風險"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "price": 186.75,
+      "currency": "USD",
+      "dayPct": 0.16,
+      "priorClosePct": 11.98,
+      "pct5d": 11.43,
+      "pct1m": 26.67,
+      "volRatio": 0.11,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "企業身分認證與單一登入。",
+      "why": "五日約 +11%，一個月約 +27%。",
+      "risk": "追價風險"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "price": 678.65,
+      "currency": "USD",
+      "dayPct": 1.96,
+      "priorClosePct": 2.71,
+      "pct5d": 10.62,
+      "pct1m": 15.05,
+      "volRatio": 0.19,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "社群與廣告平台，並投資 AI／資料中心。",
+      "why": "盤中相對 S&P 偏強；五日約 +10.6%。",
+      "risk": "—"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "price": 511.83,
+      "currency": "USD",
+      "dayPct": 3.73,
+      "priorClosePct": -4.4,
+      "pct5d": 1.2,
+      "pct1m": -0.5,
+      "volRatio": 0.23,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "CPU／GPU 與 AI 加速晶片。",
+      "why": "費半重挫後日內反彈約 +3.7%。",
+      "risk": "—"
+    },
+    {
+      "ticker": "FTNT",
+      "name": "Fortinet",
+      "price": 169.78,
+      "currency": "USD",
+      "dayPct": -0.24,
+      "priorClosePct": 9.04,
+      "pct5d": 7.81,
+      "pct1m": 6.1,
+      "volRatio": 0.11,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "網路資安硬體與訂閱。",
+      "why": "週一約 +9%，五日約 +7.8%。",
+      "risk": "追價風險"
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "price": 330.65,
+      "currency": "USD",
+      "dayPct": -0.73,
+      "priorClosePct": 0.24,
+      "pct5d": 4.56,
+      "pct1m": 8.08,
+      "volRatio": 0.11,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "消費電子與服務生態。",
+      "why": "五日約 +4.6%，一個月約 +8%，站上雙均線。",
+      "risk": "—"
+    },
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "price": 174.42,
+      "currency": "USD",
+      "dayPct": 0.87,
+      "priorClosePct": 15.06,
+      "pct5d": 2.41,
+      "pct1m": -6.25,
+      "volRatio": 0.06,
+      "aboveSma20": false,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "弱點掃描與雲端資安合規。",
+      "why": "週一約 +15%（資安衛星股）。",
+      "risk": "追價風險"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "price": 250.9,
+      "currency": "USD",
+      "dayPct": 4.97,
+      "priorClosePct": -9.74,
+      "pct5d": -4.06,
+      "pct1m": -10.21,
+      "volRatio": 0.25,
+      "aboveSma20": true,
+      "aboveSma50": false,
+      "screens": [
+        "A"
+      ],
+      "business": "CPU 架構授權。",
+      "why": "日內反彈約 +5%，但一個月仍弱、低於 SMA50。",
+      "risk": "高波動反彈"
+    },
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "price": 1148.22,
+      "currency": "USD",
+      "dayPct": 0.87,
+      "priorClosePct": 2.02,
+      "pct5d": 2.16,
+      "pct1m": -2.71,
+      "volRatio": 0.14,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "screens": [
+        "A"
+      ],
+      "business": "製藥（含減肥／糖尿病等藥物）。",
+      "why": "相對大盤偏防禦強勢。",
+      "risk": "—"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "price": 212.86,
+      "currency": "USD",
+      "dayPct": 0.9,
+      "priorClosePct": -3.36,
+      "pct5d": -5.7,
+      "pct1m": -5.46,
+      "volRatio": 0.15,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "screens": [
+        "observe"
+      ],
+      "business": "GPU 與 AI 加速器。",
+      "why": "僅觀察：五日偏弱且低於雙均線。",
+      "risk": "未通過動能主篩"
+    }
+  ],
+  "tw": [
+    {
+      "ticker": "6226.TW",
+      "name": "光鼎",
+      "price": 36.3,
+      "currency": "TWD",
+      "dayPct": 10.0,
+      "rsVsIndexPp": 10.77,
+      "pct5d": 22.64,
+      "pct1m": 89.06,
+      "volRatio": 3.57,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "LED 與功率半導體布局。",
+      "why": "漲停＋高量比＋強 RS。",
+      "risk": "接近漲跌停"
+    },
+    {
+      "ticker": "2468.TW",
+      "name": "華經",
+      "price": 43.25,
+      "currency": "TWD",
+      "dayPct": 9.91,
+      "rsVsIndexPp": 10.68,
+      "pct5d": 33.08,
+      "pct1m": 22.52,
+      "volRatio": 14.77,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "資訊系統整合與資服。",
+      "why": "近漲停＋異常放量。",
+      "risk": "異常放量波動大"
+    },
+    {
+      "ticker": "2308.TW",
+      "name": "台達電",
+      "price": 1670,
+      "currency": "TWD",
+      "dayPct": 3.09,
+      "rsVsIndexPp": 3.86,
+      "pct5d": -7.48,
+      "pct1m": -11.41,
+      "volRatio": 1.61,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "電源與工業／資料中心電力。",
+      "why": "弱市逆勢相對強。",
+      "risk": "—"
+    },
+    {
+      "ticker": "2891.TW",
+      "name": "中信金",
+      "price": 69.7,
+      "currency": "TWD",
+      "dayPct": 2.35,
+      "rsVsIndexPp": 3.12,
+      "pct5d": 2.2,
+      "pct1m": 6.25,
+      "volRatio": 1.93,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "business": "金控（銀行／證券／壽險等）。",
+      "why": "逆勢＋量比約 1.9＋雙均線。",
+      "risk": "—"
+    },
+    {
+      "ticker": "6669.TW",
+      "name": "緯穎",
+      "price": 2315,
+      "currency": "TWD",
+      "dayPct": 1.98,
+      "rsVsIndexPp": 2.75,
+      "pct5d": -1.07,
+      "pct1m": 4.31,
+      "volRatio": 0.69,
+      "aboveSma20": false,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "超大型資料中心／AI 伺服器與機櫃 ODM。",
+      "why": "相對大盤強約 +2.8pp。",
+      "risk": "—"
+    },
+    {
+      "ticker": "3008.TW",
+      "name": "大立光",
+      "price": 6055,
+      "currency": "TWD",
+      "dayPct": 1.0,
+      "rsVsIndexPp": 1.77,
+      "pct5d": -6.85,
+      "pct1m": 19.43,
+      "volRatio": 1.22,
+      "aboveSma20": false,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "高階光學鏡頭。",
+      "why": "相對強；一個月約 +19%。",
+      "risk": "—"
+    },
+    {
+      "ticker": "2330.TW",
+      "name": "台積電",
+      "price": 2385,
+      "currency": "TWD",
+      "dayPct": 0.21,
+      "rsVsIndexPp": 0.98,
+      "pct5d": -3.44,
+      "pct1m": -0.62,
+      "volRatio": 0.86,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "screens": [
+        "A"
+      ],
+      "business": "先進製程晶圓代工。",
+      "why": "弱市相對抗跌。",
+      "risk": "除息風險"
+    },
+    {
+      "ticker": "2382.TW",
+      "name": "廣達",
+      "price": 333,
+      "currency": "TWD",
+      "dayPct": 0.15,
+      "rsVsIndexPp": 0.92,
+      "pct5d": 1.52,
+      "pct1m": -0.15,
+      "volRatio": 0.59,
+      "aboveSma20": false,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "筆電與伺服器代工。",
+      "why": "弱市相對持穩。",
+      "risk": "—"
+    },
+    {
+      "ticker": "2881.TW",
+      "name": "富邦金",
+      "price": 151,
+      "currency": "TWD",
+      "dayPct": -1.95,
+      "rsVsIndexPp": -1.18,
+      "pct5d": 1.34,
+      "pct1m": 20.32,
+      "volRatio": 0.77,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "金控。",
+      "why": "短線弱、一個月仍強且站上雙均線。",
+      "risk": "短線弱於大盤"
+    },
+    {
+      "ticker": "2303.TW",
+      "name": "聯電",
+      "price": 138.5,
+      "currency": "TWD",
+      "dayPct": -2.81,
+      "rsVsIndexPp": -2.04,
+      "pct5d": 1.09,
+      "pct1m": 13.99,
+      "volRatio": 0.6,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "成熟製程晶圓代工。",
+      "why": "短線弱、一個月約 +14%。",
+      "risk": "短線弱於大盤"
+    },
+    {
+      "ticker": "2454.TW",
+      "name": "聯發科",
+      "price": 4430,
+      "currency": "TWD",
+      "dayPct": -2.85,
+      "rsVsIndexPp": -2.08,
+      "pct5d": -5.94,
+      "pct1m": 9.38,
+      "volRatio": 0.84,
+      "aboveSma20": true,
+      "aboveSma50": true,
+      "screens": [
+        "A"
+      ],
+      "business": "手機與邊緣 AI 晶片設計。",
+      "why": "短線弱、一個月仍正且站上雙均線。",
+      "risk": "短線弱於大盤"
+    },
+    {
+      "ticker": "2317.TW",
+      "name": "鴻海",
+      "price": 246.5,
+      "currency": "TWD",
+      "dayPct": -0.8,
+      "rsVsIndexPp": -0.03,
+      "pct5d": -1.99,
+      "pct1m": -3.33,
+      "volRatio": 0.5,
+      "aboveSma20": false,
+      "aboveSma50": false,
+      "screens": [
+        "observe"
+      ],
+      "business": "電子代工與組裝。",
+      "why": "僅權值觀察，未過強勢主篩。",
+      "risk": "RS≈0"
+    }
+  ],
+  "parity": {
+    "adsRatio": "5:1",
+    "tw2330": 2385,
+    "tsm": 416.61,
+    "impliedUsdTaipeiFx": 374.43,
+    "premiumPct": 11.26,
+    "note": "台已收、美盤中；除息時程不同步會扭曲溢價，非套利指令。"
+  },
+  "method": {
+    "A": "動能／相對強度：日漲跌 vs 指數；5日／約1個月；SMA20／SMA50",
+    "B": "量能：當日量／近20日均量",
+    "C": "估值 PE（本次未取得可信即時 PE，跳過）"
+  }
+}
