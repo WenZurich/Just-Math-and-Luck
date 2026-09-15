@@ -954,6 +954,27 @@ async function main() {
     buildMarginGrowth(universe, fundMap),
   ];
 
+  // Attach latest OHLCV bar date so UI can show Yahoo lag vs TWSE session honestly
+  for (const s of strategies) {
+    const dates = [];
+    for (const h of s.hits || []) {
+      const ch = ohlcvMap.get(h.ticker);
+      if (!ch?.bars?.length) continue;
+      const last = ch.bars[ch.bars.length - 1];
+      const ymd = new Date(last.t * 1000).toISOString().slice(0, 10);
+      h.ohlcvBarDate = ymd;
+      dates.push(ymd);
+    }
+    if (dates.length) {
+      const uniq = [...new Set(dates)].sort();
+      s.ohlcvBarDates = uniq;
+      s.notes = [
+        ...(s.notes || []),
+        `技術欄位 OHLCV 最後一根 Yahoo 日K：${uniq.join(", ")}（可能比證交所 session ${asOfYmd} 慢一日）`,
+      ];
+    }
+  }
+
   // XQ-like category order for UI
   const categoryOrder = ["精選", "價量", "籌碼", "財務", "大師"];
 

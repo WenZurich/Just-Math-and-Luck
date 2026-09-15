@@ -286,6 +286,7 @@ function renderStrategyPanel(strategy, data) {
         <h4 class="xq-sub">篩選結果</h4>
         <div class="xq-actions">
           <button type="button" class="xq-btn" data-xq-copy>複製 JSON</button>
+          <button type="button" class="xq-btn" data-xq-csv>匯出此策略 CSV</button>
           <a class="xq-btn xq-btn-link" href="${DATA_URL}" download="strategy-screener.json">匯出 JSON</a>
         </div>
       </div>
@@ -423,6 +424,41 @@ export function mountStrategies(selector, data) {
   bindCopy(host, data);
 }
 
+function hitsToCsv(strategy) {
+  const hits = strategy.hits || [];
+  if (!hits.length) return "";
+  const metricKeys = [
+    ...new Set(hits.flatMap((h) => Object.keys(h.metrics || {}))),
+  ];
+  const headers = ["ticker", "name", "market", "ohlcvBarDate", ...metricKeys];
+  const esc = (v) => {
+    const s = v == null ? "" : String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const rows = hits.map((h) => {
+    const m = h.metrics || {};
+    return [
+      h.ticker,
+      h.name,
+      h.market,
+      h.ohlcvBarDate || "",
+      ...metricKeys.map((k) => m[k]),
+    ]
+      .map(esc)
+      .join(",");
+  });
+  return [headers.join(","), ...rows].join("\n");
+}
+
+function downloadText(filename, text, mime) {
+  const blob = new Blob([text], { type: mime || "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
 function bindCopy(host, data) {
   host?.querySelector("[data-xq-copy]")?.addEventListener("click", async () => {
     try {
@@ -436,6 +472,17 @@ function bindCopy(host, data) {
     } catch {
       /* ignore */
     }
+  });
+  host?.querySelector("[data-xq-csv]")?.addEventListener("click", () => {
+    const id = host.querySelector(".xq-panel")?.getAttribute("data-strategy-id");
+    const s = data.strategies.find((x) => x.id === id);
+    if (!s) return;
+    const csv = hitsToCsv(s);
+    if (!csv) {
+      alert("此策略今日無命中列可匯出");
+      return;
+    }
+    downloadText(`${s.id}-hits.csv`, "\uFEFF" + csv, "text/csv;charset=utf-8");
   });
 }
 

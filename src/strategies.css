@@ -341,3 +341,31 @@
   color: var(--text-dim);
   line-height: 1.45;
 }
+
+/* denser XQ-like chrome */
+.xq-sidebar {
+  background: linear-gradient(180deg, #121821 0%, #0e141c 100%);
+}
+.xq-chip-row {
+  padding-bottom: 0.15rem;
+}
+.xq-panel {
+  border-top: 3px solid rgba(59, 130, 246, 0.55);
+}
+.xq-hit-num {
+  color: #fca5a5;
+}
+@media (max-width: 859px) {
+  .xq-chips {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: rgba(11, 15, 20, 0.92);
+    backdrop-filter: blur(8px);
+    padding: 0.35rem 0 0.5rem;
+    margin-left: -0.15rem;
+    margin-right: -0.15rem;
+    padding-left: 0.15rem;
+    padding-right: 0.15rem;
+  }
+}
