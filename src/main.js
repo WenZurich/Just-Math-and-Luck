@@ -1,4 +1,8 @@
 import "./style.css";
+import "./danmaku.css";
+import "./comments.css";
+import "./social-digest.css";
+import config from "./config.js";
 import {
   term,
   escapeHtml,
@@ -10,6 +14,9 @@ import {
   bindPaperTabs,
   loadPaperPortfolio,
 } from "./paper.js";
+import { initDanmaku } from "./danmaku.js";
+import { mountAllTickerComments, initSiteGiscus } from "./comments.js";
+import { initSocialDigest, loadSocialDigest } from "./social-digest.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -180,6 +187,7 @@ function renderTopCard(stock, rank) {
       ${stock.business ? `<p class="card-text"><strong>本業</strong>　${escapeHtml(stock.business)}</p>` : ""}
       ${stock.why ? `<p class="card-text"><strong>理由</strong>　${escapeHtml(stock.why)}</p>` : ""}
       ${stock.risk ? `<p class="card-text risk"><strong>風險</strong>　${linkRiskText(stock.risk)}</p>` : ""}
+      <div data-ticker-comments="${escapeHtml(stock.ticker)}"></div>
     </article>
   `;
 }
@@ -249,6 +257,7 @@ function mobileCards(list) {
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
         ${s.why ? `<p class="lc-why">${escapeHtml(s.why)}</p>` : ""}
         ${s.risk && s.risk !== "—" ? `<p class="lc-why" style="color:#fbbf24">風險：${linkRiskText(s.risk)}</p>` : ""}
+        <div data-ticker-comments="${escapeHtml(s.ticker)}"></div>
       </div>`;
     })
     .join("");
@@ -329,6 +338,49 @@ function renderMethod(method) {
   `;
 }
 
+
+function renderDanmakuPanel() {
+  return `
+    <section class="section" id="danmaku">
+      <div id="ss-danmaku-layer" class="ss-danmaku-layer" aria-hidden="true"></div>
+      <h2 class="section-title">${term("danmaku", "全站彈幕")}</h2>
+      <div id="ss-danmaku-panel" class="ss-chat-panel" aria-label="全站彈幕聊天">
+        <div class="ss-chat-status">載入中…</div>
+        <form class="ss-chat-form">
+          <input class="ss-nick" name="nickname" maxlength="24" placeholder="暱稱" autocomplete="nickname" />
+          <input class="ss-body" name="body" maxlength="80" placeholder="短訊（最多 80 字）" required />
+          <button type="submit">發送彈幕</button>
+        </form>
+        <ul class="ss-chat-list"></ul>
+      </div>
+    </section>
+  `;
+}
+
+function renderSocialDigestSection() {
+  return `
+    <section class="section" id="social-digest">
+      <h2 class="section-title">${term("socialDigest", "網友參考")}</h2>
+      <p class="glossary-intro">來自 ${term("ptt", "PTT")}、${term("dcard", "Dcard")}、${term("threads", "Threads")}、${term("reddit", "Reddit")}、${term("futu", "富途牛牛")} 的公開摘要（抓不到會寫 blocker，不捏造；不是投資建議）。</p>
+      <div id="ss-social-digest" aria-label="今日社交摘要"></div>
+    </section>
+  `;
+}
+
+function renderGiscusSection() {
+  return `
+    <section class="section" id="giscus">
+      <div id="ss-giscus" class="ss-giscus-section" aria-label="全站討論">
+        <h2 class="section-title">全站討論（Giscus）</h2>
+        <p class="ss-giscus-hint">
+          <strong>備援</strong>：需 GitHub 登入。主要匿名${term("danmaku", "彈幕")}／${term("comments", "留言板")}請接 Supabase anon key（見 README），訪客無需登入即可發言。
+        </p>
+        <div class="ss-giscus-host"></div>
+      </div>
+    </section>
+  `;
+}
+
 function renderApp(data, paper) {
   const top5 = data.top5 || [];
   const us = data.us || [];
@@ -346,6 +398,9 @@ function renderApp(data, paper) {
       ${data.timezoneNote ? `<p class="tz-note">${escapeHtml(data.timezoneNote)}（${term("intraday", "盤中")} 價格還會變）</p>` : ""}
       <p class="glossary-jump">
         <a href="#paper">看模擬交易成績 ↓</a>
+        <a href="#social-digest">網友參考 ↓</a>
+        <a href="#danmaku">全站彈幕 ↓</a>
+        <a href="#giscus">全站討論 ↓</a>
         <a href="#glossary">看不懂名詞？名詞小辭典 ↓</a>
       </p>
     </header>
@@ -362,6 +417,9 @@ function renderApp(data, paper) {
 
     ${renderPaperSection(paper)}
 
+    ${renderSocialDigestSection()}
+    ${renderDanmakuPanel()}
+
     <section class="section">
       <h2 class="section-title">選股清單</h2>
       <div class="tabs" role="tablist">
@@ -374,9 +432,10 @@ function renderApp(data, paper) {
 
     ${renderParity(data.parity)}
     ${renderMethod(data.method)}
+    ${renderGiscusSection()}
     ${renderGlossarySection()}
 
-    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 點藍字看解釋 · 模擬交易非真實成交 · 資料來自 latest.json 與 paper-portfolio.json</p>
+    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 點藍字看解釋 · 模擬交易非真實成交 · 社交摘要／聊天僅供討論參考 · 資料來自 latest.json、paper-portfolio.json、social-digest.json</p>
   `;
 }
 
@@ -408,6 +467,21 @@ async function main() {
     bindTabs(app);
     bindPaperTabs(app);
     bindTermLinks(app);
+    // Social: digest first (feeds per-ticker tabs); chat needs Supabase anon for writes
+    void config;
+    let digest = null;
+    const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);
+    if (digestResult?.ok) digest = digestResult.data;
+    else {
+      try {
+        digest = await loadSocialDigest(config.socialDigestUrl);
+      } catch {
+        digest = null;
+      }
+    }
+    initDanmaku({ config });
+    mountAllTickerComments(app, { config, digest });
+    initSiteGiscus("#ss-giscus", { config });
   } catch (err) {
     app.innerHTML = `<div class="error">無法載入資料（${escapeHtml(err.message)}）。請確認以靜態伺服器開啟，且 data/latest.json 存在。</div>`;
   }
