@@ -333,16 +333,27 @@ export function renderGlossarySection() {
   `;
 }
 
-export function bindTermLinks(root) {
+export function bindTermLinks(root, options = {}) {
   root.querySelectorAll("a.term").forEach((a) => {
     a.addEventListener("click", (e) => {
       const id = a.getAttribute("data-term");
-      const target = document.getElementById(`term-${id}`);
-      if (!target) return;
       e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      target.classList.add("flash");
-      setTimeout(() => target.classList.remove("flash"), 1600);
+      if (typeof options.beforeScroll === "function") {
+        options.beforeScroll(id);
+      }
+      const jump = () => {
+        const target = document.getElementById(`term-${id}`);
+        if (!target) return;
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        target.classList.add("flash");
+        setTimeout(() => target.classList.remove("flash"), 1600);
+      };
+      // View switch may need a frame before the glossary is visible
+      if (typeof options.beforeScroll === "function") {
+        requestAnimationFrame(() => requestAnimationFrame(jump));
+      } else {
+        jump();
+      }
     });
   });
 }

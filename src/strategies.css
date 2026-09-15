@@ -369,3 +369,18 @@
     padding-right: 0.15rem;
   }
 }
+
+
+/* IA shell polish */
+.xq-section .glossary-intro { max-width: 42rem; }
+.xq-loading {
+  color: var(--text-muted);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+.xq-root {
+  border-radius: var(--radius);
+}

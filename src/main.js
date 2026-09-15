@@ -344,11 +344,15 @@ function renderMethod(method) {
 }
 
 
+function renderDanmakuLayer() {
+  return `<div id="ss-danmaku-layer" class="ss-danmaku-layer" aria-hidden="true"></div>`;
+}
+
 function renderDanmakuPanel() {
   return `
     <section class="section" id="danmaku">
-      <div id="ss-danmaku-layer" class="ss-danmaku-layer" aria-hidden="true"></div>
       <h2 class="section-title">${term("danmaku", "全站彈幕")}</h2>
+      <p class="view-lead">短訊飛過全站；發言集中在這裡，今日頁面比較乾淨。</p>
       <div id="ss-danmaku-panel" class="ss-chat-panel" aria-label="全站彈幕聊天">
         <div class="ss-chat-status">載入中…</div>
         <form class="ss-chat-form">
@@ -366,7 +370,7 @@ function renderSocialDigestSection() {
   return `
     <section class="section" id="social-digest">
       <h2 class="section-title">${term("socialDigest", "網友參考")}</h2>
-      <p class="glossary-intro">美股看 ${term("reddit", "Reddit")}／${term("futu", "富途")}；台股看 ${term("ptt", "PTT")}／${term("dcard", "Dcard")}／${term("threads", "Threads")}。公開摘要抓不到會寫 blocker，不捏造；不是投資建議。</p>
+      <p class="view-lead">美股看 ${term("reddit", "Reddit")}／${term("futu", "富途")}；台股看 ${term("ptt", "PTT")}／${term("dcard", "Dcard")}／${term("threads", "Threads")}。抓不到會寫 blocker，不捏造。</p>
       <div id="ss-social-digest" aria-label="今日社交摘要"></div>
     </section>
   `;
@@ -378,7 +382,7 @@ function renderGiscusSection() {
       <div id="ss-giscus" class="ss-giscus-section" aria-label="全站討論">
         <h2 class="section-title">全站討論（Giscus）</h2>
         <p class="ss-giscus-hint">
-          <strong>備援</strong>：需 GitHub 登入。主要匿名${term("danmaku", "彈幕")}／${term("comments", "留言板")}請接 Supabase anon key（見 README），訪客無需登入即可發言。
+          <strong>備援</strong>：需 GitHub 登入。主要匿名${term("danmaku", "彈幕")}／${term("comments", "留言板")}請接 Supabase。
         </p>
         <div class="ss-giscus-host"></div>
       </div>
@@ -386,65 +390,205 @@ function renderGiscusSection() {
   `;
 }
 
+const VIEWS = [
+  { id: "today", label: "今日", hash: "today" },
+  { id: "strategies", label: "策略", hash: "strategies" },
+  { id: "paper", label: "模擬", hash: "paper" },
+  { id: "social", label: "社群", hash: "social" },
+  { id: "help", label: "說明", hash: "help" },
+];
+
+const HASH_ALIASES = {
+  today: "today",
+  strategies: "strategies",
+  paper: "paper",
+  social: "social",
+  help: "help",
+  glossary: "help",
+  danmaku: "social",
+  "social-digest": "social",
+  giscus: "social",
+  method: "help",
+};
+
+const NAV_ICONS = {
+  today: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h2v2h6V2h2v2h3a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3V2zm12 8H5v10h14V10zm-2-5H7v2h10V5z"/></svg>`,
+  strategies: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 19h16v2H4v-2zm2.5-3.5 4-4 3 3L21 6.5 19.5 5l-6 7.5-3-3L4 14.5l2.5 1z"/></svg>`,
+  paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
+  social: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C7 3 3 6.6 3 11c0 2.4 1.2 4.5 3.1 6L5 21l4.3-1.4c.9.3 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z"/></svg>`,
+  help: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2zm0 15a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm1.6-5.35c-.55.35-.85.6-.95 1.1l-.1.75h-1.5l.12-.95c.15-.95.7-1.5 1.4-1.95.55-.35.9-.6.9-1.15 0-.55-.45-.95-1.15-.95-.75 0-1.2.4-1.35 1.05l-1.45-.35C9.75 8.2 10.7 7.2 12.2 7.2c1.65 0 2.85 1 2.85 2.4 0 .85-.45 1.5-1.45 2.05z"/></svg>`,
+};
+
+function parseViewFromHash() {
+  const raw = (location.hash || "").replace(/^#/, "").split(/[/?]/)[0].toLowerCase();
+  return HASH_ALIASES[raw] || "today";
+}
+
+function renderNavItems(variant) {
+  return VIEWS.map((v) => {
+    const icon = NAV_ICONS[v.id] || "";
+    return `
+      <button type="button"
+        class="nav-item"
+        data-nav="${v.id}"
+        data-variant="${variant}"
+        aria-label="${v.label}"
+        aria-current="false">
+        <span class="nav-icon">${icon}</span>
+        <span class="nav-label">${v.label}</span>
+      </button>`;
+  }).join("");
+}
+
 function renderApp(data, paper) {
   const top5 = data.top5 || [];
   const us = data.us || [];
   const tw = data.tw || [];
+  const disclaimer = escapeHtml(
+    (data.disclaimer || "本站內容非投資建議。").replace(
+      /^本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。$/,
+      "本站只是用公開行情算出「相對有機會觀察的名單」，不會保證賺錢。"
+    )
+  );
 
   return `
-    <header class="site-header">
-      <div class="header-top">
-        <h1>${term("screening", "每日數學選股")}</h1>
-        <div class="asof">資料時間 ${fmtAsOf(data.asOf)}</div>
+    ${renderDanmakuLayer()}
+
+    <header class="site-chrome">
+      <div class="chrome-brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <h1>${term("screening", "每日數學選股")}</h1>
+          <p class="brand-meta">資料 ${fmtAsOf(data.asOf)}</p>
+        </div>
       </div>
-      <div class="disclaimer" role="note">${term("notAdvice", "不是投資建議")}：${escapeHtml(
-        (data.disclaimer || "本站內容非投資建議。").replace(/^本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。$/, "本站只是用公開行情算出「相對有機會觀察的名單」，不會保證賺錢。")
-      )}</div>
-      ${data.timezoneNote ? `<p class="tz-note">${escapeHtml(data.timezoneNote)}（${term("intraday", "盤中")} 價格還會變）</p>` : ""}
-      <p class="glossary-jump">
-        <a href="#strategies">策略選股 ↓</a>
-        <a href="#paper">看模擬交易成績 ↓</a>
-        <a href="#social-digest">網友參考 ↓</a>
-        <a href="#danmaku">全站彈幕 ↓</a>
-        <a href="#giscus">全站討論 ↓</a>
-        <a href="#glossary">看不懂名詞？名詞小辭典 ↓</a>
-      </p>
+      <details class="disclaimer-fold">
+        <summary>${term("notAdvice", "非投資建議")} · 紅漲綠跌</summary>
+        <p>${disclaimer}${data.timezoneNote ? ` · ${escapeHtml(data.timezoneNote)}` : ""}</p>
+      </details>
     </header>
 
-    <p class="index-caption">${term("index", "指數")}快覽（代表整個市場的「總成績單」）</p>
-    ${renderIndexStrip(data.indices || {})}
+    <nav class="nav-desktop" aria-label="主要導覽">
+      ${renderNavItems("desktop")}
+    </nav>
 
-    <section class="section">
-      <h2 class="section-title">今日 Top 5</h2>
-      <div class="top5-grid">
-        ${top5.map((s, i) => renderTopCard(s, i + 1)).join("")}
+    <main class="view-host">
+      <div class="view" id="view-today" data-view="today" hidden>
+        <span id="today" class="view-anchor" tabindex="-1"></span>
+        <header class="view-header">
+          <h2 class="view-title">今日精選</h2>
+          <p class="view-lead">Top 5、美／台清單與 ADR 平價 — 一天要看的數學候選。</p>
+        </header>
+        <p class="index-caption">${term("index", "指數")}快覽</p>
+        ${renderIndexStrip(data.indices || {})}
+        <section class="section">
+          <h2 class="section-title">今日 Top 5</h2>
+          <div class="top5-grid">
+            ${top5.map((s, i) => renderTopCard(s, i + 1)).join("") || `<div class="empty-state">今日尚無 Top 5</div>`}
+          </div>
+        </section>
+        <section class="section">
+          <h2 class="section-title">選股清單</h2>
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", "美股")}（${us.length}）</button>
+            <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", "台股")}（${tw.length}）</button>
+          </div>
+          ${renderListSection("us", us)}
+          ${renderListSection("tw", tw)}
+        </section>
+        ${renderParity(data.parity)}
+        <p class="intra-jump">個股留言在卡片下方 · <button type="button" class="text-jump" data-jump="social">去社群發彈幕</button></p>
       </div>
-    </section>
 
-    ${renderStrategiesSection()}
-
-    ${renderPaperSection(paper)}
-
-    ${renderSocialDigestSection()}
-    ${renderDanmakuPanel()}
-
-    <section class="section">
-      <h2 class="section-title">選股清單</h2>
-      <div class="tabs" role="tablist">
-        <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", "美股")}（${us.length}）</button>
-        <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", "台股")}（${tw.length}）</button>
+      <div class="view" id="view-strategies" data-view="strategies" hidden>
+        <span class="view-anchor" tabindex="-1"></span>
+        ${renderStrategiesSection()}
       </div>
-      ${renderListSection("us", us)}
-      ${renderListSection("tw", tw)}
-    </section>
 
-    ${renderParity(data.parity)}
-    ${renderMethod(data.method)}
-    ${renderGiscusSection()}
-    ${renderGlossarySection()}
+      <div class="view" id="view-paper" data-view="paper" hidden>
+        <span class="view-anchor" tabindex="-1"></span>
+        ${renderPaperSection(paper)}
+      </div>
 
-    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 點藍字看解釋 · 模擬交易非真實成交 · 社交摘要／聊天僅供討論參考 · 資料來自 latest.json、strategy-screener.json、paper-portfolio.json、social-digest.json</p>
+      <div class="view" id="view-social" data-view="social" hidden>
+        <span id="social" class="view-anchor" tabindex="-1"></span>
+        <header class="view-header">
+          <h2 class="view-title">社群</h2>
+          <p class="view-lead">彈幕、網友摘要與全站討論 — 氣氛參考，不是訊號。</p>
+        </header>
+        ${renderDanmakuPanel()}
+        ${renderSocialDigestSection()}
+        ${renderGiscusSection()}
+      </div>
+
+      <div class="view" id="view-help" data-view="help" hidden>
+        <span id="help" class="view-anchor" tabindex="-1"></span>
+        <header class="view-header">
+          <h2 class="view-title">說明</h2>
+          <p class="view-lead">篩選方法、名詞小辭典與免責聲明。</p>
+        </header>
+        ${renderMethod(data.method)}
+        <section class="section help-disclaimer">
+          <h2 class="section-title">免責</h2>
+          <p class="disclaimer">${disclaimer}</p>
+          <p class="tz-note">紅漲綠跌為台灣市場慣例 · 模擬交易非真實成交 · 社交僅供討論參考</p>
+        </section>
+        ${renderGlossarySection()}
+      </div>
+    </main>
+
+    <nav class="nav-bottom" aria-label="主要導覽">
+      ${renderNavItems("mobile")}
+    </nav>
+
+    <p class="site-footer">紅漲綠跌 · 點藍字看解釋 · 資料來自 latest.json／strategy-screener.json／paper-portfolio.json／social-digest.json</p>
   `;
+}
+
+function setNavActive(root, viewId) {
+  root.querySelectorAll(".nav-item").forEach((btn) => {
+    const on = btn.dataset.nav === viewId;
+    btn.classList.toggle("is-active", on);
+    btn.setAttribute("aria-current", on ? "page" : "false");
+  });
+}
+
+function showView(root, viewId, { updateHash = true, scrollTop = true } = {}) {
+  const id = HASH_ALIASES[viewId] || "today";
+  root.querySelectorAll(".view").forEach((el) => {
+    const on = el.dataset.view === id;
+    el.hidden = !on;
+    el.classList.toggle("is-active", on);
+  });
+  setNavActive(root, id);
+  if (updateHash) {
+    const next = `#${id}`;
+    if (location.hash !== next) {
+      history.replaceState(null, "", next);
+    }
+  }
+  if (scrollTop) {
+    window.scrollTo(0, 0);
+  }
+  return id;
+}
+
+function bindAppNav(root) {
+  const go = (viewId, opts) => showView(root, viewId, opts);
+
+  root.querySelectorAll(".nav-item").forEach((btn) => {
+    btn.addEventListener("click", () => go(btn.dataset.nav));
+  });
+  root.querySelectorAll("[data-jump]").forEach((btn) => {
+    btn.addEventListener("click", () => go(btn.dataset.jump));
+  });
+
+  window.addEventListener("hashchange", () => {
+    go(parseViewFromHash(), { updateHash: false });
+  });
+
+  go(parseViewFromHash(), { updateHash: true, scrollTop: false });
+  return { go };
 }
 
 function bindTabs(root) {
@@ -472,11 +616,15 @@ async function main() {
     const data = await res.json();
     const paper = await loadPaperPortfolio();
     app.innerHTML = renderApp(data, paper);
+    const nav = bindAppNav(app);
     bindTabs(app);
     bindPaperTabs(app);
-    bindTermLinks(app);
+    bindTermLinks(app, {
+      beforeScroll() {
+        nav.go("help", { updateHash: true, scrollTop: false });
+      },
+    });
     await initStrategies("#xq-root");
-    // Social: digest first (feeds per-ticker tabs); chat needs Supabase anon for writes
     void config;
     let digest = null;
     const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);
