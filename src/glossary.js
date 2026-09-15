@@ -217,7 +217,7 @@ export const GLOSSARY = {
   },
   ptt: {
     title: "PTT",
-    plain: "台灣很有名的論壇（批踢踢）。本站會搜尋 Stock、HateFinance 等看板的公開文章標題當參考。",
+    plain: "台灣很有名的論壇（批踢踢）。本站會搜尋 Stock 看板的公開文章標題當參考。",
     example: "在 Stock 板搜尋「2330」可能看到營收或標的文。看得到標題與連結，不代表我們同意裡面的看法。",
   },
   dcard: {

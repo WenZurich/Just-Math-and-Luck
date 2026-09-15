@@ -1,18 +1,34 @@
 /**
- * Per-ticker discussion: tabs for 本站留言 + PTT / Dcard / Threads / Reddit / 富途.
+ * Per-ticker discussion: market-aware tabs.
+ * US: 本站留言 | Reddit | 富途
+ * TW: 本站留言 | PTT | Dcard | Threads
  * Local posts require Supabase anon INSERT (RLS). Giscus is site-level fallback only.
  */
 
 const BACKEND_MSG = '聊天後端尚未接上';
 
-const SOURCE_TABS = [
+const US_TABS = [
+  { id: 'local', label: '本站留言' },
+  { id: 'reddit', label: 'Reddit' },
+  { id: 'futu', label: '富途' },
+];
+
+const TW_TABS = [
   { id: 'local', label: '本站留言' },
   { id: 'ptt', label: 'PTT' },
   { id: 'dcard', label: 'Dcard' },
   { id: 'threads', label: 'Threads' },
-  { id: 'reddit', label: 'Reddit' },
-  { id: 'futu', label: '富途' },
 ];
+
+function inferMarket(ticker, explicit) {
+  const m = String(explicit || '').toUpperCase();
+  if (m === 'US' || m === 'TW') return m;
+  return String(ticker || '').toUpperCase().endsWith('.TW') ? 'TW' : 'US';
+}
+
+function tabsForMarket(market) {
+  return market === 'TW' ? TW_TABS : US_TABS;
+}
 
 function readSupabaseConfig(cfg = globalThis.STOCK_SOCIAL_CONFIG || {}) {
   const env =
@@ -76,9 +92,9 @@ function findTickerEntry(digest, sourceKey, ticker) {
   return arr.find((e) => String(e.ticker).toUpperCase() === String(ticker).toUpperCase()) || null;
 }
 
-function renderExternalPanel(entry, sourceLabel) {
+function renderExternalPanel(entry, sourceLabel, { futuMode = false } = {}) {
   if (!entry) {
-    return `<p class="ss-empty">此標的尚無 ${escapeHtml(sourceLabel)} 摘要（可能未納入今日抓取名單）。</p>`;
+    return `<p class="ss-empty">此標的尚無 ${escapeHtml(sourceLabel)} 摘要（可能未納入今日抓取名單，或此市場不查該來源）。</p>`;
   }
   const parts = [];
   if (entry.blocker) {
@@ -105,7 +121,10 @@ function renderExternalPanel(entry, sourceLabel) {
     );
   }
   if (news.length) {
-    parts.push(`<p class="ss-digest-sub">相關公開新聞（非社群評論）</p>`);
+    const newsTitle = futuMode
+      ? '新聞／討論線索（非留言）'
+      : '相關公開新聞（非社群評論）';
+    parts.push(`<p class="ss-digest-sub">${newsTitle}</p>`);
     parts.push(
       news
         .map((it) => {
@@ -117,6 +136,20 @@ function renderExternalPanel(entry, sourceLabel) {
           </article>`;
         })
         .join('')
+    );
+  }
+  if (Array.isArray(entry.manualUrls) && entry.manualUrls.length && !items.length) {
+    parts.push(
+      `<p class="ss-digest-sub">手動開啟</p>` +
+        entry.manualUrls
+          .slice(0, 4)
+          .map(
+            (u) =>
+              `<article class="ss-digest-item"><a href="${escapeHtml(
+                u
+              )}" target="_blank" rel="noopener noreferrer">${escapeHtml(u)}</a></article>`
+          )
+          .join('')
     );
   }
   if (!items.length && !news.length && !entry.blocker) {
@@ -133,22 +166,38 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
 
   const cfg = options.config || globalThis.STOCK_SOCIAL_CONFIG || {};
   const digest = options.digest || null;
+  const market = inferMarket(
+    ticker,
+    options.market || mountEl.getAttribute('data-market')
+  );
+  const sourceTabs = tabsForMarket(market);
   const { url, anon } = readSupabaseConfig(cfg);
   const maxLen = cfg.commentMaxLen || 500;
   const cooldown = cfg.postCooldownMs || 4000;
   const openAttr = preferOpenDetails() ? ' open' : '';
 
-  const tabBtns = SOURCE_TABS.map(
-    (t, i) =>
-      `<button type="button" class="ss-src-tab${i === 0 ? ' active' : ''}" data-src="${t.id}" role="tab" aria-selected="${
-        i === 0 ? 'true' : 'false'
-      }">${t.label}</button>`
-  ).join('');
+  const tabBtns = sourceTabs
+    .map(
+      (t, i) =>
+        `<button type="button" class="ss-src-tab${i === 0 ? ' active' : ''}" data-src="${t.id}" role="tab" aria-selected="${
+          i === 0 ? 'true' : 'false'
+        }">${t.label}</button>`
+    )
+    .join('');
+
+  const externalPanels = sourceTabs
+    .filter((t) => t.id !== 'local')
+    .map(
+      (t) =>
+        `<div class="ss-src-panel" data-panel="${t.id}" role="tabpanel" hidden></div>`
+    )
+    .join('');
 
   mountEl.classList.add('ss-thread');
+  mountEl.dataset.market = market;
   mountEl.innerHTML = `
     <details class="ss-thread-details"${openAttr}>
-      <summary>討論 ${escapeHtml(ticker)}</summary>
+      <summary>討論 ${escapeHtml(ticker)}（${market === 'TW' ? '台股來源' : '美股來源'}）</summary>
       <div class="ss-src-tabs" role="tablist" aria-label="${escapeHtml(ticker)} 來源">${tabBtns}</div>
       <div class="ss-src-panels">
         <div class="ss-src-panel active" data-panel="local" role="tabpanel">
@@ -160,11 +209,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
           </form>
           <ul class="ss-thread-list"></ul>
         </div>
-        <div class="ss-src-panel" data-panel="ptt" role="tabpanel" hidden></div>
-        <div class="ss-src-panel" data-panel="dcard" role="tabpanel" hidden></div>
-        <div class="ss-src-panel" data-panel="threads" role="tabpanel" hidden></div>
-        <div class="ss-src-panel" data-panel="reddit" role="tabpanel" hidden></div>
-        <div class="ss-src-panel" data-panel="futu" role="tabpanel" hidden></div>
+        ${externalPanels}
       </div>
     </details>
   `;
@@ -173,20 +218,28 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
   const list = mountEl.querySelector('.ss-thread-list');
   const form = mountEl.querySelector('.ss-thread-form');
 
-  // Fill external source panels from digest
   const mapping = {
-    ptt: ['ptt', 'PTT'],
-    dcard: ['dcard', 'Dcard'],
-    threads: ['threads', 'Threads'],
-    reddit: ['reddit', 'Reddit'],
-    futu: ['futu', '富途'],
+    ptt: ['ptt', 'PTT', false],
+    dcard: ['dcard', 'Dcard', false],
+    threads: ['threads', 'Threads', false],
+    reddit: ['reddit', 'Reddit', false],
+    futu: ['futu', '富途', true],
   };
-  for (const [panelId, [key, label]] of Object.entries(mapping)) {
-    const panel = mountEl.querySelector(`[data-panel="${panelId}"]`);
-    if (panel) panel.innerHTML = renderExternalPanel(findTickerEntry(digest, key, ticker), label);
+  for (const tab of sourceTabs) {
+    if (tab.id === 'local') continue;
+    const meta = mapping[tab.id];
+    if (!meta) continue;
+    const [key, label, futuMode] = meta;
+    const panel = mountEl.querySelector(`[data-panel="${tab.id}"]`);
+    if (panel) {
+      panel.innerHTML = renderExternalPanel(
+        findTickerEntry(digest, key, ticker),
+        label,
+        { futuMode }
+      );
+    }
   }
 
-  // Tab switching
   const tabs = mountEl.querySelectorAll('.ss-src-tab');
   const panels = mountEl.querySelectorAll('.ss-src-panel');
   tabs.forEach((btn) => {
@@ -212,9 +265,12 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
     form.querySelectorAll('input,textarea,button').forEach((el) => {
       el.disabled = true;
     });
-    list.innerHTML =
-      '<li class="ss-empty">本站匿名留言需 Supabase anon INSERT（RLS）。不會假裝送出後丟掉。可切換上方分頁看 PTT／Dcard 等摘要；全站 Giscus 需 GitHub 登入，僅作備援。</li>';
-    return { ok: false, reason: 'no-config' };
+    const srcHint =
+      market === 'TW'
+        ? '可切換上方分頁看 PTT／Dcard／Threads 摘要'
+        : '可切換上方分頁看 Reddit／富途摘要';
+    list.innerHTML = `<li class="ss-empty">本站匿名留言需 Supabase anon INSERT（RLS）。不會假裝送出後丟掉。${srcHint}；全站 Giscus 需 GitHub 登入，僅作備援。</li>`;
+    return { ok: false, reason: 'no-config', market };
   }
 
   const client = createCommentsClient(url, anon);
@@ -273,6 +329,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
   const poll = window.setInterval(refresh, cfg.pollIntervalMs || 10000);
   return {
     ok: true,
+    market,
     destroy() {
       window.clearInterval(poll);
     },
@@ -284,7 +341,8 @@ export function mountAllTickerComments(root = document, options = {}) {
   const handles = [];
   nodes.forEach((el) => {
     const ticker = el.getAttribute('data-ticker-comments') || el.dataset.ticker;
-    if (ticker) handles.push(mountTickerComments(el, ticker, options));
+    const market = el.getAttribute('data-market') || undefined;
+    if (ticker) handles.push(mountTickerComments(el, ticker, { ...options, market }));
   });
   return handles;
 }

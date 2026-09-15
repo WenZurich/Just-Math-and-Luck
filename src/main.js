@@ -187,7 +187,7 @@ function renderTopCard(stock, rank) {
       ${stock.business ? `<p class="card-text"><strong>本業</strong>　${escapeHtml(stock.business)}</p>` : ""}
       ${stock.why ? `<p class="card-text"><strong>理由</strong>　${escapeHtml(stock.why)}</p>` : ""}
       ${stock.risk ? `<p class="card-text risk"><strong>風險</strong>　${linkRiskText(stock.risk)}</p>` : ""}
-      <div data-ticker-comments="${escapeHtml(stock.ticker)}"></div>
+      <div data-ticker-comments="${escapeHtml(stock.ticker)}" data-market="${escapeHtml(stock.market === 'TW' || String(stock.ticker).endsWith('.TW') ? 'TW' : 'US')}"></div>
     </article>
   `;
 }
@@ -257,7 +257,7 @@ function mobileCards(list) {
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
         ${s.why ? `<p class="lc-why">${escapeHtml(s.why)}</p>` : ""}
         ${s.risk && s.risk !== "—" ? `<p class="lc-why" style="color:#fbbf24">風險：${linkRiskText(s.risk)}</p>` : ""}
-        <div data-ticker-comments="${escapeHtml(s.ticker)}"></div>
+        <div data-ticker-comments="${escapeHtml(s.ticker)}" data-market="${escapeHtml(String(s.ticker).endsWith('.TW') ? 'TW' : (s.market === 'TW' ? 'TW' : 'US'))}"></div>
       </div>`;
     })
     .join("");
@@ -361,7 +361,7 @@ function renderSocialDigestSection() {
   return `
     <section class="section" id="social-digest">
       <h2 class="section-title">${term("socialDigest", "網友參考")}</h2>
-      <p class="glossary-intro">來自 ${term("ptt", "PTT")}、${term("dcard", "Dcard")}、${term("threads", "Threads")}、${term("reddit", "Reddit")}、${term("futu", "富途牛牛")} 的公開摘要（抓不到會寫 blocker，不捏造；不是投資建議）。</p>
+      <p class="glossary-intro">美股看 ${term("reddit", "Reddit")}／${term("futu", "富途")}；台股看 ${term("ptt", "PTT")}／${term("dcard", "Dcard")}／${term("threads", "Threads")}。公開摘要抓不到會寫 blocker，不捏造；不是投資建議。</p>
       <div id="ss-social-digest" aria-label="今日社交摘要"></div>
     </section>
   `;

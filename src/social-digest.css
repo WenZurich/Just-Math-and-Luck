@@ -123,3 +123,20 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+
+.ss-digest-market {
+  margin-top: 1rem;
+}
+
+.ss-digest-market-title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.ss-digest-routing {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0;
+}

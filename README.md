@@ -34,11 +34,16 @@
 
 | 功能 | 狀態 | 需要什麼 |
 |------|------|----------|
-| 網友參考（PTT／Dcard／Threads／Reddit／富途） | ✅ 靜態 `social-digest.json` | `npm run fetch-social`；抓不到寫 blocker |
+| 網友參考（美：Reddit／富途；台：PTT／Dcard／Threads） | ✅ 靜態 `social-digest.json` | `npm run fetch-social`；抓不到寫 blocker |
 | 匿名彈幕／個股「本站留言」 | UI ✅；寫入需 key | **Supabase** `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` + `supabase-schema.sql` |
 | 全站討論（Giscus） | ✅ 備援 | GitHub 登入（**不能**取代匿名主路徑） |
 
-個股卡片討論區有分頁：`本站留言`｜`PTT`｜`Dcard`｜`Threads`｜`Reddit`｜`富途`。
+個股卡片討論區依市場分頁：
+
+- **美股**：`本站留言`｜`Reddit`｜`富途`
+- **台股**：`本站留言`｜`PTT`｜`Dcard`｜`Threads`
+
+不會顯示跨市場空白分頁。
 
 ### 啟用匿名發言（必要）
 
@@ -51,4 +56,6 @@ Discussions 已開；`src/config.js` 內含 `repoId`／`categoryId`（General）
 ### 社交摘要注意
 
 - **不捏造**任何來源留言；403／登入牆寫入 `blocker`
-- 富途評論多需登入；公開新聞放 `newsRelated` 並標明非社群評論
+- **路由**：美股只查 Reddit＋富途；台股只查 PTT＋Dcard＋Threads
+- 富途留言多需登入；公開新聞放 `newsRelated`，UI 標為「新聞／討論線索（非留言）」
+- Dcard／Reddit 若機房 IP 被擋，見 `scripts/fetch-social-browser-notes.md`

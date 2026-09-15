@@ -1,169 +1,106 @@
 {
-  "asOf": "2026-09-15T17:30:25.366Z",
+  "asOf": "2026-09-15T17:47:55.983Z",
   "sourceLatestAsOf": "2026-09-15T14:04:10Z",
-  "notes": [
-    "Reddit 2468.TW: r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-    "Reddit 6226.TW: r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-    "Reddit ZS: r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-    "Reddit CRWD: r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-    "Reddit 2308.TW: r/stocks: HTTP 429 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-    "富途個股評論：需 App／登入；本檔以 blocker + newsRelated（公開新聞搜尋）呈現。",
-    "Dcard 2468.TW: Dcard search q=2468: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-    "Dcard 6226.TW: Dcard search q=6226: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-    "Dcard ZS: Dcard search q=ZS: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-    "Dcard CRWD: Dcard search q=CRWD: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-    "Dcard 2308.TW: Dcard search q=2308: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-    "Threads：無穩定公開匿名搜尋 API；本檔一律以 blocker 呈現，不捏造／不保留易誤判字串。"
-  ],
-  "reddit": [
+  "routing": {
+    "US": [
+      "reddit",
+      "futu"
+    ],
+    "TW": [
+      "ptt",
+      "dcard",
+      "threads"
+    ]
+  },
+  "selected": [
     {
       "ticker": "2468.TW",
-      "items": [],
-      "blocker": "r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-      "blockers": [
-        "r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/investing: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit)."
-      ]
+      "name": "華經",
+      "market": "TW"
     },
     {
       "ticker": "6226.TW",
-      "items": [],
-      "blocker": "r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-      "blockers": [
-        "r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/investing: HTTP 429 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit)."
-      ]
+      "name": "光鼎",
+      "market": "TW"
     },
     {
       "ticker": "ZS",
+      "name": "Zscaler",
+      "market": "US"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "market": "US"
+    },
+    {
+      "ticker": "2308.TW",
+      "name": "台達電",
+      "market": "TW"
+    }
+  ],
+  "notes": [
+    "路由：美股只抓 Reddit＋富途；台股只抓 PTT＋Dcard＋Threads。不跨市場亂查。",
+    "Reddit ZS: old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+    "Reddit CRWD: old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+    "富途個股留言需登入；US 檔以 blocker + newsRelated（標為「新聞／討論線索」）呈現。",
+    "Dcard 2468.TW: Dcard search q=2468: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
+    "Dcard 6226.TW: Dcard search q=6226: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
+    "Dcard 2308.TW: Dcard search q=2308: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
+    "Threads 2468.TW: Threads 無穩定公開搜尋，台股暫無法自動抓",
+    "Threads 6226.TW: Threads 無穩定公開搜尋，台股暫無法自動抓",
+    "Threads 2308.TW: Threads 無穩定公開搜尋，台股暫無法自動抓"
+  ],
+  "reddit": [
+    {
+      "ticker": "ZS",
+      "market": "US",
       "items": [],
-      "blocker": "r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
+      "blocker": "old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
       "blockers": [
-        "r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/investing: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit)."
+        "old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "old.reddit r/wallstreetbets: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "old.reddit r/investing: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "old.reddit r/SecurityAnalysis: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "www r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "www r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "www r/investing: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "www r/SecurityAnalysis: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit)."
+      ],
+      "manualUrls": [
+        "https://www.reddit.com/r/stocks/search/?q=ZS&restrict_sr=1&sort=new&t=week",
+        "https://www.reddit.com/r/wallstreetbets/search/?q=ZS&restrict_sr=1&sort=new&t=week",
+        "https://www.reddit.com/r/investing/search/?q=ZS&restrict_sr=1&sort=new&t=week",
+        "https://www.reddit.com/r/SecurityAnalysis/search/?q=ZS&restrict_sr=1&sort=new&t=week"
       ]
     },
     {
       "ticker": "CRWD",
+      "market": "US",
       "items": [],
-      "blocker": "r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
+      "blocker": "old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
       "blockers": [
-        "r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/investing: HTTP 429 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit)."
-      ]
-    },
-    {
-      "ticker": "2308.TW",
-      "items": [],
-      "blocker": "r/stocks: HTTP 429 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-      "blockers": [
-        "r/stocks: HTTP 429 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit).",
-        "r/investing: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML or rate limit)."
+        "old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "old.reddit r/wallstreetbets: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "old.reddit r/investing: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "old.reddit r/SecurityAnalysis: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "www r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "www r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "www r/investing: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
+        "www r/SecurityAnalysis: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit)."
+      ],
+      "manualUrls": [
+        "https://www.reddit.com/r/stocks/search/?q=CRWD&restrict_sr=1&sort=new&t=week",
+        "https://www.reddit.com/r/wallstreetbets/search/?q=CRWD&restrict_sr=1&sort=new&t=week",
+        "https://www.reddit.com/r/investing/search/?q=CRWD&restrict_sr=1&sort=new&t=week",
+        "https://www.reddit.com/r/SecurityAnalysis/search/?q=CRWD&restrict_sr=1&sort=new&t=week"
       ]
     }
   ],
   "futu": [
     {
-      "ticker": "2468.TW",
-      "items": [],
-      "newsRelated": [
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "佳创视讯：截止8月31日，公司股东人数是24,688",
-          "url": "https://news.futunn.com/post/78898406?futusource=news_search_searchnews&src=39",
-          "created": "2026-09-07T08:18:13.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "每周股票复盘：中国东航（600115）东航7月回购2468万股耗资9000万元",
-          "url": "https://news.futunn.com/post/77369479?futusource=news_search_searchnews&src=39",
-          "created": "2026-08-08T17:24:14.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "Groupon按照美国通用会计准则（GAAP）计算的每股亏损为-$0.04，优于预期$0.02；营收为$1.2468亿，不及预期$241万。",
-          "url": "https://seekingalpha.com/news/4628359-groupon-gaap-eps-of-0_04-beats-by-0_02-revenue-of-124_68m-misses-by-2_41m?drsp=1&feed_item_type=news&futusource=news_search_searchnews&src=39&utm_medium=referral&utm_source=futu",
-          "created": "2026-08-06T20:28:09.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "2468亿市值芯片龙头澜起科技：回购股份、派发现金红利，业绩预增",
-          "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?futusource=news_search_searchnews&src=39#/index?id=nesSN20260730152920b678df90&s=b",
-          "created": "2026-07-30T07:15:18.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "肇民科技：截至2026年6月30日公司股东人数为24,682户",
-          "url": "https://news.futunn.com/post/75824056?futusource=news_search_searchnews&src=39",
-          "created": "2026-07-10T07:33:07.000Z",
-          "kind": "news"
-        }
-      ],
-      "blocker": "富途牛牛圈／個股評論需登入（passport.futunn.com）；無穩定公開匿名評論 API。請用 App／官方 Skill 或手動匯入。"
-    },
-    {
-      "ticker": "6226.TW",
-      "items": [],
-      "newsRelated": [
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "咸亨国际：公司25年海外营收为6226万元，较2024年增长96%",
-          "url": "https://news.futunn.com/post/75644683?futusource=news_search_searchnews&src=39",
-          "created": "2026-07-07T10:24:21.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "国信证券：“26国证12”品种一票面利率为1.62%，“26国证13”品种二票面利率为1.75%",
-          "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?futusource=news_search_searchnews&src=39#/index?id=nesSN20260602221027a43ca8de&s=b",
-          "created": "2026-06-02T14:01:12.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "想优化技术反踩红线！江苏新能子公司违规用海遭严惩：6226万元罚单从天而降，预计今年净利减3269万元",
-          "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?futusource=news_search_searchnews&src=39#/?id=nesSN20260512190228a4a979d7&s=b",
-          "created": "2026-05-12T10:55:10.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "违法用海！一海上风电项目被罚6226.79万元",
-          "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?futusource=news_search_searchnews&src=39#/?id=nesSN202605121749049739815e&s=b",
-          "created": "2026-05-12T09:28:00.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "Saia第一季度每股收益$1.86超过$1.84的预期，销售额$8.06226亿超出$7.88003亿的预期。",
-          "url": "https://news.futunn.com/post/72392903?futusource=news_search_searchnews&src=39",
-          "created": "2026-04-30T11:34:32.000Z",
-          "kind": "news"
-        }
-      ],
-      "blocker": "富途牛牛圈／個股評論需登入（passport.futunn.com）；無穩定公開匿名評論 API。請用 App／官方 Skill 或手動匯入。"
-    },
-    {
       "ticker": "ZS",
+      "market": "US",
       "items": [],
       "newsRelated": [
         {
@@ -172,7 +109,8 @@
           "snippet": "CrowdStrike、美国银行、微软、Zscaler和康宁：为何这5只股票今日受到投资者关注",
           "url": "https://news.futunn.com/post/79256687?futusource=news_search_searchnews&src=39",
           "created": "2026-09-15T01:12:30.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "ZS"
         },
         {
           "author": "futunn-news",
@@ -180,7 +118,8 @@
           "snippet": "Zscaler Up Over 15%, on Pace for Largest Percent Increase Since May 2023 -- Data Talk",
           "url": "https://news.futunn.com/post/79246824?futusource=news_search_searchnews&src=39",
           "created": "2026-09-14T17:18:00.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "ZS"
         },
         {
           "author": "futunn-news",
@@ -188,7 +127,8 @@
           "snippet": "韦德布什首予Zscaler(ZS.US)买入评级，目标价215美元",
           "url": "https://news.futunn.com/post/79156574?futusource=news_search_searchnews&src=39",
           "created": "2026-09-11T12:33:00.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "ZS"
         },
         {
           "author": "futunn-news",
@@ -196,7 +136,8 @@
           "snippet": "贝雅维持Zscaler(ZS.US)买入评级，上调目标价至230美元",
           "url": "https://news.futunn.com/post/79114008?futusource=news_search_searchnews&src=39",
           "created": "2026-09-11T01:31:00.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "ZS"
         },
         {
           "author": "futunn-news",
@@ -204,13 +145,25 @@
           "snippet": "分析师最看好的科技股：Palantir Technologies（PLTR）、Zscaler（ZS）",
           "url": "https://www.tipranks.com/news/blurbs/analysts-top-technology-picks-palantir-technologies-pltr-zscaler-zs-blurbs-news?futusource=news_search_searchnews&src=39&utm_medium=referral&utm_source=news.futunn.com",
           "created": "2026-09-11T01:10:42.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "ZS"
+        },
+        {
+          "author": "futunn-news",
+          "score": null,
+          "snippet": "热门板块速睇：美股盘中网络安全概念走强，Zscaler领涨",
+          "url": "https://news.futunn.com/post/79247883?futusource=news_search_searchnews&src=39",
+          "created": "2026-09-14T18:40:00.000Z",
+          "kind": "news-clue",
+          "query": "Zscaler"
         }
       ],
-      "blocker": "富途牛牛圈／個股評論需登入（passport.futunn.com）；無穩定公開匿名評論 API。請用 App／官方 Skill 或手動匯入。"
+      "label": "新聞／討論線索",
+      "blocker": "富途牛牛圈／個股評論需登入；下方僅為公開「新聞／討論線索」（非留言）。"
     },
     {
       "ticker": "CRWD",
+      "market": "US",
       "items": [],
       "newsRelated": [
         {
@@ -219,7 +172,8 @@
           "snippet": "AI Is Boosting Cybersecurity. CrowdStrike and 4 More Stocks to Buy. -- Barrons.com",
           "url": "https://news.futunn.com/post/79306243?futusource=news_search_searchnews&src=39",
           "created": "2026-09-15T15:22:00.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "CRWD"
         },
         {
           "author": "futunn-news",
@@ -227,7 +181,8 @@
           "snippet": "周二CrowdStrike股票发生了什么？",
           "url": "https://news.futunn.com/post/79299899?futusource=news_search_searchnews&src=39",
           "created": "2026-09-15T13:08:54.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "CRWD"
         },
         {
           "author": "futunn-news",
@@ -235,7 +190,8 @@
           "snippet": "今日股市：标普500指数、道指和纳斯达克期货承压，因布伦特原油价格逼近$108，且美联储FOMC开始为期两天的会议——MSTR、CRWD、BMM备受关注",
           "url": "https://news.futunn.com/post/79287480?futusource=news_search_searchnews&src=39",
           "created": "2026-09-15T09:33:46.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "CRWD"
         },
         {
           "author": "futunn-news",
@@ -243,7 +199,8 @@
           "snippet": "HCLTech与CrowdStrike扩大在AI安全领域的合作",
           "url": "https://news.futunn.com/post/79260338?futusource=news_search_searchnews&src=39",
           "created": "2026-09-15T02:05:49.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "CRWD"
         },
         {
           "author": "futunn-news",
@@ -251,355 +208,212 @@
           "snippet": "CrowdStrike、美国银行、微软、Zscaler和康宁：为何这5只股票今日受到投资者关注",
           "url": "https://news.futunn.com/post/79256687?futusource=news_search_searchnews&src=39",
           "created": "2026-09-15T01:12:30.000Z",
-          "kind": "news"
+          "kind": "news-clue",
+          "query": "CRWD"
+        },
+        {
+          "author": "futunn-news",
+          "score": null,
+          "snippet": "CrowdStrike回应Anthropic的AI安全警告：精灵已经出瓶",
+          "url": "https://news.futunn.com/post/79254550?futusource=news_search_searchnews&src=39",
+          "created": "2026-09-15T00:18:30.000Z",
+          "kind": "news-clue",
+          "query": "CrowdStrike"
         }
       ],
-      "blocker": "富途牛牛圈／個股評論需登入（passport.futunn.com）；無穩定公開匿名評論 API。請用 App／官方 Skill 或手動匯入。"
-    },
-    {
-      "ticker": "2308.TW",
-      "items": [],
-      "newsRelated": [
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "每周股票复盘：*ST起步（603557）上诉涉2308万连带清偿案",
-          "url": "https://news.futunn.com/post/77728936?futusource=news_search_searchnews&src=39",
-          "created": "2026-08-15T19:29:10.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "每周股票复盘：*ST起步（603557）被诉承担2308万连带清偿责任",
-          "url": "https://news.futunn.com/post/76588002?futusource=news_search_searchnews&src=39",
-          "created": "2026-07-25T18:43:09.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "一审败诉，*ST起步需对2308万元债务承担连带清偿责任！公司上半年将延续亏损",
-          "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?futusource=news_search_searchnews&src=39#/index?id=nesSN20260724214125971cd428&s=b",
-          "created": "2026-07-24T13:32:13.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "*ST起步一审败诉 需对2308万元债务承担连带清偿责任",
-          "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?futusource=news_search_searchnews&src=39#/index?id=nesSN20260724193444a48d680c&s=b",
-          "created": "2026-07-24T11:34:12.000Z",
-          "kind": "news"
-        },
-        {
-          "author": "futunn-news",
-          "score": null,
-          "snippet": "天赐材料5月15日获融资净买入2308万元 环比增加53.55%",
-          "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?futusource=news_search_searchnews&src=39#/index?id=nesSN202605180939329745900a&s=b",
-          "created": "2026-05-18T01:30:24.000Z",
-          "kind": "news"
-        }
-      ],
-      "blocker": "富途牛牛圈／個股評論需登入（passport.futunn.com）；無穩定公開匿名評論 API。請用 App／官方 Skill 或手動匯入。"
+      "label": "新聞／討論線索",
+      "blocker": "富途牛牛圈／個股評論需登入；下方僅為公開「新聞／討論線索」（非留言）。"
     }
   ],
   "ptt": [
     {
       "ticker": "2468.TW",
+      "market": "TW",
       "items": [
         {
           "author": "q1a1",
-          "score": null,
+          "score": 5,
           "snippet": "[情報] 2468 華經 達注意標準 4月自結 0.06",
           "url": "https://www.ptt.cc/bbs/Stock/M.1748960878.A.804.html",
           "created": null,
+          "date": "6/03",
           "board": "Stock",
           "kind": "ptt",
           "query": "2468"
         },
         {
           "author": "qazsedcft",
-          "score": null,
+          "score": 4,
           "snippet": "[情報] 2468 華經 資安事件",
           "url": "https://www.ptt.cc/bbs/Stock/M.1722332703.A.52E.html",
           "created": null,
+          "date": "7/30",
           "board": "Stock",
           "kind": "ptt",
           "query": "2468"
         },
         {
           "author": "q1a1",
-          "score": null,
+          "score": 3,
           "snippet": "[情報] 2468 華經 5月自結 0.32",
           "url": "https://www.ptt.cc/bbs/Stock/M.1686910091.A.C65.html",
           "created": null,
+          "date": "6/16",
           "board": "Stock",
           "kind": "ptt",
           "query": "2468"
         },
         {
           "author": "informatics",
-          "score": null,
+          "score": 5,
           "snippet": "Re: [標的] 2468華經",
           "url": "https://www.ptt.cc/bbs/Stock/M.1675254046.A.726.html",
           "created": null,
+          "date": "2/01",
           "board": "Stock",
           "kind": "ptt",
           "query": "2468"
         },
         {
           "author": "informatics",
-          "score": null,
+          "score": 7,
           "snippet": "[標的] 2468華經",
           "url": "https://www.ptt.cc/bbs/Stock/M.1673584064.A.F23.html",
           "created": null,
+          "date": "1/13",
+          "board": "Stock",
+          "kind": "ptt",
+          "query": "2468"
+        },
+        {
+          "author": "simbr",
+          "score": 11,
+          "snippet": "[標的] 2468 華經 遠端概念",
+          "url": "https://www.ptt.cc/bbs/Stock/M.1589169809.A.2E0.html",
+          "created": null,
+          "date": "5/11",
           "board": "Stock",
           "kind": "ptt",
           "query": "2468"
         },
         {
           "author": "q1a1",
-          "score": null,
+          "score": 15,
           "snippet": "[情報] 3702 大聯大 已得華經1/3與補充收購公告",
           "url": "https://www.ptt.cc/bbs/Stock/M.1745928536.A.0F8.html",
           "created": null,
+          "date": "4/29",
           "board": "Stock",
           "kind": "ptt",
           "query": "華經"
         },
         {
           "author": "jason0606",
-          "score": null,
+          "score": 12,
           "snippet": "[標的] 藍新資訊 6938 華經第二多",
           "url": "https://www.ptt.cc/bbs/Stock/M.1742960587.A.9E7.html",
           "created": null,
+          "date": "3/26",
           "board": "Stock",
           "kind": "ptt",
           "query": "華經"
         },
         {
           "author": "Hamchen",
-          "score": null,
+          "score": 28,
           "snippet": "[新聞] 大聯大宣布公開收購華經每股出價25元",
           "url": "https://www.ptt.cc/bbs/Stock/M.1740743928.A.526.html",
           "created": null,
+          "date": "2/28",
           "board": "Stock",
           "kind": "ptt",
           "query": "華經"
         }
-      ],
-      "partialBlockers": [
-        "HateFinance q=2468: HTTP 404",
-        "HateFinance q=華經: HTTP 404"
       ]
     },
     {
       "ticker": "6226.TW",
+      "market": "TW",
       "items": [
         {
           "author": "q1a1",
-          "score": null,
+          "score": 3,
           "snippet": "[情報] 6226 光鼎 5月自結:0.03 Y:400% 連4漲停中",
           "url": "https://www.ptt.cc/bbs/Stock/M.1782458913.A.1AD.html",
           "created": null,
+          "date": "6/26",
           "board": "Stock",
           "kind": "ptt",
           "query": "6226"
         },
         {
           "author": "BBB5688",
-          "score": null,
+          "score": 11,
           "snippet": "[標的]6226光鼎 最便宜CPO+恢復信用交易 歐印多",
           "url": "https://www.ptt.cc/bbs/Stock/M.1779518252.A.270.html",
           "created": null,
+          "date": "5/23",
           "board": "Stock",
           "kind": "ptt",
           "query": "6226"
         },
         {
           "author": "Redbeansauce",
-          "score": null,
+          "score": 5,
           "snippet": "[標的] 6226.TW 光鼎 多空交戰中",
           "url": "https://www.ptt.cc/bbs/Stock/M.1639022772.A.FA8.html",
           "created": null,
+          "date": "12/09",
           "board": "Stock",
           "kind": "ptt",
           "query": "6226"
         },
         {
           "author": "sayforever69",
-          "score": null,
+          "score": 9,
           "snippet": "[情報] 光鼎(6226) 6月自結 EPS 0.11",
           "url": "https://www.ptt.cc/bbs/Stock/M.1626872728.A.F8B.html",
           "created": null,
+          "date": "7/21",
           "board": "Stock",
           "kind": "ptt",
           "query": "6226"
         },
         {
           "author": "richer23",
-          "score": null,
+          "score": 1,
           "snippet": "[標的] 6850光鼎生技 賭博多",
           "url": "https://www.ptt.cc/bbs/Stock/M.1651653959.A.B2A.html",
           "created": null,
+          "date": "5/04",
           "board": "Stock",
           "kind": "ptt",
           "query": "光鼎"
         },
         {
           "author": "TT991",
-          "score": null,
+          "score": 15,
           "snippet": "[新聞] 興櫃生技股發威 光鼎周漲45％",
           "url": "https://www.ptt.cc/bbs/Stock/M.1651421712.A.B89.html",
           "created": null,
+          "date": "5/02",
           "board": "Stock",
           "kind": "ptt",
           "query": "光鼎"
         }
-      ],
-      "partialBlockers": [
-        "HateFinance q=6226: HTTP 404",
-        "HateFinance q=光鼎: HTTP 404"
-      ]
-    },
-    {
-      "ticker": "ZS",
-      "items": [
-        {
-          "author": "eyespot",
-          "score": null,
-          "snippet": "[公告] StuLeo zzzzzzzzzzzy zsa123 水桶一週",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1591543429.A.D85.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "ZS"
-        },
-        {
-          "author": "eyespot",
-          "score": null,
-          "snippet": "[公告] zsquarez OAVAYAVAO ljmk1246 水桶一週",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1561001842.A.C81.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "ZS"
-        }
-      ],
-      "partialBlockers": [
-        "HateFinance q=ZS: HTTP 404",
-        "HateFinance q=Zscaler: HTTP 404"
-      ]
-    },
-    {
-      "ticker": "CRWD",
-      "items": [
-        {
-          "author": "chopinmozart",
-          "score": null,
-          "snippet": "Re: [情報] 伍德阿姨買crwd",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1721528861.A.BBE.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CRWD"
-        },
-        {
-          "author": "ohmygodd",
-          "score": null,
-          "snippet": "[情報] 伍德阿姨買crwd",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1721520354.A.04E.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CRWD"
-        },
-        {
-          "author": "IPHONEvsHTC",
-          "score": null,
-          "snippet": "[標的] 美股PANW CRWD CRM SNOW NET",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1715596654.A.0B5.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CRWD"
-        },
-        {
-          "author": "chopinmozart",
-          "score": null,
-          "snippet": "[標的] 美股 CRWD 解套多",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1646140204.A.DAE.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CRWD"
-        },
-        {
-          "author": "abc2090614",
-          "score": null,
-          "snippet": "Re: [標的] 美股APPS SQ CRWD 多",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1630448625.A.F12.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CRWD"
-        },
-        {
-          "author": "addy7533967",
-          "score": null,
-          "snippet": "[新聞] Crowdstrike造成全球IT大當機前 Google",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1722607502.A.DC6.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CrowdStrike"
-        },
-        {
-          "author": "Qsam",
-          "score": null,
-          "snippet": "Re: [新聞] CrowdStrike連兩日大跌 方舟伍德積極抄",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1721756382.A.EFF.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CrowdStrike"
-        },
-        {
-          "author": "KotoriCute",
-          "score": null,
-          "snippet": "[新聞] CrowdStrike連兩日大跌 方舟伍德積極抄",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1721741673.A.B7D.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CrowdStrike"
-        },
-        {
-          "author": "KotoriCute",
-          "score": null,
-          "snippet": "[新聞] 微軟當機全球大亂！　Crowdstrike執行長",
-          "url": "https://www.ptt.cc/bbs/Stock/M.1721391182.A.514.html",
-          "created": null,
-          "board": "Stock",
-          "kind": "ptt",
-          "query": "CrowdStrike"
-        }
-      ],
-      "partialBlockers": [
-        "HateFinance q=CRWD: HTTP 404",
-        "HateFinance q=CrowdStrike: HTTP 404"
       ]
     },
     {
       "ticker": "2308.TW",
+      "market": "TW",
       "items": [
         {
           "author": "haydon91009",
-          "score": null,
+          "score": 40,
           "snippet": "[情報] 2308 台達電 115年8月營收",
           "url": "https://www.ptt.cc/bbs/Stock/M.1788940456.A.918.html",
           "created": null,
+          "date": "9/09",
           "board": "Stock",
           "kind": "ptt",
           "query": "2308"
@@ -610,139 +424,194 @@
           "snippet": "[標的] 2308台達電 空空空 空到一千元以下！",
           "url": "https://www.ptt.cc/bbs/Stock/M.1788355479.A.558.html",
           "created": null,
+          "date": "9/02",
           "board": "Stock",
           "kind": "ptt",
           "query": "2308"
         },
         {
           "author": "rz2x",
-          "score": null,
+          "score": 46,
           "snippet": "[情報] 2308 台達電 115年7月營收",
           "url": "https://www.ptt.cc/bbs/Stock/M.1786347410.A.4B6.html",
           "created": null,
+          "date": "8/10",
           "board": "Stock",
           "kind": "ptt",
           "query": "2308"
         },
         {
           "author": "q1a1",
-          "score": null,
+          "score": 92,
           "snippet": "[情報] 2308 台達電 115年Q2:9.68 累計:17.59",
           "url": "https://www.ptt.cc/bbs/Stock/M.1785313587.A.562.html",
           "created": null,
+          "date": "7/29",
           "board": "Stock",
           "kind": "ptt",
           "query": "2308"
         },
         {
           "author": "haydon91009",
-          "score": null,
+          "score": 45,
           "snippet": "[情報] 2308 台達電6月營收",
           "url": "https://www.ptt.cc/bbs/Stock/M.1783580149.A.0EB.html",
           "created": null,
+          "date": "7/09",
+          "board": "Stock",
+          "kind": "ptt",
+          "query": "2308"
+        },
+        {
+          "author": "k99t",
+          "score": 81,
+          "snippet": "[標的] 2308台達電 全力做多 衝衝衝！",
+          "url": "https://www.ptt.cc/bbs/Stock/M.1782387306.A.984.html",
+          "created": null,
+          "date": "6/25",
+          "board": "Stock",
+          "kind": "ptt",
+          "query": "2308"
+        },
+        {
+          "author": "ting31823",
+          "score": 29,
+          "snippet": "[情報] 2308 台達電 5 月營收",
+          "url": "https://www.ptt.cc/bbs/Stock/M.1781001535.A.6B2.html",
+          "created": null,
+          "date": "6/09",
+          "board": "Stock",
+          "kind": "ptt",
+          "query": "2308"
+        },
+        {
+          "author": "ting31823",
+          "score": 43,
+          "snippet": "[情報] 2308台達電115四月營收",
+          "url": "https://www.ptt.cc/bbs/Stock/M.1778226407.A.461.html",
+          "created": null,
+          "date": "5/08",
           "board": "Stock",
           "kind": "ptt",
           "query": "2308"
         },
         {
           "author": "q1a1",
-          "score": null,
+          "score": 30,
           "snippet": "[情報] 2545 皇翔買台達電,賣台達電賠63,594仟元",
           "url": "https://www.ptt.cc/bbs/Stock/M.1789469652.A.25F.html",
           "created": null,
+          "date": "9/15",
           "board": "Stock",
           "kind": "ptt",
           "query": "台達電"
         },
         {
           "author": "thinksilver",
-          "score": null,
+          "score": 41,
           "snippet": "[新聞] 傳特定批次產品電容異常 台達電：協助換",
           "url": "https://www.ptt.cc/bbs/Stock/M.1788332293.A.B79.html",
           "created": null,
+          "date": "9/02",
           "board": "Stock",
           "kind": "ptt",
           "query": "台達電"
         }
-      ],
-      "partialBlockers": [
-        "HateFinance q=2308: HTTP 404",
-        "HateFinance q=台達電: HTTP 404"
       ]
     }
   ],
   "dcard": [
     {
       "ticker": "2468.TW",
+      "market": "TW",
       "items": [],
+      "manualUrls": [
+        "https://www.dcard.tw/search?query=2468",
+        "https://www.dcard.tw/search?query=%E8%8F%AF%E7%B6%93"
+      ],
       "blocker": "Dcard search q=2468: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
       "blockers": [
         "Dcard search q=2468: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-        "Dcard search q=華經: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）"
-      ]
+        "Dcard HTML q=2468: HTTP 403 (Cloudflare)",
+        "Dcard search q=華經: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
+        "Dcard HTML q=華經: HTTP 403 (Cloudflare)"
+      ],
+      "browserFallback": true
     },
     {
       "ticker": "6226.TW",
+      "market": "TW",
       "items": [],
+      "manualUrls": [
+        "https://www.dcard.tw/search?query=6226",
+        "https://www.dcard.tw/search?query=%E5%85%89%E9%BC%8E"
+      ],
       "blocker": "Dcard search q=6226: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
       "blockers": [
         "Dcard search q=6226: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-        "Dcard search q=光鼎: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）"
-      ]
-    },
-    {
-      "ticker": "ZS",
-      "items": [],
-      "blocker": "Dcard search q=ZS: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-      "blockers": [
-        "Dcard search q=ZS: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-        "Dcard search q=Zscaler: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）"
-      ]
-    },
-    {
-      "ticker": "CRWD",
-      "items": [],
-      "blocker": "Dcard search q=CRWD: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-      "blockers": [
-        "Dcard search q=CRWD: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-        "Dcard search q=CrowdStrike: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）"
-      ]
+        "Dcard HTML q=6226: HTTP 403 (Cloudflare)",
+        "Dcard search q=光鼎: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
+        "Dcard HTML q=光鼎: HTTP 403 (Cloudflare)"
+      ],
+      "browserFallback": true
     },
     {
       "ticker": "2308.TW",
+      "market": "TW",
       "items": [],
+      "manualUrls": [
+        "https://www.dcard.tw/search?query=2308",
+        "https://www.dcard.tw/search?query=%E5%8F%B0%E9%81%94%E9%9B%BB"
+      ],
       "blocker": "Dcard search q=2308: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
       "blockers": [
         "Dcard search q=2308: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
-        "Dcard search q=台達電: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）"
-      ]
+        "Dcard HTML q=2308: HTTP 403 (Cloudflare)",
+        "Dcard search q=台達電: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
+        "Dcard HTML q=台達電: HTTP 403 (Cloudflare)"
+      ],
+      "browserFallback": true
     }
   ],
   "threads": [
     {
       "ticker": "2468.TW",
+      "market": "TW",
       "items": [],
-      "blocker": "Threads 無穩定公開匿名搜尋 API（SPA／易誤匹配）。無法可靠取得提到「2468」的貼文，故不捏造留言。"
+      "blocker": "Threads 無穩定公開搜尋，台股暫無法自動抓",
+      "manualUrls": [
+        "https://www.threads.net/search?q=%E8%8F%AF%E7%B6%93&serp_type=default"
+      ],
+      "probe": {
+        "status": 200,
+        "finalUrl": "https://www.threads.com/search?q=%E8%8F%AF%E7%B6%93&serp_type=default"
+      }
     },
     {
       "ticker": "6226.TW",
+      "market": "TW",
       "items": [],
-      "blocker": "Threads 無穩定公開匿名搜尋 API（SPA／易誤匹配）。無法可靠取得提到「6226」的貼文，故不捏造留言。"
-    },
-    {
-      "ticker": "ZS",
-      "items": [],
-      "blocker": "Threads 無穩定公開匿名搜尋 API（SPA／易誤匹配）。無法可靠取得提到「ZS」的貼文，故不捏造留言。"
-    },
-    {
-      "ticker": "CRWD",
-      "items": [],
-      "blocker": "Threads 無穩定公開匿名搜尋 API（SPA／易誤匹配）。無法可靠取得提到「CRWD」的貼文，故不捏造留言。"
+      "blocker": "Threads 無穩定公開搜尋，台股暫無法自動抓",
+      "manualUrls": [
+        "https://www.threads.net/search?q=%E5%85%89%E9%BC%8E&serp_type=default"
+      ],
+      "probe": {
+        "status": 200,
+        "finalUrl": "https://www.threads.com/search?q=%E5%85%89%E9%BC%8E&serp_type=default"
+      }
     },
     {
       "ticker": "2308.TW",
+      "market": "TW",
       "items": [],
-      "blocker": "Threads 無穩定公開匿名搜尋 API（SPA／易誤匹配）。無法可靠取得提到「2308」的貼文，故不捏造留言。"
+      "blocker": "Threads 無穩定公開搜尋，台股暫無法自動抓",
+      "manualUrls": [
+        "https://www.threads.net/search?q=%E5%8F%B0%E9%81%94%E9%9B%BB&serp_type=default"
+      ],
+      "probe": {
+        "status": 200,
+        "finalUrl": "https://www.threads.com/search?q=%E5%8F%B0%E9%81%94%E9%9B%BB&serp_type=default"
+      }
     }
   ]
 }

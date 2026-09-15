@@ -1,5 +1,6 @@
 /**
- * Render daily social digest (Reddit + 富途 + PTT + Dcard + Threads).
+ * Render daily social digest with US vs TW source split.
+ * US: Reddit + 富途；TW: PTT + Dcard + Threads.
  * Read-only — works offline / without Supabase. Never invents items.
  */
 
@@ -17,7 +18,9 @@ function itemCard(it) {
   const author = it.author ? `@${escapeHtml(it.author)}` : '';
   const when = it.created
     ? escapeHtml(new Date(it.created).toLocaleString('zh-TW', { hour12: false }))
-    : '';
+    : it.date
+      ? escapeHtml(it.date)
+      : '';
   const url = it.url ? escapeHtml(it.url) : '#';
   return `<article class="ss-digest-item">
     <a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(
@@ -27,7 +30,7 @@ function itemCard(it) {
   </article>`;
 }
 
-function tickerBlock(entry, kindLabel) {
+function tickerBlock(entry, kindLabel, { futuMode = false } = {}) {
   const blocker = entry.blocker
     ? `<p class="ss-digest-blocker">⚠ ${escapeHtml(entry.blocker)}</p>`
     : '';
@@ -38,7 +41,10 @@ function tickerBlock(entry, kindLabel) {
     body += commentItems.map(itemCard).join('');
   }
   if (news.length) {
-    body += `<p class="ss-digest-sub">相關公開新聞（非社群評論）</p>` + news.map(itemCard).join('');
+    const newsTitle = futuMode
+      ? '新聞／討論線索（非留言）'
+      : '相關公開新聞（非社群評論）';
+    body += `<p class="ss-digest-sub">${newsTitle}</p>` + news.map(itemCard).join('');
   }
   if (!body) {
     body = `<p class="ss-empty">此標的暫無${escapeHtml(kindLabel)}資料</p>`;
@@ -50,11 +56,11 @@ function tickerBlock(entry, kindLabel) {
   </section>`;
 }
 
-function col(title, rows, kindLabel) {
-  const body = (rows || []).map((e) => tickerBlock(e, kindLabel)).join('');
-  return `<div>
+function col(title, rows, kindLabel, opts = {}) {
+  const body = (rows || []).map((e) => tickerBlock(e, kindLabel, opts)).join('');
+  return `<div class="ss-digest-col">
     <h4 class="ss-digest-col-title">${escapeHtml(title)}</h4>
-    ${body || `<p class="ss-empty">無 ${escapeHtml(title)} 區塊</p>`}
+    ${body || `<p class="ss-empty">無 ${escapeHtml(title)} 區塊（今日無對應市場標的或尚未抓取）</p>`}
   </div>`;
 }
 
@@ -72,20 +78,33 @@ export function renderSocialDigest(data, mountEl) {
     ? new Date(data.asOf).toLocaleString('zh-TW', { hour12: false })
     : '—';
   const notes = (data.notes || []).map((n) => `<li>${escapeHtml(n)}</li>`).join('');
+  const routing =
+    data.routing
+      ? `<p class="ss-digest-routing">路由：美股 → Reddit＋富途；台股 → PTT＋Dcard＋Threads</p>`
+      : '';
 
   mountEl.innerHTML = `
     <div class="ss-digest">
       <header class="ss-digest-head">
         <h3>今日社交摘要</h3>
         <p class="ss-digest-asof">資料時間：${escapeHtml(asOf)}</p>
+        ${routing}
         ${notes ? `<ul class="ss-digest-notes">${notes}</ul>` : ''}
       </header>
-      <div class="ss-digest-cols ss-digest-cols-multi">
-        ${col('PTT', data.ptt, 'PTT')}
-        ${col('Dcard', data.dcard, 'Dcard')}
-        ${col('Threads', data.threads, 'Threads')}
-        ${col('Reddit', data.reddit, 'Reddit')}
-        ${col('富途牛牛', data.futu, '富途')}
+      <div class="ss-digest-market">
+        <h4 class="ss-digest-market-title">美股來源</h4>
+        <div class="ss-digest-cols ss-digest-cols-multi">
+          ${col('Reddit', data.reddit, 'Reddit')}
+          ${col('富途牛牛', data.futu, '富途', { futuMode: true })}
+        </div>
+      </div>
+      <div class="ss-digest-market">
+        <h4 class="ss-digest-market-title">台股來源</h4>
+        <div class="ss-digest-cols ss-digest-cols-multi">
+          ${col('PTT', data.ptt, 'PTT')}
+          ${col('Dcard', data.dcard, 'Dcard')}
+          ${col('Threads', data.threads, 'Threads')}
+        </div>
       </div>
     </div>
   `;
