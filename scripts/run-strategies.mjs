@@ -9,6 +9,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildTwFundamentalBundle, codeOfTicker } from "./tw-fundamentals.mjs";
+import { buildAllMasters } from "./master-strategies.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -459,6 +461,12 @@ function sharesToZhang(shares) {
   return shares / TW_SHARES_PER_ZHANG;
 }
 
+function marginRelGrowth(cur, prev) {
+  if (cur == null || prev == null) return null;
+  if (!(Math.abs(prev) > 1e-9)) return null;
+  return (cur - prev) / Math.abs(prev);
+}
+
 // —— strategies ——
 function cond(text, status = "pass") {
   return { text, status };
@@ -470,10 +478,12 @@ function buildPeterLynch(universe, ohlcvMap, fundMap, peMap) {
     cond("本益比（PE）< 20（有公開數字才算；缺值不捏造、該檔跳過）"),
     cond("股價 > 10（台股 TWD／美股 USD）"),
     cond(`近 5 日平均成交量具流動性（台股 > ${TW_LIQUID_ZHANG} 張＝${TW_MIN_AVG_VOL_SHARES.toLocaleString()} 股）`),
-    cond("營收／獲利成長代理（Yahoo 有才標註；缺則略過此條不捏造）", "skip"),
+    cond("營收成長（Yahoo revenueGrowth 有值才強制 >0；缺則略過不捏造）", "skip"),
     cond("負債相關代理（Yahoo debtToEquity 有才標註）", "skip"),
   ];
   const hits = [];
+  let growthChecked = 0;
+  let growthFailed = 0;
   for (const u of universe) {
     const chart = ohlcvMap.get(u.ticker);
     if (!chart) continue;
@@ -487,10 +497,17 @@ function buildPeterLynch(universe, ohlcvMap, fundMap, peMap) {
       peMap.get(u.ticker) ??
       fundMap.get(u.ticker)?.trailingPE ??
       null;
-    if (pe == null) continue; // skip name — don't invent
+    if (pe == null) continue;
     if (!(pe < 20)) continue;
     if (!priceOk || !liqOk) continue;
     const fund = fundMap.get(u.ticker) || {};
+    if (fund.revenueGrowth != null) {
+      growthChecked++;
+      if (!(fund.revenueGrowth > 0)) {
+        growthFailed++;
+        continue;
+      }
+    }
     hits.push({
       ticker: u.ticker,
       name: u.name || chart.name,
@@ -509,6 +526,12 @@ function buildPeterLynch(universe, ohlcvMap, fundMap, peMap) {
     });
   }
   hits.sort((a, b) => (a.metrics.pe ?? 99) - (b.metrics.pe ?? 99));
+  if (growthChecked) {
+    conditions[3] = cond(
+      `營收成長 >0（Yahoo 有值才檢查；本批檢查 ${growthChecked}、因成長≤0 剔除 ${growthFailed}）`,
+      growthFailed && !hits.length ? "fail" : "pass"
+    );
+  }
   if (!fundMap.size) {
     blockers.push("Yahoo 基本面（成長／負債）部分標的可能抓不到；本益比以證交所日報或 Yahoo trailingPE 為準");
   }
@@ -518,7 +541,7 @@ function buildPeterLynch(universe, ohlcvMap, fundMap, peMap) {
     category: "大師",
     categoryGroup: "大師",
     xqTags: ["大師", "財務", "價量"],
-    description: "近似 Peter Lynch 風格：便宜本益比＋夠流動＋股價不太低。非 XQ 專有資料庫。",
+    description: "近似 Peter Lynch 風格：便宜本益比＋夠流動＋股價不太低；有營收成長數字時要求 >0。非 XQ 專有資料庫。",
     conditions,
     hits: hits.slice(0, 80),
     blockers,
@@ -526,55 +549,146 @@ function buildPeterLynch(universe, ohlcvMap, fundMap, peMap) {
   };
 }
 
-function buildMarginGrowth(universe, fundMap) {
-  const blockers = [
-    "公開 Yahoo 季報對多數台股的營業利益／毛利欄位常為空或為 0，無法可靠計算「連續季營益率／毛利率成長 >10%」。",
-    "為避免捏造財報，本策略今日標記為資料不足，不產出假命中列。",
-  ];
-
-  const margin = (income, rev) => {
+function buildMarginGrowth(universe, fundMap, twMarginByCode) {
+  const marginFromIncome = (income, rev) => {
     if (income == null || rev == null || !(rev > 0)) return null;
-    if (!(Math.abs(income) > 0)) return null; // treat 0 as missing
+    if (!(Math.abs(income) > 0)) return null;
     const m = income / rev;
-    // near-zero placeholders are not usable margins
     if (Math.abs(m) < 0.005) return null;
     return m;
   };
 
-  const growthOk = (arr) => {
+  const growthOkSeries = (arr) => {
     if (!arr || arr.length < 3) return false;
-    if (arr.some((x) => x == null || x <= 0)) return false;
-    for (let i = 1; i < arr.length; i++) {
-      const g = (arr[i] - arr[i - 1]) / Math.abs(arr[i - 1]);
-      if (!(g > 0.1)) return false;
-    }
-    return true;
+    const a = arr[arr.length - 3];
+    const b = arr[arr.length - 2];
+    const c = arr[arr.length - 1];
+    if ([a, b, c].some((x) => x == null)) return false;
+    const g1 = marginRelGrowth(b, a);
+    const g2 = marginRelGrowth(c, b);
+    return g1 != null && g2 != null && g1 > 0.1 && g2 > 0.1;
   };
 
   const hits = [];
   let usableSeries = 0;
+  let twSeriesNames = 0;
+
   for (const u of universe) {
-    const f = fundMap.get(u.ticker);
-    if (!f?.quarters?.length) continue;
-    const qs = [...f.quarters].filter((q) => q.revenue > 0).slice(0, 4);
-    if (qs.length < 3) continue;
-    const ordered = [...qs].reverse();
-    const om = ordered.map((q) => margin(q.operatingIncome, q.revenue));
-    const gm = ordered.map((q) => margin(q.grossProfit, q.revenue));
-    if (om.filter((x) => x != null).length >= 3 || gm.filter((x) => x != null).length >= 3) {
-      usableSeries++;
+    let series = null;
+    let source = null;
+
+    if (u.market === "TW") {
+      const code = codeOfTicker(u.ticker);
+      const raw = twMarginByCode?.get(code);
+      if (raw?.length) {
+        twSeriesNames++;
+        series = raw.map((q) => ({
+          label: `${q.year}Q${q.season}`,
+          year: q.year,
+          season: q.season,
+          gm: q.grossMargin,
+          om: q.operatingMargin,
+          name: q.name,
+        }));
+        source = raw[raw.length - 1]?.source || "mops";
+      }
     }
-    if (!growthOk(om) && !growthOk(gm)) continue;
+
+    if (!series?.length) {
+      const f = fundMap.get(u.ticker);
+      if (f?.quarters?.length) {
+        const qs = [...f.quarters].filter((q) => q.revenue > 0).slice(0, 4);
+        if (qs.length >= 3) {
+          const ordered = [...qs].reverse();
+          series = ordered.map((q, i) => ({
+            label: q.end != null ? `YQ${i}` : `Q${i}`,
+            gm: marginFromIncome(q.grossProfit, q.revenue),
+            om: marginFromIncome(q.operatingIncome, q.revenue),
+          }));
+          source = "yahoo";
+        }
+      }
+    }
+
+    if (!series?.length) continue;
+    const gmArr = series.map((s) => s.gm);
+    const omArr = series.map((s) => s.om);
+    const usableGm = gmArr.filter((x) => x != null).length >= 3;
+    const usableOm = omArr.filter((x) => x != null).length >= 3;
+
+    let yoyCapable = false;
+    if (u.market === "TW") {
+      const byKey = new Map(series.map((s) => [`${s.year}-${s.season}`, s]));
+      let yoyPts = 0;
+      for (const s of series) {
+        if (s.year == null) continue;
+        const prev = byKey.get(`${s.year - 1}-${s.season}`);
+        if (!prev) continue;
+        if ((s.gm != null && prev.gm != null) || (s.om != null && prev.om != null)) yoyPts++;
+      }
+      if (yoyPts >= 2) yoyCapable = true;
+    }
+    if (!usableGm && !usableOm && !yoyCapable) continue;
+    usableSeries++;
+
+    const qoqGm = growthOkSeries(gmArr);
+    const qoqOm = growthOkSeries(omArr);
+
+    let yoyGm = false;
+    let yoyOm = false;
+    let yoyDetail = null;
+    if (u.market === "TW") {
+      const byKey = new Map(series.map((s) => [`${s.year}-${s.season}`, s]));
+      const chron = [...series].filter((s) => s.year != null);
+      const withYoy = [];
+      for (const s of chron) {
+        const prev = byKey.get(`${s.year - 1}-${s.season}`);
+        if (!prev) continue;
+        withYoy.push({
+          label: s.label,
+          gGm: marginRelGrowth(s.gm, prev.gm),
+          gOm: marginRelGrowth(s.om, prev.om),
+        });
+      }
+      if (withYoy.length >= 2) {
+        const a = withYoy[withYoy.length - 2];
+        const b = withYoy[withYoy.length - 1];
+        yoyGm = a.gGm != null && b.gGm != null && a.gGm > 0.1 && b.gGm > 0.1;
+        yoyOm = a.gOm != null && b.gOm != null && a.gOm > 0.1 && b.gOm > 0.1;
+        yoyDetail = {
+          gmYoy: [a.gGm, b.gGm].map((x) => (x != null ? round(x * 100, 1) : null)),
+          omYoy: [a.gOm, b.gOm].map((x) => (x != null ? round(x * 100, 1) : null)),
+        };
+      }
+    }
+
+    if (!(qoqGm || qoqOm || yoyGm || yoyOm)) continue;
+    const mode = [];
+    if (yoyGm || yoyOm) mode.push("YoY");
+    if (qoqGm || qoqOm) mode.push("QoQ");
+
     hits.push({
       ticker: u.ticker,
-      name: u.name,
+      name: u.name || series[series.length - 1]?.name || u.ticker,
       market: u.market,
+      currency: u.market === "TW" ? "TWD" : "USD",
       metrics: {
-        opMargins: om.map((x) => (x != null ? round(x * 100, 2) : null)),
-        grossMargins: gm.map((x) => (x != null ? round(x * 100, 2) : null)),
+        opMargins: omArr.map((x) => (x != null ? round(x * 100, 2) : null)),
+        grossMargins: gmArr.map((x) => (x != null ? round(x * 100, 2) : null)),
+        seasons: series.map((s) => s.label),
+        mode: mode.join("+"),
+        yoyGmPct: yoyDetail?.gmYoy ?? null,
+        yoyOmPct: yoyDetail?.omYoy ?? null,
+        source,
       },
     });
   }
+
+  hits.sort((a, b) => {
+    const am = a.metrics.opMargins?.filter((x) => x != null).at(-1) ?? -999;
+    const bm = b.metrics.opMargins?.filter((x) => x != null).at(-1) ?? -999;
+    return bm - am;
+  });
 
   if (usableSeries === 0) {
     return {
@@ -583,15 +697,18 @@ function buildMarginGrowth(universe, fundMap) {
       category: "財務",
       categoryGroup: "財務",
       xqTags: ["財務"],
-      description: "目標：連續季營益率或毛利率成長 >10%。今日公開資料不足。",
+      description: "目標：連續 2 季 YoY 或 QoQ 營益率／毛利率成長 >10%。今日公開資料不足。",
       conditions: [
-        cond("連續季營益率成長 >10%", "skip"),
-        cond("或連續季毛利率成長 >10%", "skip"),
+        cond("連續 2 季 YoY 營益率或毛利率成長 >10%", "skip"),
+        cond("或連續 2 季 QoQ 營益率或毛利率成長 >10%", "skip"),
       ],
       hits: [],
-      blockers,
+      blockers: [
+        "公開季報毛利率／營益率序列不足（MOPS 綜合損益／營益分析），無法計算連續成長。",
+      ],
       incomplete: true,
       incompleteLabel: "資料不足",
+      dataCoverage: { twSeriesNames, usableSeries },
     };
   }
 
@@ -601,16 +718,27 @@ function buildMarginGrowth(universe, fundMap) {
     category: "財務",
     categoryGroup: "財務",
     xqTags: ["財務"],
-    description: "連續季營益率或毛利率成長 >10%（僅在 Yahoo 季報欄位齊全且非 0 時）。",
+    description:
+      "連續 2 季 YoY 或 QoQ 營益率／毛利率相對成長 >10%（僅官方／Yahoo 有真實數字時；不捏造）。",
     conditions: [
-      cond("連續季營益率成長 >10%", hits.length ? "pass" : "fail"),
-      cond("或連續季毛利率成長 >10%", hits.length ? "pass" : "fail"),
+      cond(
+        "連續 2 季 YoY 營益率或毛利率成長 >10%",
+        hits.some((h) => (h.metrics.mode || "").includes("YoY")) ? "pass" : "fail"
+      ),
+      cond(
+        "或連續 2 季 QoQ 營益率或毛利率成長 >10%",
+        hits.some((h) => (h.metrics.mode || "").includes("QoQ")) ? "pass" : "fail"
+      ),
     ],
-    hits,
+    hits: hits.slice(0, 80),
     blockers: hits.length
       ? []
-      : ["有抓到部分可用季報序列，但無標的同時滿足連續成長 >10%"],
+      : ["有抓到可用毛利／營益序列，但宇宙內無標的滿足連續 2 季 YoY 或 QoQ 成長 >10%"],
+    notes: [
+      `台股序列來源：MOPS 綜合損益彙總表推算；宇宙內 ${twSeriesNames} 檔有序列、可用 ${usableSeries}。`,
+    ],
     incomplete: false,
+    dataCoverage: { twSeriesNames, usableSeries, hits: hits.length },
   };
 }
 
@@ -833,7 +961,7 @@ async function main() {
   let twCandidates = [];
   if (session?.rows?.length) {
     const sorted = [...session.rows].sort((a, b) => (b.volShares || 0) - (a.volShares || 0));
-    twCandidates = sorted.slice(0, 140);
+    twCandidates = sorted.slice(0, 380);
     for (const r of session.rows) {
       if (r.pe != null) peMap.set(r.ticker, r.pe);
       nameMap.set(r.ticker, r.name);
@@ -881,6 +1009,9 @@ async function main() {
     if (!twSet.has(t))
       twSet.set(t, { ticker: t, name: nameMap.get(t) || t, market: "TW" });
   }
+
+  // Placeholder for masterCandidateBoost — filled after fundamentals load
+  let masterCandidateBoost = [];
 
   const existingUs = [...(latest.us || []), ...(latest.top5 || []).filter((x) => x.market === "US")];
   const usSet = new Map();
@@ -946,12 +1077,141 @@ async function main() {
   });
   console.log("Fundamentals", fundMap.size, "PE map", peMap.size);
 
+  console.log("Fetching TW fundamentals (MOPS + openapi) for 大師／財務…");
+  const twFund = await buildTwFundamentalBundle({ annualYears: 6, quarterCount: 8 });
+  for (const u of twSet.values()) {
+    const code = codeOfTicker(u.ticker);
+    const pe = twFund.pe.get(code);
+    if (pe != null && !peMap.has(u.ticker)) peMap.set(u.ticker, pe);
+  }
+
+  // Pull extra master-candidate names into OHLCV universe so hit counts aren't universe-starved
+  {
+    const already = new Set(twSet.keys());
+    const priority = [];
+    const rest = [];
+    const seen = new Set();
+    const push = (code, list) => {
+      if (seen.has(code)) return;
+      seen.add(code);
+      list.push(code);
+    };
+    // 1) Growth / ROE masters first (馬克約克奇等)
+    for (const [code, fund] of twFund.byCode) {
+      const pe = twFund.pe.get(code);
+      const debt = twFund.debtRatio.get(code);
+      if (pe == null || debt == null || !(pe < 25) || !(debt < 0.35)) continue;
+      const qs = (fund.quarters || []).filter((q) => q.roe != null);
+      const roe4 = qs.length >= 4 ? qs.slice(-4).reduce((a, q) => a + q.roe, 0) : null;
+      const gs = (fund.revGrowthYoY || []).slice(-3);
+      const growthOk = gs.length >= 3 && gs.every((x) => x.g > 0.03);
+      if (growthOk || (roe4 != null && roe4 > 0.12)) push(code, priority);
+    }
+    // 2) Value / Michael Price style
+    for (const [code, pb] of twFund.pb) if (pb < 1.15) push(code, rest);
+    for (const [code, d] of twFund.directorPct) if (d > 0.35) push(code, rest);
+    for (const code of [...priority, ...rest]) {
+      if (masterCandidateBoost.length >= 250) break;
+      // Prefer .TW; also try .TWO later via yahooChart fallback below
+      let t = `${code}.TW`;
+      if (already.has(t)) continue;
+      const name = twFund.byCode.get(code)?.name || nameMap.get(t) || code;
+      twSet.set(t, { ticker: t, name, market: "TW" });
+      already.add(t);
+      masterCandidateBoost.push(t);
+    }
+    if (masterCandidateBoost.length) {
+      console.log(
+        "Master candidate OHLCV boost",
+        masterCandidateBoost.length,
+        "(priority growth",
+        priority.length + ")"
+      );
+      await mapPool(
+        masterCandidateBoost.map((t) => twSet.get(t)),
+        CONCURRENCY,
+        async (u) => {
+          try {
+            let c = await yahooChart(u.ticker);
+            if (!c && u.ticker.endsWith(".TW")) {
+              const alt = u.ticker.replace(/\.TW$/, ".TWO");
+              c = await yahooChart(alt);
+              if (c) {
+                // Retarget ticker to OTC Yahoo symbol
+                ohlcvMap.delete(u.ticker);
+                twSet.delete(u.ticker);
+                u.ticker = alt;
+                twSet.set(alt, u);
+                ohlcvMap.set(alt, c);
+                if (!u.name || u.name === u.ticker) u.name = c.name;
+                ok++;
+                return;
+              }
+            }
+            if (c) {
+              ohlcvMap.set(u.ticker, c);
+              if (!u.name || u.name === u.ticker) u.name = c.name;
+              ok++;
+            } else fail++;
+          } catch {
+            fail++;
+          }
+          await sleep(70);
+        }
+      );
+    }
+  }
+
+  const twMarginByCode = new Map();
+  for (const [code, rec] of twFund.byCode) {
+    const series = [];
+    for (const q of rec.quarters || []) {
+      const gm =
+        q.grossProfitCum != null && q.revenueCum > 0
+          ? q.grossProfitCum / q.revenueCum
+          : null;
+      const om = q.operatingMargin;
+      if (gm == null && om == null) continue;
+      series.push({
+        year: q.year,
+        season: q.season,
+        grossMargin: gm,
+        operatingMargin: om,
+        revenue: q.revenueCum,
+        name: rec.name,
+        source: "mops-income",
+      });
+    }
+    if (series.length) twMarginByCode.set(code, series);
+  }
+
+  let twUniverseWithSeries = 0;
+  for (const u of twSet.values()) {
+    if (twMarginByCode.get(codeOfTicker(u.ticker))?.length) twUniverseWithSeries++;
+  }
+  console.log(
+    "TW universe with margin series",
+    twUniverseWithSeries,
+    "/",
+    twSet.size,
+    "fund names",
+    twFund.byCode.size
+  );
+
+  const masterStrategies = buildAllMasters(
+    [...twSet.values()],
+    ohlcvMap,
+    techMetrics,
+    twFund
+  );
+
   const strategies = [
     buildMaBull(universe, ohlcvMap),
     buildUltraShort(universe, ohlcvMap),
     buildInstSync(instDays, [...twSet.values()]),
     buildPeterLynch(universe, ohlcvMap, fundMap, peMap),
-    buildMarginGrowth(universe, fundMap),
+    buildMarginGrowth(universe, fundMap, twMarginByCode),
+    ...masterStrategies,
   ];
 
   // Attach latest OHLCV bar date so UI can show Yahoo lag vs TWSE session honestly
@@ -989,6 +1249,9 @@ async function main() {
       us: usSet.size,
       ohlcvOk: ok,
       ohlcvFail: fail,
+      twMarginSeries: twUniverseWithSeries,
+      twMarginSeriesAllMarket: twMarginByCode.size,
+      twFundamentals: twFund.meta,
     },
     categoryOrder,
     strategies,

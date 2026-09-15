@@ -136,10 +136,74 @@ function metricColumns(strategyId) {
         { key: "ampPct", label: term("amplitude", "振幅"), fmt: (m) => (m.ampPct != null ? fmtNum(m.ampPct, 2) + "%" : "—"), rawLabel: true },
         { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => (m.avgVol5Zhang != null ? fmtNum(m.avgVol5Zhang, 1) : "—") },
       ];
+
+    case "michael-price":
+      return [
+        { key: "pb", label: "P/B", fmt: (m) => fmtNum(m.pb, 2) },
+        { key: "directorHoldPct", label: "董監持股%", fmt: (m) => (m.directorHoldPct != null ? fmtNum(m.directorHoldPct, 1) + "%" : "—") },
+        { key: "debtRatioPct", label: "負債比%", fmt: (m) => (m.debtRatioPct != null ? fmtNum(m.debtRatioPct, 1) + "%" : "—") },
+        { key: "price", label: "價格", fmt: (m) => fmtNum(m.price) },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => fmtNum(m.avgVol5Zhang, 1) },
+      ];
+    case "michael-sivy":
+    case "mark-minervini":
+      return [
+        { key: "pe", label: term("pe", "本益比"), fmt: (m) => fmtNum(m.pe, 2), rawLabel: true },
+        { key: "roe4qPct", label: "4季ROE合計%", fmt: (m) => (m.roe4qPct != null ? fmtNum(m.roe4qPct, 1) + "%" : "—") },
+        { key: "debtRatioPct", label: "負債比%", fmt: (m) => (m.debtRatioPct != null ? fmtNum(m.debtRatioPct, 1) + "%" : "—") },
+        { key: "revGrowth3y", label: "3年營收成長%", fmt: (m) => (Array.isArray(m.revGrowth3y) ? m.revGrowth3y.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—") },
+        { key: "price", label: "價格", fmt: (m) => fmtNum(m.price) },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => fmtNum(m.avgVol5Zhang, 1) },
+      ];
+    case "kenneth-fisher":
+      return [
+        { key: "revGrowth5yAvgPct", label: "5年營收成長均%", fmt: (m) => (m.revGrowth5yAvgPct != null ? fmtNum(m.revGrowth5yAvgPct, 1) + "%" : "—") },
+        { key: "pretaxGrowth5yAvgPct", label: "5年稅前成長均%", fmt: (m) => (m.pretaxGrowth5yAvgPct != null ? fmtNum(m.pretaxGrowth5yAvgPct, 1) + "%" : "—") },
+        { key: "debtRatioPct", label: "負債比%", fmt: (m) => (m.debtRatioPct != null ? fmtNum(m.debtRatioPct, 1) + "%" : "—") },
+        { key: "price", label: "價格", fmt: (m) => fmtNum(m.price) },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => fmtNum(m.avgVol5Zhang, 1) },
+      ];
+    case "michael-murphy":
+      return [
+        { key: "roe4qPct", label: "4季ROE合計%", fmt: (m) => (m.roe4qPct != null ? fmtNum(m.roe4qPct, 1) + "%" : "—") },
+        { key: "opMargin1qPct", label: "近季營益率%", fmt: (m) => (m.opMargin1qPct != null ? fmtNum(m.opMargin1qPct, 1) + "%" : "—") },
+        { key: "opMargin3y", label: "3年營益率%", fmt: (m) => (Array.isArray(m.opMargin3y) ? m.opMargin3y.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—") },
+        { key: "revGrowth3yAvgPct", label: "3年營收成長均%", fmt: (m) => (m.revGrowth3yAvgPct != null ? fmtNum(m.revGrowth3yAvgPct, 1) + "%" : "—") },
+        { key: "price", label: "價格", fmt: (m) => fmtNum(m.price) },
+      ];
+    case "benjamin-graham":
+      return [
+        { key: "pe", label: term("pe", "本益比"), fmt: (m) => fmtNum(m.pe, 2), rawLabel: true },
+        { key: "pb", label: "P/B", fmt: (m) => fmtNum(m.pb, 2) },
+        { key: "debtRatioPct", label: "負債比%", fmt: (m) => (m.debtRatioPct != null ? fmtNum(m.debtRatioPct, 1) + "%" : "—") },
+        { key: "price", label: "價格", fmt: (m) => fmtNum(m.price) },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => fmtNum(m.avgVol5Zhang, 1) },
+      ];
+    case "warren-buffett":
+      return [
+        { key: "roe4qPct", label: "4季ROE合計%", fmt: (m) => (m.roe4qPct != null ? fmtNum(m.roe4qPct, 1) + "%" : "—") },
+        { key: "opMargin1qPct", label: "近季營益率%", fmt: (m) => (m.opMargin1qPct != null ? fmtNum(m.opMargin1qPct, 1) + "%" : "—") },
+        { key: "debtRatioPct", label: "負債比%", fmt: (m) => (m.debtRatioPct != null ? fmtNum(m.debtRatioPct, 1) + "%" : "—") },
+        { key: "price", label: "價格", fmt: (m) => fmtNum(m.price) },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => fmtNum(m.avgVol5Zhang, 1) },
+      ];
+    case "james-oshaughnessy":
+      return [
+        { key: "pe", label: term("pe", "本益比"), fmt: (m) => fmtNum(m.pe, 2), rawLabel: true },
+        { key: "roe4qPct", label: "4季ROE合計%", fmt: (m) => (m.roe4qPct != null ? fmtNum(m.roe4qPct, 1) + "%" : "—") },
+        { key: "roeGrowthPct", label: "ROE成長%", fmt: (m) => (m.roeGrowthPct != null ? fmtNum(m.roeGrowthPct, 1) + "%" : "—") },
+        { key: "epsGrowthStreak", label: "EPS連季>10%", fmt: (m) => (m.epsGrowthStreak != null ? String(m.epsGrowthStreak) : "—") },
+        { key: "price", label: "價格", fmt: (m) => fmtNum(m.price) },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => fmtNum(m.avgVol5Zhang, 1) },
+      ];
+
     case "margin-up":
       return [
+        { key: "seasons", label: "季別", fmt: (m) => (Array.isArray(m.seasons) ? m.seasons.join(" → ") : "—") },
         { key: "opMargins", label: term("opMargin", "營益率"), fmt: (m) => (Array.isArray(m.opMargins) ? m.opMargins.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—"), rawLabel: true },
         { key: "grossMargins", label: term("grossMargin", "毛利率"), fmt: (m) => (Array.isArray(m.grossMargins) ? m.grossMargins.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—"), rawLabel: true },
+        { key: "mode", label: "條件", fmt: (m) => m.mode || "—" },
+        { key: "source", label: "來源", fmt: (m) => m.source || "—" },
       ];
     default:
       return [{ key: "price", label: "價格", fmt: (m) => fmtNum(m.price) }];
@@ -354,7 +418,7 @@ export function mountStrategies(selector, data) {
                 s.id
               )}" aria-pressed="${s.id === first.id}">
                 <span class="xq-chip-name">${escapeHtml(s.name)}</span>
-                <span class="xq-chip-n">${s.incomplete ? "—" : n}</span>
+                <span class="xq-chip-n">${s.incomplete ? "不足" : `共${n}檔`}</span>
               </button>`;
             })
             .join("")}
@@ -372,7 +436,7 @@ export function mountStrategies(selector, data) {
         s.id
       )}">
         <span>${escapeHtml(s.name)}</span>
-        <span class="xq-side-n">${s.incomplete ? "不足" : n}</span>
+        <span class="xq-side-n">${s.incomplete ? "不足" : `共${n}檔`}</span>
       </button>`;
     })
     .join("");
