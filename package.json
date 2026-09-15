@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "validate": "node scripts/validate-data.mjs",
     "paper": "node scripts/paper-trade.mjs",
-    "fetch-social": "node scripts/fetch-social.mjs --latest public/data/latest.json --out public/data/social-digest.json"
+    "fetch-social": "node scripts/fetch-social.mjs --latest public/data/latest.json --out public/data/social-digest.json",
+    "strategies": "node scripts/run-strategies.mjs"
   },
   "devDependencies": {
     "vite": "^6.2.0"

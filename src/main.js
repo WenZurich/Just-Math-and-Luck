@@ -17,6 +17,11 @@ import {
 import { initDanmaku } from "./danmaku.js";
 import { mountAllTickerComments, initSiteGiscus } from "./comments.js";
 import { initSocialDigest, loadSocialDigest } from "./social-digest.js";
+import "./strategies.css";
+import {
+  renderStrategiesSection,
+  initStrategies,
+} from "./strategies.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -397,6 +402,7 @@ function renderApp(data, paper) {
       )}</div>
       ${data.timezoneNote ? `<p class="tz-note">${escapeHtml(data.timezoneNote)}（${term("intraday", "盤中")} 價格還會變）</p>` : ""}
       <p class="glossary-jump">
+        <a href="#strategies">策略選股 ↓</a>
         <a href="#paper">看模擬交易成績 ↓</a>
         <a href="#social-digest">網友參考 ↓</a>
         <a href="#danmaku">全站彈幕 ↓</a>
@@ -414,6 +420,8 @@ function renderApp(data, paper) {
         ${top5.map((s, i) => renderTopCard(s, i + 1)).join("")}
       </div>
     </section>
+
+    ${renderStrategiesSection()}
 
     ${renderPaperSection(paper)}
 
@@ -435,7 +443,7 @@ function renderApp(data, paper) {
     ${renderGiscusSection()}
     ${renderGlossarySection()}
 
-    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 點藍字看解釋 · 模擬交易非真實成交 · 社交摘要／聊天僅供討論參考 · 資料來自 latest.json、paper-portfolio.json、social-digest.json</p>
+    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 點藍字看解釋 · 模擬交易非真實成交 · 社交摘要／聊天僅供討論參考 · 資料來自 latest.json、strategy-screener.json、paper-portfolio.json、social-digest.json</p>
   `;
 }
 
@@ -467,6 +475,7 @@ async function main() {
     bindTabs(app);
     bindPaperTabs(app);
     bindTermLinks(app);
+    await initStrategies("#xq-root");
     // Social: digest first (feeds per-ticker tabs); chat needs Supabase anon for writes
     void config;
     let digest = null;

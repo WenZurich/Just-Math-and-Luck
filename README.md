@@ -10,10 +10,11 @@
 ## 更新資料
 
 1. 更新 `public/data/latest.json`
-2. 執行 `npm run paper`（依最新名單套用買賣規則，寫入 `public/data/paper-portfolio.json`）
-3. 執行 `npm run fetch-social`（產生 `public/data/social-digest.json`；Reddit 可能 403，會誠實寫 blocker）
-4. 本地 `npm run build`，把 `dist/` 內容覆寫到 `docs/`
-5. 推到 `main`（目前以 `docs/` 做 GitHub Pages）
+2. 執行 `npm run strategies`（產生 `public/data/strategy-screener.json` 策略選股；均線多頭等由 OHLCV 實算，缺資料策略會標「資料不足」）
+3. 執行 `npm run paper`（依最新名單套用買賣規則，寫入 `public/data/paper-portfolio.json`）
+4. 執行 `npm run fetch-social`（產生 `public/data/social-digest.json`；Reddit 可能 403，會誠實寫 blocker）
+5. 本地 `npm run build`，把 `dist/` 內容覆寫到 `docs/`
+6. 推到 `main`（目前以 `docs/` 做 GitHub Pages）
 
 來源碼在 `src/`；每日選股 bot 也可直接覆寫 `docs/data/latest.json` 後再跑 `npm run paper`。
 
@@ -59,3 +60,18 @@ Discussions 已開；`src/config.js` 內含 `repoId`／`categoryId`（General）
 - **路由**：美股只查 Reddit＋富途；台股只查 PTT＋Dcard＋Threads
 - 富途留言多需登入；公開新聞放 `newsRelated`，UI 標為「新聞／討論線索（非留言）」
 - Dcard／Reddit 若機房 IP 被擋，見 `scripts/fetch-social-browser-notes.md`
+
+
+## 策略選股（`npm run strategies`）
+
+XQ 風格「策略選股（邏輯條件）」：分類切換（精選／價量／籌碼／財務／大師）、明示條件、命中數與計算欄位。
+
+| 策略 | 狀態 |
+|------|------|
+| 均線多頭排列 | ✅ 全由 Yahoo OHLCV 計算 |
+| 超短線作多 | ✅ 價量＋RSI＋振幅（融資融券略過） |
+| 彼得林區區 | ✅ 證交所本益比＋價量；成長／負債有才標 |
+| 法人同步做多 | ✅ 證交所／櫃買公開三大法人（非券商專有庫） |
+| 公司獲利遞增 | 誠實「資料不足」若季報毛利／營益欄位抓不到 |
+
+輸出：`public/data/strategy-screener.json`（build 後進 `docs/data/`）。**不宣稱**與 XQ 專有籌碼庫一致。

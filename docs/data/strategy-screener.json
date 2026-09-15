@@ -1,0 +1,1618 @@
+{
+  "asOf": "2026-09-15T17:57:17.080Z",
+  "sessionDate": "2026-09-15",
+  "timezone": "Asia/Taipei",
+  "disclaimer": "本策略選股依公開行情／證交所公開資料做邏輯篩選，不是投資建議；非 XQ／券商專有資料庫，不保證與商業軟體結果一致。",
+  "universe": {
+    "tw": 144,
+    "us": 13,
+    "ohlcvOk": 157,
+    "ohlcvFail": 0
+  },
+  "categoryOrder": [
+    "精選",
+    "價量",
+    "籌碼",
+    "財務",
+    "大師"
+  ],
+  "strategies": [
+    {
+      "id": "ma-bull",
+      "name": "均線多頭排列",
+      "category": "技術",
+      "categoryGroup": "價量",
+      "xqTags": [
+        "技術",
+        "價量"
+      ],
+      "description": "SMA5>SMA10>SMA20>SMA60，創新高＋量能放大。完全由 OHLCV 計算。",
+      "conditions": [
+        {
+          "text": "SMA5 > SMA10 > SMA20 > SMA60",
+          "status": "pass"
+        },
+        {
+          "text": "今日創近 5 日高（最高價或收盤價 ≥ 前 5 日最高）",
+          "status": "pass"
+        },
+        {
+          "text": "成交量 > 昨日成交量 × 2",
+          "status": "pass"
+        }
+      ],
+      "hits": [
+        {
+          "ticker": "6112.TW",
+          "name": "邁達特",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 50.6,
+            "dayPct": 9.88,
+            "sma5": 46.06,
+            "sma10": 45.75,
+            "sma20": 45.24,
+            "sma60": 43.9,
+            "volRatioYday": 7.46,
+            "volToday": 10824890,
+            "volYday": 1450100,
+            "volTodayZhang": 10824.9,
+            "is5dHigh": true,
+            "pct5d": 11.82
+          }
+        },
+        {
+          "ticker": "2351.TW",
+          "name": "順德",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 257,
+            "dayPct": 9.83,
+            "sma5": 238.3,
+            "sma10": 234.25,
+            "sma20": 220.05,
+            "sma60": 194.27,
+            "volRatioYday": 3.76,
+            "volToday": 13568257,
+            "volYday": 3612839,
+            "volTodayZhang": 13568.3,
+            "is5dHigh": true,
+            "pct5d": 10.06
+          }
+        },
+        {
+          "ticker": "2897.TW",
+          "name": "王道銀行",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 11.25,
+            "dayPct": 2.27,
+            "sma5": 10.97,
+            "sma10": 10.87,
+            "sma20": 10.56,
+            "sma60": 10.43,
+            "volRatioYday": 3.71,
+            "volToday": 13392603,
+            "volYday": 3608124,
+            "volTodayZhang": 13392.6,
+            "is5dHigh": true,
+            "pct5d": 4.65
+          }
+        },
+        {
+          "ticker": "3029.TW",
+          "name": "零壹",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 116.5,
+            "dayPct": 0,
+            "sma5": 113.7,
+            "sma10": 112.35,
+            "sma20": 111.7,
+            "sma60": 106.51,
+            "volRatioYday": 2.61,
+            "volToday": 17687093,
+            "volYday": 6764154,
+            "volTodayZhang": 17687.1,
+            "is5dHigh": true,
+            "pct5d": 6.39
+          }
+        },
+        {
+          "ticker": "3229.TW",
+          "name": "晟鈦",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 66.9,
+            "dayPct": -0.89,
+            "sma5": 62.34,
+            "sma10": 56.28,
+            "sma20": 56.18,
+            "sma60": 47.68,
+            "volRatioYday": 2.27,
+            "volToday": 16299575,
+            "volYday": 7182788,
+            "volTodayZhang": 16299.6,
+            "is5dHigh": true,
+            "pct5d": 32.21
+          }
+        }
+      ],
+      "blockers": [],
+      "incomplete": false
+    },
+    {
+      "id": "ultra-short",
+      "name": "超短線作多",
+      "category": "綜合",
+      "categoryGroup": "精選",
+      "xqTags": [
+        "精選",
+        "價量",
+        "技術"
+      ],
+      "description": "價＞10、流動性、RSI 在 50 下拐頭向上、當日振幅＞3%。融資融券欄位公開不足故未檢查。",
+      "conditions": [
+        {
+          "text": "股價 > 10",
+          "status": "pass"
+        },
+        {
+          "text": "5 日均量具流動性（台股 > 300 張）",
+          "status": "pass"
+        },
+        {
+          "text": "RSI(14) 在 50 以下且較前一日上升（黃金交叉代理）",
+          "status": "pass"
+        },
+        {
+          "text": "當日振幅（高−低）／昨收 > 3%",
+          "status": "pass"
+        },
+        {
+          "text": "融資／融券條件",
+          "status": "skip"
+        }
+      ],
+      "hits": [
+        {
+          "ticker": "6949.TW",
+          "name": "沛爾生醫*-創",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 55.8,
+            "dayPct": 5.28,
+            "rsi": 21.86,
+            "rsiPrev": 21.64,
+            "ampPct": 16.32,
+            "avgVol5Shares": 20016134,
+            "avgVol5Zhang": 20016.1,
+            "pct5d": -16.84
+          }
+        },
+        {
+          "ticker": "8039.TW",
+          "name": "台虹",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 274,
+            "dayPct": 0.74,
+            "rsi": 49.1,
+            "rsiPrev": 48.57,
+            "ampPct": 6.99,
+            "avgVol5Shares": 26396095,
+            "avgVol5Zhang": 26396.1,
+            "pct5d": -16.21
+          }
+        },
+        {
+          "ticker": "3576.TW",
+          "name": "聯合再生",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 16.6,
+            "dayPct": 1.22,
+            "rsi": 43.32,
+            "rsiPrev": 40.43,
+            "ampPct": 5.79,
+            "avgVol5Shares": 4619020,
+            "avgVol5Zhang": 4619,
+            "pct5d": -2.64
+          }
+        },
+        {
+          "ticker": "2484.TW",
+          "name": "希華",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 67.2,
+            "dayPct": 0.75,
+            "rsi": 42.03,
+            "rsiPrev": 41.06,
+            "ampPct": 5.7,
+            "avgVol5Shares": 4830251,
+            "avgVol5Zhang": 4830.3,
+            "pct5d": -4.41
+          }
+        },
+        {
+          "ticker": "2327.TW",
+          "name": "國巨*",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 545,
+            "dayPct": 0.18,
+            "rsi": 44.52,
+            "rsiPrev": 44.35,
+            "ampPct": 5.51,
+            "avgVol5Shares": 31324863,
+            "avgVol5Zhang": 31324.9,
+            "pct5d": -7.47
+          }
+        },
+        {
+          "ticker": "2312.TW",
+          "name": "金寶",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 30.85,
+            "dayPct": 1.31,
+            "rsi": 43.95,
+            "rsiPrev": 41.48,
+            "ampPct": 5.42,
+            "avgVol5Shares": 7169315,
+            "avgVol5Zhang": 7169.3,
+            "pct5d": -4.49
+          }
+        },
+        {
+          "ticker": "2441.TW",
+          "name": "超豐",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 114,
+            "dayPct": 2.24,
+            "rsi": 46.75,
+            "rsiPrev": 43.4,
+            "ampPct": 5.38,
+            "avgVol5Shares": 3009832,
+            "avgVol5Zhang": 3009.8,
+            "pct5d": -3.39
+          }
+        },
+        {
+          "ticker": "ARM",
+          "name": "Arm Holdings",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 243.3,
+            "dayPct": 1.79,
+            "rsi": 44.87,
+            "rsiPrev": 42.93,
+            "ampPct": 5.09,
+            "avgVol5Shares": 4086333,
+            "avgVol5Zhang": null,
+            "pct5d": -6.97
+          }
+        },
+        {
+          "ticker": "3042.TW",
+          "name": "晶技",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 178,
+            "dayPct": 1.14,
+            "rsi": 48.84,
+            "rsiPrev": 47.46,
+            "ampPct": 4.83,
+            "avgVol5Shares": 10993240,
+            "avgVol5Zhang": 10993.2,
+            "pct5d": 0.85
+          }
+        },
+        {
+          "ticker": "1718.TW",
+          "name": "中纖",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 10.55,
+            "dayPct": 1.44,
+            "rsi": 47.65,
+            "rsiPrev": 45.04,
+            "ampPct": 4.33,
+            "avgVol5Shares": 13158862,
+            "avgVol5Zhang": 13158.9,
+            "pct5d": 0.96
+          }
+        },
+        {
+          "ticker": "3704.TW",
+          "name": "合勤控",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 41.2,
+            "dayPct": 1.73,
+            "rsi": 47.66,
+            "rsiPrev": 44.56,
+            "ampPct": 3.7,
+            "avgVol5Shares": 1797118,
+            "avgVol5Zhang": 1797.1,
+            "pct5d": 3.78
+          }
+        },
+        {
+          "ticker": "2301.TW",
+          "name": "光寶科",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 277.5,
+            "dayPct": 0.18,
+            "rsi": 48.86,
+            "rsiPrev": 48.64,
+            "ampPct": 3.43,
+            "avgVol5Shares": 16785119,
+            "avgVol5Zhang": 16785.1,
+            "pct5d": -7.19
+          }
+        },
+        {
+          "ticker": "3702.TW",
+          "name": "大聯大",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 107,
+            "dayPct": 0.47,
+            "rsi": 48.71,
+            "rsiPrev": 47.84,
+            "ampPct": 3.29,
+            "avgVol5Shares": 7595800,
+            "avgVol5Zhang": 7595.8,
+            "pct5d": 1.9
+          }
+        }
+      ],
+      "blockers": [],
+      "unchecked": [
+        "融資餘額／增減（無公開穩定接口 → 未檢查）",
+        "融券餘額／增減（無公開穩定接口 → 未檢查）"
+      ],
+      "incomplete": false
+    },
+    {
+      "id": "inst-sync",
+      "name": "法人同步做多",
+      "category": "籌碼",
+      "categoryGroup": "籌碼",
+      "xqTags": [
+        "籌碼"
+      ],
+      "description": "證交所／櫃買公開三大法人：外資＋投信＋自營商同日淨買，且近 5 日法人合計淨買。非券商專有籌碼庫。",
+      "conditions": [
+        {
+          "text": "外資近 1 日淨買超 > 0（股）",
+          "status": "pass"
+        },
+        {
+          "text": "投信近 1 日淨買超 > 0（股）",
+          "status": "pass"
+        },
+        {
+          "text": "自營商近 1 日淨買超 > 0（股）",
+          "status": "pass"
+        },
+        {
+          "text": "三大法人近 5 日合計淨買超 > 0",
+          "status": "pass"
+        },
+        {
+          "text": "外資或投信單日買超達基本門檻（過濾噪音）",
+          "status": "pass"
+        }
+      ],
+      "hits": [
+        {
+          "ticker": "2382.TW",
+          "name": "廣達",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "foreignNet1dShares": 522204,
+            "foreignNet1dZhang": 522.2,
+            "trustNet1dShares": 432942,
+            "trustNet1dZhang": 432.9,
+            "dealerNet1dShares": 86442,
+            "dealerNet1dZhang": 86.4,
+            "instNet5dShares": 13297812,
+            "instNet5dZhang": 13297.8,
+            "instDaysCovered": 5
+          }
+        },
+        {
+          "ticker": "5876.TW",
+          "name": "上海商銀",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "foreignNet1dShares": 1222179,
+            "foreignNet1dZhang": 1222.2,
+            "trustNet1dShares": 647000,
+            "trustNet1dZhang": 647,
+            "dealerNet1dShares": 133561,
+            "dealerNet1dZhang": 133.6,
+            "instNet5dShares": 12452380,
+            "instNet5dZhang": 12452.4,
+            "instDaysCovered": 5
+          }
+        },
+        {
+          "ticker": "8046.TW",
+          "name": "南電",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "foreignNet1dShares": 520242,
+            "foreignNet1dZhang": 520.2,
+            "trustNet1dShares": 153000,
+            "trustNet1dZhang": 153,
+            "dealerNet1dShares": 115858,
+            "dealerNet1dZhang": 115.9,
+            "instNet5dShares": 3905503,
+            "instNet5dZhang": 3905.5,
+            "instDaysCovered": 5
+          }
+        },
+        {
+          "ticker": "2441.TW",
+          "name": "超豐",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "foreignNet1dShares": 1199272,
+            "foreignNet1dZhang": 1199.3,
+            "trustNet1dShares": 73000,
+            "trustNet1dZhang": 73,
+            "dealerNet1dShares": 46003,
+            "dealerNet1dZhang": 46,
+            "instNet5dShares": 1061194,
+            "instNet5dZhang": 1061.2,
+            "instDaysCovered": 5
+          }
+        },
+        {
+          "ticker": "3406.TW",
+          "name": "玉晶光",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "foreignNet1dShares": 694552,
+            "foreignNet1dZhang": 694.6,
+            "trustNet1dShares": 395000,
+            "trustNet1dZhang": 395,
+            "dealerNet1dShares": 125052,
+            "dealerNet1dZhang": 125.1,
+            "instNet5dShares": 1029924,
+            "instNet5dZhang": 1029.9,
+            "instDaysCovered": 5
+          }
+        },
+        {
+          "ticker": "6672.TW",
+          "name": "騰輝電子-KY",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "foreignNet1dShares": 500330,
+            "foreignNet1dZhang": 500.3,
+            "trustNet1dShares": 90000,
+            "trustNet1dZhang": 90,
+            "dealerNet1dShares": 11116,
+            "dealerNet1dZhang": 11.1,
+            "instNet5dShares": 1023708,
+            "instNet5dZhang": 1023.7,
+            "instDaysCovered": 5
+          }
+        },
+        {
+          "ticker": "3042.TW",
+          "name": "晶技",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "foreignNet1dShares": 1992635,
+            "foreignNet1dZhang": 1992.6,
+            "trustNet1dShares": 55000,
+            "trustNet1dZhang": 55,
+            "dealerNet1dShares": 65265,
+            "dealerNet1dZhang": 65.3,
+            "instNet5dShares": 734463,
+            "instNet5dZhang": 734.5,
+            "instDaysCovered": 5
+          }
+        }
+      ],
+      "blockers": [],
+      "incomplete": false,
+      "notes": [
+        "籌碼交易日樣本：2026-09-15, 2026-09-14, 2026-09-11, 2026-09-10, 2026-09-09",
+        "單位標示：公開資料為「股」；1 張 = 1,000 股。"
+      ]
+    },
+    {
+      "id": "peter-lynch",
+      "name": "彼得林區區",
+      "category": "大師",
+      "categoryGroup": "大師",
+      "xqTags": [
+        "大師",
+        "財務",
+        "價量"
+      ],
+      "description": "近似 Peter Lynch 風格：便宜本益比＋夠流動＋股價不太低。非 XQ 專有資料庫。",
+      "conditions": [
+        {
+          "text": "本益比（PE）< 20（有公開數字才算；缺值不捏造、該檔跳過）",
+          "status": "pass"
+        },
+        {
+          "text": "股價 > 10（台股 TWD／美股 USD）",
+          "status": "pass"
+        },
+        {
+          "text": "近 5 日平均成交量具流動性（台股 > 300 張＝300,000 股）",
+          "status": "pass"
+        },
+        {
+          "text": "營收／獲利成長代理（Yahoo 有才標註；缺則略過此條不捏造）",
+          "status": "skip"
+        },
+        {
+          "text": "負債相關代理（Yahoo debtToEquity 有才標註）",
+          "status": "skip"
+        }
+      ],
+      "hits": [
+        {
+          "ticker": "9904.TW",
+          "name": "寶成",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 5.14,
+            "price": 24.05,
+            "avgVol5Shares": 10112806,
+            "avgVol5Zhang": 10112.8,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.62
+          }
+        },
+        {
+          "ticker": "2855.TW",
+          "name": "統一證",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 5.35,
+            "price": 52.9,
+            "avgVol5Shares": 4826061,
+            "avgVol5Zhang": 4826.1,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.93
+          }
+        },
+        {
+          "ticker": "6005.TW",
+          "name": "群益證",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 5.78,
+            "price": 32.1,
+            "avgVol5Shares": 4433874,
+            "avgVol5Zhang": 4433.9,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.9
+          }
+        },
+        {
+          "ticker": "2605.TW",
+          "name": "新興",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 7.15,
+            "price": 36.15,
+            "avgVol5Shares": 14043540,
+            "avgVol5Zhang": 14043.5,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.96
+          }
+        },
+        {
+          "ticker": "6669.TW",
+          "name": "緯穎",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 7.42,
+            "price": 2270,
+            "avgVol5Shares": 2636321,
+            "avgVol5Zhang": 2636.3,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -1.73
+          }
+        },
+        {
+          "ticker": "2615.TW",
+          "name": "萬海",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 7.69,
+            "price": 113,
+            "avgVol5Shares": 22532129,
+            "avgVol5Zhang": 22532.1,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 0.89
+          }
+        },
+        {
+          "ticker": "3006.TW",
+          "name": "晶豪科",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 8.33,
+            "price": 270.5,
+            "avgVol5Shares": 18846096,
+            "avgVol5Zhang": 18846.1,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -6.88
+          }
+        },
+        {
+          "ticker": "2618.TW",
+          "name": "長榮航",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 8.67,
+            "price": 42.05,
+            "avgVol5Shares": 12281568,
+            "avgVol5Zhang": 12281.6,
+            "revenueGrowth": 22.5,
+            "earningsGrowth": -42.7,
+            "debtToEquity": 78.46,
+            "dayPct": -0.71
+          }
+        },
+        {
+          "ticker": "2027.TW",
+          "name": "大成鋼",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 8.88,
+            "price": 45.75,
+            "avgVol5Shares": 15045246,
+            "avgVol5Zhang": 15045.2,
+            "revenueGrowth": 41.6,
+            "earningsGrowth": 361.1,
+            "debtToEquity": 57.11,
+            "dayPct": -1.61
+          }
+        },
+        {
+          "ticker": "3702.TW",
+          "name": "大聯大",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 9.16,
+            "price": 107,
+            "avgVol5Shares": 7595800,
+            "avgVol5Zhang": 7595.8,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 0.47
+          }
+        },
+        {
+          "ticker": "2610.TW",
+          "name": "華航",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 9.21,
+            "price": 20.2,
+            "avgVol5Shares": 11818475,
+            "avgVol5Zhang": 11818.5,
+            "revenueGrowth": 24.3,
+            "earningsGrowth": -63.7,
+            "debtToEquity": 128.39,
+            "dayPct": -0.98
+          }
+        },
+        {
+          "ticker": "2603.TW",
+          "name": "長榮",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 9.26,
+            "price": 237,
+            "avgVol5Shares": 8483984,
+            "avgVol5Zhang": 8484,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.07
+          }
+        },
+        {
+          "ticker": "1102.TW",
+          "name": "亞泥",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 9.72,
+            "price": 35,
+            "avgVol5Shares": 6880111,
+            "avgVol5Zhang": 6880.1,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.85
+          }
+        },
+        {
+          "ticker": "3036.TW",
+          "name": "文曄",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 9.88,
+            "price": 192,
+            "avgVol5Shares": 4547400,
+            "avgVol5Zhang": 4547.4,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 0.52
+          }
+        },
+        {
+          "ticker": "5871.TW",
+          "name": "中租-KY",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 10.3,
+            "price": 113.5,
+            "avgVol5Shares": 5988254,
+            "avgVol5Zhang": 5988.3,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.79
+          }
+        },
+        {
+          "ticker": "2542.TW",
+          "name": "興富發",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 10.47,
+            "price": 45.7,
+            "avgVol5Shares": 8129755,
+            "avgVol5Zhang": 8129.8,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -1.72
+          }
+        },
+        {
+          "ticker": "1409.TW",
+          "name": "新纖",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 10.86,
+            "price": 24.35,
+            "avgVol5Shares": 37239831,
+            "avgVol5Zhang": 37239.8,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.41
+          }
+        },
+        {
+          "ticker": "2606.TW",
+          "name": "裕民",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 11,
+            "price": 76.2,
+            "avgVol5Shares": 4284908,
+            "avgVol5Zhang": 4284.9,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.39
+          }
+        },
+        {
+          "ticker": "1605.TW",
+          "name": "華新",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 11.02,
+            "price": 37,
+            "avgVol5Shares": 13308895,
+            "avgVol5Zhang": 13308.9,
+            "revenueGrowth": 6.9,
+            "earningsGrowth": 1622.2,
+            "debtToEquity": 43.11,
+            "dayPct": -1.07
+          }
+        },
+        {
+          "ticker": "2812.TW",
+          "name": "台中銀",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 11.52,
+            "price": 19.45,
+            "avgVol5Shares": 20207710,
+            "avgVol5Zhang": 20207.7,
+            "revenueGrowth": 31.4,
+            "earningsGrowth": 34.3,
+            "debtToEquity": null,
+            "dayPct": -0.26
+          }
+        },
+        {
+          "ticker": "4763.TW",
+          "name": "材料*-KY",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 11.53,
+            "price": 49.35,
+            "avgVol5Shares": 5408325,
+            "avgVol5Zhang": 5408.3,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.02
+          }
+        },
+        {
+          "ticker": "2399.TW",
+          "name": "映泰",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 11.59,
+            "price": 44.9,
+            "avgVol5Shares": 2104147,
+            "avgVol5Zhang": 2104.1,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -1.32
+          }
+        },
+        {
+          "ticker": "3704.TW",
+          "name": "合勤控",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 11.92,
+            "price": 41.2,
+            "avgVol5Shares": 1797118,
+            "avgVol5Zhang": 1797.1,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.73
+          }
+        },
+        {
+          "ticker": "1714.TW",
+          "name": "和桐",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 12.84,
+            "price": 14.95,
+            "avgVol5Shares": 10143694,
+            "avgVol5Zhang": 10143.7,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -2.61
+          }
+        },
+        {
+          "ticker": "2376.TW",
+          "name": "技嘉",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 12.84,
+            "price": 344,
+            "avgVol5Shares": 4455892,
+            "avgVol5Zhang": 4455.9,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -1.43
+          }
+        },
+        {
+          "ticker": "2882.TW",
+          "name": "國泰金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 12.97,
+            "price": 112.5,
+            "avgVol5Shares": 18099499,
+            "avgVol5Zhang": 18099.5,
+            "revenueGrowth": -62.4,
+            "earningsGrowth": null,
+            "debtToEquity": 80.16,
+            "dayPct": 1.81
+          }
+        },
+        {
+          "ticker": "2834.TW",
+          "name": "臺企銀",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 13.24,
+            "price": 18.35,
+            "avgVol5Shares": 58976253,
+            "avgVol5Zhang": 58976.3,
+            "revenueGrowth": 7.5,
+            "earningsGrowth": 13.3,
+            "debtToEquity": null,
+            "dayPct": 1.94
+          }
+        },
+        {
+          "ticker": "2609.TW",
+          "name": "陽明",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 13.24,
+            "price": 59.3,
+            "avgVol5Shares": 39788866,
+            "avgVol5Zhang": 39788.9,
+            "revenueGrowth": 18.8,
+            "earningsGrowth": 485.7,
+            "debtToEquity": 20.88,
+            "dayPct": -0.17
+          }
+        },
+        {
+          "ticker": "4915.TW",
+          "name": "致伸",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 13.25,
+            "price": 64.6,
+            "avgVol5Shares": 5539471,
+            "avgVol5Zhang": 5539.5,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 2.87
+          }
+        },
+        {
+          "ticker": "2883.TW",
+          "name": "凱基金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 13.34,
+            "price": 38.8,
+            "avgVol5Shares": 42490257,
+            "avgVol5Zhang": 42490.3,
+            "revenueGrowth": -24.6,
+            "earningsGrowth": null,
+            "debtToEquity": 127.52,
+            "dayPct": 2.51
+          }
+        },
+        {
+          "ticker": "2845.TW",
+          "name": "遠東銀",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 13.47,
+            "price": 13.75,
+            "avgVol5Shares": 10617307,
+            "avgVol5Zhang": 10617.3,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 0.36
+          }
+        },
+        {
+          "ticker": "2357.TW",
+          "name": "華碩",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 13.57,
+            "price": 934,
+            "avgVol5Shares": 3442639,
+            "avgVol5Zhang": 3442.6,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.08
+          }
+        },
+        {
+          "ticker": "2889.TW",
+          "name": "國票金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 13.81,
+            "price": 17.05,
+            "avgVol5Shares": 14980453,
+            "avgVol5Zhang": 14980.5,
+            "revenueGrowth": 208.9,
+            "earningsGrowth": 640.4,
+            "debtToEquity": 645.25,
+            "dayPct": 1.79
+          }
+        },
+        {
+          "ticker": "3706.TW",
+          "name": "神達",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 13.86,
+            "price": 78.7,
+            "avgVol5Shares": 11935707,
+            "avgVol5Zhang": 11935.7,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -1.75
+          }
+        },
+        {
+          "ticker": "2897.TW",
+          "name": "王道銀行",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14,
+            "price": 11.25,
+            "avgVol5Shares": 5068520,
+            "avgVol5Zhang": 5068.5,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 2.27
+          }
+        },
+        {
+          "ticker": "5876.TW",
+          "name": "上海商銀",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14.07,
+            "price": 49.9,
+            "avgVol5Shares": 9642412,
+            "avgVol5Zhang": 9642.4,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 2.57
+          }
+        },
+        {
+          "ticker": "2881.TW",
+          "name": "富邦金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14.11,
+            "price": 154,
+            "avgVol5Shares": 13823734,
+            "avgVol5Zhang": 13823.7,
+            "revenueGrowth": -25.4,
+            "earningsGrowth": null,
+            "debtToEquity": 76.19,
+            "dayPct": 3.7
+          }
+        },
+        {
+          "ticker": "6505.TW",
+          "name": "台塑化",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14.39,
+            "price": 82.8,
+            "avgVol5Shares": 36051858,
+            "avgVol5Zhang": 36051.9,
+            "revenueGrowth": 25.7,
+            "earningsGrowth": null,
+            "debtToEquity": 4.64,
+            "dayPct": -0.96
+          }
+        },
+        {
+          "ticker": "1402.TW",
+          "name": "遠東新",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14.4,
+            "price": 28.1,
+            "avgVol5Shares": 7509728,
+            "avgVol5Zhang": 7509.7,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -1.92
+          }
+        },
+        {
+          "ticker": "3231.TW",
+          "name": "緯創",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14.5,
+            "price": 181,
+            "avgVol5Shares": 70536984,
+            "avgVol5Zhang": 70537,
+            "revenueGrowth": 62.4,
+            "earningsGrowth": 99,
+            "debtToEquity": 218.54,
+            "dayPct": -2.43
+          }
+        },
+        {
+          "ticker": "2382.TW",
+          "name": "廣達",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14.51,
+            "price": 332.5,
+            "avgVol5Shares": 18332063,
+            "avgVol5Zhang": 18332.1,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -1.19
+          }
+        },
+        {
+          "ticker": "6112.TW",
+          "name": "邁達特",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14.86,
+            "price": 50.6,
+            "avgVol5Shares": 2630022,
+            "avgVol5Zhang": 2630,
+            "revenueGrowth": 11.7,
+            "earningsGrowth": 1184.6,
+            "debtToEquity": 99.95,
+            "dayPct": 9.88
+          }
+        },
+        {
+          "ticker": "4938.TW",
+          "name": "和碩",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 14.89,
+            "price": 90.2,
+            "avgVol5Shares": 6944470,
+            "avgVol5Zhang": 6944.5,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.88
+          }
+        },
+        {
+          "ticker": "2885.TW",
+          "name": "元大金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 16,
+            "price": 70.8,
+            "avgVol5Shares": 16254738,
+            "avgVol5Zhang": 16254.7,
+            "revenueGrowth": 53.9,
+            "earningsGrowth": 257.1,
+            "debtToEquity": 212.54,
+            "dayPct": 1.14
+          }
+        },
+        {
+          "ticker": "2887.TW",
+          "name": "台新新光金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 16.07,
+            "price": 43.55,
+            "avgVol5Shares": 50688603,
+            "avgVol5Zhang": 50688.6,
+            "revenueGrowth": 361.8,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 2.11
+          }
+        },
+        {
+          "ticker": "2317.TW",
+          "name": "鴻海",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 16.25,
+            "price": 248.5,
+            "avgVol5Shares": 28307213,
+            "avgVol5Zhang": 28307.2,
+            "revenueGrowth": 40.8,
+            "earningsGrowth": 34.2,
+            "debtToEquity": 64.06,
+            "dayPct": 0.2
+          }
+        },
+        {
+          "ticker": "2801.TW",
+          "name": "彰銀",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 16.47,
+            "price": 28.55,
+            "avgVol5Shares": 36374184,
+            "avgVol5Zhang": 36374.2,
+            "revenueGrowth": 13.6,
+            "earningsGrowth": 22,
+            "debtToEquity": null,
+            "dayPct": 2.33
+          }
+        },
+        {
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 16.67,
+            "price": 68.1,
+            "avgVol5Shares": 25214178,
+            "avgVol5Zhang": 25214.2,
+            "revenueGrowth": -20.2,
+            "earningsGrowth": null,
+            "debtToEquity": 83.64,
+            "dayPct": 1.49
+          }
+        },
+        {
+          "ticker": "2890.TW",
+          "name": "永豐金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 16.81,
+            "price": 44.8,
+            "avgVol5Shares": 27952387,
+            "avgVol5Zhang": 27952.4,
+            "revenueGrowth": 72.3,
+            "earningsGrowth": 126.2,
+            "debtToEquity": null,
+            "dayPct": 2.52
+          }
+        },
+        {
+          "ticker": "3029.TW",
+          "name": "零壹",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 16.9,
+            "price": 116.5,
+            "avgVol5Shares": 5669315,
+            "avgVol5Zhang": 5669.3,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 0
+          }
+        },
+        {
+          "ticker": "2427.TW",
+          "name": "三商電",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 17.15,
+            "price": 22.8,
+            "avgVol5Shares": 892330,
+            "avgVol5Zhang": 892.3,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.79
+          }
+        },
+        {
+          "ticker": "2344.TW",
+          "name": "華邦電",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 17.59,
+            "price": 160,
+            "avgVol5Shares": 122852998,
+            "avgVol5Zhang": 122853,
+            "revenueGrowth": 184.7,
+            "earningsGrowth": null,
+            "debtToEquity": 40.64,
+            "dayPct": -6.71
+          }
+        },
+        {
+          "ticker": "1718.TW",
+          "name": "中纖",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 17.63,
+            "price": 10.55,
+            "avgVol5Shares": 13158862,
+            "avgVol5Zhang": 13158.9,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 1.44
+          }
+        },
+        {
+          "ticker": "5880.TW",
+          "name": "合庫金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 17.65,
+            "price": 27.45,
+            "avgVol5Shares": 19469091,
+            "avgVol5Zhang": 19469.1,
+            "revenueGrowth": 27.1,
+            "earningsGrowth": 41.9,
+            "debtToEquity": null,
+            "dayPct": 0.92
+          }
+        },
+        {
+          "ticker": "1709.TW",
+          "name": "和益",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 17.66,
+            "price": 36.05,
+            "avgVol5Shares": 12912508,
+            "avgVol5Zhang": 12912.5,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.41
+          }
+        },
+        {
+          "ticker": "1216.TW",
+          "name": "統一",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 18,
+            "price": 74.6,
+            "avgVol5Shares": 9442686,
+            "avgVol5Zhang": 9442.7,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.53
+          }
+        },
+        {
+          "ticker": "2408.TW",
+          "name": "南亞科",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 18.06,
+            "price": 473,
+            "avgVol5Shares": 45991900,
+            "avgVol5Zhang": 45991.9,
+            "revenueGrowth": 684.2,
+            "earningsGrowth": null,
+            "debtToEquity": 7.03,
+            "dayPct": -4.06
+          }
+        },
+        {
+          "ticker": "2353.TW",
+          "name": "宏碁",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 18.39,
+            "price": 31.4,
+            "avgVol5Shares": 13042679,
+            "avgVol5Zhang": 13042.7,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": 0.96
+          }
+        },
+        {
+          "ticker": "2892.TW",
+          "name": "第一金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 18.48,
+            "price": 39.85,
+            "avgVol5Shares": 31662531,
+            "avgVol5Zhang": 31662.5,
+            "revenueGrowth": 33.3,
+            "earningsGrowth": 58.6,
+            "debtToEquity": null,
+            "dayPct": 2.44
+          }
+        },
+        {
+          "ticker": "2324.TW",
+          "name": "仁寶",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 18.57,
+            "price": 37.9,
+            "avgVol5Shares": 42287986,
+            "avgVol5Zhang": 42288,
+            "revenueGrowth": 32.1,
+            "earningsGrowth": 554.5,
+            "debtToEquity": 77.93,
+            "dayPct": 0.26
+          }
+        },
+        {
+          "ticker": "2884.TW",
+          "name": "玉山金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 18.94,
+            "price": 46.35,
+            "avgVol5Shares": 54843671,
+            "avgVol5Zhang": 54843.7,
+            "revenueGrowth": 34.4,
+            "earningsGrowth": 42.9,
+            "debtToEquity": null,
+            "dayPct": 0.11
+          }
+        },
+        {
+          "ticker": "2356.TW",
+          "name": "英業達",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "pe": 19.52,
+            "price": 61.7,
+            "avgVol5Shares": 16948402,
+            "avgVol5Zhang": 16948.4,
+            "revenueGrowth": null,
+            "earningsGrowth": null,
+            "debtToEquity": null,
+            "dayPct": -0.48
+          }
+        }
+      ],
+      "blockers": [],
+      "incomplete": false
+    },
+    {
+      "id": "margin-up",
+      "name": "公司獲利遞增",
+      "category": "財務",
+      "categoryGroup": "財務",
+      "xqTags": [
+        "財務"
+      ],
+      "description": "目標：連續季營益率或毛利率成長 >10%。今日公開資料不足。",
+      "conditions": [
+        {
+          "text": "連續季營益率成長 >10%",
+          "status": "skip"
+        },
+        {
+          "text": "或連續季毛利率成長 >10%",
+          "status": "skip"
+        }
+      ],
+      "hits": [],
+      "blockers": [
+        "公開 Yahoo 季報對多數台股的營業利益／毛利欄位常為空或為 0，無法可靠計算「連續季營益率／毛利率成長 >10%」。",
+        "為避免捏造財報，本策略今日標記為資料不足，不產出假命中列。"
+      ],
+      "incomplete": true,
+      "incompleteLabel": "資料不足"
+    }
+  ],
+  "glossaryHint": "名詞（本益比、營益率、毛利率、外資、投信、自營商、均線多頭、RSI、振幅、張）見站內名詞小辭典。",
+  "exportNote": "可複製本 JSON（strategy-screener.json）自行回測；站內不提供券商下單。"
+}
