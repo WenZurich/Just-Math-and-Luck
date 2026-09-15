@@ -1,4 +1,10 @@
 import "./style.css";
+import {
+  term,
+  escapeHtml,
+  renderGlossarySection,
+  bindTermLinks,
+} from "./glossary.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -34,16 +40,18 @@ function fmtPrice(n, currency) {
 function fmtAsOf(iso) {
   try {
     const d = new Date(iso);
-    return d.toLocaleString("zh-TW", {
-      timeZone: "Asia/Taipei",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    }) + "（台北）";
+    return (
+      d.toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }) + "（台北）"
+    );
   } catch {
     return iso;
   }
@@ -51,38 +59,37 @@ function fmtAsOf(iso) {
 
 function smaBadges(stock) {
   const a20 = stock.aboveSma20
-    ? `<span class="badge sma-on">SMA20↑</span>`
-    : `<span class="badge sma-off">SMA20↓</span>`;
+    ? `<span class="badge sma-on">${term("sma20", "SMA20↑")}</span>`
+    : `<span class="badge sma-off">${term("sma20", "SMA20↓")}</span>`;
   const a50 = stock.aboveSma50
-    ? `<span class="badge sma-on">SMA50↑</span>`
-    : `<span class="badge sma-off">SMA50↓</span>`;
+    ? `<span class="badge sma-on">${term("sma50", "SMA50↑")}</span>`
+    : `<span class="badge sma-off">${term("sma50", "SMA50↓")}</span>`;
   return a20 + a50;
 }
 
 function screenBadges(screens) {
   if (!screens?.length) return "";
   return screens
-    .map((s) => `<span class="badge screen">${escapeHtml(String(s))}</span>`)
+    .map((s) => {
+      const key = String(s);
+      if (key === "A") return `<span class="badge screen">${term("screenA", "A")}</span>`;
+      if (key === "B") return `<span class="badge screen">${term("screenB", "B")}</span>`;
+      if (key === "C") return `<span class="badge screen">${term("screenC", "C")}</span>`;
+      if (key === "observe") return `<span class="badge screen">觀察</span>`;
+      return `<span class="badge screen">${escapeHtml(key)}</span>`;
+    })
     .join("");
-}
-
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
 
 function renderIndexStrip(indices) {
   const chips = [];
 
-  const pushPct = (key, label, item) => {
+  const pushPct = (key, labelHtml, item) => {
     if (!item) return;
     const incomplete = item.incomplete;
     const val =
       item.value != null
-        ? fmtNum(item.value, item.value >= 1000 ? 2 : 2)
+        ? fmtNum(item.value, 2)
         : incomplete
           ? "資料不全"
           : "—";
@@ -90,28 +97,31 @@ function renderIndexStrip(indices) {
       item.dayPct != null
         ? `<div class="pct ${pctClass(item.dayPct)}">${fmtPct(item.dayPct)}</div>`
         : "";
-    const session = item.session === "intraday" ? " · 盤中" : "";
+    const session =
+      item.session === "intraday"
+        ? ` · ${term("intraday", "盤中")}`
+        : "";
     chips.push(`
       <div class="index-chip ${incomplete ? "incomplete" : ""}">
-        <div class="label">${escapeHtml(label || item.name || key)}${session}</div>
+        <div class="label">${labelHtml}${session}</div>
         <div class="value">${val}</div>
         ${pct}
       </div>
     `);
   };
 
-  pushPct("tw", indices.tw?.name || "台灣加權 TAIEX", indices.tw);
-  pushPct("otc", indices.otc?.name || "櫃買", indices.otc);
-  pushPct("spx", indices.spx?.name || "S&P 500", indices.spx);
-  pushPct("nasdaq", indices.nasdaq?.name || "Nasdaq", indices.nasdaq);
-  pushPct("sox", indices.sox?.name || "SOX", indices.sox);
+  pushPct("tw", term("taiex", indices.tw?.name || "台灣加權 TAIEX"), indices.tw);
+  pushPct("otc", term("otc", indices.otc?.name || "櫃買"), indices.otc);
+  pushPct("spx", term("spx", indices.spx?.name || "S&P 500"), indices.spx);
+  pushPct("nasdaq", term("nasdaq", indices.nasdaq?.name || "Nasdaq"), indices.nasdaq);
+  pushPct("sox", term("sox", indices.sox?.name || "SOX"), indices.sox);
 
   if (indices.usdTwd) {
     const fx = indices.usdTwd;
     const show = fx.taipeiClose ?? fx.yahoo;
     chips.push(`
       <div class="index-chip">
-        <div class="label">USD/TWD</div>
+        <div class="label">${term("usdtwd", "USD/TWD")}</div>
         <div class="value">${fmtNum(show, 3)}</div>
         <div class="pct flat" style="font-size:0.7rem">
           台北收 ${fx.taipeiClose != null ? fmtNum(fx.taipeiClose, 3) : "—"}
@@ -125,20 +135,25 @@ function renderIndexStrip(indices) {
 }
 
 function renderTopCard(stock, rank) {
-  const market = stock.market === "TW" ? "台股" : stock.market === "US" ? "美股" : stock.market || "";
+  const market =
+    stock.market === "TW"
+      ? term("twStock", "台股")
+      : stock.market === "US"
+        ? term("usStock", "美股")
+        : escapeHtml(stock.market || "");
   const rs =
     stock.rsVsIndexPp != null
-      ? `<div class="metric"><div class="m-label">RS vs 指數</div><div class="m-val ${pctClass(stock.rsVsIndexPp)}">${fmtPct(stock.rsVsIndexPp)}</div></div>`
+      ? `<div class="metric"><div class="m-label">${term("rs", "RS vs 指數")}</div><div class="m-val ${pctClass(stock.rsVsIndexPp)}">${fmtPct(stock.rsVsIndexPp)}</div></div>`
       : stock.priorClosePct != null
-        ? `<div class="metric"><div class="m-label">前收漲幅</div><div class="m-val ${pctClass(stock.priorClosePct)}">${fmtPct(stock.priorClosePct)}</div></div>`
-        : `<div class="metric"><div class="m-label">RS</div><div class="m-val">—</div></div>`;
+        ? `<div class="metric"><div class="m-label">${term("priorClose", "前收漲幅")}</div><div class="m-val ${pctClass(stock.priorClosePct)}">${fmtPct(stock.priorClosePct)}</div></div>`
+        : `<div class="metric"><div class="m-label">${term("rs", "RS")}</div><div class="m-val">—</div></div>`;
 
   return `
     <article class="pick-card">
       <div class="rank">TOP ${rank}</div>
       <div class="head">
         <div class="ticker-block">
-          <div class="ticker">${escapeHtml(stock.ticker)}</div>
+          <div class="ticker">${term("ticker", stock.ticker)}</div>
           <div class="name">${escapeHtml(stock.name || "")}</div>
         </div>
         <div class="price-block">
@@ -147,28 +162,40 @@ function renderTopCard(stock, rank) {
         </div>
       </div>
       <div class="flags">
-        <span class="badge market">${escapeHtml(market)}</span>
+        <span class="badge market">${market}</span>
         ${screenBadges(stock.screens)}
         ${smaBadges(stock)}
       </div>
       <div class="metrics">
         ${rs}
-        <div class="metric"><div class="m-label">5 日</div><div class="m-val ${pctClass(stock.pct5d)}">${fmtPct(stock.pct5d)}</div></div>
-        <div class="metric"><div class="m-label">約 1 月</div><div class="m-val ${pctClass(stock.pct1m)}">${fmtPct(stock.pct1m)}</div></div>
-        <div class="metric"><div class="m-label">量比</div><div class="m-val">${stock.volRatio != null ? fmtNum(stock.volRatio, 2) + "×" : "—"}</div></div>
+        <div class="metric"><div class="m-label">${term("pct5d", "5 日")}</div><div class="m-val ${pctClass(stock.pct5d)}">${fmtPct(stock.pct5d)}</div></div>
+        <div class="metric"><div class="m-label">${term("pct1m", "約 1 月")}</div><div class="m-val ${pctClass(stock.pct1m)}">${fmtPct(stock.pct1m)}</div></div>
+        <div class="metric"><div class="m-label">${term("volRatio", "量比")}</div><div class="m-val">${stock.volRatio != null ? fmtNum(stock.volRatio, 2) + "×" : "—"}</div></div>
       </div>
       ${stock.business ? `<p class="card-text"><strong>本業</strong>　${escapeHtml(stock.business)}</p>` : ""}
       ${stock.why ? `<p class="card-text"><strong>理由</strong>　${escapeHtml(stock.why)}</p>` : ""}
-      ${stock.risk ? `<p class="card-text risk"><strong>風險</strong>　${escapeHtml(stock.risk)}</p>` : ""}
+      ${stock.risk ? `<p class="card-text risk"><strong>風險</strong>　${linkRiskText(stock.risk)}</p>` : ""}
     </article>
   `;
+}
+
+function linkRiskText(text) {
+  let t = escapeHtml(text);
+  t = t.replace(/漲停/g, term("limitUp", "漲停"));
+  t = t.replace(/動能/g, term("momentum", "動能"));
+  return t;
 }
 
 function tableRows(list) {
   return list
     .map((s) => {
       const rsVal = s.rsVsIndexPp ?? s.priorClosePct;
-      const rsLabel = s.rsVsIndexPp != null ? fmtPct(s.rsVsIndexPp) : s.priorClosePct != null ? fmtPct(s.priorClosePct) : "—";
+      const rsLabel =
+        s.rsVsIndexPp != null
+          ? fmtPct(s.rsVsIndexPp)
+          : s.priorClosePct != null
+            ? fmtPct(s.priorClosePct)
+            : "—";
       return `
       <tr>
         <td><span class="ticker">${escapeHtml(s.ticker)}</span></td>
@@ -192,9 +219,9 @@ function mobileCards(list) {
     .map((s) => {
       const rs =
         s.rsVsIndexPp != null
-          ? `<span class="${pctClass(s.rsVsIndexPp)}">RS ${fmtPct(s.rsVsIndexPp)}</span>`
+          ? `<span class="${pctClass(s.rsVsIndexPp)}">${term("rs", "RS")} ${fmtPct(s.rsVsIndexPp)}</span>`
           : s.priorClosePct != null
-            ? `<span class="${pctClass(s.priorClosePct)}">前收 ${fmtPct(s.priorClosePct)}</span>`
+            ? `<span class="${pctClass(s.priorClosePct)}">${term("priorClose", "前收")} ${fmtPct(s.priorClosePct)}</span>`
             : "";
       return `
       <div class="list-card">
@@ -210,19 +237,19 @@ function mobileCards(list) {
         </div>
         <div class="lc-metrics">
           ${rs}
-          <span class="${pctClass(s.pct5d)}">5d ${fmtPct(s.pct5d)}</span>
-          <span class="${pctClass(s.pct1m)}">1m ${fmtPct(s.pct1m)}</span>
-          <span>量比 ${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</span>
+          <span class="${pctClass(s.pct5d)}">${term("pct5d", "5d")} ${fmtPct(s.pct5d)}</span>
+          <span class="${pctClass(s.pct1m)}">${term("pct1m", "1m")} ${fmtPct(s.pct1m)}</span>
+          <span>${term("volRatio", "量比")} ${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</span>
         </div>
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
         ${s.why ? `<p class="lc-why">${escapeHtml(s.why)}</p>` : ""}
-        ${s.risk && s.risk !== "—" ? `<p class="lc-why" style="color:#fbbf24">風險：${escapeHtml(s.risk)}</p>` : ""}
+        ${s.risk && s.risk !== "—" ? `<p class="lc-why" style="color:#fbbf24">風險：${linkRiskText(s.risk)}</p>` : ""}
       </div>`;
     })
     .join("");
 }
 
-function renderListSection(id, title, list) {
+function renderListSection(id, list) {
   if (!list?.length) return "";
   return `
     <div class="panel ${id === "us" ? "active" : ""}" id="panel-${id}" role="tabpanel">
@@ -230,16 +257,16 @@ function renderListSection(id, title, list) {
         <table class="stock-table">
           <thead>
             <tr>
-              <th>代碼</th>
+              <th>${term("ticker", "代碼")}</th>
               <th>名稱</th>
               <th>價格</th>
-              <th>日漲跌</th>
-              <th>RS／前收</th>
-              <th>5 日</th>
-              <th>約 1 月</th>
-              <th>量比</th>
+              <th>${term("dayPct", "日漲跌")}</th>
+              <th>${term("rs", "RS")}／${term("priorClose", "前收")}</th>
+              <th>${term("pct5d", "5 日")}</th>
+              <th>${term("pct1m", "約 1 月")}</th>
+              <th>${term("volRatio", "量比")}</th>
               <th>均線</th>
-              <th>篩選</th>
+              <th>${term("screening", "篩選")}</th>
               <th>理由</th>
             </tr>
           </thead>
@@ -256,20 +283,20 @@ function renderParity(parity) {
   const prem = parity.premiumPct;
   return `
     <section class="section">
-      <h2 class="section-title">ADR 平價｜TSM vs 2330</h2>
+      <h2 class="section-title">${term("adr", "ADR")} ${term("parity", "平價")}｜TSM vs 2330</h2>
       <div class="parity-block">
         <div class="parity-side">
-          <div class="p-label">美股 ADR</div>
+          <div class="p-label">${term("usStock", "美股")} ${term("adr", "ADR")}</div>
           <div class="p-ticker">TSM</div>
           <div class="p-price">${fmtPrice(parity.tsm, "USD")}</div>
         </div>
         <div class="parity-mid">
-          <div class="row"><span>換股比</span>　<strong>${escapeHtml(parity.adsRatio || "—")}</strong></div>
-          <div class="row"><span>隱含匯率</span>　<strong>${parity.impliedUsdTaipeiFx != null ? fmtNum(parity.impliedUsdTaipeiFx, 2) : "—"}</strong></div>
-          <div class="row"><span>溢價</span>　<strong class="${pctClass(prem)}">${fmtPct(prem)}</strong></div>
+          <div class="row"><span>${term("adsRatio", "換股比")}</span>　<strong>${escapeHtml(parity.adsRatio || "—")}</strong></div>
+          <div class="row"><span>${term("parity", "隱含價")}</span>　<strong>${parity.impliedUsdTaipeiFx != null ? fmtNum(parity.impliedUsdTaipeiFx, 2) : "—"}</strong></div>
+          <div class="row"><span>${term("premium", "溢價")}</span>　<strong class="${pctClass(prem)}">${fmtPct(prem)}</strong></div>
         </div>
         <div class="parity-side">
-          <div class="p-label">台股</div>
+          <div class="p-label">${term("twStock", "台股")}</div>
           <div class="p-ticker">2330.TW</div>
           <div class="p-price">${fmtPrice(parity.tw2330, "TWD")}</div>
         </div>
@@ -281,17 +308,18 @@ function renderParity(parity) {
 
 function renderMethod(method) {
   if (!method) return "";
-  const keys = Object.keys(method);
-  const items = keys
-    .map(
-      (k) =>
-        `<li><span class="screen-key">${escapeHtml(k)}</span><span>${escapeHtml(method[k])}</span></li>`
-    )
+  const map = { A: "screenA", B: "screenB", C: "screenC" };
+  const items = Object.keys(method)
+    .map((k) => {
+      const id = map[k] || "screening";
+      return `<li><span class="screen-key">${term(id, k)}</span><span>${escapeHtml(method[k])}</span></li>`;
+    })
     .join("");
   return `
     <footer class="method-footer">
-      <h3>篩選方法說明</h3>
+      <h3>${term("screening", "篩選方法說明")}</h3>
       <ul class="method-list">${items}</ul>
+      <p class="method-hint">看不懂藍字？點它會跳到下方「名詞小辭典」，還有生活例子。</p>
     </footer>
   `;
 }
@@ -304,13 +332,17 @@ function renderApp(data) {
   return `
     <header class="site-header">
       <div class="header-top">
-        <h1>每日數學選股</h1>
+        <h1>${term("screening", "每日數學選股")}</h1>
         <div class="asof">資料時間 ${fmtAsOf(data.asOf)}</div>
       </div>
-      <div class="disclaimer" role="note">${escapeHtml(data.disclaimer || "本站內容非投資建議。")}</div>
-      ${data.timezoneNote ? `<p class="tz-note">${escapeHtml(data.timezoneNote)}</p>` : ""}
+      <div class="disclaimer" role="note">${term("notAdvice", "不是投資建議")}：${escapeHtml(
+        (data.disclaimer || "本站內容非投資建議。").replace(/^本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。$/, "本站只是用公開行情算出「相對有機會觀察的名單」，不會保證賺錢。")
+      )}</div>
+      ${data.timezoneNote ? `<p class="tz-note">${escapeHtml(data.timezoneNote)}（${term("intraday", "盤中")} 價格還會變）</p>` : ""}
+      <p class="glossary-jump"><a href="#glossary">看不懂名詞？先打開名詞小辭典 ↓</a></p>
     </header>
 
+    <p class="index-caption">${term("index", "指數")}快覽（代表整個市場的「總成績單」）</p>
     ${renderIndexStrip(data.indices || {})}
 
     <section class="section">
@@ -323,17 +355,18 @@ function renderApp(data) {
     <section class="section">
       <h2 class="section-title">選股清單</h2>
       <div class="tabs" role="tablist">
-        <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">美股（${us.length}）</button>
-        <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">台股（${tw.length}）</button>
+        <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", "美股")}（${us.length}）</button>
+        <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", "台股")}（${tw.length}）</button>
       </div>
-      ${renderListSection("us", "美股", us)}
-      ${renderListSection("tw", "台股", tw)}
+      ${renderListSection("us", us)}
+      ${renderListSection("tw", tw)}
     </section>
 
     ${renderParity(data.parity)}
     ${renderMethod(data.method)}
+    ${renderGlossarySection()}
 
-    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 靜態站 · 資料來自 public/data/latest.json</p>
+    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 點藍字看解釋 · 資料來自 public/data/latest.json</p>
   `;
 }
 
@@ -362,8 +395,9 @@ async function main() {
     const data = await res.json();
     app.innerHTML = renderApp(data);
     bindTabs(app);
+    bindTermLinks(app);
   } catch (err) {
-    app.innerHTML = `<div class="error">無法載入資料（${escapeHtml(err.message)}）。請確認以靜態伺服器開啟（例如 npx serve dist），且 public/data/latest.json 存在。</div>`;
+    app.innerHTML = `<div class="error">無法載入資料（${escapeHtml(err.message)}）。請確認以靜態伺服器開啟，且 data/latest.json 存在。</div>`;
   }
 }
 
