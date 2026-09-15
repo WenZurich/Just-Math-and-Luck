@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-09-15T18:25:17.058Z",
+  "asOf": "2026-09-15T18:25:39.771Z",
   "sessionDate": "2026-09-15",
   "timezone": "Asia/Taipei",
   "disclaimer": "本策略選股依公開行情／證交所公開資料做邏輯篩選，不是投資建議；非 XQ／券商專有資料庫，不保證與商業軟體結果一致。",
@@ -724,12 +724,12 @@
           "market": "US",
           "currency": "USD",
           "metrics": {
-            "price": 243.63,
+            "price": 243.62,
             "dayPct": 1.93,
-            "rsi": 45.01,
+            "rsi": 45,
             "rsiPrev": 42.93,
             "ampPct": 5.09,
-            "avgVol5Shares": 4109387,
+            "avgVol5Shares": 4109651,
             "avgVol5Zhang": null,
             "pct5d": -6.85
           },
@@ -1238,8 +1238,8 @@
           "status": "pass"
         },
         {
-          "text": "營收成長（Yahoo revenueGrowth 有值才強制 >0；缺則略過不捏造）",
-          "status": "skip"
+          "text": "營收成長 >0（Yahoo 有值才檢查；本批檢查 2、因成長≤0 剔除 0）",
+          "status": "pass"
         },
         {
           "text": "負債相關代理（Yahoo debtToEquity 有才標註）",
@@ -1818,9 +1818,9 @@
             "price": 45.75,
             "avgVol5Shares": 15045246,
             "avgVol5Zhang": 15045.2,
-            "revenueGrowth": null,
-            "earningsGrowth": null,
-            "debtToEquity": null,
+            "revenueGrowth": 41.6,
+            "earningsGrowth": 361.1,
+            "debtToEquity": 57.11,
             "dayPct": -1.61
           },
           "ohlcvBarDate": "2026-09-14"
@@ -2192,9 +2192,9 @@
             "price": 37,
             "avgVol5Shares": 13308895,
             "avgVol5Zhang": 13308.9,
-            "revenueGrowth": null,
-            "earningsGrowth": null,
-            "debtToEquity": null,
+            "revenueGrowth": 6.9,
+            "earningsGrowth": 1622.2,
+            "debtToEquity": 43.11,
             "dayPct": -1.07
           },
           "ohlcvBarDate": "2026-09-14"
@@ -2608,9 +2608,7 @@
           "ohlcvBarDate": "2026-09-14"
         }
       ],
-      "blockers": [
-        "Yahoo 基本面（成長／負債）部分標的可能抓不到；本益比以證交所日報或 Yahoo trailingPE 為準"
-      ],
+      "blockers": [],
       "incomplete": false,
       "ohlcvBarDates": [
         "2026-09-14"
