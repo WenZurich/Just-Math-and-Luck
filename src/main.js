@@ -5,6 +5,11 @@ import {
   renderGlossarySection,
   bindTermLinks,
 } from "./glossary.js";
+import {
+  renderPaperSection,
+  bindPaperTabs,
+  loadPaperPortfolio,
+} from "./paper.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -324,7 +329,7 @@ function renderMethod(method) {
   `;
 }
 
-function renderApp(data) {
+function renderApp(data, paper) {
   const top5 = data.top5 || [];
   const us = data.us || [];
   const tw = data.tw || [];
@@ -339,7 +344,10 @@ function renderApp(data) {
         (data.disclaimer || "本站內容非投資建議。").replace(/^本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。$/, "本站只是用公開行情算出「相對有機會觀察的名單」，不會保證賺錢。")
       )}</div>
       ${data.timezoneNote ? `<p class="tz-note">${escapeHtml(data.timezoneNote)}（${term("intraday", "盤中")} 價格還會變）</p>` : ""}
-      <p class="glossary-jump"><a href="#glossary">看不懂名詞？先打開名詞小辭典 ↓</a></p>
+      <p class="glossary-jump">
+        <a href="#paper">看模擬交易成績 ↓</a>
+        <a href="#glossary">看不懂名詞？名詞小辭典 ↓</a>
+      </p>
     </header>
 
     <p class="index-caption">${term("index", "指數")}快覽（代表整個市場的「總成績單」）</p>
@@ -351,6 +359,8 @@ function renderApp(data) {
         ${top5.map((s, i) => renderTopCard(s, i + 1)).join("")}
       </div>
     </section>
+
+    ${renderPaperSection(paper)}
 
     <section class="section">
       <h2 class="section-title">選股清單</h2>
@@ -366,7 +376,7 @@ function renderApp(data) {
     ${renderMethod(data.method)}
     ${renderGlossarySection()}
 
-    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 點藍字看解釋 · 資料來自 public/data/latest.json</p>
+    <p class="site-footer">紅漲綠跌（台灣市場慣例）· 點藍字看解釋 · 模擬交易非真實成交 · 資料來自 latest.json 與 paper-portfolio.json</p>
   `;
 }
 
@@ -393,8 +403,10 @@ async function main() {
     const res = await fetch(DATA_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    app.innerHTML = renderApp(data);
+    const paper = await loadPaperPortfolio();
+    app.innerHTML = renderApp(data, paper);
     bindTabs(app);
+    bindPaperTabs(app);
     bindTermLinks(app);
   } catch (err) {
     app.innerHTML = `<div class="error">無法載入資料（${escapeHtml(err.message)}）。請確認以靜態伺服器開啟，且 data/latest.json 存在。</div>`;

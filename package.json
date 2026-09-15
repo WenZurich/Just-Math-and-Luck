@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "validate": "node scripts/validate-data.mjs"
+    "validate": "node scripts/validate-data.mjs",
+    "paper": "node scripts/paper-trade.mjs"
   },
   "devDependencies": {
     "vite": "^6.2.0"

@@ -1,0 +1,522 @@
+{
+  "asOf": "2026-09-15T14:04:10Z",
+  "lastProcessedAsOf": "2026-09-15T14:04:10Z",
+  "startDate": "2026-09-15",
+  "disclaimer": "此為紙上模擬，使用 latest.json 公開行情價格假設成交，並非真實券商委託或成交。兩本帳分開計價。",
+  "rules": {
+    "title": "紙上模擬規則",
+    "note": "使用 latest.json 價格假設成交，並非真實券商單，亦不保證未來績效。台幣與美元兩本帳分開，不做匯率換算加總。",
+    "buy": [
+      "宇宙＝當日篩選名單 us[]／tw[]；screens 只有 observe 者不買；先 Top5 再其餘。",
+      "新倉風險金額＝目前權益 × 1%；停距代理＝股價 × 1.5%（量比≥3 則 2.5%）；股數＝向下取整（風險金額÷停距）。",
+      "單一股票市值上限＝權益 × 8%。現金不夠 1 股不買。台股買得起 1 張（1000股）才買整張，否則跳過。",
+      "持續買進：已持有且仍在名單且未滿 8%，同一天最多加碼一次（當天剛賣過則不加）。"
+    ],
+    "sell": [
+      "停損：未實現 ≤ −3% → 全賣（stop）",
+      "漲停追價隔日急殺：漲停風格持倉且非買進當日、dayPct ≤ −5% → 全賣（limit-up-chase）",
+      "動能轉弱：未站上 SMA20 且 dayPct < −2% → 全賣（momentum-break）",
+      "離開名單弱勢：不在當日名單且未實現 < 0 → 全賣（off-list）",
+      "停利：未實現 ≥ +12% → 賣一半；部位很小則全賣（take-profit）"
+    ]
+  },
+  "books": {
+    "TW": {
+      "market": "TW",
+      "currency": "TWD",
+      "startCash": 3000000,
+      "cash": 2067350,
+      "equity": 3000000,
+      "positionsValue": 932650,
+      "realizedPnl": 0,
+      "positions": [
+        {
+          "ticker": "2468.TW",
+          "name": "華經",
+          "qty": 5000,
+          "avgCost": 43.25,
+          "mark": 43.25,
+          "currency": "TWD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": true
+        },
+        {
+          "ticker": "6226.TW",
+          "name": "光鼎",
+          "qty": 6000,
+          "avgCost": 36.3,
+          "mark": 36.3,
+          "currency": "TWD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": true
+        },
+        {
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "qty": 3000,
+          "avgCost": 69.7,
+          "mark": 69.7,
+          "currency": "TWD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "2881.TW",
+          "name": "富邦金",
+          "qty": 1000,
+          "avgCost": 151,
+          "mark": 151,
+          "currency": "TWD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "2303.TW",
+          "name": "聯電",
+          "qty": 1000,
+          "avgCost": 138.5,
+          "mark": 138.5,
+          "currency": "TWD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        }
+      ],
+      "trades": [
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "2468.TW",
+          "name": "華經",
+          "qty": 5000,
+          "price": 43.25,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "6226.TW",
+          "name": "光鼎",
+          "qty": 6000,
+          "price": 36.3,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "qty": 3000,
+          "price": 69.7,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "2881.TW",
+          "name": "富邦金",
+          "qty": 1000,
+          "price": 151,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "2303.TW",
+          "name": "聯電",
+          "qty": 1000,
+          "price": 138.5,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        }
+      ],
+      "dailyEquity": [
+        {
+          "date": "2026-09-15",
+          "equity": 3000000,
+          "cash": 2067350,
+          "positionsValue": 932650
+        }
+      ]
+    },
+    "US": {
+      "market": "US",
+      "currency": "USD",
+      "startCash": 100000,
+      "cash": 15146.72,
+      "equity": 100000,
+      "positionsValue": 84853.28,
+      "realizedPnl": 0,
+      "positions": [
+        {
+          "ticker": "ZS",
+          "name": "Zscaler",
+          "qty": 41,
+          "avgCost": 190.73,
+          "mark": 190.73,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "CRWD",
+          "name": "CrowdStrike",
+          "qty": 33,
+          "avgCost": 236.22,
+          "mark": 236.22,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "PANW",
+          "name": "Palo Alto Networks",
+          "qty": 21,
+          "avgCost": 372.41,
+          "mark": 372.41,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "OKTA",
+          "name": "Okta",
+          "qty": 42,
+          "avgCost": 186.75,
+          "mark": 186.75,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "META",
+          "name": "Meta Platforms",
+          "qty": 11,
+          "avgCost": 678.65,
+          "mark": 678.65,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "AMD",
+          "name": "Advanced Micro Devices",
+          "qty": 15,
+          "avgCost": 511.83,
+          "mark": 511.83,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "FTNT",
+          "name": "Fortinet",
+          "qty": 47,
+          "avgCost": 169.78,
+          "mark": 169.78,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "AAPL",
+          "name": "Apple",
+          "qty": 24,
+          "avgCost": 330.65,
+          "mark": 330.65,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "QLYS",
+          "name": "Qualys",
+          "qty": 45,
+          "avgCost": 174.42,
+          "mark": 174.42,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "ARM",
+          "name": "Arm Holdings",
+          "qty": 31,
+          "avgCost": 250.9,
+          "mark": 250.9,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        },
+        {
+          "ticker": "LLY",
+          "name": "Eli Lilly",
+          "qty": 6,
+          "avgCost": 1148.22,
+          "mark": 1148.22,
+          "currency": "USD",
+          "openedOn": "2026-09-15",
+          "lastAddDate": "2026-09-15",
+          "limitUpStyle": false
+        }
+      ],
+      "trades": [
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "ZS",
+          "name": "Zscaler",
+          "qty": 41,
+          "price": 190.73,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "CRWD",
+          "name": "CrowdStrike",
+          "qty": 33,
+          "price": 236.22,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "PANW",
+          "name": "Palo Alto Networks",
+          "qty": 21,
+          "price": 372.41,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "OKTA",
+          "name": "Okta",
+          "qty": 42,
+          "price": 186.75,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "META",
+          "name": "Meta Platforms",
+          "qty": 11,
+          "price": 678.65,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "AMD",
+          "name": "Advanced Micro Devices",
+          "qty": 15,
+          "price": 511.83,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "FTNT",
+          "name": "Fortinet",
+          "qty": 47,
+          "price": 169.78,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "AAPL",
+          "name": "Apple",
+          "qty": 24,
+          "price": 330.65,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "QLYS",
+          "name": "Qualys",
+          "qty": 45,
+          "price": 174.42,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "ARM",
+          "name": "Arm Holdings",
+          "qty": 31,
+          "price": 250.9,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        },
+        {
+          "date": "2026-09-15",
+          "asOf": "2026-09-15T14:04:10Z",
+          "side": "BUY",
+          "ticker": "LLY",
+          "name": "Eli Lilly",
+          "qty": 6,
+          "price": 1148.22,
+          "reason": "screen-buy",
+          "reasonText": "名單新開倉（風險 1%、上限 8%）",
+          "realizedPnl": 0
+        }
+      ],
+      "dailyEquity": [
+        {
+          "date": "2026-09-15",
+          "equity": 100000,
+          "cash": 15146.72,
+          "positionsValue": 84853.28
+        }
+      ]
+    }
+  },
+  "metrics": {
+    "TW": {
+      "totalPnl": 0,
+      "totalPnlPct": 0,
+      "realizedPnl": 0,
+      "unrealizedPnl": 0,
+      "week": {
+        "pct": 0,
+        "pnl": 0,
+        "label": "成立以來",
+        "sinceInception": true,
+        "days": 7,
+        "fromDate": "2026-09-15",
+        "toDate": "2026-09-15"
+      },
+      "month": {
+        "pct": 0,
+        "pnl": 0,
+        "label": "成立以來",
+        "sinceInception": true,
+        "days": 30,
+        "fromDate": "2026-09-15",
+        "toDate": "2026-09-15"
+      },
+      "quarter": {
+        "pct": 0,
+        "pnl": 0,
+        "label": "成立以來",
+        "sinceInception": true,
+        "days": 90,
+        "fromDate": "2026-09-15",
+        "toDate": "2026-09-15"
+      },
+      "year": {
+        "pct": 0,
+        "pnl": 0,
+        "label": "成立以來",
+        "sinceInception": true,
+        "days": 365,
+        "fromDate": "2026-09-15",
+        "toDate": "2026-09-15"
+      }
+    },
+    "US": {
+      "totalPnl": 0,
+      "totalPnlPct": 0,
+      "realizedPnl": 0,
+      "unrealizedPnl": 0,
+      "week": {
+        "pct": 0,
+        "pnl": 0,
+        "label": "成立以來",
+        "sinceInception": true,
+        "days": 7,
+        "fromDate": "2026-09-15",
+        "toDate": "2026-09-15"
+      },
+      "month": {
+        "pct": 0,
+        "pnl": 0,
+        "label": "成立以來",
+        "sinceInception": true,
+        "days": 30,
+        "fromDate": "2026-09-15",
+        "toDate": "2026-09-15"
+      },
+      "quarter": {
+        "pct": 0,
+        "pnl": 0,
+        "label": "成立以來",
+        "sinceInception": true,
+        "days": 90,
+        "fromDate": "2026-09-15",
+        "toDate": "2026-09-15"
+      },
+      "year": {
+        "pct": 0,
+        "pnl": 0,
+        "label": "成立以來",
+        "sinceInception": true,
+        "days": 365,
+        "fromDate": "2026-09-15",
+        "toDate": "2026-09-15"
+      }
+    },
+    "combinedNote": "台股與美股兩本帳分開計價，不把新台幣與美元加總（避免匯率混算）。"
+  }
+}
