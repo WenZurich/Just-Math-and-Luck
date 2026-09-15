@@ -12,7 +12,7 @@
 1. 更新 `public/data/latest.json`
 2. 執行 `npm run strategies`（產生 `public/data/strategy-screener.json` 策略選股；均線多頭等由 OHLCV 實算，缺資料策略會標「資料不足」）
 3. 執行 `npm run paper`（依最新名單套用買賣規則，寫入 `public/data/paper-portfolio.json`）
-4. 執行 `npm run fetch-social`（產生 `public/data/social-digest.json`；Reddit 可能 403，會誠實寫 blocker）
+4. 執行 `npm run fetch-social`（產生 `public/data/social-digest.json`；Reddit.com 403 時改走 arctic-shift 備援；Dcard 403 寫誠實 blocker）
 5. 本地 `npm run build`，把 `dist/` 內容覆寫到 `docs/`
 6. 推到 `main`（目前以 `docs/` 做 GitHub Pages）
 
@@ -59,7 +59,7 @@ Discussions 已開；`src/config.js` 內含 `repoId`／`categoryId`（General）
 - **不捏造**任何來源留言；403／登入牆寫入 `blocker`
 - **路由**：美股只查 Reddit＋富途；台股只查 PTT＋Dcard＋Threads
 - 富途留言多需登入；公開新聞放 `newsRelated`，UI 標為「新聞／討論線索（非留言）」
-- Dcard／Reddit 若機房 IP 被擋，見 `scripts/fetch-social-browser-notes.md`
+- Reddit.com 被擋時自動改用 arctic-shift（真實貼文）；Dcard 仍可能需使用者瀏覽器 IP，見 `scripts/fetch-social-browser-notes.md`
 
 
 ## 策略選股（`npm run strategies`）

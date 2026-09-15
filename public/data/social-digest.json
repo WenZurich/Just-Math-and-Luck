@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-09-15T17:47:55.983Z",
+  "asOf": "2026-09-15T17:59:04.324Z",
   "sourceLatestAsOf": "2026-09-15T14:04:10Z",
   "routing": {
     "US": [
@@ -41,8 +41,6 @@
   ],
   "notes": [
     "路由：美股只抓 Reddit＋富途；台股只抓 PTT＋Dcard＋Threads。不跨市場亂查。",
-    "Reddit ZS: old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-    "Reddit CRWD: old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
     "富途個股留言需登入；US 檔以 blocker + newsRelated（標為「新聞／討論線索」）呈現。",
     "Dcard 2468.TW: Dcard search q=2468: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
     "Dcard 6226.TW: Dcard search q=6226: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）",
@@ -55,45 +53,190 @@
     {
       "ticker": "ZS",
       "market": "US",
-      "items": [],
-      "blocker": "old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-      "blockers": [
+      "items": [
+        {
+          "author": "-----Marcel-----",
+          "score": 395,
+          "snippet": "NASDAQ adds five companies to NASDAQ-100 index in quarterly rebalance — NASDAQ announced changes to the NASDAQ-100 Index effective June 22, 2026, adding five companies and removing five others in its quarterly rebalance. The five co",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1u3g95e/nasdaq_adds_five_companies_to_nasdaq100_index_in/",
+          "created": "2026-06-12T00:28:27.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "Riskismyapellido",
+          "score": 111,
+          "snippet": "30k in $NOW is the time for 23k $ZS to get it's shit together — C'mon Bill, don't let me down. Last friday was fake asf. Take $ZS with u pls, they will get bullied on thursday with NASDAQ 100 exclusion. \\+300 shares of $NOW.",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1u5zzag/30k_in_now_is_the_time_for_23k_zs_to_get_its_shit/",
+          "created": "2026-06-14T23:22:48.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "joe4942",
+          "score": 80,
+          "snippet": "Nasdaq-100 Index Quarterly Changes - Added: Astera Labs, Inc., CoreWeave, Inc., Nebius Group N.V., Rocket Lab Corporation, Teradyne, Inc. — > NEW YORK, June 11, 2026 (GLOBE NEWSWIRE) -- Nasdaq (Nasdaq: NDAQ) today announced the results of the June 2026 quarterly rebalance of the Nasdaq-100 Index® (N",
+          "url": "https://www.reddit.com/r/stocks/comments/1u3jp29/nasdaq100_index_quarterly_changes_added_astera/",
+          "created": "2026-06-12T03:12:06.000Z",
+          "subreddit": "stocks",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "Riskismyapellido",
+          "score": 37,
+          "snippet": "Mr. Stark, ZScaler will send it today — I swear to god mods tryna keep ZS call holders down. Reposting. Check positions",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1w6dmma/mr_stark_zscaler_will_send_it_today/",
+          "created": "2026-09-03T17:15:53.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "Riskismyapellido",
+          "score": 29,
+          "snippet": "Software on, Hardware off — Look at NVDA AVGO STX MU etc. and then look at PLTR NOW CRM ZS PANW. There is a perfectly -1 correlation for the past weeks. Am I crazy?",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1vecyxl/software_on_hardware_off/",
+          "created": "2026-08-03T13:08:44.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "MandingoPants",
+          "score": 16,
+          "snippet": "Decided to take over my 401k back in February. Fk risk tolerance! — Tickers that helped: TEAM calls PLTR puts SNOW calls NOW calls ZS calls AMZN calls TEAM calls Now I got SNOW/PANW puts and ORCL calls. Let us keep printing ched",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1vktcwo/decided_to_take_over_my_401k_back_in_february_fk/",
+          "created": "2026-08-10T18:38:49.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "Kaiwa1",
+          "score": 11,
+          "snippet": "Nasdaq 100 Profit margins before and after new inclusions — The Nasdaq 100 index [announced a week ago](https://ir.nasdaq.com/news-releases/news-release-details/nasdaq-100-indexr-june-2026-quarterly-changes) that it will",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1u9exfr/nasdaq_100_profit_margins_before_and_after_new/",
+          "created": "2026-06-18T18:52:43.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "caveatexemptor",
+          "score": 3,
+          "snippet": "Big List of Continuous-Roll Futures Tickers available through yFinance for any managed futures backtest geeks out there — Below is my go-to list of continuous-roll futures tickers available through yFinance. There 202 total tickers, 105 of which have sufficient price histories to b",
+          "url": "https://www.reddit.com/r/stocks/comments/1tgmqqn/big_list_of_continuousroll_futures_tickers/",
+          "created": "2026-05-18T13:31:02.000Z",
+          "subreddit": "stocks",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        }
+      ],
+      "via": "arctic-shift",
+      "partialBlockers": [
         "old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
         "old.reddit r/wallstreetbets: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "old.reddit r/investing: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "old.reddit r/SecurityAnalysis: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "www r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "www r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "www r/investing: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "www r/SecurityAnalysis: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit)."
-      ],
-      "manualUrls": [
-        "https://www.reddit.com/r/stocks/search/?q=ZS&restrict_sr=1&sort=new&t=week",
-        "https://www.reddit.com/r/wallstreetbets/search/?q=ZS&restrict_sr=1&sort=new&t=week",
-        "https://www.reddit.com/r/investing/search/?q=ZS&restrict_sr=1&sort=new&t=week",
-        "https://www.reddit.com/r/SecurityAnalysis/search/?q=ZS&restrict_sr=1&sort=new&t=week"
+        "reddit.com: skipping further attempts after repeated challenge/403",
+        "arctic r/investing: HTTP 422 (rate/timeout) — slowed",
+        "arctic r/SecurityAnalysis: HTTP 422 (rate/timeout) — slowed"
       ]
     },
     {
       "ticker": "CRWD",
       "market": "US",
-      "items": [],
-      "blocker": "old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-      "blockers": [
+      "items": [
+        {
+          "author": "Space-Ant992",
+          "score": 6,
+          "snippet": "Netskope (NTSK) - Slept on? Cybersecurity is more Important than ever with agentic AI Adoption — TLDR: Netskope stands to gain from the same rebound that the rest of the software sector is going through after being decimated by AI fears. Tell me if I'm an i",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1tvbh6r/netskope_ntsk_slept_on_cybersecurity_is_more/",
+          "created": "2026-06-03T02:04:09.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "FNFactChecker",
+          "score": 2,
+          "snippet": "Freedom 250 🦅🚀📈 — Are y'all seeing this? Basically just pumping his port on his birthday. Spotted 🔌 for $IONQ, $CRWD, $BUD, $META, $SPCX (Starlink), and $MNST &#x200B; Surprised",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1u625iv/freedom_250/",
+          "created": "2026-06-15T01:03:53.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "stonkeytard",
+          "score": 1,
+          "snippet": "10k YOLO into $CRWD puts. — [removed]",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1wg7vkb/10k_yolo_into_crwd_puts/",
+          "created": "2026-09-14T16:15:02.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "sanumala",
+          "score": 1,
+          "snippet": "Who has more potential CRWD vs NVDA? — [removed]",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1vxec67/who_has_more_potential_crwd_vs_nvda/",
+          "created": "2026-08-24T20:22:54.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "GregforTrump2020",
+          "score": 1,
+          "snippet": "What are everyone’s thoughts on Vistra (VST)? I’m digging the energy supply for AI data centers these days along with CRWD and cybr security — [removed]",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1uyodx2/what_are_everyones_thoughts_on_vistra_vst_im/",
+          "created": "2026-07-17T03:35:05.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "cmason8679",
+          "score": 1,
+          "snippet": "CRWD? — [removed]",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1ulclx2/crwd/",
+          "created": "2026-07-02T08:42:45.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "BlueSander109",
+          "score": 1,
+          "snippet": "$CRWD 4:1 split July 2nd — [removed]",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1udk3tk/crwd_41_split_july_2nd/",
+          "created": "2026-06-23T15:20:49.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        },
+        {
+          "author": "slaughtrr12",
+          "score": 1,
+          "snippet": "$180k AVGO & CRWD straddle",
+          "url": "https://www.reddit.com/r/wallstreetbets/comments/1tw362q/180k_avgo_crwd_straddle/",
+          "created": "2026-06-03T21:23:21.000Z",
+          "subreddit": "wallstreetbets",
+          "kind": "reddit",
+          "via": "arctic-shift"
+        }
+      ],
+      "via": "arctic-shift",
+      "partialBlockers": [
         "old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
         "old.reddit r/wallstreetbets: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "old.reddit r/investing: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "old.reddit r/SecurityAnalysis: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "www r/stocks: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "www r/wallstreetbets: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "www r/investing: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).",
-        "www r/SecurityAnalysis: HTTP 403 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit)."
-      ],
-      "manualUrls": [
-        "https://www.reddit.com/r/stocks/search/?q=CRWD&restrict_sr=1&sort=new&t=week",
-        "https://www.reddit.com/r/wallstreetbets/search/?q=CRWD&restrict_sr=1&sort=new&t=week",
-        "https://www.reddit.com/r/investing/search/?q=CRWD&restrict_sr=1&sort=new&t=week",
-        "https://www.reddit.com/r/SecurityAnalysis/search/?q=CRWD&restrict_sr=1&sort=new&t=week"
+        "reddit.com: skipping further attempts after repeated challenge/403",
+        "arctic r/stocks: HTTP 422 (rate/timeout) — slowed",
+        "arctic r/investing: HTTP 422 (rate/timeout) — slowed",
+        "arctic r/SecurityAnalysis: HTTP 422 (rate/timeout) — slowed"
       ]
     }
   ],

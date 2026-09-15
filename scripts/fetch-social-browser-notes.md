@@ -1,8 +1,9 @@
 # fetch-social browser fallback notes
 
-Generated: 2026-09-15T17:47:55.983Z
+Generated: 2026-09-15T17:59:04.324Z
 
 Puppeteer/Playwright are **not** installed in this repo. Box IP hits Cloudflare 403 on Dcard and Reddit challenge/403.
+Reddit falls back to arctic-shift.photon-reddit.com (real posts, ticker-filtered). Dcard still needs user-browser IP.
 Parent agent can open these URLs via computerUse / user browser and paste real titles into social-digest if needed.
 
 ## Hard routing
@@ -26,20 +27,6 @@ Parent agent can open these URLs via computerUse / user browser and paste real t
 - blocker: Dcard search q=2308: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）
 
 ## Reddit (US) — if box still blocked, open on user IP
-### ZS
-- https://www.reddit.com/r/stocks/search/?q=ZS&restrict_sr=1&sort=new&t=week
-- https://www.reddit.com/r/wallstreetbets/search/?q=ZS&restrict_sr=1&sort=new&t=week
-- https://www.reddit.com/r/investing/search/?q=ZS&restrict_sr=1&sort=new&t=week
-- https://www.reddit.com/r/SecurityAnalysis/search/?q=ZS&restrict_sr=1&sort=new&t=week
-- blocker: old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).
-
-### CRWD
-- https://www.reddit.com/r/stocks/search/?q=CRWD&restrict_sr=1&sort=new&t=week
-- https://www.reddit.com/r/wallstreetbets/search/?q=CRWD&restrict_sr=1&sort=new&t=week
-- https://www.reddit.com/r/investing/search/?q=CRWD&restrict_sr=1&sort=new&t=week
-- https://www.reddit.com/r/SecurityAnalysis/search/?q=CRWD&restrict_sr=1&sort=new&t=week
-- blocker: old.reddit r/stocks: HTTP 200 — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).
-
 ## Threads
 - No stable public search API; site shows honest blocker only.
 

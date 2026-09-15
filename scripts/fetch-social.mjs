@@ -140,6 +140,103 @@ function parseRedditListing(text, subHint) {
   return items;
 }
 
+function tickerNeedles(meta) {
+  const needles = new Set();
+  const t = String(meta.ticker || '').trim();
+  if (t) {
+    needles.add(t.toUpperCase());
+    needles.add(`$${t.toUpperCase()}`);
+  }
+  const name = String(meta.name || '').trim();
+  if (name && name.length >= 3) needles.add(name.toUpperCase());
+  return [...needles];
+}
+
+function mentionsTicker(post, meta) {
+  const hay = `${post.title || ''} ${post.selftext || ''} ${post.snippet || ''}`.toUpperCase();
+  return tickerNeedles(meta).some((n) => hay.includes(n));
+}
+
+function arcticPostToItem(p, subHint) {
+  const permalink = p.permalink || '';
+  const url = permalink
+    ? permalink.startsWith('http')
+      ? permalink
+      : `https://www.reddit.com${permalink}`
+    : p.url || null;
+  if (!url) return null;
+  const title = (p.title || '').trim();
+  const self = String(p.selftext || '').replace(/\s+/g, ' ').trim();
+  return {
+    author: p.author || '[deleted]',
+    score: typeof p.score === 'number' ? p.score : null,
+    snippet: self ? `${title} — ${self.slice(0, 160)}` : title.slice(0, 200),
+    url,
+    created: p.created_utc
+      ? new Date(Number(p.created_utc) * 1000).toISOString()
+      : null,
+    subreddit: p.subreddit || subHint || null,
+    kind: 'reddit',
+    via: 'arctic-shift',
+  };
+}
+
+/**
+ * Public Reddit archive mirror used when www/old.reddit JSON is blocked from this IP.
+ * Real posts only — filtered to mention the ticker/name.
+ */
+async function fetchRedditViaArctic(meta) {
+  const items = [];
+  const blockers = [];
+  const q = String(meta.ticker || '').trim();
+  if (!q) return { items, blockers, anyOk: false };
+
+  for (const sub of SUBREDDITS) {
+    const url =
+      `https://arctic-shift.photon-reddit.com/api/posts/search` +
+      `?subreddit=${encodeURIComponent(sub)}&query=${encodeURIComponent(q)}&limit=8`;
+    try {
+      const { status, text } = await fetchText(url, {
+        accept: 'application/json',
+        ua: BROWSER_UA,
+        referer: 'https://arctic-shift.photon-reddit.com/',
+      });
+      if (status === 429 || status === 422) {
+        blockers.push(`arctic r/${sub}: HTTP ${status} (rate/timeout) — slowed`);
+        await sleep(REDDIT_SLEEP_MS + 1500);
+        continue;
+      }
+      if (status !== 200) {
+        blockers.push(`arctic r/${sub}: HTTP ${status}`);
+        await sleep(800);
+        continue;
+      }
+      let json;
+      try {
+        json = JSON.parse(text);
+      } catch {
+        blockers.push(`arctic r/${sub}: non-JSON`);
+        await sleep(800);
+        continue;
+      }
+      if (json.error) {
+        blockers.push(`arctic r/${sub}: ${json.error}`);
+        await sleep(REDDIT_SLEEP_MS);
+        continue;
+      }
+      for (const p of json.data || []) {
+        if (!mentionsTicker(p, meta)) continue;
+        const it = arcticPostToItem(p, sub);
+        if (it) items.push(it);
+      }
+    } catch (e) {
+      blockers.push(`arctic r/${sub}: ${e.message}`);
+    }
+    await sleep(REDDIT_SLEEP_MS);
+  }
+  return { items, blockers, anyOk: items.length > 0 || blockers.every((b) => !/HTTP 403|blocked/i.test(b)) };
+}
+
 /**
  * US only. Try several public JSON shapes with browser-like headers.
  * Never called for TW tickers.
@@ -186,10 +283,15 @@ async function fetchRedditForTicker(meta) {
     sub: null,
   });
 
-  // Cap attempts to keep rate polite if early ones succeed
+  // Cap attempts; bail early to Arctic if this IP is clearly blocked
   let successCount = 0;
+  let hardBlocks = 0;
   for (const att of attempts) {
     if (successCount >= 2) break;
+    if (hardBlocks >= 2) {
+      blockers.push('reddit.com: skipping further attempts after repeated challenge/403');
+      break;
+    }
     try {
       const { status, text, url: finalUrl } = await fetchText(att.url, {
         accept: 'application/json, text/javascript, */*; q=0.01',
@@ -207,10 +309,11 @@ async function fetchRedditForTicker(meta) {
         looksLikeRedditChallenge(text) ||
         /\/login/i.test(finalUrl)
       ) {
+        hardBlocks += 1;
         blockers.push(
           `${att.label}: HTTP ${status} — Reddit blocked unauthenticated JSON from this network (challenge/HTML/login/rate limit).`
         );
-        await sleep(REDDIT_SLEEP_MS);
+        await sleep(Math.min(REDDIT_SLEEP_MS, 800));
         continue;
       }
       if (status !== 200) {
@@ -235,25 +338,44 @@ async function fetchRedditForTicker(meta) {
     await sleep(REDDIT_SLEEP_MS);
   }
 
-  const seen = new Set();
-  const unique = [];
+  let seen = new Set();
+  let unique = [];
   for (const it of items) {
     if (seen.has(it.url)) continue;
     seen.add(it.url);
     unique.push(it);
   }
+
+  // Box IPs often hit Reddit challenge/403 — fall back to Arctic Shift archive
+  let via = 'reddit.com';
+  if (!unique.length) {
+    console.error(`  Reddit direct empty/blocked for ${ticker}; trying arctic-shift…`);
+    const arctic = await fetchRedditViaArctic(meta);
+    for (const b of arctic.blockers) blockers.push(b);
+    for (const it of arctic.items) {
+      if (seen.has(it.url)) continue;
+      seen.add(it.url);
+      unique.push(it);
+    }
+    if (unique.length) {
+      anyOk = true;
+      via = 'arctic-shift';
+    }
+  }
+
   unique.sort((a, b) => (b.score || 0) - (a.score || 0));
 
-  const entry = { ticker, market: 'US', items: unique.slice(0, 8) };
-  if (!anyOk && blockers.length) {
+  const entry = { ticker, market: 'US', items: unique.slice(0, 8), via };
+  if (!unique.length && blockers.length) {
     entry.blocker = blockers[0];
-    entry.blockers = blockers.slice(0, 8);
+    entry.blockers = blockers.slice(0, 10);
     entry.manualUrls = SUBREDDITS.map(
       (s) =>
         `https://www.reddit.com/r/${s}/search/?q=${encodeURIComponent(ticker)}&restrict_sr=1&sort=new&t=week`
     );
+    entry.browserFallback = true;
   } else if (!unique.length) {
-    entry.blocker = `Reddit 搜尋「${qPrimary}」無公開結果（本週）`;
+    entry.blocker = `Reddit 搜尋「${qPrimary}」無公開結果`;
   } else if (blockers.length) {
     entry.partialBlockers = blockers.slice(0, 6);
   }
@@ -667,6 +789,7 @@ function writeBrowserNotes(digest, notesPath) {
   lines.push(`Generated: ${digest.asOf}`);
   lines.push('');
   lines.push('Puppeteer/Playwright are **not** installed in this repo. Box IP hits Cloudflare 403 on Dcard and Reddit challenge/403.');
+  lines.push('Reddit falls back to arctic-shift.photon-reddit.com (real posts, ticker-filtered). Dcard still needs user-browser IP.');
   lines.push('Parent agent can open these URLs via computerUse / user browser and paste real titles into social-digest if needed.');
   lines.push('');
   lines.push('## Hard routing');
