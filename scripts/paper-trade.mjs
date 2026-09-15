@@ -2,8 +2,9 @@
 /**
  * 紙上模擬交易（paper trading）
  * =================================
- * 這支程式「假裝」用當日 latest.json 的價格買賣，不是真實券商成交。
- * 台股帳本與美股帳本完全分開，不把台幣與美元混在一起算損益。
+ * 累積模擬帳戶（自 START_DATE 起）：不會每日歸零；asOf 前進才追加買賣／更新標記。
+ * 成交價＝當日 latest.json 標的 price；下單即成交（無掛單、無部分成交）。
+ * 台股／美股兩本帳分開，不做匯率混算。非真實券商成交。
  *
  * 執行：npm run paper   或   node scripts/paper-trade.mjs
  *
@@ -91,19 +92,25 @@ const WINDOWS = [
 
 const RULES_ZH = {
   title: "紙上模擬規則",
-  note: "使用 latest.json 價格假設成交，並非真實券商單，亦不保證未來績效。台幣與美元兩本帳分開，不做匯率換算加總。",
+  note: "累積模擬帳戶（自 2026-09-15 起），不會每日歸零。成交價＝當日 latest 標的價，下單即成交。兩本帳分開，非真實券商單。",
+  account: [
+    "累積帳戶：檔案存在則只追加交易／更新市價；禁止因換日重建空帳本。",
+    "startDate 固定 2026-09-15；現金與持股跨日保留。",
+    "同一 asOf 冪等（不重複下單）；asOf 前進才處理。",
+    "成交價＝latest.json 該標的 price；買進／賣出即成交。",
+  ],
   buy: [
-    "宇宙＝當日篩選名單 us[]／tw[]；screens 只有 observe 者不買；先 Top5 再其餘。",
-    "新倉風險金額＝目前權益 × 1%；停距代理＝股價 × 1.5%（量比≥3 則 2.5%）；股數＝向下取整（風險金額÷停距）。",
-    "單一股票市值上限＝權益 × 8%。現金不夠 1 股不買。台股買得起 1 張（1000股）才買整張，否則跳過。",
-    "持續買進：已持有且仍在名單且未滿 8%，同一天最多加碼一次（當天剛賣過則不加）。",
+    "宇宙＝當日 us[]／tw[]；純 observe 不買；先 Top5 再其餘。",
+    "新倉：風險＝權益×1%；停距≈價×1.5%（量比≥3→2.5%）；股數＝floor(風險÷停距)。",
+    "單檔上限＝權益×8%。台股需買得起 1 張（1000股）。",
+    "加碼：仍在名單且未滿 8%，同日最多一次（當日已賣則不加）。",
   ],
   sell: [
-    "停損：未實現 ≤ −3% → 全賣（stop）",
-    "漲停追價隔日急殺：漲停風格持倉且非買進當日、dayPct ≤ −5% → 全賣（limit-up-chase）",
-    "動能轉弱：未站上 SMA20 且 dayPct < −2% → 全賣（momentum-break）",
-    "離開名單弱勢：不在當日名單且未實現 < 0 → 全賣（off-list）",
-    "停利：未實現 ≥ +12% → 賣一半；部位很小則全賣（take-profit）",
+    "停損：未實現 ≤ −3% → 全賣",
+    "漲停追價：近漲停開倉且非當日、dayPct ≤ −5% → 全賣",
+    "動能轉弱：未站上 SMA20 且 dayPct < −2% → 全賣",
+    "離名單且未實現 < 0 → 全賣",
+    "停利：未實現 ≥ +12% → 賣一半（極小部位全賣）",
   ],
 };
 
@@ -141,6 +148,7 @@ function emptyBook(market) {
   return {
     market,
     currency: market === "TW" ? "TWD" : "USD",
+    startDate: START_DATE,
     startCash,
     cash: startCash,
     equity: startCash,
@@ -157,8 +165,10 @@ function emptyPortfolio() {
     asOf: null,
     lastProcessedAsOf: null,
     startDate: START_DATE,
+    fillPolicy: "immediate",
+    cumulative: true,
     disclaimer:
-      "此為紙上模擬，使用 latest.json 公開行情價格假設成交，並非真實券商委託或成交。兩本帳分開計價。",
+      "累積模擬帳戶（自 2026-09-15 起）。成交價＝當日 latest 標的價，下單即成交；不會每日歸零。非真實券商委託。兩本帳分開計價。",
     rules: RULES_ZH,
     books: {
       TW: emptyBook("TW"),
@@ -613,19 +623,37 @@ function main() {
     process.exit(1);
   }
 
-  let portfolio = existsSync(PORTFOLIO_PATH) ? loadJson(PORTFOLIO_PATH) : emptyPortfolio();
-  if (!portfolio.books?.TW || !portfolio.books?.US) {
+  // 檔案存在就必須沿用既有帳本——禁止換日／缺欄位時重建空倉（會抹掉累積部位）
+  let portfolio;
+  if (existsSync(PORTFOLIO_PATH)) {
+    portfolio = loadJson(PORTFOLIO_PATH);
+    if (!portfolio || typeof portfolio !== "object") {
+      console.error("FAIL: paper-portfolio.json unreadable; refusing to wipe");
+      process.exit(1);
+    }
+    if (!portfolio.books) portfolio.books = {};
+    // 只補缺的那一本，絕不整份 emptyPortfolio()
+    if (!portfolio.books.TW) {
+      console.warn("WARN: missing TW book — seeding empty TW book only");
+      portfolio.books.TW = emptyBook("TW");
+    }
+    if (!portfolio.books.US) {
+      console.warn("WARN: missing US book — seeding empty US book only");
+      portfolio.books.US = emptyBook("US");
+    }
+  } else {
     portfolio = emptyPortfolio();
+    console.log(`NEW: creating portfolio at ${PORTFOLIO_PATH} (startDate=${START_DATE})`);
   }
-  // 保證起始本金與規則文件一致（舊檔若缺欄位就補）
-  portfolio.startDate = portfolio.startDate || START_DATE;
+  // startDate 只補缺，從不覆寫既有值
+  if (!portfolio.startDate) portfolio.startDate = START_DATE;
   portfolio.rules = RULES_ZH;
   portfolio.disclaimer =
-    portfolio.disclaimer ||
-    "此為紙上模擬，使用 latest.json 公開行情價格假設成交，並非真實券商委託或成交。兩本帳分開計價。";
+    "累積模擬帳戶（自 2026-09-15 起）。成交價＝當日 latest 標的價，下單即成交；不會每日歸零。非真實券商委託。兩本帳分開計價。";
   for (const m of ["TW", "US"]) {
     const b = portfolio.books[m];
     if (typeof b.startCash !== "number") b.startCash = START_CASH[m];
+    if (!b.startDate) b.startDate = portfolio.startDate || START_DATE;
     if (!Array.isArray(b.positions)) b.positions = [];
     if (!Array.isArray(b.trades)) b.trades = [];
     if (!Array.isArray(b.dailyEquity)) b.dailyEquity = [];
@@ -640,7 +668,7 @@ function main() {
     portfolio.metrics = {
       TW: computeBookMetrics(portfolio.books.TW),
       US: computeBookMetrics(portfolio.books.US),
-      combinedNote: "台股與美股兩本帳分開計價，不把新台幣與美元加總（避免匯率混算）。",
+      combinedNote: "自 2026-09-15 起累計、從不日結清零；買／賣以名單最新價立即記入。台股與美股兩本帳分開，不做匯率加總。",
     };
     printBookSummary("TW", portfolio.books.TW, portfolio.metrics.TW, date);
     printBookSummary("US", portfolio.books.US, portfolio.metrics.US, date);
@@ -656,7 +684,7 @@ function main() {
   portfolio.metrics = {
     TW: computeBookMetrics(portfolio.books.TW),
     US: computeBookMetrics(portfolio.books.US),
-    combinedNote: "台股與美股兩本帳分開計價，不把新台幣與美元加總（避免匯率混算）。",
+    combinedNote: "自 2026-09-15 起累計、從不日結清零；買／賣以名單最新價立即記入。台股與美股兩本帳分開，不做匯率加總。",
   };
 
   const json = JSON.stringify(portfolio, null, 2) + "\n";

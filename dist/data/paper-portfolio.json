@@ -155,7 +155,8 @@
           "cash": 2067350,
           "positionsValue": 932650
         }
-      ]
+      ],
+      "startDate": "2026-09-15"
     },
     "US": {
       "market": "US",
@@ -429,7 +430,8 @@
           "cash": 15146.72,
           "positionsValue": 84853.28
         }
-      ]
+      ],
+      "startDate": "2026-09-15"
     }
   },
   "metrics": {
@@ -517,6 +519,8 @@
         "toDate": "2026-09-15"
       }
     },
-    "combinedNote": "台股與美股兩本帳分開計價，不把新台幣與美元加總（避免匯率混算）。"
-  }
+    "combinedNote": "台股與美股兩本帳自 2026-09-15 起分開累計；買／賣以名單最新價立即記入，非每日重置。"
+  },
+  "cumulative": true,
+  "fillPolicy": "immediate"
 }

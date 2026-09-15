@@ -92,8 +92,11 @@ export function initDanmaku(options = {}) {
   let client = null;
   let cooling = false;
 
+  const flyToggle = root.querySelector('#ss-danmaku-toggle') || document.querySelector('#ss-danmaku-toggle');
+  const flyEnabled = () => !!(flyToggle && flyToggle.checked);
+
   if (!url || !anon) {
-    status.textContent = BACKEND_MSG + '（請設定 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY）';
+    status.textContent = BACKEND_MSG;
     status.classList.add('is-warn');
     if (form) {
       form.querySelectorAll('input,button').forEach((el) => {
@@ -101,14 +104,13 @@ export function initDanmaku(options = {}) {
       });
     }
     if (list) {
-      list.innerHTML =
-        '<li><span class="nick">系統</span>後端未接上時仍可瀏覽下方 Reddit／富途摘要。</li>';
+      list.innerHTML = '<li class="ss-empty">後端未接上</li>';
     }
     return { ok: false, reason: 'no-config', message: BACKEND_MSG };
   }
 
   client = createClient(url, anon);
-  status.textContent = '彈幕已連線（公開發言，請保持友善）';
+  status.textContent = '';
   status.classList.remove('is-warn');
 
   async function refresh(spawnNew = true) {
@@ -128,7 +130,7 @@ export function initDanmaku(options = {}) {
           .join('');
         list.scrollTop = list.scrollHeight;
       }
-      if (spawnNew) {
+      if (spawnNew && flyEnabled()) {
         for (const r of chronological) {
           if (lastSeen.has(r.id)) continue;
           lastSeen.add(r.id);

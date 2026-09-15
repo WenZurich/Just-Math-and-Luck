@@ -222,6 +222,7 @@ function renderTradeTable(title, trades, currency) {
         <table class="stock-table paper-table">
           <thead>
             <tr>
+              <th>日期</th>
               <th>${term("ticker", "代碼")}</th>
               <th>名稱</th>
               <th>股數</th>
@@ -260,17 +261,24 @@ function renderPosTable(positions, currency) {
     </div>`;
 }
 
-function renderBookPanel(id, book, metrics, asOfDate, active) {
+function renderBookPanel(id, book, metrics, asOfDate, active, startDate) {
   const currency = book.currency;
-  const today = (book.trades || []).filter((t) => t.date === asOfDate);
-  const buys = today.filter((t) => t.side === "BUY");
-  const sells = today.filter((t) => t.side === "SELL");
+  const all = [...(book.trades || [])].sort((a, b) =>
+    a.date < b.date ? 1 : a.date > b.date ? -1 : 0
+  );
+  const today = all.filter((t) => t.date === asOfDate);
+  const todayBuys = today.filter((t) => t.side === "BUY");
+  const todaySells = today.filter((t) => t.side === "SELL");
+  const recent = all.slice(0, 40);
+  const inception = startDate || book.startDate || "2026-09-15";
   return `
     <div class="paper-panel ${active ? "active" : ""}" id="paper-panel-${id}" role="tabpanel">
       ${renderBookCard(id, book, metrics)}
-      ${renderTradeTable("今天模擬買進", buys, currency)}
-      ${renderTradeTable("今天模擬賣出", sells, currency)}
+      <p class="paper-session-note">${escapeHtml(asOfDate || "—")} · 自 ${escapeHtml(inception)} 累積 · 買進即成交</p>
+      ${renderTradeTable(`買 ${asOfDate || ""}`, todayBuys, currency)}
+      ${renderTradeTable(`賣 ${asOfDate || ""}`, todaySells, currency)}
       ${renderPosTable(book.positions || [], currency)}
+      ${renderTradeTable("成交（近 40）", recent, currency)}
     </div>`;
 }
 
@@ -278,7 +286,7 @@ export function renderPaperSection(paper) {
   if (!paper || !paper.books) {
     return `
       <section class="section paper-section" id="paper">
-        <h2 class="section-title">${term("paperTrade", "模擬交易績效")}</h2>
+        <h2 class="section-title">${term("paperTrade", "模擬")}</h2>
         <p class="paper-missing">還沒有模擬帳本檔案。請在專案執行 <code>npm run paper</code>。</p>
       </section>`;
   }
@@ -294,37 +302,30 @@ export function renderPaperSection(paper) {
     /* keep */
   }
 
+  const startDate = paper.startDate || tw?.startDate || us?.startDate || "2026-09-15";
+
   return `
     <section class="section paper-section" id="paper">
-      <h2 class="section-title">${term("paperTrade", "模擬交易績效")}</h2>
+      <h2 class="section-title">${term("paperTrade", "模擬")}</h2>
       <p class="paper-disclaimer" role="note">
-        這是<strong>假裝買賣</strong>的成績單，用當日名單價格假設成交，
-        <strong>不是</strong>真實券商下單，也不保證以後會這樣。
-        ${term("twStock", "台股")}${term("principal", "本金")} NT$3,000,000　·　
-        ${term("usStock", "美股")}${term("principal", "本金")} US$100,000。
-        兩本帳分開算，不把台幣跟美元加在一起。
+        <strong>累積模擬帳戶（自 ${escapeHtml(startDate)} 起）</strong>
+        · 不會每日歸零 · <strong>買進即成交</strong>
+        · 台 NT$3M／美 US$100k · 分開計價 · 非真實下單
       </p>
-      <div class="paper-rules">
-        <h3>規則摘要（數學，不是感覺）</h3>
+      <details class="paper-rules">
+        <summary>規則</summary>
         <ul>
-          <li><strong>買：</strong>當天${term("screening", "篩選")}名單（只標「觀察」的先不買）。先 Top 5 再其餘。
-            新名字用權益的 1% 當風險去算股數；停距大約是股價的 1.5%（${term("volRatio", "量比")}很高時 2.5%）。
-            單一${term("position", "部位")}最多約 8% 權益。台股買得起 1 張（1000 股）才買，否則跳過。</li>
-          <li><strong>持續買進：</strong>已經持有、今天還在名單、又還沒滿 8%，同一天最多再加一次。</li>
-          <li><strong>賣：</strong>${term("stopLoss", "停損")}未實現 ≤ −3% 全賣；
-            ${term("takeProfit", "停利")}≥ +12% 賣一半（很小就全賣）；
-            沒站上 ${term("sma20", "SMA20")} 且當日跌超過 2% 全賣；
-            不在名單又虧錢全賣；當初接近${term("limitUp", "漲停")}、隔日跌 ≥ 5% 也全賣。</li>
+          <li>買：名單·風險1%·停距1.5%·單檔≤8%·台整張 · <strong>即成交</strong></li>
+          <li>賣：${term("stopLoss", "停損")}−3% · ${term("takeProfit", "停利")}+12%半倉 · 破SMA20且日跌&gt;2% · 離名單虧損 · 漲停隔日−5%</li>
         </ul>
-        <p class="paper-rules-hint">看不懂藍字？點它會跳到下方「名詞小辭典」。</p>
-      </div>
-      <p class="paper-combined">${escapeHtml(paper.metrics?.combinedNote || "台股與美股兩本帳分開計價。")}</p>
+      </details>
+      <p class="paper-combined">${escapeHtml(paper.metrics?.combinedNote || "台／美分開。")}</p>
       <div class="tabs paper-tabs" role="tablist">
         <button type="button" class="paper-tab-btn active" data-paper-tab="TW" role="tab" aria-selected="true">${term("twStock", "台股")}帳</button>
         <button type="button" class="paper-tab-btn" data-paper-tab="US" role="tab" aria-selected="false">${term("usStock", "美股")}帳</button>
       </div>
-      ${renderBookPanel("TW", tw, paper.metrics?.TW, asOfDate, true)}
-      ${renderBookPanel("US", us, paper.metrics?.US, asOfDate, false)}
+      ${renderBookPanel("TW", tw, paper.metrics?.TW, asOfDate, true, startDate)}
+      ${renderBookPanel("US", us, paper.metrics?.US, asOfDate, false, startDate)}
     </section>`;
 }
 

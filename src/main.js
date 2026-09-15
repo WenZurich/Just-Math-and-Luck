@@ -15,7 +15,7 @@ import {
   loadPaperPortfolio,
 } from "./paper.js";
 import { initDanmaku } from "./danmaku.js";
-import { mountAllTickerComments, initSiteGiscus } from "./comments.js";
+import { mountAllTickerComments, mountTickerRoom, initSiteGiscus } from "./comments.js";
 import { initSocialDigest, loadSocialDigest } from "./social-digest.js";
 import "./strategies.css";
 import {
@@ -335,58 +335,119 @@ function renderMethod(method) {
     })
     .join("");
   return `
-    <footer class="method-footer">
-      <h3>${term("screening", "篩選方法說明")}</h3>
-      <ul class="method-list">${items}</ul>
-      <p class="method-hint">看不懂藍字？點它會跳到下方「名詞小辭典」，還有生活例子。</p>
-    </footer>
+    <details class="fold-block help-fold" id="help-method">
+      <summary>詳情 · ${term("screening", "每日篩選條件")}</summary>
+      <ul class="method-list fold-list">${items}</ul>
+    </details>
   `;
 }
 
+function renderHelpPage(data) {
+  return `
+    <div class="help-doc">
+      <header class="view-header">
+        <h2 class="view-title">說明</h2>
+      </header>
+      <ul class="help-short">
+        <li><strong>今日</strong> — 動能／RS／均線／量比篩選候選</li>
+        <li><strong>策略</strong> — 價量／籌碼／財務／大師條件命中</li>
+        <li><strong>模擬</strong> — 自 2026-09-15 累計；訊號即成交（非真實下單）</li>
+        <li><strong>社群</strong> — 站內聊天＋外部摘要，氣氛參考</li>
+      </ul>
+      <details class="fold-block help-fold" id="help-data">
+        <summary>詳情 · 資料來源</summary>
+        <ul class="fold-list">
+          <li>行情：Yahoo Finance（可能半日落後）</li>
+          <li>台股估值／法人：證交所、櫃買 OpenAPI</li>
+          <li>財報：MOPS／證交所 open data</li>
+          <li>產物：<code>latest.json</code> · <code>strategy-screener.json</code> · <code>paper-portfolio.json</code> · <code>social-digest.json</code></li>
+        </ul>
+      </details>
+      ${renderMethod(data?.method)}
+      <details class="fold-block help-fold" id="help-strategies">
+        <summary>詳情 · 策略選股</summary>
+        <p class="fold-p">缺 PE／ROE 等欄位則略過，不填假數字。輸出 <code>strategy-screener.json</code>。</p>
+      </details>
+      <details class="fold-block help-fold" id="help-paper">
+        <summary>詳情 · 紙上模擬</summary>
+        <ul class="fold-list">
+          <li>台幣 NT$3,000,000／美元 US$100,000，分開計價</li>
+          <li>同一 <code>asOf</code> 只處理一次；立即記入帳本</li>
+          <li>完整買賣規則見「模擬」分頁</li>
+        </ul>
+      </details>
+    </div>
+  `;
+}
 
 function renderDanmakuLayer() {
   return `<div id="ss-danmaku-layer" class="ss-danmaku-layer" aria-hidden="true"></div>`;
 }
 
-function renderDanmakuPanel() {
-  return `
-    <section class="section" id="danmaku">
-      <h2 class="section-title">${term("danmaku", "全站彈幕")}</h2>
-      <p class="view-lead">短訊飛過全站；發言集中在這裡，今日頁面比較乾淨。</p>
-      <div id="ss-danmaku-panel" class="ss-chat-panel" aria-label="全站彈幕聊天">
-        <div class="ss-chat-status">載入中…</div>
-        <form class="ss-chat-form">
-          <input class="ss-nick" name="nickname" maxlength="24" placeholder="暱稱" autocomplete="nickname" />
-          <input class="ss-body" name="body" maxlength="80" placeholder="短訊（最多 80 字）" required />
-          <button type="submit">發送彈幕</button>
-        </form>
-        <ul class="ss-chat-list"></ul>
-      </div>
-    </section>
-  `;
+function collectTickerChips(data) {
+  const seen = new Set();
+  const chips = [];
+  const push = (s) => {
+    if (!s?.ticker || seen.has(s.ticker)) return;
+    seen.add(s.ticker);
+    const market =
+      s.market === "TW" || String(s.ticker).endsWith(".TW") ? "TW" : "US";
+    chips.push({ ticker: s.ticker, market, name: s.name || "" });
+  };
+  (data.top5 || []).forEach(push);
+  (data.tw || []).forEach(push);
+  (data.us || []).forEach(push);
+  return chips;
 }
 
-function renderSocialDigestSection() {
+function renderChatRoom(data) {
+  const chips = collectTickerChips(data);
+  const chipHtml = chips
+    .map(
+      (c, i) =>
+        `<button type="button" class="chat-chip${i === 0 ? " active" : ""}" data-ticker="${escapeHtml(
+          c.ticker
+        )}" data-market="${c.market}">${escapeHtml(c.ticker)}</button>`
+    )
+    .join("");
   return `
-    <section class="section" id="social-digest">
-      <h2 class="section-title">${term("socialDigest", "網友參考")}</h2>
-      <p class="view-lead">美股看 ${term("reddit", "Reddit")}／${term("futu", "富途")}；台股看 ${term("ptt", "PTT")}／${term("dcard", "Dcard")}／${term("threads", "Threads")}。抓不到會寫 blocker，不捏造。</p>
-      <div id="ss-social-digest" aria-label="今日社交摘要"></div>
-    </section>
-  `;
-}
+    <div class="chat-room" id="chat-room">
+      <header class="chat-room-bar">
+        <div class="chat-tabs" role="tablist" aria-label="聊天範圍">
+          <button type="button" class="chat-tab active" data-chat-tab="global" role="tab" aria-selected="true">全站</button>
+          <button type="button" class="chat-tab" data-chat-tab="ticker" role="tab" aria-selected="false">個股</button>
+        </div>
+        <label class="chat-fx-toggle">
+          <input type="checkbox" id="ss-danmaku-toggle" />
+          <span>彈幕效果</span>
+        </label>
+      </header>
 
-function renderGiscusSection() {
-  return `
-    <section class="section" id="giscus">
-      <div id="ss-giscus" class="ss-giscus-section" aria-label="全站討論">
-        <h2 class="section-title">全站討論（Giscus）</h2>
-        <p class="ss-giscus-hint">
-          <strong>備援</strong>：需 GitHub 登入。主要匿名${term("danmaku", "彈幕")}／${term("comments", "留言板")}請接 Supabase。
-        </p>
-        <div class="ss-giscus-host"></div>
+      <div class="chat-pane is-active" data-chat-pane="global">
+        <div id="ss-danmaku-panel" class="chat-shell" aria-label="全站聊天">
+          <div class="ss-chat-status chat-status-line" aria-live="polite"></div>
+          <ul class="ss-chat-list chat-messages" aria-label="訊息"></ul>
+          <form class="ss-chat-form chat-composer">
+            <input class="ss-nick" name="nickname" maxlength="24" placeholder="暱稱（可空）" autocomplete="nickname" />
+            <input class="ss-body" name="body" maxlength="80" placeholder="說點什麼…" required autocomplete="off" />
+            <button type="submit" class="chat-send">送出</button>
+          </form>
+        </div>
       </div>
-    </section>
+
+      <div class="chat-pane" data-chat-pane="ticker" hidden>
+        <div class="chat-chip-row" role="tablist" aria-label="個股">${chipHtml || `<span class="chat-empty">暫無標的</span>`}</div>
+        <div id="ss-ticker-room" class="chat-shell" data-ticker-room></div>
+      </div>
+
+      <details class="fold-block chat-external">
+        <summary>外部討論</summary>
+        <div id="ss-social-digest" aria-label="外部討論摘要"></div>
+        <div id="ss-giscus" class="ss-giscus-section" aria-label="Giscus">
+          <div class="ss-giscus-host"></div>
+        </div>
+      </details>
+    </div>
   `;
 }
 
@@ -475,11 +536,9 @@ function renderApp(data, paper) {
     <main class="view-host">
       <div class="view" id="view-today" data-view="today" hidden>
         <span id="today" class="view-anchor" tabindex="-1"></span>
-        <header class="view-header">
-          <h2 class="view-title">今日精選</h2>
-          <p class="view-lead">Top 5、美／台清單與 ADR 平價 — 一天要看的數學候選。</p>
+        <header class="view-header view-header-tight">
+          <h2 class="view-title">今日</h2>
         </header>
-        <p class="index-caption">${term("index", "指數")}快覽</p>
         ${renderIndexStrip(data.indices || {})}
         <section class="section">
           <h2 class="section-title">今日 Top 5</h2>
@@ -497,7 +556,6 @@ function renderApp(data, paper) {
           ${renderListSection("tw", tw)}
         </section>
         ${renderParity(data.parity)}
-        <p class="intra-jump">個股留言在卡片下方 · <button type="button" class="text-jump" data-jump="social">去社群發彈幕</button></p>
       </div>
 
       <div class="view" id="view-strategies" data-view="strategies" hidden>
@@ -510,30 +568,20 @@ function renderApp(data, paper) {
         ${renderPaperSection(paper)}
       </div>
 
-      <div class="view" id="view-social" data-view="social" hidden>
+      <div class="view view-social" id="view-social" data-view="social" hidden>
         <span id="social" class="view-anchor" tabindex="-1"></span>
-        <header class="view-header">
-          <h2 class="view-title">社群</h2>
-          <p class="view-lead">彈幕、網友摘要與全站討論 — 氣氛參考，不是訊號。</p>
-        </header>
-        ${renderDanmakuPanel()}
-        ${renderSocialDigestSection()}
-        ${renderGiscusSection()}
+        ${renderChatRoom(data)}
       </div>
 
       <div class="view" id="view-help" data-view="help" hidden>
         <span id="help" class="view-anchor" tabindex="-1"></span>
-        <header class="view-header">
-          <h2 class="view-title">說明</h2>
-          <p class="view-lead">篩選方法、名詞小辭典與免責聲明。</p>
-        </header>
-        ${renderMethod(data.method)}
-        <section class="section help-disclaimer">
-          <h2 class="section-title">免責</h2>
-          <p class="disclaimer">${disclaimer}</p>
-          <p class="tz-note">紅漲綠跌為台灣市場慣例 · 模擬交易非真實成交 · 社交僅供討論參考</p>
-        </section>
+        ${renderHelpPage(data)}
         ${renderGlossarySection()}
+        <details class="fold-block help-fold" id="help-legal">
+          <summary>詳情 · 免責</summary>
+          <p class="disclaimer">${disclaimer}</p>
+          <p class="tz-note">紅漲綠跌 · 模擬非真實成交 · 社交僅供參考</p>
+        </details>
       </div>
     </main>
 
@@ -541,7 +589,7 @@ function renderApp(data, paper) {
       ${renderNavItems("mobile")}
     </nav>
 
-    <p class="site-footer">紅漲綠跌 · 點藍字看解釋 · 資料來自 latest.json／strategy-screener.json／paper-portfolio.json／social-digest.json</p>
+    <p class="site-footer">紅漲綠跌 · 點藍字看解釋</p>
   `;
 }
 
@@ -608,6 +656,50 @@ function bindTabs(root) {
   });
 }
 
+
+function bindChatRoom(root, data, { config, digest } = {}) {
+  const room = root.querySelector("#chat-room");
+  if (!room) return;
+
+  const tabs = room.querySelectorAll(".chat-tab");
+  const panes = room.querySelectorAll(".chat-pane");
+  tabs.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.chatTab;
+      tabs.forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      panes.forEach((p) => {
+        const on = p.dataset.chatPane === id;
+        p.classList.toggle("is-active", on);
+        p.hidden = !on;
+      });
+    });
+  });
+
+  const tickerMount = room.querySelector("#ss-ticker-room");
+  const chips = room.querySelectorAll(".chat-chip");
+  let tickerHandle = null;
+
+  const openTicker = (ticker, market) => {
+    if (!tickerMount || !ticker) return;
+    if (tickerHandle?.destroy) tickerHandle.destroy();
+    tickerHandle = mountTickerRoom(tickerMount, ticker, { config, digest, market });
+  };
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((c) => c.classList.toggle("active", c === chip));
+      openTicker(chip.dataset.ticker, chip.dataset.market);
+    });
+  });
+
+  const first = chips[0];
+  if (first) openTicker(first.dataset.ticker, first.dataset.market);
+}
+
 async function main() {
   const app = document.getElementById("app");
   try {
@@ -637,6 +729,7 @@ async function main() {
       }
     }
     initDanmaku({ config });
+    bindChatRoom(app, data, { config, digest });
     mountAllTickerComments(app, { config, digest });
     initSiteGiscus("#ss-giscus", { config });
   } catch (err) {

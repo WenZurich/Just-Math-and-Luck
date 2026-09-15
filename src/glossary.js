@@ -152,7 +152,7 @@ export const GLOSSARY = {
   },
   paperTrade: {
     title: "模擬交易",
-    plain: "用公開行情的價格「假裝」買賣，把規則跑一遍看成績。沒有真的把錢交給券商，所以不是真實成交。",
+    plain: "累積模擬帳戶：自 2026-09-15 起用 latest.json 標的價假設下單即成交，帳本不會每日歸零。非真實券商委託。",
     example: "像用假錢玩大富翁：規則跟算分是真的，但口袋裡的零用錢沒有真的拿去買股票。",
   },
   principal: {
@@ -317,21 +317,27 @@ export function renderGlossarySection() {
   const items = Object.entries(GLOSSARY)
     .map(
       ([id, g]) => `
-      <article class="glossary-item" id="term-${escapeHtml(id)}">
-        <h3>${escapeHtml(g.title)}</h3>
-        <p class="g-plain">${escapeHtml(g.plain)}</p>
-        <p class="g-example"><strong>例子：</strong>${escapeHtml(g.example)}</p>
-      </article>`
+      <details class="glossary-item" id="term-${escapeHtml(id)}">
+        <summary class="glossary-summary">
+          <span class="glossary-term-title">${escapeHtml(g.title)}</span>
+          <span class="glossary-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="glossary-body">
+          <p class="g-plain">${escapeHtml(g.plain)}</p>
+          <p class="g-example"><span class="g-ex-label">例</span>${escapeHtml(g.example)}</p>
+        </div>
+      </details>`
     )
     .join("");
   return `
-    <section class="section glossary-section" id="glossary">
-      <h2 class="section-title">名詞小辭典（點頁面上的藍字會跳到這裡）</h2>
-      <p class="glossary-intro">這裡用最白話的方式解釋網站出現的詞。看不懂就點連結，再看例子。</p>
-      <div class="glossary-grid">${items}</div>
+    <section class="section glossary-section" id="help-glossary">
+      <h2 class="section-title" id="glossary">名詞辭典</h2>
+      <p class="glossary-intro">點藍字跳轉 · 點標題展開</p>
+      <div class="glossary-list" data-glossary-list>${items}</div>
     </section>
   `;
 }
+
 
 export function bindTermLinks(root, options = {}) {
   root.querySelectorAll("a.term").forEach((a) => {
@@ -344,6 +350,7 @@ export function bindTermLinks(root, options = {}) {
       const jump = () => {
         const target = document.getElementById(`term-${id}`);
         if (!target) return;
+        if (target.tagName === "DETAILS") target.open = true;
         target.scrollIntoView({ behavior: "smooth", block: "start" });
         target.classList.add("flash");
         setTimeout(() => target.classList.remove("flash"), 1600);

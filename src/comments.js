@@ -94,7 +94,7 @@ function findTickerEntry(digest, sourceKey, ticker) {
 
 function renderExternalPanel(entry, sourceLabel, { futuMode = false } = {}) {
   if (!entry) {
-    return `<p class="ss-empty">此標的尚無 ${escapeHtml(sourceLabel)} 摘要（可能未納入今日抓取名單，或此市場不查該來源）。</p>`;
+    return `<p class="ss-empty">無 ${escapeHtml(sourceLabel)}</p>`;
   }
   const parts = [];
   if (entry.blocker) {
@@ -174,6 +174,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
   const { url, anon } = readSupabaseConfig(cfg);
   const maxLen = cfg.commentMaxLen || 500;
   const cooldown = cfg.postCooldownMs || 4000;
+  const bare = !!options.bare;
   const openAttr = preferOpenDetails() ? ' open' : '';
 
   const tabBtns = sourceTabs
@@ -195,24 +196,26 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
 
   mountEl.classList.add('ss-thread');
   mountEl.dataset.market = market;
-  mountEl.innerHTML = `
-    <details class="ss-thread-details"${openAttr}>
-      <summary>討論 ${escapeHtml(ticker)}（${market === 'TW' ? '台股來源' : '美股來源'}）</summary>
-      <div class="ss-src-tabs" role="tablist" aria-label="${escapeHtml(ticker)} 來源">${tabBtns}</div>
+  const threadInner = `
+      <div class="ss-src-tabs" role="tablist" aria-label="${escapeHtml(ticker)}">${tabBtns}</div>
       <div class="ss-src-panels">
         <div class="ss-src-panel active" data-panel="local" role="tabpanel">
           <div class="ss-thread-status"></div>
-          <form class="ss-thread-form">
-            <input class="ss-nick" maxlength="24" placeholder="暱稱（可空＝訪客）" autocomplete="nickname" />
-            <textarea class="ss-body" maxlength="${maxLen}" rows="2" placeholder="匿名留言（最多 ${maxLen} 字，無需登入）" required></textarea>
+          <ul class="ss-thread-list"></ul>
+          <form class="ss-thread-form ss-composer">
+            <input class="ss-nick" maxlength="24" placeholder="暱稱（可空）" autocomplete="nickname" />
+            <textarea class="ss-body" maxlength="${maxLen}" rows="2" placeholder="留言" required></textarea>
             <button type="submit">送出</button>
           </form>
-          <ul class="ss-thread-list"></ul>
         </div>
         ${externalPanels}
-      </div>
-    </details>
-  `;
+      </div>`;
+  mountEl.innerHTML = bare
+    ? `<div class="ss-thread-bare" data-ticker="${escapeHtml(ticker)}">${threadInner}</div>`
+    : `<details class="ss-thread-details"${openAttr}>
+      <summary>${escapeHtml(ticker)}</summary>
+      ${threadInner}
+    </details>`;
 
   const status = mountEl.querySelector('.ss-thread-status');
   const list = mountEl.querySelector('.ss-thread-list');
@@ -259,22 +262,17 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
   });
 
   if (!url || !anon) {
-    status.textContent =
-      BACKEND_MSG + '（需 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY；見 README）。UI 已就緒，匿名發言尚未接通。';
+    status.textContent = BACKEND_MSG;
     status.className = 'ss-thread-status is-warn';
     form.querySelectorAll('input,textarea,button').forEach((el) => {
       el.disabled = true;
     });
-    const srcHint =
-      market === 'TW'
-        ? '可切換上方分頁看 PTT／Dcard／Threads 摘要'
-        : '可切換上方分頁看 Reddit／富途摘要';
-    list.innerHTML = `<li class="ss-empty">本站匿名留言需 Supabase anon INSERT（RLS）。不會假裝送出後丟掉。${srcHint}；全站 Giscus 需 GitHub 登入，僅作備援。</li>`;
+    list.innerHTML = `<li class="ss-empty">後端未接上</li>`;
     return { ok: false, reason: 'no-config', market };
   }
 
   const client = createCommentsClient(url, anon);
-  status.textContent = '開放匿名討論（無需登入，請保持友善）';
+  status.textContent = '';
   let cooling = false;
 
   async function refresh() {

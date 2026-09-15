@@ -362,11 +362,8 @@ function renderStrategyPanel(strategy, data) {
 export function renderStrategiesSection(placeholder = true) {
   return `
     <section class="section xq-section" id="strategies">
-      <h2 class="section-title">${term("strategyScreen", "策略選股（邏輯條件）")}</h2>
-      <p class="glossary-intro">
-        介面參考 ${term("xqLike", "XQ／選股軟體")} 的策略切換：左側分類 → 條件清單 → 命中表。
-        用公開行情＋證交所公開籌碼做<strong>明示條件</strong>篩選，<strong>不是</strong>券商專有資料庫，也不保證與商業軟體一致。
-      </p>
+      <h2 class="section-title">${term("strategyScreen", "策略選股")}</h2>
+      <p class="view-lead-tight">${term("xqLike", "XQ 風格")}條件命中 · 缺資料標「不足」· 不捏造</p>
       <div id="xq-root" class="xq-root" aria-label="策略選股">
         ${
           placeholder
