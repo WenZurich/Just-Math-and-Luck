@@ -279,7 +279,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
     try {
       const rows = await client.list(ticker);
       if (!rows.length) {
-        list.innerHTML = '<li class="ss-empty">尚無留言，來當第一個吧。</li>';
+        list.innerHTML = '<li class="ss-empty">尚無留言</li>';
         return;
       }
       list.innerHTML = rows
@@ -328,6 +328,141 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
   return {
     ok: true,
     market,
+    destroy() {
+      window.clearInterval(poll);
+    },
+  };
+}
+
+
+/**
+ * Chat-first room (lobby or ticker): message list + sticky composer.
+ * No external digest tabs — those live under「外部討論」.
+ */
+export function mountTickerRoom(mountEl, ticker, options = {}) {
+  if (!mountEl || !ticker) return { ok: false, destroy() {} };
+
+  const cfg = options.config || globalThis.STOCK_SOCIAL_CONFIG || {};
+  const market = inferMarket(
+    ticker,
+    options.market || mountEl.getAttribute('data-market')
+  );
+  const { url, anon } = readSupabaseConfig(cfg);
+  const maxLen = Math.min(cfg.commentMaxLen || 500, options.maxLen || 200);
+  const cooldown = cfg.postCooldownMs || 4000;
+  const title = options.title || ticker;
+  const emptyLine = options.emptyLine || '尚無訊息';
+  const layer = options.danmakuLayer || document.querySelector('#ss-danmaku-layer');
+  const flyToggle =
+    options.flyToggle ||
+    document.querySelector('#ss-danmaku-toggle');
+  const flyEnabled = () => !!(flyToggle && flyToggle.checked);
+
+  mountEl.classList.add('chat-shell', 'ss-thread');
+  mountEl.dataset.market = market;
+  mountEl.dataset.ticker = ticker;
+  mountEl.innerHTML = `
+    <div class="chat-room-label">${escapeHtml(title)}</div>
+    <div class="ss-thread-status chat-status-line" aria-live="polite"></div>
+    <ul class="ss-thread-list chat-messages" aria-label="訊息"></ul>
+    <form class="ss-thread-form chat-composer">
+      <input class="ss-nick" maxlength="24" placeholder="暱稱（可空）" autocomplete="nickname" />
+      <input class="ss-body" maxlength="${maxLen}" placeholder="說點什麼…" required autocomplete="off" />
+      <button type="submit" class="chat-send">送出</button>
+    </form>
+  `;
+
+  const status = mountEl.querySelector('.ss-thread-status');
+  const list = mountEl.querySelector('.ss-thread-list');
+  const form = mountEl.querySelector('.ss-thread-form');
+  let lastSeen = new Set();
+
+  function spawnFly(text) {
+    if (!layer || !flyEnabled()) return;
+    const el = document.createElement('div');
+    el.className = 'ss-danmaku-item';
+    el.textContent = text;
+    el.style.top = `${8 + Math.random() * 42}vh`;
+    el.style.animationDuration = '12000ms';
+    layer.appendChild(el);
+    window.setTimeout(() => el.remove(), 12200);
+  }
+
+  if (!url || !anon) {
+    status.textContent = BACKEND_MSG;
+    status.className = 'ss-thread-status chat-status-line is-warn';
+    form.querySelectorAll('input,button').forEach((el) => {
+      el.disabled = true;
+    });
+    list.innerHTML = `<li class="ss-empty">${escapeHtml(emptyLine)}</li>`;
+    return { ok: false, reason: 'no-config', market, destroy() {} };
+  }
+
+  const client = createCommentsClient(url, anon);
+  status.textContent = '';
+  let cooling = false;
+
+  async function refresh(spawnNew = false) {
+    try {
+      const rows = await client.list(ticker, 80);
+      if (!rows.length) {
+        list.innerHTML = `<li class="ss-empty">${escapeHtml(emptyLine)}</li>`;
+        return;
+      }
+      list.innerHTML = rows
+        .map(
+          (r) =>
+            `<li><span class="nick">${escapeHtml(r.nickname)}</span>${escapeHtml(
+              r.body
+            )}<span class="meta">${escapeHtml(
+              new Date(r.created_at).toLocaleString('zh-TW', { hour12: false })
+            )}</span></li>`
+        )
+        .join('');
+      list.scrollTop = list.scrollHeight;
+      for (const r of rows) {
+        if (lastSeen.has(r.id)) continue;
+        lastSeen.add(r.id);
+        if (spawnNew) spawnFly(`${r.nickname}: ${r.body}`);
+      }
+      if (lastSeen.size > 200) lastSeen = new Set([...lastSeen].slice(-100));
+    } catch (e) {
+      status.textContent = BACKEND_MSG;
+      status.className = 'ss-thread-status chat-status-line is-warn';
+    }
+  }
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (cooling) return;
+    const nickname =
+      (form.querySelector('.ss-nick').value || '訪客').trim().slice(0, 24) || '訪客';
+    const body = (form.querySelector('.ss-body').value || '').trim().slice(0, maxLen);
+    if (!body) return;
+    cooling = true;
+    const btn = form.querySelector('button');
+    btn.disabled = true;
+    try {
+      await client.insert({ ticker, body, nickname });
+      form.querySelector('.ss-body').value = '';
+      await refresh(true);
+    } catch (e) {
+      status.textContent = `發送失敗`;
+      status.className = 'ss-thread-status chat-status-line is-warn';
+    } finally {
+      window.setTimeout(() => {
+        cooling = false;
+        btn.disabled = false;
+      }, cooldown);
+    }
+  });
+
+  refresh(false);
+  const poll = window.setInterval(() => refresh(true), cfg.pollIntervalMs || 8000);
+  return {
+    ok: true,
+    market,
+    ticker,
     destroy() {
       window.clearInterval(poll);
     },

@@ -157,7 +157,7 @@ export const GLOSSARY = {
   },
   principal: {
     title: "本金",
-    plain: "一開始放進這個模擬帳本的錢。台股帳從 300 萬元台幣開始，美股帳從 10 萬美元開始。",
+    plain: "該市場模擬帳的起始資金。台股帳 NT$3,000,000；美股帳 US$100,000（兩帳獨立，不相加）。",
     example: "你帶 100 元去福利社，這 100 元就是本金。後來錢包變 90 或 120，都還是從這筆本金算起。",
   },
   position: {
@@ -338,6 +338,22 @@ export function renderGlossarySection() {
   `;
 }
 
+
+/** Desktop: open all. Mobile: accordion closed. */
+export function bindGlossaryAccordion(root) {
+  const list = root.querySelector("[data-glossary-list]");
+  if (!list) return;
+  const mq = window.matchMedia("(min-width: 900px)");
+  const apply = () => {
+    list.querySelectorAll("details.glossary-item").forEach((el) => {
+      if (mq.matches) el.open = true;
+      else if (!el.classList.contains("flash")) el.open = false;
+    });
+  };
+  apply();
+  if (typeof mq.addEventListener === "function") mq.addEventListener("change", apply);
+  else if (typeof mq.addListener === "function") mq.addListener(apply);
+}
 
 export function bindTermLinks(root, options = {}) {
   root.querySelectorAll("a.term").forEach((a) => {

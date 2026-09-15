@@ -1515,3 +1515,311 @@ h1 {
   .help-dl > div { grid-template-columns: 1fr; gap: 0.15rem; }
   .paper-inception { flex-direction: column; gap: 0.45rem; }
 }
+
+/* —— Compact help / folds —— */
+.help-short {
+  margin: 0;
+  padding: 0.75rem 0.95rem;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.help-short li { color: var(--text-muted); }
+.help-short strong { color: var(--text); }
+.fold-block,
+.paper-rules {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.02);
+  padding: 0.15rem 0.75rem 0.55rem;
+  margin: 0.35rem 0;
+}
+.fold-block > summary,
+.paper-rules > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 650;
+  list-style: none;
+  color: var(--text);
+}
+.fold-block > summary::-webkit-details-marker,
+.paper-rules > summary::-webkit-details-marker { display: none; }
+.fold-list {
+  margin: 0.25rem 0 0.5rem;
+  padding-left: 1.1rem;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+.fold-p { margin: 0.35rem 0 0.55rem; font-size: 0.88rem; color: var(--text-muted); }
+.view-header-tight { margin-bottom: 0.55rem; }
+.view-lead-tight {
+  margin: 0 0 0.75rem;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+/* Glossary accordion */
+.glossary-list { display: grid; gap: 0.45rem; }
+.glossary-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  padding: 0;
+  scroll-margin-top: 1rem;
+}
+.glossary-summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 650;
+  color: #e0f2fe;
+}
+.glossary-summary::-webkit-details-marker { display: none; }
+.glossary-chevron::before { content: "▸"; color: var(--text-dim); }
+.glossary-item[open] .glossary-chevron::before { content: "▾"; }
+.glossary-body { padding: 0 0.85rem 0.85rem; }
+.glossary-body .g-plain { margin: 0 0 0.45rem; font-size: 0.9rem; }
+.glossary-body .g-example {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  border-left: 3px solid #38bdf8;
+  padding: 0.45rem 0.6rem;
+  background: rgba(125, 211, 252, 0.08);
+}
+.g-ex-label {
+  display: inline-block;
+  margin-right: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #7dd3fc;
+}
+@media (min-width: 900px) {
+  .glossary-list { grid-template-columns: 1fr 1fr; }
+}
+
+/* —— Chat room (社群) —— */
+.chat-room { max-width: 42rem; margin: 0 auto; }
+.chat-room-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+.chat-tabs { display: flex; gap: 0.35rem; }
+.chat-tab {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border-radius: 999px;
+  min-height: 40px;
+  padding: 0.35rem 0.9rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+.chat-tab.active {
+  color: var(--text);
+  border-color: rgba(56, 189, 248, 0.45);
+  background: rgba(56, 189, 248, 0.12);
+}
+.chat-fx-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-height: 44px;
+}
+.chat-shell {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+.chat-messages,
+.ss-chat-list.chat-messages {
+  max-height: min(52vh, 28rem);
+  min-height: 12rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  list-style: none;
+}
+.chat-composer,
+.ss-chat-form.chat-composer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+  padding: 0.65rem 0.75rem 0.85rem;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .chat-composer,
+  .ss-chat-form.chat-composer {
+    grid-template-columns: 7.5rem 1fr auto;
+    align-items: center;
+  }
+}
+.chat-send,
+.chat-composer button {
+  min-height: 44px;
+  font-weight: 700;
+}
+.chat-chip-groups { display: grid; gap: 0.55rem; margin-bottom: 0.65rem; }
+.chat-chip-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.04em;
+}
+.chat-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.chat-chip {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  border-radius: 999px;
+  min-height: 40px;
+  padding: 0.3rem 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+.chat-chip.active {
+  border-color: rgba(56, 189, 248, 0.5);
+  background: rgba(56, 189, 248, 0.14);
+  color: #e0f2fe;
+}
+.chat-empty { color: var(--text-dim); font-size: 0.85rem; }
+.chat-external { margin-top: 0.85rem; }
+
+/* Strategy hits: separate TW / US blocks */
+.xq-market-block { margin-top: 0.85rem; }
+.xq-market-title {
+  margin: 0 0 0.45rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* —— Market chat hardening + sticky composer —— */
+.chat-market-tabs { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.chat-mkt {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border-radius: 999px;
+  min-height: 44px;
+  padding: 0.35rem 0.95rem;
+  font-weight: 750;
+  font-size: 0.9rem;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.chat-mkt.active {
+  color: var(--text);
+  border-color: rgba(56, 189, 248, 0.5);
+  background: rgba(56, 189, 248, 0.14);
+}
+.chat-sub-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0 0 0.55rem;
+}
+.chat-room-label {
+  padding: 0.45rem 0.75rem 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.chat-status-line:empty { display: none; }
+.chat-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 18rem;
+}
+.chat-shell .chat-messages,
+.chat-shell .ss-thread-list {
+  flex: 1;
+  height: min(42vh, 22rem);
+  max-height: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.chat-shell .chat-composer,
+.chat-shell .ss-thread-form {
+  position: sticky;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 5.5rem 1fr auto;
+  gap: 0.4rem;
+  padding: 0.55rem 0.65rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--border);
+  background: rgba(8, 12, 22, 0.94);
+  backdrop-filter: blur(8px);
+  margin: 0;
+}
+.chat-shell .ss-body { width: 100%; min-height: 44px; }
+.xq-market-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.65rem 0 0.75rem;
+}
+.xq-mkt-btn {
+  min-height: 40px;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-weight: 650;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.xq-mkt-btn.active {
+  background: rgba(56, 189, 248, 0.14);
+  color: var(--text);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+.paper-book-switch .paper-tab-btn { font-weight: 750; }
+#paper-panel-TW .paper-book { border-color: rgba(248, 113, 113, 0.45); border-width: 2px; }
+#paper-panel-US .paper-book { border-color: rgba(96, 165, 250, 0.45); border-width: 2px; }
+.market-tabs { margin-bottom: 0.85rem; }
+.card-fold { margin-top: 0.55rem; }
+@media (max-width: 899px) {
+  .view-social .chat-room { max-width: none; }
+  .chat-shell .chat-composer,
+  .chat-shell .ss-thread-form {
+    padding-bottom: calc(0.7rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (max-width: 520px) {
+  .chat-shell .chat-composer,
+  .chat-shell .ss-thread-form {
+    grid-template-columns: 1fr auto;
+  }
+  .chat-shell .ss-nick { grid-column: 1 / -1; }
+}

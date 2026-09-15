@@ -108,8 +108,8 @@ function renderBookCard(id, book, metrics) {
   const currency = book.currency;
   const title =
     id === "TW"
-      ? `${term("twStock", "台股")}帳本`
-      : `${term("usStock", "美股")}帳本`;
+      ? `${term("twStock", "台股")}帳本（NT$）`
+      : `${term("usStock", "美股")}帳本（US$）`;
   const start = fmtMoney(book.startCash, currency);
   const pnl = metrics?.totalPnl ?? book.equity - book.startCash;
   const pnlPct = metrics?.totalPnlPct ?? (book.startCash ? ((book.equity - book.startCash) / book.startCash) * 100 : 0);
@@ -309,17 +309,17 @@ export function renderPaperSection(paper) {
       <h2 class="section-title">${term("paperTrade", "模擬")}</h2>
       <p class="paper-disclaimer" role="note">
         <strong>累積模擬帳戶（自 ${escapeHtml(startDate)} 起）</strong>
-        · 不會每日歸零 · <strong>買進即成交</strong>
-        · 台 NT$3M／美 US$100k · 分開計價 · 非真實下單
+        · 不會每日歸零 · <strong>買進即成交</strong> · 非真實下單
       </p>
       <details class="paper-rules">
-        <summary>規則</summary>
+        <summary>規則（各市場獨立帳）</summary>
         <ul>
-          <li>買：名單·風險1%·停距1.5%·單檔≤8%·台整張 · <strong>即成交</strong></li>
+          <li>${term("twStock", "台股")}本金 NT$3,000,000 · 整張成交</li>
+          <li>${term("usStock", "美股")}本金 US$100,000 · 可買 1 股起</li>
+          <li>買：該市場名單·風險1%·停距1.5%·單檔≤8% · <strong>即成交</strong></li>
           <li>賣：${term("stopLoss", "停損")}−3% · ${term("takeProfit", "停利")}+12%半倉 · 破SMA20且日跌&gt;2% · 離名單虧損 · 漲停隔日−5%</li>
         </ul>
       </details>
-      <p class="paper-combined">${escapeHtml(paper.metrics?.combinedNote || "台／美分開。")}</p>
       <div class="tabs paper-tabs" role="tablist">
         <button type="button" class="paper-tab-btn active" data-paper-tab="TW" role="tab" aria-selected="true">${term("twStock", "台股")}帳</button>
         <button type="button" class="paper-tab-btn" data-paper-tab="US" role="tab" aria-selected="false">${term("usStock", "美股")}帳</button>

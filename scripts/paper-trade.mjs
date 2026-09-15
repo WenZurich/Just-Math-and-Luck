@@ -668,7 +668,7 @@ function main() {
     portfolio.metrics = {
       TW: computeBookMetrics(portfolio.books.TW),
       US: computeBookMetrics(portfolio.books.US),
-      combinedNote: "自 2026-09-15 起累計、從不日結清零；買／賣以名單最新價立即記入。台股與美股兩本帳分開，不做匯率加總。",
+      combinedNote: "台股帳與美股帳完全獨立；不做匯率加總。",
     };
     printBookSummary("TW", portfolio.books.TW, portfolio.metrics.TW, date);
     printBookSummary("US", portfolio.books.US, portfolio.metrics.US, date);
@@ -684,7 +684,7 @@ function main() {
   portfolio.metrics = {
     TW: computeBookMetrics(portfolio.books.TW),
     US: computeBookMetrics(portfolio.books.US),
-    combinedNote: "自 2026-09-15 起累計、從不日結清零；買／賣以名單最新價立即記入。台股與美股兩本帳分開，不做匯率加總。",
+    combinedNote: "台股帳與美股帳完全獨立；不做匯率加總。",
   };
 
   const json = JSON.stringify(portfolio, null, 2) + "\n";

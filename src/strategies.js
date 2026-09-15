@@ -224,8 +224,20 @@ function renderConditions(strategy) {
   return `<ol class="xq-cond-list">${list}</ol>`;
 }
 
-function renderHits(strategy) {
-  const hits = strategy.hits || [];
+function filterHitsByMarket(hits, market) {
+  if (!market || market === "ALL") return hits || [];
+  return (hits || []).filter((h) => {
+    const m = String(h.market || "").toUpperCase();
+    if (m === market) return true;
+    const tw = String(h.ticker || "").toUpperCase().endsWith(".TW");
+    if (!m) return market === "TW" ? tw : !tw;
+    return false;
+  });
+}
+
+function renderHits(strategy, marketFilter = "TW") {
+  const raw = strategy.hits || [];
+  const hits = filterHitsByMarket(raw, marketFilter);
   if (strategy.incomplete && !hits.length) {
     const label = escapeHtml(strategy.incompleteLabel || "資料不足");
     const blockers = (strategy.blockers || [])
@@ -234,7 +246,7 @@ function renderHits(strategy) {
     return `<div class="xq-incomplete" role="status">
       <div class="xq-incomplete-badge">${label}</div>
       <ul>${blockers}</ul>
-      <p class="xq-hint">條件仍列出供對照；公開資料齊了會自動出命中，絕不快取假數字。</p>
+      
     </div>`;
   }
   if (!hits.length) {
@@ -242,7 +254,7 @@ function renderHits(strategy) {
       .map((b) => `<li>${escapeHtml(b)}</li>`)
       .join("");
     return `<div class="xq-empty">
-      <p>今日無命中（規則有跑，只是沒有股票同時過關）。</p>
+      <p>今日無命中</p>
       ${blockers ? `<ul>${blockers}</ul>` : ""}
     </div>`;
   }
@@ -251,61 +263,67 @@ function renderHits(strategy) {
   const head = cols
     .map((c) => `<th>${c.rawLabel ? c.label : escapeHtml(c.label)}</th>`)
     .join("");
-  const body = hits
-    .map((h) => {
-      const m = h.metrics || {};
-      const tds = cols
-        .map((c) => {
-          const cls = c.cls ? c.cls(m) : "";
-          return `<td class="num ${cls}">${c.fmt(m)}</td>`;
-        })
-        .join("");
-      return `<tr>
-        <td><span class="ticker">${escapeHtml(h.ticker)}</span></td>
-        <td class="name-cell">${escapeHtml(h.name || "")}</td>
-        <td><span class="badge market">${escapeHtml(h.market || "")}</span></td>
-        ${tds}
-      </tr>`;
-    })
-    .join("");
 
-  const cards = hits
-    .map((h) => {
-      const m = h.metrics || {};
-      const metrics = cols
-        .map((c) => {
-          const cls = c.cls ? c.cls(m) : "";
-          return `<div class="xq-m"><span class="xq-ml">${c.rawLabel ? c.label : escapeHtml(c.label)}</span><span class="xq-mv ${cls}">${c.fmt(m)}</span></div>`;
-        })
-        .join("");
-      return `<article class="xq-hit-card">
-        <div class="xq-hit-head">
-          <div>
-            <div class="ticker">${escapeHtml(h.ticker)}</div>
-            <div class="name">${escapeHtml(h.name || "")}</div>
+  const renderMarketBlock = (label, list) => {
+    if (!list.length) return "";
+    const body = list
+      .map((h) => {
+        const m = h.metrics || {};
+        const tds = cols
+          .map((c) => {
+            const cls = c.cls ? c.cls(m) : "";
+            return `<td class="num ${cls}">${c.fmt(m)}</td>`;
+          })
+          .join("");
+        return `<tr>
+          <td><span class="ticker">${escapeHtml(h.ticker)}</span></td>
+          <td class="name-cell">${escapeHtml(h.name || "")}</td>
+          ${tds}
+        </tr>`;
+      })
+      .join("");
+    const cards = list
+      .map((h) => {
+        const m = h.metrics || {};
+        const metrics = cols
+          .map((c) => {
+            const cls = c.cls ? c.cls(m) : "";
+            return `<div class="xq-m"><span class="xq-ml">${c.rawLabel ? c.label : escapeHtml(c.label)}</span><span class="xq-mv ${cls}">${c.fmt(m)}</span></div>`;
+          })
+          .join("");
+        return `<article class="xq-hit-card">
+          <div class="xq-hit-head">
+            <div>
+              <div class="ticker">${escapeHtml(h.ticker)}</div>
+              <div class="name">${escapeHtml(h.name || "")}</div>
+            </div>
           </div>
-          <span class="badge market">${escapeHtml(h.market || "")}</span>
+          <div class="xq-hit-metrics">${metrics}</div>
+        </article>`;
+      })
+      .join("");
+    return `
+      <div class="xq-market-block">
+        <h5 class="xq-market-title">${escapeHtml(label)}（${list.length}）</h5>
+        <div class="table-wrap xq-table-wrap">
+          <table class="stock-table xq-table">
+            <thead><tr><th>代碼</th><th>名稱</th>${head}</tr></thead>
+            <tbody>${body}</tbody>
+          </table>
         </div>
-        <div class="xq-hit-metrics">${metrics}</div>
-      </article>`;
-    })
-    .join("");
+        <div class="xq-mobile-cards">${cards}</div>
+      </div>`;
+  };
 
-  return `
-    <div class="table-wrap xq-table-wrap">
-      <table class="stock-table xq-table">
-        <thead><tr>
-          <th>代碼</th><th>名稱</th><th>市場</th>${head}
-        </tr></thead>
-        <tbody>${body}</tbody>
-      </table>
-    </div>
-    <div class="xq-mobile-cards">${cards}</div>
-  `;
+  const tw = hits.filter((h) => String(h.market || "").toUpperCase() === "TW");
+  const us = hits.filter((h) => String(h.market || "").toUpperCase() !== "TW");
+  return `${renderMarketBlock("台股", tw)}${renderMarketBlock("美股", us)}`;
 }
 
-function renderStrategyPanel(strategy, data) {
-  const hitN = (strategy.hits || []).length;
+function renderStrategyPanel(strategy, data, marketFilter = "ALL") {
+  const allHits = strategy.hits || [];
+  const hits = filterHitsByMarket(allHits, marketFilter);
+  const hitN = hits.length;
   const unchecked = (strategy.unchecked || [])
     .map((u) => `<li class="xq-unchecked">${escapeHtml(u)}</li>`)
     .join("");
@@ -339,7 +357,8 @@ function renderStrategyPanel(strategy, data) {
       <div class="xq-meta-row">
         <span>執行日 ${escapeHtml(data.sessionDate || "—")}</span>
         <span>資料 ${fmtAsOf(data.asOf)}</span>
-        <span>宇宙 台${data.universe?.tw ?? "—"}／美${data.universe?.us ?? "—"}</span>
+        <span>台股宇宙 ${data.universe?.tw ?? "—"}</span>
+        <span>美股宇宙 ${data.universe?.us ?? "—"}</span>
       </div>
       <h4 class="xq-sub">邏輯條件（明示、可對照）</h4>
       ${renderConditions(strategy)}
@@ -354,7 +373,11 @@ function renderStrategyPanel(strategy, data) {
           <a class="xq-btn xq-btn-link" href="${DATA_URL}" download="strategy-screener.json">匯出 JSON</a>
         </div>
       </div>
-      ${renderHits(strategy)}
+      <div class="xq-market-tabs" role="tablist" aria-label="命中市場">
+        <button type="button" class="xq-mkt-btn${marketFilter === "TW" ? " active" : ""}" data-xq-market="TW" aria-pressed="${marketFilter === "TW"}">台股</button>
+        <button type="button" class="xq-mkt-btn${marketFilter === "US" ? " active" : ""}" data-xq-market="US" aria-pressed="${marketFilter === "US"}">美股</button>
+      </div>
+      ${renderHits(strategy, marketFilter)}
     </div>
   `;
 }
@@ -363,7 +386,7 @@ export function renderStrategiesSection(placeholder = true) {
   return `
     <section class="section xq-section" id="strategies">
       <h2 class="section-title">${term("strategyScreen", "策略選股")}</h2>
-      <p class="view-lead-tight">${term("xqLike", "XQ 風格")}條件命中 · 缺資料標「不足」· 不捏造</p>
+      <p class="view-lead-tight">台／美命中分開檢視 · 缺資料標「不足」</p>
       <div id="xq-root" class="xq-root" aria-label="策略選股">
         ${
           placeholder
@@ -399,6 +422,7 @@ export function mountStrategies(selector, data) {
   }
 
   const first = data.strategies[0];
+  let marketFilter = "TW";
   const chips = order
     .map((cat) => {
       const list = byCat.get(cat) || [];
@@ -446,7 +470,7 @@ export function mountStrategies(selector, data) {
       </aside>
       <div class="xq-main">
         <div class="xq-chips" aria-label="策略分類">${chips}</div>
-        <div class="xq-panel-host">${renderStrategyPanel(first, data)}</div>
+        <div class="xq-panel-host">${renderStrategyPanel(first, data, marketFilter)}</div>
       </div>
     </div>
     <p class="xq-foot">${escapeHtml(data.disclaimer || "")}
@@ -455,23 +479,23 @@ export function mountStrategies(selector, data) {
   `;
 
   const host = root.querySelector(".xq-panel-host");
-  const activate = (id) => {
-    const s = data.strategies.find((x) => x.id === id);
-    if (!s || !host) return;
-    host.innerHTML = renderStrategyPanel(s, data);
-    root.querySelectorAll("[data-xq-id]").forEach((el) => {
-      const on = el.getAttribute("data-xq-id") === id;
-      el.classList.toggle("active", on);
-      if (el.tagName === "BUTTON") el.setAttribute("aria-pressed", on ? "true" : "false");
-    });
+  let activeId = first.id;
+
+  const bindPanelExtras = () => {
     bindCopy(host, data);
-    // re-bind glossary in panel
-    host.querySelectorAll("a.term").forEach((a) => {
+    host?.querySelectorAll("[data-xq-market]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        marketFilter = btn.getAttribute("data-xq-market") || "TW";
+        activate(activeId);
+      });
+    });
+    host?.querySelectorAll("a.term").forEach((a) => {
       a.addEventListener("click", (e) => {
         const tid = a.getAttribute("data-term");
         const target = document.getElementById(`term-${tid}`);
         if (!target) return;
         e.preventDefault();
+        if (target.tagName === "DETAILS") target.open = true;
         target.scrollIntoView({ behavior: "smooth", block: "start" });
         target.classList.add("flash");
         setTimeout(() => target.classList.remove("flash"), 1600);
@@ -479,10 +503,23 @@ export function mountStrategies(selector, data) {
     });
   };
 
+  const activate = (id) => {
+    const s = data.strategies.find((x) => x.id === id);
+    if (!s || !host) return;
+    activeId = id;
+    host.innerHTML = renderStrategyPanel(s, data, marketFilter);
+    root.querySelectorAll("[data-xq-id]").forEach((el) => {
+      const on = el.getAttribute("data-xq-id") === id;
+      el.classList.toggle("active", on);
+      if (el.tagName === "BUTTON") el.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    bindPanelExtras();
+  };
+
   root.querySelectorAll("[data-xq-id]").forEach((btn) => {
     btn.addEventListener("click", () => activate(btn.getAttribute("data-xq-id")));
   });
-  bindCopy(host, data);
+  bindPanelExtras();
 }
 
 function hitsToCsv(strategy) {

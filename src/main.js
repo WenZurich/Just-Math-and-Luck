@@ -8,13 +8,13 @@ import {
   escapeHtml,
   renderGlossarySection,
   bindTermLinks,
+  bindGlossaryAccordion,
 } from "./glossary.js";
 import {
   renderPaperSection,
   bindPaperTabs,
   loadPaperPortfolio,
 } from "./paper.js";
-import { initDanmaku } from "./danmaku.js";
 import { mountAllTickerComments, mountTickerRoom, initSiteGiscus } from "./comments.js";
 import { initSocialDigest, loadSocialDigest } from "./social-digest.js";
 import "./strategies.css";
@@ -189,9 +189,11 @@ function renderTopCard(stock, rank) {
         <div class="metric"><div class="m-label">${term("pct1m", "約 1 月")}</div><div class="m-val ${pctClass(stock.pct1m)}">${fmtPct(stock.pct1m)}</div></div>
         <div class="metric"><div class="m-label">${term("volRatio", "量比")}</div><div class="m-val">${stock.volRatio != null ? fmtNum(stock.volRatio, 2) + "×" : "—"}</div></div>
       </div>
-      ${stock.business ? `<p class="card-text"><strong>本業</strong>　${escapeHtml(stock.business)}</p>` : ""}
-      ${stock.why ? `<p class="card-text"><strong>理由</strong>　${escapeHtml(stock.why)}</p>` : ""}
-      ${stock.risk ? `<p class="card-text risk"><strong>風險</strong>　${linkRiskText(stock.risk)}</p>` : ""}
+      ${(stock.business || stock.why || stock.risk) ? `<details class="fold-block card-fold"><summary>詳情</summary>
+        ${stock.business ? `<p class="card-text"><strong>本業</strong>　${escapeHtml(stock.business)}</p>` : ""}
+        ${stock.why ? `<p class="card-text"><strong>理由</strong>　${escapeHtml(stock.why)}</p>` : ""}
+        ${stock.risk ? `<p class="card-text risk"><strong>風險</strong>　${linkRiskText(stock.risk)}</p>` : ""}
+      </details>` : ""}
       <div data-ticker-comments="${escapeHtml(stock.ticker)}" data-market="${escapeHtml(stock.market === 'TW' || String(stock.ticker).endsWith('.TW') ? 'TW' : 'US')}"></div>
     </article>
   `;
@@ -371,9 +373,9 @@ function renderHelpPage(data) {
       <details class="fold-block help-fold" id="help-paper">
         <summary>詳情 · 紙上模擬</summary>
         <ul class="fold-list">
-          <li>台幣 NT$3,000,000／美元 US$100,000，分開計價</li>
-          <li>同一 <code>asOf</code> 只處理一次；立即記入帳本</li>
-          <li>完整買賣規則見「模擬」分頁</li>
+          <li>台股帳：NT$3,000,000（獨立）</li>
+          <li>美股帳：US$100,000（獨立）</li>
+          <li>同一 <code>asOf</code> 只處理一次；買進即成交</li>
         </ul>
       </details>
     </div>
@@ -384,62 +386,76 @@ function renderDanmakuLayer() {
   return `<div id="ss-danmaku-layer" class="ss-danmaku-layer" aria-hidden="true"></div>`;
 }
 
-function collectTickerChips(data) {
+function stockMarket(s) {
+  if (!s) return "US";
+  if (s.market === "TW" || s.market === "US") return s.market;
+  return String(s.ticker || "").toUpperCase().endsWith(".TW") ? "TW" : "US";
+}
+
+function collectTickerChips(data, market) {
   const seen = new Set();
   const chips = [];
   const push = (s) => {
     if (!s?.ticker || seen.has(s.ticker)) return;
+    const m = stockMarket(s);
+    if (market && m !== market) return;
     seen.add(s.ticker);
-    const market =
-      s.market === "TW" || String(s.ticker).endsWith(".TW") ? "TW" : "US";
-    chips.push({ ticker: s.ticker, market, name: s.name || "" });
+    chips.push({ ticker: s.ticker, market: m, name: s.name || "" });
   };
   (data.top5 || []).forEach(push);
-  (data.tw || []).forEach(push);
-  (data.us || []).forEach(push);
+  if (!market || market === "TW") (data.tw || []).forEach(push);
+  if (!market || market === "US") (data.us || []).forEach(push);
   return chips;
 }
 
+function lobbyTicker(market) {
+  return market === "TW" ? "__TW__" : "__US__";
+}
+
+function renderTop5ByMarket(list, marketLabel) {
+  if (!list.length) {
+    return `<div class="empty-state">${escapeHtml(marketLabel)} Top 尚無</div>`;
+  }
+  return `<div class="top5-grid">${list
+    .map((s, i) => renderTopCard(s, i + 1))
+    .join("")}</div>`;
+}
+
 function renderChatRoom(data) {
-  const chips = collectTickerChips(data);
-  const chipHtml = chips
-    .map(
-      (c, i) =>
-        `<button type="button" class="chat-chip${i === 0 ? " active" : ""}" data-ticker="${escapeHtml(
-          c.ticker
-        )}" data-market="${c.market}">${escapeHtml(c.ticker)}</button>`
-    )
-    .join("");
+  const usChips = collectTickerChips(data, "US");
+  const twChips = collectTickerChips(data, "TW");
+  const chipHtml = (chips, market) =>
+    chips
+      .map(
+        (c, i) =>
+          `<button type="button" class="chat-chip${i === 0 ? " active" : ""}" data-ticker="${escapeHtml(
+            c.ticker
+          )}" data-market="${market}" hidden>${escapeHtml(c.ticker)}</button>`
+      )
+      .join("");
   return `
-    <div class="chat-room" id="chat-room">
+    <div class="chat-room" id="chat-room" data-market="US" data-mode="lobby">
       <header class="chat-room-bar">
-        <div class="chat-tabs" role="tablist" aria-label="聊天範圍">
-          <button type="button" class="chat-tab active" data-chat-tab="global" role="tab" aria-selected="true">全站</button>
-          <button type="button" class="chat-tab" data-chat-tab="ticker" role="tab" aria-selected="false">個股</button>
+        <div class="chat-market-tabs" role="tablist" aria-label="市場">
+          <button type="button" class="chat-mkt active" data-chat-market="US" role="tab" aria-selected="true">美股聊天</button>
+          <button type="button" class="chat-mkt" data-chat-market="TW" role="tab" aria-selected="false">台股聊天</button>
         </div>
         <label class="chat-fx-toggle">
           <input type="checkbox" id="ss-danmaku-toggle" />
           <span>彈幕效果</span>
         </label>
       </header>
-
-      <div class="chat-pane is-active" data-chat-pane="global">
-        <div id="ss-danmaku-panel" class="chat-shell" aria-label="全站聊天">
-          <div class="ss-chat-status chat-status-line" aria-live="polite"></div>
-          <ul class="ss-chat-list chat-messages" aria-label="訊息"></ul>
-          <form class="ss-chat-form chat-composer">
-            <input class="ss-nick" name="nickname" maxlength="24" placeholder="暱稱（可空）" autocomplete="nickname" />
-            <input class="ss-body" name="body" maxlength="80" placeholder="說點什麼…" required autocomplete="off" />
-            <button type="submit" class="chat-send">送出</button>
-          </form>
-        </div>
+      <div class="chat-sub-tabs" role="tablist" aria-label="房間">
+        <button type="button" class="chat-tab active" data-chat-mode="lobby" role="tab" aria-selected="true">大廳</button>
+        <button type="button" class="chat-tab" data-chat-mode="ticker" role="tab" aria-selected="false">個股</button>
       </div>
-
-      <div class="chat-pane" data-chat-pane="ticker" hidden>
-        <div class="chat-chip-row" role="tablist" aria-label="個股">${chipHtml || `<span class="chat-empty">暫無標的</span>`}</div>
-        <div id="ss-ticker-room" class="chat-shell" data-ticker-room></div>
+      <div class="chat-chip-row" data-chip-market="US" role="tablist" aria-label="美股標的" hidden>
+        ${chipHtml(usChips, "US") || `<span class="chat-empty">暫無美股標的</span>`}
       </div>
-
+      <div class="chat-chip-row" data-chip-market="TW" role="tablist" aria-label="台股標的" hidden>
+        ${chipHtml(twChips, "TW") || `<span class="chat-empty">暫無台股標的</span>`}
+      </div>
+      <div id="ss-chat-mount" class="chat-shell" aria-label="聊天室"></div>
       <details class="fold-block chat-external">
         <summary>外部討論</summary>
         <div id="ss-social-digest" aria-label="外部討論摘要"></div>
@@ -539,25 +555,73 @@ function renderApp(data, paper) {
         <header class="view-header view-header-tight">
           <h2 class="view-title">今日</h2>
         </header>
+        <div class="tabs market-tabs" role="tablist" aria-label="市場">
+          <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", "美股")}（${us.length}）</button>
+          <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", "台股")}（${tw.length}）</button>
+        </div>
         ${renderIndexStrip(data.indices || {})}
-        <section class="section">
-          <h2 class="section-title">今日 Top 5</h2>
-          <div class="top5-grid">
-            ${top5.map((s, i) => renderTopCard(s, i + 1)).join("") || `<div class="empty-state">今日尚無 Top 5</div>`}
-          </div>
-        </section>
-        <section class="section">
-          <h2 class="section-title">選股清單</h2>
-          <div class="tabs" role="tablist">
-            <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", "美股")}（${us.length}）</button>
-            <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", "台股")}（${tw.length}）</button>
-          </div>
-          ${renderListSection("us", us)}
-          ${renderListSection("tw", tw)}
-        </section>
+        <div class="panel active" id="panel-us" role="tabpanel">
+          <section class="section">
+            <h2 class="section-title">${term("usStock", "美股")} Top</h2>
+            ${renderTop5ByMarket(top5.filter((s) => stockMarket(s) === "US"), "美股")}
+          </section>
+          <section class="section">
+            <h2 class="section-title">美股清單</h2>
+            <div class="table-wrap">
+              <table class="stock-table">
+                <thead>
+                  <tr>
+                    <th>${term("ticker", "代碼")}</th>
+                    <th>名稱</th>
+                    <th>價格</th>
+                    <th>${term("dayPct", "日漲跌")}</th>
+                    <th>${term("rs", "RS")}／${term("priorClose", "前收")}</th>
+                    <th>${term("pct5d", "5 日")}</th>
+                    <th>${term("pct1m", "約 1 月")}</th>
+                    <th>${term("volRatio", "量比")}</th>
+                    <th>均線</th>
+                    <th>${term("screening", "篩選")}</th>
+                    <th>理由</th>
+                  </tr>
+                </thead>
+                <tbody>${tableRows(us)}</tbody>
+              </table>
+            </div>
+            <div class="mobile-list">${mobileCards(us)}</div>
+          </section>
+        </div>
+        <div class="panel" id="panel-tw" role="tabpanel">
+          <section class="section">
+            <h2 class="section-title">${term("twStock", "台股")} Top</h2>
+            ${renderTop5ByMarket(top5.filter((s) => stockMarket(s) === "TW"), "台股")}
+          </section>
+          <section class="section">
+            <h2 class="section-title">台股清單</h2>
+            <div class="table-wrap">
+              <table class="stock-table">
+                <thead>
+                  <tr>
+                    <th>${term("ticker", "代碼")}</th>
+                    <th>名稱</th>
+                    <th>價格</th>
+                    <th>${term("dayPct", "日漲跌")}</th>
+                    <th>${term("rs", "RS")}／${term("priorClose", "前收")}</th>
+                    <th>${term("pct5d", "5 日")}</th>
+                    <th>${term("pct1m", "約 1 月")}</th>
+                    <th>${term("volRatio", "量比")}</th>
+                    <th>均線</th>
+                    <th>${term("screening", "篩選")}</th>
+                    <th>理由</th>
+                  </tr>
+                </thead>
+                <tbody>${tableRows(tw)}</tbody>
+              </table>
+            </div>
+            <div class="mobile-list">${mobileCards(tw)}</div>
+          </section>
+        </div>
         ${renderParity(data.parity)}
       </div>
-
       <div class="view" id="view-strategies" data-view="strategies" hidden>
         <span class="view-anchor" tabindex="-1"></span>
         ${renderStrategiesSection()}
@@ -661,43 +725,101 @@ function bindChatRoom(root, data, { config, digest } = {}) {
   const room = root.querySelector("#chat-room");
   if (!room) return;
 
-  const tabs = room.querySelectorAll(".chat-tab");
-  const panes = room.querySelectorAll(".chat-pane");
-  tabs.forEach((btn) => {
+  const mount = room.querySelector("#ss-chat-mount");
+  const mktBtns = room.querySelectorAll(".chat-mkt");
+  const modeBtns = room.querySelectorAll("[data-chat-mode]");
+  let handle = null;
+  let market = "US";
+  let mode = "lobby";
+
+  const syncChips = () => {
+    room.querySelectorAll(".chat-chip-row").forEach((row) => {
+      const show = mode === "ticker" && row.getAttribute("data-chip-market") === market;
+      row.hidden = !show;
+      if (show) {
+        const chips = [...row.querySelectorAll(".chat-chip")];
+        chips.forEach((c) => {
+          c.hidden = false;
+        });
+        if (chips.length && !chips.some((c) => c.classList.contains("active"))) {
+          chips[0].classList.add("active");
+        }
+      }
+    });
+  };
+
+  const openRoom = () => {
+    if (!mount) return;
+    if (handle?.destroy) handle.destroy();
+    if (mode === "lobby") {
+      const ticker = lobbyTicker(market);
+      handle = mountTickerRoom(mount, ticker, {
+        config,
+        market,
+        title: market === "TW" ? "台股大廳" : "美股大廳",
+        emptyLine: "尚無訊息",
+        maxLen: 80,
+      });
+      return;
+    }
+    const row = room.querySelector(`.chat-chip-row[data-chip-market="${market}"]`);
+    const chip =
+      row?.querySelector(".chat-chip.active") || row?.querySelector(".chat-chip");
+    if (!chip) {
+      mount.innerHTML = `<p class="chat-empty">此市場暫無標的</p>`;
+      handle = { destroy() {} };
+      return;
+    }
+    handle = mountTickerRoom(mount, chip.dataset.ticker, {
+      config,
+      digest,
+      market,
+      title: chip.dataset.ticker,
+      emptyLine: "尚無留言",
+    });
+  };
+
+  mktBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const id = btn.dataset.chatTab;
-      tabs.forEach((b) => {
+      market = btn.dataset.chatMarket;
+      room.dataset.market = market;
+      mktBtns.forEach((b) => {
         const on = b === btn;
         b.classList.toggle("active", on);
         b.setAttribute("aria-selected", on ? "true" : "false");
       });
-      panes.forEach((p) => {
-        const on = p.dataset.chatPane === id;
-        p.classList.toggle("is-active", on);
-        p.hidden = !on;
+      // reset active chip in new market
+      const row = room.querySelector(`.chat-chip-row[data-chip-market="${market}"]`);
+      row?.querySelectorAll(".chat-chip").forEach((c, i) => c.classList.toggle("active", i === 0));
+      syncChips();
+      openRoom();
+    });
+  });
+
+  modeBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      mode = btn.dataset.chatMode;
+      room.dataset.mode = mode;
+      modeBtns.forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
       });
+      syncChips();
+      openRoom();
     });
   });
 
-  const tickerMount = room.querySelector("#ss-ticker-room");
-  const chips = room.querySelectorAll(".chat-chip");
-  let tickerHandle = null;
-
-  const openTicker = (ticker, market) => {
-    if (!tickerMount || !ticker) return;
-    if (tickerHandle?.destroy) tickerHandle.destroy();
-    tickerHandle = mountTickerRoom(tickerMount, ticker, { config, digest, market });
-  };
-
-  chips.forEach((chip) => {
+  room.querySelectorAll(".chat-chip").forEach((chip) => {
     chip.addEventListener("click", () => {
-      chips.forEach((c) => c.classList.toggle("active", c === chip));
-      openTicker(chip.dataset.ticker, chip.dataset.market);
+      const row = chip.closest(".chat-chip-row");
+      row?.querySelectorAll(".chat-chip").forEach((c) => c.classList.toggle("active", c === chip));
+      if (mode === "ticker") openRoom();
     });
   });
 
-  const first = chips[0];
-  if (first) openTicker(first.dataset.ticker, first.dataset.market);
+  syncChips();
+  openRoom();
 }
 
 async function main() {
@@ -711,6 +833,7 @@ async function main() {
     const nav = bindAppNav(app);
     bindTabs(app);
     bindPaperTabs(app);
+    bindGlossaryAccordion(app);
     bindTermLinks(app, {
       beforeScroll() {
         nav.go("help", { updateHash: true, scrollTop: false });
@@ -728,7 +851,6 @@ async function main() {
         digest = null;
       }
     }
-    initDanmaku({ config });
     bindChatRoom(app, data, { config, digest });
     mountAllTickerComments(app, { config, digest });
     initSiteGiscus("#ss-giscus", { config });

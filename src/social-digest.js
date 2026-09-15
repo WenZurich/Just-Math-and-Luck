@@ -132,14 +132,12 @@ export function renderSocialDigest(data, mountEl) {
   mountEl.innerHTML = `
     <div class="ss-digest">
       <header class="ss-digest-head">
-        <h3>今日社交摘要</h3>
-        <p class="ss-digest-asof">資料時間：${escapeHtml(asOf)}</p>
-        ${routing}
-        ${notes ? `<ul class="ss-digest-notes">${notes}</ul>` : ''}
+        <h3>外部摘要</h3>
+        <p class="ss-digest-asof">${escapeHtml(asOf)}</p>
       </header>
       <div class="ss-digest-market-tabs" role="tablist" aria-label="社交摘要市場">
-        <button type="button" class="ss-mkt-tab${defaultMarket === 'US' ? ' active' : ''}" data-market="US" role="tab" aria-selected="${defaultMarket === 'US'}">美股來源（Reddit／富途）</button>
-        <button type="button" class="ss-mkt-tab${defaultMarket === 'TW' ? ' active' : ''}" data-market="TW" role="tab" aria-selected="${defaultMarket === 'TW'}">台股來源（PTT／Dcard／Threads）</button>
+        <button type="button" class="ss-mkt-tab${defaultMarket === 'US' ? ' active' : ''}" data-market="US" role="tab" aria-selected="${defaultMarket === 'US'}">美股 Reddit／富途</button>
+        <button type="button" class="ss-mkt-tab${defaultMarket === 'TW' ? ' active' : ''}" data-market="TW" role="tab" aria-selected="${defaultMarket === 'TW'}">台股 PTT／Dcard／Threads</button>
       </div>
       ${usPanel}
       ${twPanel}
