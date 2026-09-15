@@ -175,7 +175,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
   const maxLen = cfg.commentMaxLen || 500;
   const cooldown = cfg.postCooldownMs || 4000;
   const bare = !!options.bare;
-  const openAttr = preferOpenDetails() ? ' open' : '';
+  const openAttr = '';
 
   const tabBtns = sourceTabs
     .map(

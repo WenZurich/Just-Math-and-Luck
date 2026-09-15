@@ -321,8 +321,8 @@ export function renderPaperSection(paper) {
         </ul>
       </details>
       <div class="tabs paper-tabs" role="tablist">
-        <button type="button" class="paper-tab-btn active" data-paper-tab="TW" role="tab" aria-selected="true">${term("twStock", "台股")}帳</button>
-        <button type="button" class="paper-tab-btn" data-paper-tab="US" role="tab" aria-selected="false">${term("usStock", "美股")}帳</button>
+        <button type="button" class="paper-tab-btn active" data-paper-tab="TW" role="tab" aria-selected="true">台股帳 · NT$</button>
+        <button type="button" class="paper-tab-btn" data-paper-tab="US" role="tab" aria-selected="false">美股帳 · US$</button>
       </div>
       ${renderBookPanel("TW", tw, paper.metrics?.TW, asOfDate, true, startDate)}
       ${renderBookPanel("US", us, paper.metrics?.US, asOfDate, false, startDate)}

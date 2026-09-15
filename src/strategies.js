@@ -238,7 +238,8 @@ function filterHitsByMarket(hits, market) {
 function renderHits(strategy, marketFilter = "TW") {
   const raw = strategy.hits || [];
   const hits = filterHitsByMarket(raw, marketFilter);
-  if (strategy.incomplete && !hits.length) {
+  const mktLabel = marketFilter === "US" ? "美股" : "台股";
+  if (strategy.incomplete && !raw.length) {
     const label = escapeHtml(strategy.incompleteLabel || "資料不足");
     const blockers = (strategy.blockers || [])
       .map((b) => `<li>${escapeHtml(b)}</li>`)
@@ -246,81 +247,68 @@ function renderHits(strategy, marketFilter = "TW") {
     return `<div class="xq-incomplete" role="status">
       <div class="xq-incomplete-badge">${label}</div>
       <ul>${blockers}</ul>
-      
     </div>`;
   }
   if (!hits.length) {
-    const blockers = (strategy.blockers || [])
-      .map((b) => `<li>${escapeHtml(b)}</li>`)
-      .join("");
-    return `<div class="xq-empty">
-      <p>今日無命中</p>
-      ${blockers ? `<ul>${blockers}</ul>` : ""}
-    </div>`;
+    return `<div class="xq-empty"><p>${mktLabel}無命中</p></div>`;
   }
 
   const cols = metricColumns(strategy.id);
   const head = cols
     .map((c) => `<th>${c.rawLabel ? c.label : escapeHtml(c.label)}</th>`)
     .join("");
-
-  const renderMarketBlock = (label, list) => {
-    if (!list.length) return "";
-    const body = list
-      .map((h) => {
-        const m = h.metrics || {};
-        const tds = cols
-          .map((c) => {
-            const cls = c.cls ? c.cls(m) : "";
-            return `<td class="num ${cls}">${c.fmt(m)}</td>`;
-          })
-          .join("");
-        return `<tr>
-          <td><span class="ticker">${escapeHtml(h.ticker)}</span></td>
-          <td class="name-cell">${escapeHtml(h.name || "")}</td>
-          ${tds}
-        </tr>`;
-      })
-      .join("");
-    const cards = list
-      .map((h) => {
-        const m = h.metrics || {};
-        const metrics = cols
-          .map((c) => {
-            const cls = c.cls ? c.cls(m) : "";
-            return `<div class="xq-m"><span class="xq-ml">${c.rawLabel ? c.label : escapeHtml(c.label)}</span><span class="xq-mv ${cls}">${c.fmt(m)}</span></div>`;
-          })
-          .join("");
-        return `<article class="xq-hit-card">
-          <div class="xq-hit-head">
-            <div>
-              <div class="ticker">${escapeHtml(h.ticker)}</div>
-              <div class="name">${escapeHtml(h.name || "")}</div>
-            </div>
+  const body = hits
+    .map((h) => {
+      const m = h.metrics || {};
+      const tds = cols
+        .map((c) => {
+          const cls = c.cls ? c.cls(m) : "";
+          return `<td class="num ${cls}">${c.fmt(m)}</td>`;
+        })
+        .join("");
+      return `<tr>
+        <td><span class="ticker">${escapeHtml(h.ticker)}</span></td>
+        <td class="name-cell">${escapeHtml(h.name || "")}</td>
+        ${tds}
+      </tr>`;
+    })
+    .join("");
+  const cards = hits
+    .map((h) => {
+      const m = h.metrics || {};
+      const metrics = cols
+        .map((c) => {
+          const cls = c.cls ? c.cls(m) : "";
+          return `<div class="xq-m"><span class="xq-ml">${c.rawLabel ? c.label : escapeHtml(c.label)}</span><span class="xq-mv ${cls}">${c.fmt(m)}</span></div>`;
+        })
+        .join("");
+      return `<article class="xq-hit-card">
+        <div class="xq-hit-head">
+          <div>
+            <div class="ticker">${escapeHtml(h.ticker)}</div>
+            <div class="name">${escapeHtml(h.name || "")}</div>
           </div>
-          <div class="xq-hit-metrics">${metrics}</div>
-        </article>`;
-      })
-      .join("");
-    return `
-      <div class="xq-market-block">
-        <h5 class="xq-market-title">${escapeHtml(label)}（${list.length}）</h5>
-        <div class="table-wrap xq-table-wrap">
-          <table class="stock-table xq-table">
-            <thead><tr><th>代碼</th><th>名稱</th>${head}</tr></thead>
-            <tbody>${body}</tbody>
-          </table>
+          <span class="badge market">${escapeHtml(h.market || marketFilter)}</span>
         </div>
-        <div class="xq-mobile-cards">${cards}</div>
-      </div>`;
-  };
+        <div class="xq-hit-metrics">${metrics}</div>
+      </article>`;
+    })
+    .join("");
 
-  const tw = hits.filter((h) => String(h.market || "").toUpperCase() === "TW");
-  const us = hits.filter((h) => String(h.market || "").toUpperCase() !== "TW");
-  return `${renderMarketBlock("台股", tw)}${renderMarketBlock("美股", us)}`;
+  return `
+    <div class="xq-market-block" data-market="${escapeHtml(marketFilter)}">
+      <h5 class="xq-market-title">${mktLabel}（${hits.length}）</h5>
+      <div class="table-wrap xq-table-wrap">
+        <table class="stock-table xq-table">
+          <thead><tr><th>代碼</th><th>名稱</th>${head}</tr></thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>
+      <div class="xq-mobile-cards">${cards}</div>
+    </div>`;
 }
 
-function renderStrategyPanel(strategy, data, marketFilter = "ALL") {
+function renderStrategyPanel(strategy, data, marketFilter = "TW") {
   const allHits = strategy.hits || [];
   const hits = filterHitsByMarket(allHits, marketFilter);
   const hitN = hits.length;
@@ -353,14 +341,14 @@ function renderStrategyPanel(strategy, data, marketFilter = "ALL") {
           <span class="xq-hit-label">檔命中</span>
         </div>
       </div>
-      ${strategy.description ? `<p class="xq-desc">${escapeHtml(strategy.description)}</p>` : ""}
+      ${strategy.description ? `<details class="fold-block"><summary>詳情 · 策略說明</summary><p class="xq-desc fold-p">${escapeHtml(strategy.description)}</p></details>` : ""}
       <div class="xq-meta-row">
         <span>執行日 ${escapeHtml(data.sessionDate || "—")}</span>
         <span>資料 ${fmtAsOf(data.asOf)}</span>
         <span>台股宇宙 ${data.universe?.tw ?? "—"}</span>
         <span>美股宇宙 ${data.universe?.us ?? "—"}</span>
       </div>
-      <h4 class="xq-sub">邏輯條件（明示、可對照）</h4>
+      <h4 class="xq-sub">條件</h4>
       ${renderConditions(strategy)}
       ${unchecked ? `<ul class="xq-unchecked-list">${unchecked}</ul>` : ""}
       ${notes ? `<ul class="xq-notes">${notes}</ul>` : ""}
@@ -473,9 +461,7 @@ export function mountStrategies(selector, data) {
         <div class="xq-panel-host">${renderStrategyPanel(first, data, marketFilter)}</div>
       </div>
     </div>
-    <p class="xq-foot">${escapeHtml(data.disclaimer || "")}
-      ${data.exportNote ? ` · ${escapeHtml(data.exportNote)}` : ""}
-    </p>
+    <p class="xq-foot">${escapeHtml((data.disclaimer || "").split("。")[0] + (data.disclaimer ? "。" : ""))}</p>
   `;
 
   const host = root.querySelector(".xq-panel-host");
