@@ -781,6 +781,7 @@ async function main() {
   mkdirSync(docs, { recursive: true });
   const latestJson = JSON.stringify(latest, null, 2);
   writeFileSync(join(pub, "latest.json"), latestJson);
+  // Optional follow-up (rate limits): node scripts/fetch-us-options.mjs
   writeFileSync(join(pub, "2026-09-16.json"), latestJson);
   writeFileSync(join(docs, "latest.json"), latestJson);
   writeFileSync(join(docs, "2026-09-16.json"), latestJson);

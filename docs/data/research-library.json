@@ -1,7 +1,7 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-16T18:45:00+08:00",
+    "updated": "2026-09-16T19:36:34+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW stock bookshelf + papers + podcasts + adjacent discipline titles; strategy candidates with honest calibration",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
@@ -18,6 +18,76 @@
     "defaultCoverPodcast": "./covers/placeholder-podcast.svg"
   },
   "items": [
+    {
+      "id": "book-mcmillan-options-handbook",
+      "market": "US",
+      "type": "book",
+      "title": "選擇權策略完全手冊（增訂第五版）— McMillan",
+      "authors": [
+        "Lawrence G. McMillan"
+      ],
+      "year": 2012,
+      "summary": "Original concept summary of McMillan-style options education: map strategy families (covered call, protective put, verticals, calendar/diagonal, straddle/strangle, butterfly) to outlook and volatility regime using public quotes only. Emphasizes IV vs historical volatility and simple risk-shape intuition—not personalized trade advice, and no copyrighted chapter text.",
+      "formulas": [
+        "strategy_family ← outlook × volatility_regime × defined_risk_shape",
+        "iv_vs_hv_screen ← compare_atm_iv_to_realized_vol when both public",
+        "probability_edu ← discuss_chance_in_plain_language without guaranteeing outcomes"
+      ],
+      "plainTakeaways": [
+        "先用方向＋波動高低挑選策略族，再談進場細節",
+        "比較隱含波動與歷史波動，避免只看單一數字",
+        "用白話風險圖理解最大損益形狀；不作個人化下單建議"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "先用方向＋波動高低挑選策略族，再談進場細節",
+          "比較隱含波動與歷史波動，避免只看單一數字",
+          "用白話風險圖理解最大損益形狀；不作個人化下單建議"
+        ],
+        "en": [
+          "Pick a strategy family from outlook + volatility first, then details",
+          "Compare implied vs historical volatility — avoid single-number tunnel vision",
+          "Explain payoff shapes in plain language; never personalized order advice"
+        ],
+        "zh-Hans": [
+          "先用方向＋波动高低挑选策略族，再谈进场细节",
+          "比较隐含波动与历史波动，避免只看单一数字",
+          "用白话风险图理解最大损益形状；不作个人化下单建议"
+        ],
+        "ja": [
+          "方向＋ボラ高低で戦略ファミリーを先に選ぶ",
+          "インプライドと実現ボラを比較し数字一本足を避ける",
+          "損益の形を平易に説明；個別注文助言はしない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational options UI candidate; olympiad math gate not passed — public Yahoo chain screens only.",
+      "sources": [
+        "User bookshelf: Lawrence G. McMillan《選擇權策略完全手冊》增訂第五版 (Chinese ed.; Options as a Strategic Investment lineage) — original summary only"
+      ],
+      "coverUrl": "./covers/book-mcmillan-options.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "選擇權策略完全手冊（增訂第五版）— McMillan",
+        "en": "Options Strategies Handbook (McMillan, 5th Chinese ed.)",
+        "zh-Hans": "期权策略完全手册（增订第五版）— McMillan",
+        "ja": "オプション戦略完全ハンドブック（McMillan・第5版）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：McMillan 式選擇權教育——依看法與波動高低對應策略族（備兌買權、保護性賣權、價差、日曆／對角、跨式／勒式、蝶式），只用公開報價。強調隱含波動對歷史波動與白話風險形狀，非個人化建議，亦不摘錄著作權原文。",
+        "en": "Original concept summary of McMillan-style options education: map strategy families to outlook and volatility using public quotes only. Emphasizes IV vs HV and plain risk shapes—not advice, no copyrighted text.",
+        "zh-Hans": "原创概念摘要：McMillan 式期权教育——依看法与波动高低对应策略族，只用公开报价。强调隐含波动对历史波动与白话风险形状，非个人化建议。",
+        "ja": "公開気配のみ。IV対HVと平易な損益形。助言や著作権原文なし。"
+      },
+      "tags": [
+        "options",
+        "選擇權",
+        "McMillan",
+        "volatility",
+        "US"
+      ]
+    },
     {
       "id": "podcast-gooaye",
       "market": "BOTH",

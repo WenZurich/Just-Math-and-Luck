@@ -13,8 +13,9 @@
 2. 執行 `npm run strategies`（產生 `public/data/strategy-screener.json` 策略選股；均線多頭等由 OHLCV 實算，缺資料策略會標「資料不足」）
 3. 執行 `npm run paper`（依最新名單套用買賣規則，寫入 `public/data/paper-portfolio.json`）
 4. 執行 `npm run fetch-social`（產生 `public/data/social-digest.json`；Reddit.com 403 時改走 arctic-shift 備援；Dcard 403 寫誠實 blocker）
-5. 本地 `npm run build`，把 `dist/` 內容覆寫到 `docs/`
-6. 推到 `main`（目前以 `docs/` 做 GitHub Pages）
+5. （可選）`npm run fetch-us-options`（美股選擇權快照）
+6. 本地 `npm run build`，把 `dist/` 內容覆寫到 `docs/`
+7. 推到 `main`（目前以 `docs/` 做 GitHub Pages）
 
 來源碼在 `src/`；每日選股 bot 也可直接覆寫 `docs/data/latest.json` 後再跑 `npm run paper`。
 
@@ -72,6 +73,16 @@ Discussions 已開；`src/config.js` 內含 `repoId`／`categoryId`（General）
 - 資料：`public/data/research-library.json`（build／Pages 同步到 `docs/data/`）
 - 更新 stub：`node scripts/update-research-library.mjs`（平日例行；摘要須自寫，禁止貼著作權原文）
 - **正式納入策略需數學閘門通過（目前未過）**— UI 僅標 candidate／watch／deferred
+
+
+## 美股選擇權（`#options`）
+
+McMillan《選擇權策略完全手冊》增訂第五版（`book-mcmillan-options-handbook`）策略族教育＋公開 Yahoo 期權鏈／輕量財報檢核。
+
+- 資料：`npm run fetch-us-options` → `public/data/us-options-snapshot.json`
+- 僅美股；缺欄標 **資料不足**；**非投資建議；選擇權風險高**
+- UI 不顯示原始希臘字母公式；小詞典用白話
+- 可選：`daily-scan` 寫完 `latest.json` 後手動再跑 fetch
 
 ## 策略選股（`npm run strategies`）
 

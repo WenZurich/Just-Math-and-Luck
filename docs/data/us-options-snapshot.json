@@ -1,0 +1,988 @@
+{
+  "asOf": "2026-09-16T11:39:09.620Z",
+  "market": "US",
+  "source": "Yahoo Finance public quoteSummary + options + chart (crumb session)",
+  "disclaimer": "非投資建議；選擇權風險高。Educational screen only — not personalized advice.",
+  "primaryBookId": "book-mcmillan-options-handbook",
+  "primaryBook": {
+    "id": "book-mcmillan-options-handbook",
+    "title": "選擇權策略完全手冊（增訂第五版）— McMillan",
+    "titleLocalized": {
+      "zh-Hant": "選擇權策略完全手冊（增訂第五版）— McMillan",
+      "en": "Options Strategies Handbook (McMillan, 5th Chinese ed.)",
+      "zh-Hans": "期权策略完全手册（增订第五版）— McMillan",
+      "ja": "オプション戦略完全ハンドブック（McMillan・第5版）"
+    },
+    "plainTakeaways": [
+      "先用方向＋波動高低挑選策略族，再談進場細節",
+      "比較隱含波動與歷史波動，避免只看單一數字",
+      "用白話風險圖理解最大損益形狀；不作個人化下單建議"
+    ],
+    "plainTakeawaysLocalized": {
+      "zh-Hant": [
+        "先用方向＋波動高低挑選策略族，再談進場細節",
+        "比較隱含波動與歷史波動，避免只看單一數字",
+        "用白話風險圖理解最大損益形狀；不作個人化下單建議"
+      ],
+      "en": [
+        "Pick a strategy family from outlook + volatility first, then details",
+        "Compare implied vs historical volatility — avoid single-number tunnel vision",
+        "Explain payoff shapes in plain language; never personalized order advice"
+      ],
+      "zh-Hans": [
+        "先用方向＋波动高低挑选策略族，再谈进场细节",
+        "比较隐含波动与历史波动，避免只看单一数字",
+        "用白话风险图理解最大损益形状；不作个人化下单建议"
+      ],
+      "ja": [
+        "方向＋ボラ高低で戦略ファミリーを先に選ぶ",
+        "インプライドと実現ボラを比較し数字一本足を避ける",
+        "損益の形を平易に説明；個別注文助言はしない"
+      ]
+    }
+  },
+  "limit": 6,
+  "refreshHint": "node scripts/fetch-us-options.mjs  （可選：daily-scan 後手動／排程）",
+  "sessionOk": true,
+  "sessionBlocker": null,
+  "tickers": [
+    {
+      "ticker": "QLYS",
+      "name": "Qualys",
+      "price": 185.37,
+      "dayPct": 7.21,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "fundamentals": {
+        "trailingPE": 32.13,
+        "forwardPE": 21.99,
+        "priceToBook": 11.42,
+        "roe": 0.3859,
+        "debtToEquity": 9.5,
+        "profitMargin": 0.2938,
+        "grossMargin": 0.8342,
+        "revenueTrend": {
+          "label": "flat",
+          "pct": 7.24,
+          "incomplete": false
+        },
+        "earningsTrend": {
+          "label": "flat",
+          "pct": 4.09,
+          "incomplete": false
+        },
+        "quartersAvailable": 4
+      },
+      "quality": {
+        "score": 0.6,
+        "scoreRaw": 6,
+        "scoreMax": 10,
+        "gate": "watch",
+        "notes": [
+          "pe_elevated",
+          "pb_high",
+          "roe_strong",
+          "debt_low",
+          "rev_flat"
+        ],
+        "missingFields": []
+      },
+      "options": {
+        "asOfUnderlying": 185.37,
+        "expiration": "2026-10-16",
+        "expirationUnix": 1792108800,
+        "atmStrikeCall": 195,
+        "atmStrikePut": 175,
+        "atmIv": 0.0469,
+        "atmIvCall": 0.0313,
+        "atmIvPut": 0.0625,
+        "historicalVol": 0.7396,
+        "ivHvRatio": 0.063,
+        "callVolume": 173,
+        "putVolume": 617,
+        "putCallVolumeRatio": 3.566,
+        "callOpenInterest": 834,
+        "putOpenInterest": 689,
+        "putCallOiRatio": 0.826,
+        "contractCounts": {
+          "calls": 13,
+          "puts": 9
+        },
+        "missingFields": []
+      },
+      "blockers": [],
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        }
+      ]
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta",
+      "price": 190.45,
+      "dayPct": 2.37,
+      "screens": [
+        "A"
+      ],
+      "fundamentals": {
+        "trailingPE": 112.03,
+        "forwardPE": 43.5,
+        "priceToBook": 4.77,
+        "roe": 0.0431,
+        "debtToEquity": 0.76,
+        "profitMargin": 0.0963,
+        "grossMargin": 0.7813,
+        "revenueTrend": {
+          "label": "up",
+          "pct": 8.49,
+          "incomplete": false
+        },
+        "earningsTrend": {
+          "label": "up",
+          "pct": 169.77,
+          "incomplete": false
+        },
+        "quartersAvailable": 4
+      },
+      "quality": {
+        "score": 0.6,
+        "scoreRaw": 6,
+        "scoreMax": 10,
+        "gate": "watch",
+        "notes": [
+          "pe_stretched",
+          "pb_ok",
+          "roe_weak",
+          "debt_low",
+          "rev_up",
+          "earn_up"
+        ],
+        "missingFields": []
+      },
+      "options": {
+        "asOfUnderlying": 190.45,
+        "expiration": "2026-10-09",
+        "expirationUnix": 1791504000,
+        "atmStrikeCall": 195,
+        "atmStrikePut": 177.5,
+        "atmIv": 0.0469,
+        "atmIvCall": 0.0313,
+        "atmIvPut": 0.0625,
+        "historicalVol": 1.0547,
+        "ivHvRatio": 0.044,
+        "callVolume": 134,
+        "putVolume": 418,
+        "putCallVolumeRatio": 3.119,
+        "callOpenInterest": 263,
+        "putOpenInterest": 844,
+        "putCallOiRatio": 3.209,
+        "contractCounts": {
+          "calls": 31,
+          "puts": 50
+        },
+        "missingFields": []
+      },
+      "blockers": [],
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        }
+      ]
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike",
+      "price": 242.49,
+      "dayPct": 2.48,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "fundamentals": {
+        "trailingPE": 4849.8,
+        "forwardPE": 151,
+        "priceToBook": 48.66,
+        "roe": 0.0146,
+        "debtToEquity": 15.96,
+        "profitMargin": 0.0083,
+        "grossMargin": 0.7519,
+        "revenueTrend": {
+          "label": "up",
+          "pct": 19.17,
+          "incomplete": false
+        },
+        "earningsTrend": {
+          "label": "up",
+          "pct": 115.61,
+          "incomplete": false
+        },
+        "quartersAvailable": 4
+      },
+      "quality": {
+        "score": 0.5,
+        "scoreRaw": 5,
+        "scoreMax": 10,
+        "gate": "watch",
+        "notes": [
+          "pe_stretched",
+          "pb_high",
+          "roe_weak",
+          "debt_low",
+          "rev_up",
+          "earn_up"
+        ],
+        "missingFields": []
+      },
+      "options": {
+        "asOfUnderlying": 242.49,
+        "expiration": "2026-10-09",
+        "expirationUnix": 1791504000,
+        "atmStrikeCall": 250,
+        "atmStrikePut": 235,
+        "atmIv": 0.0313,
+        "atmIvCall": 0.0313,
+        "atmIvPut": 0.0313,
+        "historicalVol": 0.9818,
+        "ivHvRatio": 0.032,
+        "callVolume": 3498,
+        "putVolume": 1328,
+        "putCallVolumeRatio": 0.38,
+        "callOpenInterest": 5110,
+        "putOpenInterest": 3759,
+        "putCallOiRatio": 0.736,
+        "contractCounts": {
+          "calls": 34,
+          "puts": 28
+        },
+        "missingFields": []
+      },
+      "blockers": [],
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        }
+      ]
+    },
+    {
+      "ticker": "ZS",
+      "name": "Zscaler",
+      "price": 193.89,
+      "dayPct": 0.87,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "fundamentals": {
+        "trailingPE": null,
+        "forwardPE": 34.63,
+        "priceToBook": 12.17,
+        "roe": -0.0287,
+        "debtToEquity": 71.89,
+        "profitMargin": -0.0188,
+        "grossMargin": 0.7687,
+        "revenueTrend": {
+          "label": "up",
+          "pct": 13.97,
+          "incomplete": false
+        },
+        "earningsTrend": {
+          "label": "up",
+          "pct": 70.99,
+          "incomplete": false
+        },
+        "quartersAvailable": 4
+      },
+      "quality": {
+        "score": 0.6,
+        "scoreRaw": 6,
+        "scoreMax": 10,
+        "gate": "watch",
+        "notes": [
+          "pe_elevated",
+          "pb_high",
+          "roe_weak",
+          "debt_low",
+          "rev_up",
+          "earn_up"
+        ],
+        "missingFields": []
+      },
+      "options": {
+        "asOfUnderlying": 193.89,
+        "expiration": "2026-10-09",
+        "expirationUnix": 1791504000,
+        "atmStrikeCall": 200,
+        "atmStrikePut": 185,
+        "atmIv": 0.0313,
+        "atmIvCall": 0.0313,
+        "atmIvPut": 0.0313,
+        "historicalVol": 0.8007,
+        "ivHvRatio": 0.039,
+        "callVolume": 496,
+        "putVolume": 164,
+        "putCallVolumeRatio": 0.331,
+        "callOpenInterest": 1155,
+        "putOpenInterest": 1011,
+        "putCallOiRatio": 0.875,
+        "contractCounts": {
+          "calls": 34,
+          "puts": 30
+        },
+        "missingFields": []
+      },
+      "blockers": [],
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        }
+      ]
+    },
+    {
+      "ticker": "FTNT",
+      "name": "Fortinet",
+      "price": 172.37,
+      "dayPct": 1.38,
+      "screens": [
+        "A"
+      ],
+      "fundamentals": {
+        "trailingPE": 60.27,
+        "forwardPE": 45.63,
+        "priceToBook": 81.54,
+        "roe": 1.1744,
+        "debtToEquity": 36.19,
+        "profitMargin": 0.2817,
+        "grossMargin": 0.802,
+        "revenueTrend": {
+          "label": "up",
+          "pct": 18.73,
+          "incomplete": false
+        },
+        "earningsTrend": {
+          "label": "up",
+          "pct": 27.94,
+          "incomplete": false
+        },
+        "quartersAvailable": 4
+      },
+      "quality": {
+        "score": 0.7,
+        "scoreRaw": 7,
+        "scoreMax": 10,
+        "gate": "pass",
+        "notes": [
+          "pe_stretched",
+          "pb_high",
+          "roe_strong",
+          "debt_low",
+          "rev_up",
+          "earn_up"
+        ],
+        "missingFields": []
+      },
+      "options": {
+        "asOfUnderlying": 172.37,
+        "expiration": "2026-10-09",
+        "expirationUnix": 1791504000,
+        "atmStrikeCall": 180,
+        "atmStrikePut": 160,
+        "atmIv": 0.0469,
+        "atmIvCall": 0.0313,
+        "atmIvPut": 0.0625,
+        "historicalVol": 0.588,
+        "ivHvRatio": 0.08,
+        "callVolume": 46,
+        "putVolume": 23,
+        "putCallVolumeRatio": 0.5,
+        "callOpenInterest": 224,
+        "putOpenInterest": 172,
+        "putCallOiRatio": 0.768,
+        "contractCounts": {
+          "calls": 14,
+          "puts": 8
+        },
+        "missingFields": []
+      },
+      "blockers": [],
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        }
+      ]
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "price": 670.24,
+      "dayPct": 0.5,
+      "screens": [
+        "A"
+      ],
+      "fundamentals": {
+        "trailingPE": 25.07,
+        "forwardPE": 19.17,
+        "priceToBook": 6.54,
+        "roe": 0.2985,
+        "debtToEquity": 43,
+        "profitMargin": 0.2983,
+        "grossMargin": 0.8175,
+        "revenueTrend": {
+          "label": "up",
+          "pct": 18.65,
+          "incomplete": false
+        },
+        "earningsTrend": {
+          "label": "up",
+          "pct": 485.01,
+          "incomplete": false
+        },
+        "quartersAvailable": 4
+      },
+      "quality": {
+        "score": 0.8,
+        "scoreRaw": 8,
+        "scoreMax": 10,
+        "gate": "pass",
+        "notes": [
+          "pe_elevated",
+          "pb_high",
+          "roe_strong",
+          "debt_low",
+          "rev_up",
+          "earn_up"
+        ],
+        "missingFields": []
+      },
+      "options": {
+        "asOfUnderlying": 670.24,
+        "expiration": "2026-10-09",
+        "expirationUnix": 1791504000,
+        "atmStrikeCall": 690,
+        "atmStrikePut": 650,
+        "atmIv": 0.0313,
+        "atmIvCall": 0.0313,
+        "atmIvPut": 0.0313,
+        "historicalVol": 0.3637,
+        "ivHvRatio": 0.086,
+        "callVolume": 2149,
+        "putVolume": 1482,
+        "putCallVolumeRatio": 0.69,
+        "callOpenInterest": 10250,
+        "putOpenInterest": 8516,
+        "putCallOiRatio": 0.831,
+        "contractCounts": {
+          "calls": 110,
+          "puts": 73
+        },
+        "missingFields": []
+      },
+      "blockers": [],
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": true,
+          "ivNote": "iv_present"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "iv_cheap",
+          "volAligned": false,
+          "ivNote": "iv_present"
+        }
+      ]
+    }
+  ]
+}

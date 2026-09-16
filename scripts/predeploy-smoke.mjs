@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#paper", "#social"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#paper", "#social"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-paper", "view-social"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-paper", "view-social"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -354,6 +354,58 @@ async function main() {
   } else {
     ok("research view wired in main.js");
   }
+
+  // —— US Options (McMillan) ——
+  const optSnap = path.join(ROOT, "public/data/us-options-snapshot.json");
+  if (!fs.existsSync(optSnap)) {
+    fail("missing public/data/us-options-snapshot.json (run npm run fetch-us-options)");
+  } else {
+    try {
+      const snap = JSON.parse(fs.readFileSync(optSnap, "utf8"));
+      if (snap.market !== "US") fail("us-options-snapshot market must be US");
+      else ok("us-options-snapshot market US");
+      if (snap.primaryBookId !== "book-mcmillan-options-handbook") {
+        fail("us-options-snapshot primaryBookId must be book-mcmillan-options-handbook");
+      } else ok("primary book McMillan");
+      if (!Array.isArray(snap.tickers)) fail("us-options-snapshot tickers missing");
+      else ok(`us-options tickers ${snap.tickers.length}`);
+      const hasMissLabel = JSON.stringify(snap).includes("missingFields") || snap.tickers.some((t) => t.options == null || t.quality?.gate);
+      if (!hasMissLabel) fail("snapshot missing incomplete/missingFields pattern");
+      else ok("snapshot supports 資料不足 / missing fields");
+    } catch (e) {
+      fail(`us-options-snapshot parse: ${e}`);
+    }
+  }
+  const optJs = fs.readFileSync(path.join(ROOT, "src/options.js"), "utf8");
+  if (!optJs.includes("book-mcmillan-options-handbook") || !optJs.includes("plainTakeaways")) {
+    fail("options.js missing McMillan primary / plainTakeaways");
+  } else ok("options.js McMillan wiring");
+  if (/Black-Scholes|\\bN\(d1\)|d1\s*=\s*\(/.test(optJs)) {
+    fail("options.js appears to dump raw Greek / BS formulas");
+  } else ok("options.js no raw formula dump");
+  if (!/covered-call/.test(optJs) || !/protective-put/.test(optJs) || !/vertical-spread/.test(optJs) || !/calendar-diagonal/.test(optJs) || !/straddle-strangle/.test(optJs) || !/butterfly/.test(optJs)) {
+    fail("options.js missing McMillan family ids");
+  } else ok("McMillan strategy family ids present");
+  if (!mainJs.includes("view-options") || !mainJs.includes('"options"')) {
+    fail("main.js missing options view wiring");
+  } else ok("options view wired in main.js");
+  {
+    const i18nOpt = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    if (!i18nOpt.includes("navOptions") || !i18nOpt.includes("美股選擇權") || !i18nOpt.includes("非投資建議；選擇權風險高")) {
+      fail("i18n missing options nav/title/disclaimer");
+    } else ok("options i18n present");
+  }
+  const mcmillan = path.join(ROOT, "public/data/research-library.json");
+  try {
+    const rl = JSON.parse(fs.readFileSync(mcmillan, "utf8"));
+    const book = (rl.items || []).find((x) => x.id === "book-mcmillan-options-handbook");
+    if (!book) fail("research-library missing book-mcmillan-options-handbook");
+    else if (!book.plainTakeaways?.length) fail("McMillan book missing plainTakeaways");
+    else ok("McMillan research-library item");
+  } catch (e) {
+    fail(`McMillan library check: ${e}`);
+  }
+
 
   // —— Explicit jargon regression (live-site crash set) ——
 

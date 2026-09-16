@@ -33,6 +33,11 @@ import {
   renderResearchSection,
   initResearch,
 } from "./research.js";
+import "./options.css";
+import {
+  renderOptionsSection,
+  initOptions,
+} from "./options.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -398,6 +403,7 @@ function getViews() {
     { id: "logic", label: t("navLogic"), hash: "logic" },
     { id: "research", label: t("navResearch"), hash: "research" },
     { id: "strategies", label: t("navStrategies"), hash: "strategies" },
+    { id: "options", label: t("navOptions"), hash: "options" },
     { id: "paper", label: t("navPaper"), hash: "paper" },
     { id: "social", label: t("navSocial"), hash: "social" },
   ];
@@ -408,6 +414,7 @@ const HASH_ALIASES = {
   logic: "logic",
   research: "research",
   strategies: "strategies",
+  options: "options",
   paper: "paper",
   social: "social",
   help: "logic",
@@ -415,6 +422,11 @@ const HASH_ALIASES = {
   bookshelf: "research",
   library: "research",
   研究: "research",
+  "us-options": "options",
+  選擇權: "options",
+  美股選擇權: "options",
+  mcmillan: "options",
+
   danmaku: "social",
   "social-digest": "social",
   giscus: "social",
@@ -427,6 +439,7 @@ const NAV_ICONS = {
   logic: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 2h2v2h-2v-2zm3 0h2v2h-2v-2zm-3 3h2v2h-2v-2zm3 0h2v2h-2v-2zm3-3h2v5h-2v-5z"/></svg>`,
   research: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12h8v1.5H8V12zm0 3.5h8V17H8v-1.5zm0 3.5h5V20.5H8V19z"/></svg>`,
   strategies: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 19h16v2H4v-2zm2.5-3.5 4-4 3 3L21 6.5 19.5 5l-6 7.5-3-3L4 14.5l2.5 1z"/></svg>`,
+  options: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 12a8 8 0 1 1 16 0H4zm8-6a6 6 0 0 0-5.65 4h11.3A6 6 0 0 0 12 6zm0 12a6 6 0 0 0 5.65-4H6.35A6 6 0 0 0 12 18z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   social: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C7 3 3 6.6 3 11c0 2.4 1.2 4.5 3.1 6L5 21l4.3-1.4c.9.3 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z"/></svg>`,
 };
@@ -550,6 +563,11 @@ function renderApp(data, paper) {
       <div class="view" id="view-strategies" data-view="strategies" hidden>
         <span class="view-anchor" tabindex="-1"></span>
         ${renderStrategiesSection()}
+      </div>
+
+      <div class="view" id="view-options" data-view="options" hidden>
+        <span id="options" class="view-anchor" tabindex="-1"></span>
+        ${renderOptionsSection()}
       </div>
 
       <div class="view" id="view-paper" data-view="paper" hidden>
@@ -716,6 +734,7 @@ async function mountUi(app) {
   bindLangSwitcher(app);
   await initStrategies("#xq-root");
   await initResearch("#rl-root");
+  await initOptions("#uo-root");
   void config;
   let digest = cachedDigest;
   const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);

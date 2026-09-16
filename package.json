@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "validate": "node scripts/validate-data.mjs",
     "paper": "node scripts/paper-trade.mjs",
+    "fetch-us-options": "node scripts/fetch-us-options.mjs",
     "fetch-social": "node scripts/fetch-social.mjs --latest public/data/latest.json --out public/data/social-digest.json",
     "strategies": "node scripts/run-strategies.mjs",
     "test:math": "node scripts/math-guards.mjs",
