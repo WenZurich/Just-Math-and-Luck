@@ -6,6 +6,17 @@
 import { writeFileSync, mkdirSync, existsSync, readFileSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  indexFeaturesFromChart,
+  seriesDelta,
+  seriesRet,
+  computeMarketRegime,
+  scoreAdjust,
+  passesScreenA,
+  listSizeForStance,
+  stubRegimeFromLatestIndices,
+  buildKostolanyStrategyPack,
+} from "./market-regime.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -104,7 +115,7 @@ function sleep(ms) {
 
 async function yahooChart(symbol) {
   const p2 = Math.floor(Date.now() / 1000) + 3600;
-  const p1 = p2 - 120 * 86400;
+  const p1 = p2 - 420 * 86400;
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(
     symbol
   )}?interval=1d&period1=${p1}&period2=${p2}`;
@@ -216,6 +227,18 @@ function computeMetrics(chart) {
       : null;
   const volRatio =
     avgVol20 && avgVol20 > 0 ? lastVol / avgVol20 : null;
+  const sma200 = closes.length >= 200 ? sma(closes, 200) : null;
+  const highs = bars.map((b) => b.h ?? b.c);
+  const lookbackHigh = Math.min(252, highs.length);
+  let maxHigh = null;
+  if (lookbackHigh >= 20) maxHigh = Math.max(...highs.slice(-lookbackHigh));
+  const ddFrom252dHigh =
+    maxHigh != null && maxHigh > 0 ? price / maxHigh - 1 : null;
+  const pctFromSma200 =
+    sma200 != null && sma200 > 0 ? price / sma200 - 1 : null;
+  const idx63 = closes.length - 1 - 63;
+  const pct63d = idx63 >= 0 ? pctChange(closes[idx63], price) : null;
+
   return {
     symbol: chart.symbol,
     name: chart.name,
@@ -227,10 +250,15 @@ function computeMetrics(chart) {
     dayPct: round(dayPct, 2),
     d5Pct: round(pct5d, 2),
     d1mPct: round(pct1m, 2),
+    d63Pct: pct63d != null ? round(pct63d, 2) : null,
     sma20: round(sma20, 4),
     sma50: sma50 != null ? round(sma50, 4) : null,
+    sma200: sma200 != null ? round(sma200, 4) : null,
     above20: sma20 != null ? price >= sma20 : false,
     above50: sma50 != null ? price >= sma50 : false,
+    above200: sma200 != null ? price >= sma200 : false,
+    ddFrom252dHigh: ddFrom252dHigh != null ? round(ddFrom252dHigh, 4) : null,
+    pctFromSma200: pctFromSma200 != null ? round(pctFromSma200, 4) : null,
     volume: lastVol,
     avgVol20: avgVol20 != null ? round(avgVol20, 2) : null,
     volRatio: volRatio != null ? round(volRatio, 2) : null,
@@ -242,18 +270,18 @@ function computeMetrics(chart) {
       v: b.v,
     })),
     appendedFromMeta: !!last.appendedFromMeta,
+    _bars: bars,
   };
 }
 
-async function fetchOne(symbol, retries = 2) {
+async function fetchChartRaw(symbol, retries = 2) {
   for (let i = 0; i <= retries; i++) {
     try {
       let chart = await yahooChart(symbol);
       if (!chart && symbol.endsWith(".TW")) {
         chart = await yahooChart(symbol.replace(".TW", ".TWO"));
       }
-      if (!chart) return null;
-      return computeMetrics(chart);
+      return chart;
     } catch (e) {
       if (i === retries) {
         console.warn("fail", symbol, e.message);
@@ -265,41 +293,52 @@ async function fetchOne(symbol, retries = 2) {
   return null;
 }
 
-function scorePick(m, indexDayPct, { preferVol = true } = {}) {
-  if (m.dayPct == null) return -1e9;
+async function fetchOne(symbol, retries = 2) {
+  const chart = await fetchChartRaw(symbol, retries);
+  if (!chart) return null;
+  return computeMetrics(chart);
+}
+
+function scorePick(m, indexDayPct, { preferVol = true, regime = null } = {}) {
+  if (!m || m.dayPct == null) return -1e9;
   const rs = m.dayPct - (indexDayPct ?? 0);
   let score = rs * 2 + (m.d5Pct ?? 0) * 0.35 + (m.d1mPct ?? 0) * 0.15;
   if (m.above20) score += 1.5;
   if (m.above50) score += 1;
+  if (m.above200) score += 0.5;
   if (preferVol && m.volRatio != null) {
     if (m.volRatio >= 1.2) score += Math.min(m.volRatio, 8) * 0.6;
     else if (m.volRatio < 0.4) score -= 0.5;
   }
   // penalize extreme limit-up chase a bit but still allow in list
   if (m.dayPct >= 9.5) score += 2; // still strong RS
-  return score;
+  const adj = scoreAdjust(score, m, regime, indexDayPct);
+  m._regimeNote = adj.regimeNote;
+  return adj.score;
 }
 
-function passesA(m, indexDayPct) {
-  const rs = m.dayPct - (indexDayPct ?? 0);
-  const strongDay = rs >= 0.5 || m.dayPct >= 1.5;
-  const mom5 = (m.d5Pct ?? 0) >= 3;
-  const mom1m = (m.d1mPct ?? 0) >= 6 && m.above20;
-  const aboveBoth = m.above20 && m.above50 && ((m.d5Pct ?? 0) >= 0 || rs >= 0);
-  return strongDay || mom5 || mom1m || aboveBoth;
+function passesA(m, indexDayPct, regime = null) {
+  return passesScreenA(m, indexDayPct, regime);
 }
 
-function screensFor(m, indexDayPct, { forceObserve = false } = {}) {
+function screensFor(m, indexDayPct, { forceObserve = false, regime = null } = {}) {
   if (forceObserve) return ["observe"];
   const s = [];
-  if (passesA(m, indexDayPct)) s.push("A");
-  if (m.volRatio != null && m.volRatio >= 1.2) s.push("B");
+  if (passesA(m, indexDayPct, regime)) s.push("A");
+  const volFloor =
+    regime?.cycleStance === "defensive"
+      ? 1.0
+      : regime?.cycleStance === "aggressive"
+        ? 1.1
+        : 1.2;
+  if (m.volRatio != null && m.volRatio >= volFloor) s.push("B");
   // mid-term momentum tag even if day weak
   if (
     !s.includes("A") &&
     (m.d1mPct ?? 0) >= 8 &&
     m.above20 &&
-    m.above50
+    m.above50 &&
+    regime?.cycleStance !== "stabilize_first"
   ) {
     s.push("A");
   }
@@ -307,7 +346,7 @@ function screensFor(m, indexDayPct, { forceObserve = false } = {}) {
   return s;
 }
 
-function whyZh(m, indexDayPct, market) {
+function whyZh(m, indexDayPct, market, regime = null) {
   const parts = [];
   const rs = round(m.dayPct - (indexDayPct ?? 0), 2);
   if (market === "TW") {
@@ -321,6 +360,15 @@ function whyZh(m, indexDayPct, market) {
   if (m.above20 && m.above50) parts.push("站上雙均線");
   else if (m.above20) parts.push("站上 SMA20");
   else if (m.above50) parts.push("站上 SMA50");
+  if (m.above200) parts.push("站上 SMA200");
+  if (m._regimeNote) {
+    parts.push(m._regimeNote);
+  } else if (regime?.cycleStance) {
+    parts.push(
+      `市場週期姿態 ${regime.cycleStance}` +
+        (regime.psychologyPhase ? `（相位 ${regime.psychologyPhase}）` : "")
+    );
+  }
   return parts.join("；") + "。";
 }
 
@@ -340,9 +388,10 @@ function fmtPct(n) {
   return `${s >= 0 ? "+" : ""}${s}%`;
 }
 
-function toPick(m, meta, indexDayPct, market) {
+function toPick(m, meta, indexDayPct, market, regime = null) {
   const screens = screensFor(m, indexDayPct, {
     forceObserve: meta.forceObserve,
+    regime,
   });
   const pick = {
     ticker: meta.ticker,
@@ -355,10 +404,13 @@ function toPick(m, meta, indexDayPct, market) {
     volRatio: m.volRatio,
     aboveSma20: !!m.above20,
     aboveSma50: !!m.above50,
+    aboveSma200: !!m.above200,
     screens,
     business: meta.business,
-    why: whyZh(m, indexDayPct, market),
+    why: whyZh(m, indexDayPct, market, regime),
     risk: riskZh(m),
+    cycleStance: regime?.cycleStance ?? null,
+    sizeMult: regime?.sizeMult ?? null,
   };
   if (market === "TW") {
     pick.rsVsIndexPp = round(m.dayPct - (indexDayPct ?? 0), 2);
@@ -381,18 +433,28 @@ async function main() {
     ["^DJI", "dji"],
     ["^SOX", "sox"],
     ["USDTWD=X", "usdTwd"],
+    ["^TNX", "tnx"],
+    ["HYG", "hyg"],
+    ["LQD", "lqd"],
   ];
 
-  console.log("Fetching indices...");
+  console.log("Fetching indices / rates / credit...");
   const quotes = [];
   const bySym = {};
+  const chartBySym = {};
   for (const [sym] of indexSyms) {
-    const m = await fetchOne(sym);
+    const chart = await fetchChartRaw(sym);
     await sleep(120);
-    if (m) {
-      quotes.push(m);
-      bySym[sym] = m;
-      console.log(sym, m.price, m.dayPct, m.lastBarDate);
+    if (chart) {
+      chartBySym[sym] = chart;
+      const m = computeMetrics(chart);
+      if (m) {
+        // drop heavy bars from quotes dump
+        const { _bars, ...rest } = m;
+        quotes.push(rest);
+        bySym[sym] = m;
+        console.log(sym, m.price, m.dayPct, m.lastBarDate);
+      }
     } else {
       console.warn("MISSING index", sym);
     }
@@ -414,7 +476,8 @@ async function main() {
     const m = await fetchOne(t);
     await sleep(100);
     if (m) {
-      quotes.push({ ...m, universe: "US" });
+      const { _bars, ...rest } = m;
+      quotes.push({ ...rest, universe: "US" });
       usMetrics.push(m);
       console.log(t, m.price, m.dayPct, m.lastBarDate);
     } else console.warn("missing US", t);
@@ -429,7 +492,8 @@ async function main() {
     const m = await fetchOne(t);
     await sleep(100);
     if (m) {
-      quotes.push({ ...m, universe: "TW" });
+      const { _bars, ...rest } = m;
+      quotes.push({ ...rest, universe: "TW" });
       twMetrics.push(m);
       console.log(t, m.price, m.dayPct, m.lastBarDate);
     } else console.warn("missing TW", t);
@@ -438,27 +502,105 @@ async function main() {
   const twIdx = bySym["^TWII"].dayPct;
   const spxIdx = bySym["^GSPC"].dayPct;
 
-  // Score and select
+  // --- Market regime (US / TW strictly separate) ---
+  const spxFeat = chartBySym["^GSPC"]
+    ? indexFeaturesFromChart(chartBySym["^GSPC"])
+    : null;
+  const ndxFeat = chartBySym["^IXIC"]
+    ? indexFeaturesFromChart(chartBySym["^IXIC"])
+    : null;
+  const twFeat = chartBySym["^TWII"]
+    ? indexFeaturesFromChart(chartBySym["^TWII"])
+    : null;
+
+  const tnxChart = chartBySym["^TNX"];
+  const rate = tnxChart
+    ? {
+        level: tnxChart.bars.at(-1)?.c ?? null,
+        d5d: seriesDelta(tnxChart, 5).value,
+        d20d: seriesDelta(tnxChart, 20).value,
+        d60d: seriesDelta(tnxChart, 60).value,
+      }
+    : null;
+  if (!tnxChart) console.warn("MISSING ^TNX — rate fields → 資料不足");
+
+  const fxRet = chartBySym["USDTWD=X"]
+    ? seriesRet(chartBySym["USDTWD=X"], 20)
+    : { value: null, gap: true };
+  const fx = { d20dRet: fxRet.value };
+
+  let hygVsLqd20d = null;
+  if (chartBySym["HYG"] && chartBySym["LQD"]) {
+    const h = seriesRet(chartBySym["HYG"], 20).value;
+    const l = seriesRet(chartBySym["LQD"], 20).value;
+    if (h != null && l != null) hygVsLqd20d = round(h - l, 4);
+  }
+
+  const usBreadth =
+    usMetrics.length > 0
+      ? usMetrics.filter((m) => m.above50).length / usMetrics.length
+      : null;
+  const twBreadth =
+    twMetrics.length > 0
+      ? twMetrics.filter((m) => m.above50).length / twMetrics.length
+      : null;
+
+  const marketRegime = {
+    us: computeMarketRegime({
+      market: "US",
+      indexFeat: spxFeat,
+      secondaryFeat: ndxFeat,
+      rate,
+      fx: null,
+      breadthProxy: usBreadth != null ? round(usBreadth, 3) : null,
+      hygVsLqd20d,
+    }),
+    tw: computeMarketRegime({
+      market: "TW",
+      indexFeat: twFeat,
+      secondaryFeat: null,
+      rate, // US10Y as stress proxy only — not pretend TW policy rate
+      fx,
+      breadthProxy: twBreadth != null ? round(twBreadth, 3) : null,
+      hygVsLqd20d: null, // US credit not applied to TW dial
+    }),
+    frameworkId: "bookshelf-framework-2026-09-16",
+    note: "美／台 regime 獨立；缺值標資料不足，不捏造。",
+  };
+  console.log(
+    "regime US",
+    marketRegime.us.psychologyPhase,
+    marketRegime.us.cycleStance,
+    marketRegime.us.liquidityBias
+  );
+  console.log(
+    "regime TW",
+    marketRegime.tw.psychologyPhase,
+    marketRegime.tw.cycleStance,
+    marketRegime.tw.liquidityBias
+  );
+
+  // Score and select (weights by cycleStance)
   const usScored = usMetrics
     .map((m) => ({
       m,
-      score: scorePick(m, spxIdx),
-      screens: screensFor(m, spxIdx),
+      score: scorePick(m, spxIdx, { regime: marketRegime.us }),
+      screens: screensFor(m, spxIdx, { regime: marketRegime.us }),
     }))
     .sort((a, b) => b.score - a.score);
 
   const twScored = twMetrics
     .map((m) => ({
       m,
-      score: scorePick(m, twIdx),
-      screens: screensFor(m, twIdx),
+      score: scorePick(m, twIdx, { regime: marketRegime.tw }),
+      screens: screensFor(m, twIdx, { regime: marketRegime.tw }),
     }))
     .sort((a, b) => b.score - a.score);
 
   const usPass = usScored.filter((x) => x.screens.includes("A"));
   const twPass = twScored.filter((x) => x.screens.includes("A"));
 
-  // Build shortlists ~8-12, ensure TSM / 2330 present
+  // Build shortlists ~8-12, ensure TSM / 2330 present; size by stance
   function takeList(scored, pass, mustTickers, n = 12) {
     const out = [];
     const seen = new Set();
@@ -483,7 +625,7 @@ async function main() {
     }
     // fill with next best if short
     for (const x of scored) {
-      if (out.length >= Math.min(n, 12)) break;
+      if (out.length >= n) break;
       if (seen.has(x.m.symbol)) continue;
       out.push(x);
       seen.add(x.m.symbol);
@@ -491,16 +633,28 @@ async function main() {
     return out;
   }
 
-  const usList = takeList(usScored, usPass, ["TSM"], 12);
-  const twList = takeList(twScored, twPass, ["2330.TW"], 12);
+  const usN = listSizeForStance(marketRegime.us.cycleStance, 12);
+  const twN = listSizeForStance(marketRegime.tw.cycleStance, 12);
+  const usList = takeList(usScored, usPass, ["TSM"], usN);
+  const twList = takeList(twScored, twPass, ["2330.TW"], twN);
 
   const usPicks = usList.map((x) => {
-    const meta = { ...usMeta[x.m.symbol], forceObserve: x.forceObserve };
-    return toPick(x.m, meta, spxIdx, "US");
+    const meta = {
+      ...(usMeta[x.m.symbol] || { ticker: x.m.symbol, name: x.m.name, nameZh: x.m.name, business: "" }),
+      forceObserve: x.forceObserve,
+    };
+    const pick = toPick(x.m, meta, spxIdx, "US", marketRegime.us);
+    pick._score = x.score;
+    return pick;
   });
   const twPicks = twList.map((x) => {
-    const meta = { ...twMeta[x.m.symbol], forceObserve: x.forceObserve };
-    return toPick(x.m, meta, twIdx, "TW");
+    const meta = {
+      ...(twMeta[x.m.symbol] || { ticker: x.m.symbol, name: x.m.name, nameZh: x.m.name, business: "" }),
+      forceObserve: x.forceObserve,
+    };
+    const pick = toPick(x.m, meta, twIdx, "TW", marketRegime.tw);
+    pick._score = x.score;
+    return pick;
   });
 
   // Top5 across markets
@@ -510,24 +664,19 @@ async function main() {
       .map((p) => ({
         ...p,
         market: "US",
-        _score: scorePick(
-          usMetrics.find((m) => m.symbol === p.ticker),
-          spxIdx
-        ),
       })),
     ...twPicks
       .filter((p) => !p.screens.includes("observe"))
       .map((p) => ({
         ...p,
         market: "TW",
-        _score: scorePick(
-          twMetrics.find((m) => m.symbol === p.ticker),
-          twIdx
-        ),
       })),
-  ].sort((a, b) => b._score - a._score);
+  ].sort((a, b) => (b._score ?? -1e9) - (a._score ?? -1e9));
 
   const top5 = combined.slice(0, 5).map(({ _score, ...rest }) => rest);
+  // do not leak internal scores into published picks
+  for (const p of usPicks) delete p._score;
+  for (const p of twPicks) delete p._score;
 
   // Parity TSM / 2330
   const tw2330 = twMetrics.find((m) => m.symbol === "2330.TW");
@@ -601,14 +750,16 @@ async function main() {
     timezoneNote:
       "台股為最新收盤（本機 9/16 開盤前＝9/15 收）；美股為 2026-09-15 收盤。以 asOf 為準。",
     indices,
+    marketRegime,
     top5,
     us: usPicks,
     tw: twPicks,
     parity,
     method: {
-      A: "動能／相對強度：日漲跌 vs 指數；5日／約1個月；SMA20／SMA50",
-      B: "量能：當日量／近20日均量",
+      A: "動能／相對強度：日漲跌 vs 指數；5日／約1個月；SMA20／SMA50／SMA200（依 cycleStance 調整門檻）",
+      B: "量能：當日量／近20日均量（防禦相位提高量比門檻）",
       C: "估值 PE（本次未取得可信即時 PE，跳過）",
+      R: "市場週期：Kostolany 相位近似＋Marks 溫度＋利率／匯兌流動性（美／台分開）",
     },
   };
 
@@ -637,6 +788,7 @@ async function main() {
     spxIdx,
     usMetrics,
     twMetrics,
+    marketRegime,
   });
   writeFileSync(join(STUDY, "opportunity-scan-2026-09-16.md"), md);
 
@@ -651,10 +803,63 @@ async function main() {
   writeFileSync(join(docs, "latest.json"), latestJson);
   writeFileSync(join(docs, "2026-09-16.json"), latestJson);
 
+  // Merge 科斯托拉尼／週期 into strategy-screener.json (preserve other packs)
+  const kostolanyPack = buildKostolanyStrategyPack({
+    marketRegime,
+    usMetrics,
+    twMetrics,
+    usMeta,
+    twMeta,
+    spxIdx,
+    twIdx,
+  });
+  mergeStrategyPack(pub, docs, kostolanyPack);
+
   console.log("\nWrote latest.json");
   console.log("Top5:", top5.map((t) => `${t.ticker} ${t.dayPct}%`).join(", "));
   console.log("US", usPicks.length, "TW", twPicks.length);
   console.log("asOf", asOfIso);
+  console.log(
+    "regime",
+    "US",
+    marketRegime.us.cycleStance,
+    "/",
+    "TW",
+    marketRegime.tw.cycleStance
+  );
+}
+
+function mergeStrategyPack(pubDir, docsDir, pack) {
+  for (const dir of [pubDir, docsDir]) {
+    const fp = join(dir, "strategy-screener.json");
+    if (!existsSync(fp)) {
+      console.warn("skip strategy merge, missing", fp);
+      continue;
+    }
+    let data;
+    try {
+      data = JSON.parse(readFileSync(fp, "utf8"));
+    } catch (e) {
+      console.warn("strategy-screener parse fail", e.message);
+      continue;
+    }
+    const strategies = Array.isArray(data.strategies) ? data.strategies : [];
+    const idx = strategies.findIndex((s) => s.id === pack.id);
+    if (idx >= 0) strategies[idx] = pack;
+    else strategies.push(pack);
+    data.strategies = strategies;
+    const order = data.categoryOrder || ["精選", "價量", "籌碼", "財務", "大師"];
+    if (!order.includes("週期")) {
+      // place 週期 before 大師
+      const mi = order.indexOf("大師");
+      if (mi >= 0) order.splice(mi, 0, "週期");
+      else order.push("週期");
+    }
+    data.categoryOrder = order;
+    data.kostolanyRegimeAsOf = new Date().toISOString();
+    writeFileSync(fp, JSON.stringify(data, null, 2));
+    console.log("Merged strategy pack", pack.id, "→", fp, "hits", pack.hits.length);
+  }
 }
 
 function buildReport(ctx) {
@@ -669,6 +874,7 @@ function buildReport(ctx) {
     parity,
     twIdx,
     spxIdx,
+    marketRegime,
   } = ctx;
   const gen = fetchedAt.toISOString().replace("T", " ").replace(/\.\d{3}Z$/, " UTC");
   const lines = [];
@@ -748,6 +954,38 @@ function buildReport(ctx) {
     `| Yahoo \`USDTWD=X\` | **${indices.usdTwd.yahoo}**（日變約 ${fmtPct(bySym["USDTWD=X"]?.dayPct)}） | 用於 parity 折算 |`
   );
   lines.push("");
+  lines.push("---");
+  lines.push("");
+  lines.push("## 2b. 市場週期 regime（美／台分開）");
+  lines.push("");
+  lines.push("來源：`scripts/study/bookshelf-framework-2026-09-16`（Kostolany／Marks／利率操作規則；無版權原文）。");
+  lines.push("");
+  if (marketRegime) {
+    for (const key of ["us", "tw"]) {
+      const r = marketRegime[key];
+      if (!r) continue;
+      lines.push(`### ${key.toUpperCase()}`);
+      lines.push("");
+      lines.push("| 欄位 | 值 |");
+      lines.push("|------|-----|");
+      lines.push(`| psychologyPhase | **${r.psychologyPhase ?? "資料不足"}** |`);
+      lines.push(`| cycleStance | **${r.cycleStance ?? "資料不足"}** |`);
+      lines.push(`| liquidityBias | **${r.liquidityBias ?? "資料不足"}** |`);
+      lines.push(`| temperatureScore | ${r.temperatureScore ?? "資料不足"} |`);
+      lines.push(`| sizeMult | ${r.sizeMult ?? "—"} |`);
+      if (r.dataGaps?.length) {
+        lines.push(`| dataGaps | ${r.dataGaps.join(", ")} |`);
+      }
+      lines.push("");
+      for (const im of r.implications || []) {
+        lines.push(`- ${im}`);
+      }
+      lines.push("");
+    }
+  } else {
+    lines.push("資料不足：未計算 marketRegime。");
+    lines.push("");
+  }
   lines.push("---");
   lines.push("");
   lines.push("## 3. 美股短名單");

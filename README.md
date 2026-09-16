@@ -9,7 +9,7 @@
 
 ## 更新資料
 
-1. 更新 `public/data/latest.json`
+1. 更新 `public/data/latest.json`（含 `marketRegime.us`／`marketRegime.tw`；`npm`/`node scripts/daily-scan.mjs`）
 2. 執行 `npm run strategies`（產生 `public/data/strategy-screener.json` 策略選股；均線多頭等由 OHLCV 實算，缺資料策略會標「資料不足」）
 3. 執行 `npm run paper`（依最新名單套用買賣規則，寫入 `public/data/paper-portfolio.json`）
 4. 執行 `npm run fetch-social`（產生 `public/data/social-digest.json`；Reddit.com 403 時改走 arctic-shift 備援；Dcard 403 寫誠實 blocker）
@@ -78,6 +78,7 @@ XQ 風格「策略選股（邏輯條件）」：分類切換（精選／價量�
 | 公司獲利遞增 | ✅ 連續2季 YoY（對去年同季）營益／毛利率成長>10%；單季拆解 |
 | 班哲明格拉罕／華倫巴菲特 | ✅ 公開 PE／P/B／ROE／營益率／負債比（ratio 單位已核對） |
 | 麥克普萊斯 | ✅ P/B＋董監持股＋負債比（證交所 openapi） |
+| 科斯托拉尼／週期 | ✅ 美／台 marketRegime（相位／姿態／流動性）＋命中；見 `scripts/study/bookshelf-framework-2026-09-16` |
 | 馬克米納維尼 | ✅ Minervini（已合併原重複「麥克喜偉」）：PE／ROE／連3年營收／負債比 |
 | 肯尼斯費雪 | ✅ 5年營收／稅前成長均＋負債比（MOPS 年報） |
 | 麥克墨非 | ✅ ROE＋營益率（季／年）＋營收成長（MOPS） |

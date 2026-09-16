@@ -1,0 +1,288 @@
+{
+  "meta": {
+    "id": "bookshelf-framework-2026-09-16",
+    "created": "2026-09-16",
+    "timezone": "Asia/Taipei",
+    "purpose": "Conceptual ingest for US+TW daily math stock-picking pipeline",
+    "copyright": "No copyrighted book text; public-knowledge frameworks only",
+    "markets": ["US", "TW"],
+    "companion_md": "bookshelf-framework-2026-09-16.md"
+  },
+  "authors": [
+    {
+      "id": "kostolany",
+      "shelf_titles_note": "一個投機者的告白 / 證券心理學 / 金錢遊戲 / 股市解答之書 / 實戰書 / box set",
+      "operational_rules": [
+        {
+          "id": "K1",
+          "name": "egg_phase_proxy",
+          "description": "Map index drawdown, volume participation, and rate direction to egg-like phases",
+          "inputs": ["dd_from_252d_high", "index_vol_ratio_20", "d_US10Y_60d"],
+          "outputs": ["egg_proxy", "regime_label"]
+        },
+        {
+          "id": "K2",
+          "name": "firm_hands_accumulation",
+          "description": "Weak/flat price with elevated volume on survivors favors accumulation bias",
+          "when": {"ret_21d_lt": 0, "vol_ratio_20_gte": 1.5, "close_gt_sma200": true},
+          "effect": {"score_tag": "firm_hands", "dial_bias": "aggressive"}
+        },
+        {
+          "id": "K3",
+          "name": "shaky_hands_distribution",
+          "description": "Strong multi-month run plus extreme volume → euphoria / distribution bias",
+          "when": {"ret_63d_elevated": true, "vol_ratio_20_gte": 1.8},
+          "effect": {"score_tag": "shaky_hands", "dial_bias": "defensive"}
+        },
+        {
+          "id": "K4",
+          "name": "rate_money_lag",
+          "description": "Falling yields lean risk-on; rising yields lean risk-off (lag narrative)",
+          "inputs": ["d_US10Y_20d", "d_US10Y_60d"],
+          "effect": {"feeds": ["temperature_score", "regime_label"]}
+        },
+        {
+          "id": "K5",
+          "name": "no_thin_euphoria_chase",
+          "description": "Demote high RS rockets on below-average volume",
+          "when": {"rs_vs_index_21d_gt": 0.08, "vol_ratio_20_lt": 0.8},
+          "effect": {"action": "demote"}
+        },
+        {
+          "id": "K6",
+          "name": "panic_stabilization_gate",
+          "description": "After sharp DD, require close back above SMA20 before size-up",
+          "when": {"prior_10d_dd_lte": -0.08, "close_gt_sma20": true},
+          "effect": {"action": "allow_aggressive_add"}
+        }
+      ]
+    },
+    {
+      "id": "howard_marks",
+      "shelf_titles_note": "掌握市場週期 (two copies)",
+      "operational_rules": [
+        {
+          "id": "M1",
+          "name": "temperature_score",
+          "description": "Composite −2..+2 from checklist proxies (prices, vol, rates, breadth, optional credit)",
+          "range": [-2, 2],
+          "inputs": ["pct_from_SMA200", "dd_from_52w_high", "ATR_pct_20", "d_US10Y_20d", "breadth_proxy", "HYG_vs_LQD_20d"],
+          "outputs": ["temperature_score"]
+        },
+        {
+          "id": "M2",
+          "name": "hot_raise_bar",
+          "when": {"temperature_score_gte": 1},
+          "effect": {"dial": "defensive_or_selective", "size_mult_cap": 0.9}
+        },
+        {
+          "id": "M3",
+          "name": "cold_lower_bar_survivors",
+          "when": {"temperature_score_lte": -1},
+          "effect": {"dial": "aggressive_or_constructive", "allow_below_sma50_if_above_sma200": true}
+        },
+        {
+          "id": "M4",
+          "name": "prospective_returns_proxy",
+          "inputs": ["pct_from_SMA200", "dd_from_52w_high"]
+        },
+        {
+          "id": "M5",
+          "name": "compressed_vol_near_highs_caution",
+          "when": {"near_52w_high": true, "ATR_pct_20_bottom_quartile_252d": true},
+          "effect": {"temperature_delta": 1}
+        },
+        {
+          "id": "M6",
+          "name": "credit_proxy_optional",
+          "inputs": ["HYG_vs_LQD_20d"],
+          "optional": true
+        }
+      ]
+    },
+    {
+      "id": "rates_literacy",
+      "shelf_titles_note": "圖解地表最簡單的利率教科書",
+      "operational_rules": [
+        {
+          "id": "R1",
+          "name": "rate_direction_first_class",
+          "inputs": ["US10Y", "d_US10Y_5d", "d_US10Y_20d", "d_US10Y_60d"]
+        },
+        {
+          "id": "R2",
+          "name": "fast_yield_spike_defensive",
+          "when": {"d_US10Y_20d_gte_pp": 0.25},
+          "effect": {"dial_cap": "selective", "dial_bias": "defensive"}
+        },
+        {
+          "id": "R3",
+          "name": "sustained_yield_decline_risk_on",
+          "when": {"d_US10Y_60d_lte_pp": -0.25, "egg_proxy_ne": "euphoric"},
+          "effect": {"dial_bias": "aggressive"}
+        },
+        {
+          "id": "R4",
+          "name": "tw_fx_stress_overlay",
+          "markets": ["TW"],
+          "inputs": ["d_USDTWD_20d"],
+          "effect": {"contagion_flag": true}
+        }
+      ]
+    },
+    {
+      "id": "fi_retirement_discipline_only",
+      "shelf_titles_note": "闕又上; 夏韻芬; YMOYL; 財富自由的心理學; 富爸爸; 錢教",
+      "operational_rules": [
+        {"id": "D1", "name": "survivability_risk_budget", "effect": {"max_equity_dd_halt": true}},
+        {"id": "D2", "name": "dry_powder_tag_by_regime", "effect": {"attach_cash_buffer_recommendation": true}},
+        {"id": "D3", "name": "no_lifestyle_leverage_in_euphoria", "when": {"regime": "euphoric"}, "effect": {"exclude_leveraged_etf_core": true}},
+        {"id": "D4", "name": "process_log_dial", "effect": {"audit_log_required": true}}
+      ],
+      "explicitly_excluded_from_screens": [
+        "fi_number_as_alpha",
+        "retire_lifestyle_timing",
+        "envelope_budget_as_ticker_rank",
+        "rich_dad_leverage_ideology",
+        "money_metaphor_features",
+        "wealth_affirmations",
+        "pension_comparison_anecdotes",
+        "copyrighted_worksheets"
+      ]
+    }
+  ],
+  "regime_labels": [
+    "despondent",
+    "cautious_recovery",
+    "mid_cycle",
+    "late_optimism",
+    "euphoric",
+    "panic"
+  ],
+  "dials": {
+    "euphoric": {
+      "dial": "defensive",
+      "universe_pct": 0.2,
+      "trend": {"require_above_sma50": true, "require_above_sma200": true, "demote_parabolic_rs": true},
+      "volume": {"min_vol_ratio_20_for_adds": 1.0, "fade_vol_ratio_lt": 0.7},
+      "rs": {"prefer_moderate_not_top5pct_21d": true},
+      "size_mult": [0.4, 0.6]
+    },
+    "late_optimism": {
+      "dial": "selective",
+      "universe_pct": 0.4,
+      "trend": {"require_above_sma50": true},
+      "size_mult": [0.7, 0.9]
+    },
+    "mid_cycle": {
+      "dial": "balanced",
+      "universe_pct": 1.0,
+      "trend": {"use_sma20_sma50_baseline": true},
+      "volume": {"min_vol_ratio_20": 0.8},
+      "size_mult": [1.0, 1.0]
+    },
+    "cautious_recovery": {
+      "dial": "constructive",
+      "trend": {"allow_above_sma20_if_above_sma200": true},
+      "size_mult": [1.0, 1.2]
+    },
+    "despondent": {
+      "dial": "aggressive",
+      "trend": {"prefer_above_sma200_or_k6_reclaim": true, "allow_below_sma50": true},
+      "volume": {"favor_elevated_on_down_or_flat": true},
+      "size_mult": [1.2, 1.5]
+    },
+    "panic": {
+      "dial": "stabilize_first",
+      "trend": {"wait_for_k6_close_gt_sma20": true},
+      "size_mult": [0.3, 0.3],
+      "note": "After reclaim, transition toward aggressive"
+    }
+  },
+  "conflict_rules": [
+    {
+      "id": "C1",
+      "if": {"R2_fast_yield_spike": true, "regime_in": ["mid_cycle", "cautious_recovery"]},
+      "then": {"dial_cap": "selective"}
+    },
+    {
+      "id": "C2",
+      "if": {"regime": "panic"},
+      "then": {"ignore_euphoria_rules_until_reclaim": true}
+    },
+    {
+      "id": "C3",
+      "if": true,
+      "then": {"dial_US_independent_of_dial_TW": true, "except": ["R4_fx_contagion"]}
+    }
+  ],
+  "yahoo_features": [
+    {"id": "close", "source": "chart"},
+    {"id": "SMA20", "source": "chart", "window": 20},
+    {"id": "SMA50", "source": "chart", "window": 50},
+    {"id": "SMA200", "source": "chart", "window": 200},
+    {"id": "vol_ratio_20", "source": "chart.volume", "formula": "vol / mean(vol,20)"},
+    {"id": "ret_1d", "source": "chart"},
+    {"id": "ret_5d", "source": "chart"},
+    {"id": "ret_21d", "source": "chart"},
+    {"id": "ret_63d", "source": "chart"},
+    {"id": "rs_vs_index_21d", "formula": "stock_ret_21d - index_ret_21d"},
+    {"id": "dd_from_52w_high", "formula": "close/max(high,252)-1"},
+    {"id": "dd_from_252d_high", "formula": "close/max(high,252)-1"},
+    {"id": "pct_from_SMA200", "formula": "close/SMA200-1"},
+    {"id": "ATR_pct_20", "formula": "ATR20/close"},
+    {"id": "index_vol_ratio_20", "symbols": {"US": ["^GSPC", "^IXIC"], "TW": ["^TWII"]}},
+    {"id": "US10Y", "symbol": "^TNX"},
+    {"id": "d_US10Y_5d", "symbol": "^TNX"},
+    {"id": "d_US10Y_20d", "symbol": "^TNX"},
+    {"id": "d_US10Y_60d", "symbol": "^TNX"},
+    {"id": "USDTWD", "symbol": "USDTWD=X"},
+    {"id": "d_USDTWD_20d", "symbol": "USDTWD=X"},
+    {"id": "HYG_vs_LQD_20d", "optional": true, "symbols": ["HYG", "LQD"]},
+    {"id": "breadth_proxy", "formula": "pct_universe_above_SMA50"}
+  ],
+  "market_separation": {
+    "US": {
+      "benchmarks": ["^GSPC", "^IXIC"],
+      "optional_benchmarks": ["^SOX"],
+      "rate_anchor": "^TNX",
+      "settlement": "T+1"
+    },
+    "TW": {
+      "benchmarks": ["^TWII"],
+      "rate_anchor_proxy": ["USDTWD=X", "^TNX"],
+      "limit_move_pct": 0.1,
+      "settlement": "T+2",
+      "notes": [
+        "Morning TW scans often use prior TW close",
+        "Limit-up clusters are not healthy breadth",
+        "Score TSM ADS and 2330 under separate market regimes"
+      ]
+    },
+    "hard_rules": [
+      "Never blend US and TW into one world mood for dials",
+      "Holiday desync freezes only the closed market dial",
+      "FX/rate contagion (R4) is the only cross-market auto-link"
+    ]
+  },
+  "pipeline": {
+    "steps": [
+      "pull_charts_indices_rates_fx_universe",
+      "compute_yahoo_features_per_market",
+      "score_temperature_and_egg_proxy",
+      "map_regime_label_to_dial",
+      "apply_dial_to_AB_screens",
+      "apply_discipline_caps_D1_D3",
+      "emit_scan_md_json_and_audit_log"
+    ],
+    "output_regime_object_fields": [
+      "market",
+      "regime_label",
+      "dial",
+      "size_mult",
+      "temperature_score",
+      "egg_proxy",
+      "features"
+    ]
+  }
+}

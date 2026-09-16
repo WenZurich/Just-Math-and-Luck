@@ -102,6 +102,35 @@ function screenBadges(screens) {
     .join("");
 }
 
+
+function renderRegimeStrip(regime) {
+  if (!regime || (!regime.us && !regime.tw)) return "";
+  const card = (key, r) => {
+    if (!r) return "";
+    const phase = r.psychologyPhase || t("dataInsufficient");
+    const stance = r.cycleStance || t("dataInsufficient");
+    const liq = r.liquidityBias || t("dataInsufficient");
+    const gaps =
+      Array.isArray(r.dataGaps) && r.dataGaps.length
+        ? `<div class="regime-gaps">${escapeHtml(t("dataGaps"))}：${escapeHtml(r.dataGaps.slice(0, 4).join(", "))}${r.dataGaps.length > 4 ? "…" : ""}</div>`
+        : "";
+    const incomplete = r.incomplete ? " incomplete" : "";
+    return `<div class="regime-chip${incomplete}">
+      <div class="label">${escapeHtml(key)} · ${escapeHtml(t("marketRegime"))}</div>
+      <div class="value">${escapeHtml(stance)}</div>
+      <div class="pct flat" style="font-size:0.72rem;line-height:1.35">
+        ${escapeHtml(t("psychologyPhase"))} ${escapeHtml(phase)}
+        · ${escapeHtml(t("liquidityBias"))} ${escapeHtml(liq)}
+      </div>
+      ${gaps}
+    </div>`;
+  };
+  return `<div class="regime-strip" aria-label="${escapeHtml(t("marketRegime"))}">
+    ${card("US", regime.us)}
+    ${card("TW", regime.tw)}
+  </div>`;
+}
+
 function renderIndexStrip(indices) {
   const chips = [];
 
@@ -506,6 +535,7 @@ function renderApp(data, paper) {
         <header class="view-header view-header-tight">
           <h2 class="view-title">${escapeHtml(t("todayPicks"))}</h2>
         </header>
+        ${renderRegimeStrip(data.marketRegime)}
         <div class="tabs market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
           <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", t("usStock"))}（${us.length}）</button>
           <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", t("twStock"))}（${tw.length}）</button>

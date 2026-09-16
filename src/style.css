@@ -1707,3 +1707,36 @@ h1 {
 #paper-panel-US .paper-book { border-color: rgba(96, 165, 250, 0.45); border-width: 2px; }
 .market-tabs { margin-bottom: 0.85rem; }
 .card-fold { margin-top: 0.55rem; }
+
+.regime-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.35rem 0 0.85rem;
+}
+.regime-chip {
+  flex: 1 1 180px;
+  min-width: 160px;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent, #3b82f6) 30%, transparent);
+  background: color-mix(in srgb, var(--panel-bg, #0f172a) 92%, #1e3a5f);
+}
+.regime-chip .label {
+  font-size: 0.72rem;
+  opacity: 0.85;
+  margin-bottom: 0.15rem;
+}
+.regime-chip .value {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.regime-chip.incomplete {
+  border-style: dashed;
+  opacity: 0.92;
+}
+.regime-gaps {
+  margin-top: 0.25rem;
+  font-size: 0.68rem;
+  opacity: 0.75;
+}

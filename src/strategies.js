@@ -207,6 +207,19 @@ function metricColumns(strategyId) {
         { key: "opMargins", label: term("opMargin", t("opMargin")), fmt: (m) => (Array.isArray(m.opMargins) ? m.opMargins.slice(-4).map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—"), rawLabel: true },
         { key: "source", label: t("metricSource"), fmt: (m) => m.source || "—" },
       ];
+    case "kostolany-cycle":
+      return [
+        { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
+        { key: "dayPct", label: t("metricDayPct"), fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
+        { key: "pct5d", label: "5日%", fmt: (m) => fmtPct(m.pct5d), cls: (m) => pctClass(m.pct5d) },
+        { key: "pct1m", label: "1月%", fmt: (m) => fmtPct(m.pct1m), cls: (m) => pctClass(m.pct1m) },
+        { key: "volRatio", label: t("volRatio"), fmt: (m) => (m.volRatio != null ? fmtNum(m.volRatio) + "×" : "—") },
+        { key: "psychologyPhase", label: t("psychologyPhase"), fmt: (m) => m.psychologyPhase || "—" },
+        { key: "cycleStance", label: t("cycleStance"), fmt: (m) => m.cycleStance || "—" },
+        { key: "liquidityBias", label: t("liquidityBias"), fmt: (m) => m.liquidityBias || "—" },
+        { key: "tags", label: t("regimeTags"), fmt: (m) => m.tags || "—" },
+        { key: "sizeMult", label: t("sizeMult"), fmt: (m) => (m.sizeMult != null ? fmtNum(m.sizeMult, 2) + "×" : "—") },
+      ];
     default:
       return [{ key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) }];
   }
@@ -380,6 +393,36 @@ function renderStrategyPanel(strategy, data, marketFilter = "TW") {
           : ""
       }
       ${unchecked ? `<ul class="xq-unchecked-list">${unchecked}</ul>` : ""}
+      ${
+        strategy.regimeSnapshot
+          ? `<div class="xq-regime-box" role="status">
+        <div class="xq-regime-title">${escapeHtml(t("regimeToday"))}</div>
+        <div class="xq-regime-grid">
+          ${["us", "tw"]
+            .map((k) => {
+              const r = strategy.regimeSnapshot[k];
+              if (!r) return "";
+              const phase = r.psychologyPhase || t("dataInsufficient");
+              const stance = r.cycleStance || t("dataInsufficient");
+              const liq = r.liquidityBias || t("dataInsufficient");
+              const gaps =
+                Array.isArray(r.dataGaps) && r.dataGaps.length
+                  ? `<div class="xq-regime-gaps">${escapeHtml(t("dataGaps"))}：${escapeHtml(r.dataGaps.join(", "))}</div>`
+                  : "";
+              return `<div class="xq-regime-card">
+                <div class="xq-regime-mkt">${escapeHtml(k.toUpperCase())}</div>
+                <div>${escapeHtml(t("psychologyPhase"))}：<strong>${escapeHtml(phase)}</strong></div>
+                <div>${escapeHtml(t("cycleStance"))}：<strong>${escapeHtml(stance)}</strong></div>
+                <div>${escapeHtml(t("liquidityBias"))}：<strong>${escapeHtml(liq)}</strong></div>
+                <div>${escapeHtml(t("temperatureScore"))}：${escapeHtml(r.temperatureScore == null ? t("dataInsufficient") : String(r.temperatureScore))}</div>
+                ${gaps}
+              </div>`;
+            })
+            .join("")}
+        </div>
+      </div>`
+          : ""
+      }
       ${notes ? `<ul class="xq-notes">${notes}</ul>` : ""}
       ${blockers}
       <div class="xq-toolbar">
@@ -435,7 +478,7 @@ export function mountStrategies(selector, data) {
     return;
   }
 
-  const order = data.categoryOrder || ["精選", "價量", "籌碼", "財務", "大師"];
+  const order = data.categoryOrder || ["精選", "價量", "籌碼", "財務", "週期", "大師"];
   const byCat = new Map(order.map((c) => [c, []]));
   for (const s of data.strategies) {
     const c = catOf(s);
