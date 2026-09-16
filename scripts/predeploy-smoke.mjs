@@ -245,6 +245,156 @@ async function main() {
   }
   ok("no unknown category tabs");
 
+  // —— Explicit jargon regression (live-site crash set) ——
+  const jargonIds = ["ultra-short", "peter-lynch", "benjamin-graham", "inst-sync", "margin-up"];
+  for (const id of jargonIds) {
+    const s = strategies.find((x) => x.id === id);
+    if (!s) {
+      fail(`expected pack ${id} missing from screener`);
+      continue;
+    }
+    const jargonHits = (s.conditions || []).filter((c) =>
+      /本益比|RSI|振幅|\d+\s*張|營益率|外資|投信|自營商|毛利率/.test(c.text || "")
+    );
+    try {
+      const html = renderStrategyPanel(s, data, "TW");
+      if (!html.includes(`data-strategy-id="${id}"`)) fail(`jargon regression ${id}: panel id missing`);
+      else ok(`jargon regression render ${id} (${jargonHits.length} jargon conditions)`);
+    } catch (e) {
+      fail(`jargon regression ${id}: ${e?.stack || e}`);
+    }
+  }
+
+  // —— Incomplete packs must show 資料不足 / incomplete UI ——
+  for (const s of strategies.filter((x) => x.incomplete)) {
+    try {
+      const html = renderStrategyPanel(s, data, "TW");
+      if (!/xq-incomplete|資料不足|incomplete/i.test(html)) {
+        fail(`incomplete pack ${s.id} missing incomplete UI`);
+      } else ok(`incomplete UI ${s.id}`);
+    } catch (e) {
+      fail(`incomplete pack ${s.id}: ${e?.stack || e}`);
+    }
+  }
+
+  // —— TW/US toggle (kostolany has both markets) ——
+  const kosto = strategies.find((x) => x.id === "kostolany-cycle");
+  if (kosto) {
+    const tab = catOf(kosto);
+    click(root.querySelector(`[data-xq-tab="${tab}"]`));
+    click(root.querySelector(`[data-xq-id="${kosto.id}"]`));
+    const usBtn = root.querySelector('[data-xq-market="US"]');
+    const twBtn = root.querySelector('[data-xq-market="TW"]');
+    if (!usBtn || !twBtn) {
+      fail("kostolany missing TW/US market tabs");
+    } else {
+      try {
+        click(usBtn);
+        const usActive = root.querySelector('[data-xq-market="US"].active');
+        const panelMkt = root.querySelector(".xq-market-block")?.getAttribute("data-market");
+        if (!usActive) fail("US market tab not active after click");
+        else if (panelMkt && panelMkt !== "US") fail(`US click left market block at ${panelMkt}`);
+        else ok("TW/US toggle → US");
+        click(root.querySelector('[data-xq-market="TW"]'));
+        if (!root.querySelector('[data-xq-market="TW"].active')) fail("TW market tab not active after click");
+        else ok("TW/US toggle → TW");
+      } catch (e) {
+        fail(`TW/US toggle: ${e?.stack || e}`);
+      }
+    }
+  } else {
+    fail("kostolany-cycle missing (needed for TW/US smoke)");
+  }
+
+  // —— Copy JSON / Export CSV / watchlist / backtest disabled ——
+  const withHits = strategies.find((s) => (s.hits || []).length > 0 && !s.incomplete) || strategies[0];
+  {
+    const tab = catOf(withHits);
+    click(root.querySelector(`[data-xq-tab="${tab}"]`));
+    click(root.querySelector(`[data-xq-id="${withHits.id}"]`));
+
+    // clipboard mock
+    let copied = null;
+    Object.defineProperty(window.navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (t) => {
+          copied = t;
+        },
+      },
+    });
+
+    const copyBtn = root.querySelector("[data-xq-copy]");
+    if (!copyBtn) fail("copy button missing");
+    else {
+      try {
+        click(copyBtn);
+        const toast = root.querySelector("#xq-toast");
+        if (copied && copied.includes('"strategies"')) ok("copy JSON wrote clipboard");
+        else if (toast && !toast.hidden) ok("copy JSON showed toast (fallback path)");
+        else fail("copy JSON produced neither clipboard nor toast");
+      } catch (e) {
+        fail(`copy JSON: ${e?.stack || e}`);
+      }
+    }
+
+    const csvBtn = root.querySelector("[data-xq-csv]");
+    if (!csvBtn) fail("csv button missing");
+    else {
+      try {
+        // jsdom may not fully support download; ensure handler does not throw
+        click(csvBtn);
+        ok("export CSV click did not throw");
+      } catch (e) {
+        fail(`export CSV: ${e?.stack || e}`);
+      }
+    }
+
+    const backtest = [...root.querySelectorAll("button")].find((b) => b.disabled && /回測|Backtest|バックテスト/.test(b.textContent || ""));
+    if (!backtest) fail("disabled backtest button missing");
+    else ok("backtest button disabled");
+
+    const watch = root.querySelector("[data-xq-watch]");
+    if (watch) {
+      try {
+        localStorage.removeItem("jml-watchlist");
+        click(watch);
+        const raw = localStorage.getItem("jml-watchlist");
+        const list = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(list) || !list.some((x) => x.ticker === watch.getAttribute("data-xq-watch"))) {
+          fail("watchlist localStorage not updated");
+        } else ok(`watchlist stub stored ${watch.getAttribute("data-xq-watch")}`);
+      } catch (e) {
+        fail(`watchlist: ${e?.stack || e}`);
+      }
+    } else {
+      ok("watchlist skipped (no hit rows on sample)");
+    }
+  }
+
+  // —— CSS: tall sticky chips must stay disabled (root cause of dead panel clicks) ——
+  const css = fs.readFileSync(path.join(ROOT, "src/strategies.css"), "utf8");
+  if (!/Do NOT sticky the full chip list/.test(css) && !/\.xq-chips\s*\{[\s\S]*?position:\s*static\s*!important/.test(css)) {
+    // softer check
+    if (!/position:\s*static\s*!important/.test(css)) {
+      fail("strategies.css missing mobile .xq-chips position:static !important guard");
+    } else ok("xq-chips sticky overlay guard present");
+  } else {
+    ok("xq-chips sticky overlay guard present");
+  }
+  if (!/\.xq-tabs/.test(css)) fail("strategies.css missing .xq-tabs");
+  else ok("xq-tabs styles present");
+
+  // —— Built docs/data screener stays in sync with public (if both exist) ——
+  const docsScreener = path.join(ROOT, "docs/data/strategy-screener.json");
+  if (fs.existsSync(docsScreener)) {
+    const docs = JSON.parse(fs.readFileSync(docsScreener, "utf8"));
+    const pubIds = strategies.map((s) => s.id).sort().join(",");
+    const docIds = (docs.strategies || []).map((s) => s.id).sort().join(",");
+    if (pubIds !== docIds) fail("docs/data strategy ids diverge from public/data");
+    else ok("docs/data strategy ids match public/data");
+  }
+
   if (errors.length) {
     for (const e of errors) fail(`window error: ${e}`);
   }
