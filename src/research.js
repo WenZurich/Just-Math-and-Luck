@@ -55,6 +55,56 @@ function typeLabel(type) {
   return t("researchTypeBook");
 }
 
+function shelfLabel(shelf, meta = {}) {
+  if (!shelf) return t("researchShelfAdjacent");
+  const labels = meta?.shelfLabels?.[shelf];
+  if (labels && typeof labels === "object") {
+    return pickLocalized(labels, shelf);
+  }
+  const key = {
+    core_investing: "researchShelfCoreInvesting",
+    value_investing: "researchShelfValueInvesting",
+    business_management: "researchShelfBusiness",
+    life_partner_wisdom: "researchShelfLifePartner",
+    options: "researchShelfOptions",
+    recent_reads: "researchShelfRecentReads",
+    fi_concepts: "researchShelfFiConcepts",
+    money_values: "researchShelfMoneyValues",
+    investing_basics: "researchShelfInvestingBasics",
+    asset_allocation: "researchShelfAssetAllocation",
+    financials: "researchShelfFinancials",
+    market_analysis: "researchShelfMarketAnalysis",
+    econ_analysis: "researchShelfEconAnalysis",
+    psych_randomness: "researchShelfPsych",
+    biographies: "researchShelfBiographies",
+    adjacent: "researchShelfAdjacent",
+  }[shelf];
+  return key ? t(key) : shelf;
+}
+
+function shelfOrder(meta = {}) {
+  const fromMeta = Array.isArray(meta.shelves) ? meta.shelves : null;
+  return fromMeta || [
+    "core_investing",
+    "value_investing",
+    "business_management",
+    "life_partner_wisdom",
+    "options",
+    "recent_reads",
+    "fi_concepts",
+    "money_values",
+    "investing_basics",
+    "asset_allocation",
+    "financials",
+    "market_analysis",
+    "econ_analysis",
+    "psych_randomness",
+    "biographies",
+    "adjacent",
+  ];
+}
+
+
 function pickLocalized(map, fallback) {
   if (!map || typeof map !== "object") return fallback;
   const lang = getLang();
@@ -164,12 +214,13 @@ export function renderResearchCard(item, meta = {}) {
   const year = item.year != null ? String(item.year) : "—";
   const authors = (item.authors || []).join(", ") || "—";
   return `
-    <article class="rl-card" data-rl-id="${escapeHtml(item.id)}" data-rl-market="${escapeHtml(item.market)}" data-rl-type="${escapeHtml(item.type)}">
+    <article class="rl-card" data-rl-id="${escapeHtml(item.id)}" data-rl-market="${escapeHtml(item.market)}" data-rl-type="${escapeHtml(item.type)}" data-rl-shelf="${escapeHtml(item.shelf || "adjacent")}">
       ${coverBlock(item, meta)}
       <div class="rl-card-body">
         <header class="rl-card-head">
           <div class="rl-badges">
             <span class="rl-badge rl-type">${escapeHtml(typeLabel(item.type))}</span>
+            <span class="rl-badge rl-shelf">${escapeHtml(shelfLabel(item.shelf, meta))}</span>
             <span class="rl-badge rl-market">${escapeHtml(marketLabel(item.market))}</span>
             <span class="rl-badge ${STATUS_CLASS[status] || ""}">${escapeHtml(statusLabel(status))}</span>
             <span class="rl-badge ${CANDIDATE_CLASS[cand] || ""}" title="${escapeHtml(t("researchStrategy"))}">${escapeHtml(candidateLabel(cand))}</span>
@@ -198,9 +249,10 @@ export function renderResearchSection(placeholder = true) {
     </section>`;
 }
 
-function filterItems(items, { market, type }) {
+function filterItems(items, { market, type, shelf }) {
   return items.filter((it) => {
     if (type && type !== "all" && it.type !== type) return false;
+    if (shelf && shelf !== "all" && (it.shelf || "adjacent") !== shelf) return false;
     if (!market || market === "all") return true;
     if (market === "US") return it.market === "US" || it.market === "BOTH";
     if (market === "TW") return it.market === "TW" || it.market === "BOTH";
@@ -223,9 +275,37 @@ function paint(root, data, state) {
   const papers = filtered.filter((i) => i.type === "paper");
   const podcasts = filtered.filter((i) => i.type === "podcast");
   const meta = data?.meta || {};
+  const order = shelfOrder(meta);
   const metaNote = meta.mathGate
     ? `<p class="rl-meta-line">${escapeHtml(mathGateBannerText(data))}</p>`
     : "";
+
+  const shelfChips = [
+    `<button type="button" class="rl-filter rl-shelf-chip${state.shelf === "all" ? " is-active" : ""}" data-rl-shelf="all">${escapeHtml(t("researchFilterAll"))}</button>`,
+    ...order.map((s) => {
+      const count = items.filter((it) => (it.shelf || "adjacent") === s).length;
+      if (!count) return "";
+      return `<button type="button" class="rl-filter rl-shelf-chip${state.shelf === s ? " is-active" : ""}" data-rl-shelf="${escapeHtml(s)}">${escapeHtml(shelfLabel(s, meta))} <span class="rl-chip-count">${count}</span></button>`;
+    }),
+  ].join("");
+
+  function renderGrouped(list, ariaLabel) {
+    if (!list.length) return `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`;
+    // When a specific shelf is selected, flat grid; otherwise section headers by shelf
+    if (state.shelf && state.shelf !== "all") {
+      return `<div class="rl-grid">${list.map((b) => renderResearchCard(b, meta)).join("")}</div>`;
+    }
+    const shelvesInList = order.filter((s) => list.some((it) => (it.shelf || "adjacent") === s));
+    return shelvesInList
+      .map((s) => {
+        const group = list.filter((it) => (it.shelf || "adjacent") === s);
+        return `<section class="rl-shelf-group" data-shelf="${escapeHtml(s)}" aria-label="${escapeHtml(shelfLabel(s, meta))}">
+          <h4 class="rl-shelf-title">${escapeHtml(shelfLabel(s, meta))} <span class="rl-list-count">(${group.length})</span></h4>
+          <div class="rl-grid">${group.map((b) => renderResearchCard(b, meta)).join("")}</div>
+        </section>`;
+      })
+      .join("");
+  }
 
   root.innerHTML = `
     <div class="rl-toolbar" role="toolbar" aria-label="${escapeHtml(t("researchFilters"))}">
@@ -241,14 +321,15 @@ function paint(root, data, state) {
         <button type="button" class="rl-filter${state.type === "podcast" ? " is-active" : ""}" data-rl-type="podcast">${escapeHtml(t("researchTypePodcast"))}</button>
       </div>
     </div>
+    <div class="rl-shelf-scroll" role="group" aria-label="${escapeHtml(t("researchShelfFilters"))}">
+      ${shelfChips}
+    </div>
     ${metaNote}
     <p class="rl-counts">${escapeHtml(t("researchCounts", { books: books.length, papers: papers.length, podcasts: podcasts.length, total: filtered.length }))}</p>
     <div class="rl-lists">
       <section class="rl-list" aria-label="${escapeHtml(t("researchTypeBook"))}">
         <h3 class="rl-list-title">${escapeHtml(t("researchTypeBook"))} <span class="rl-list-count">(${books.length})</span></h3>
-        <div class="rl-grid">
-          ${books.length ? books.map((b) => renderResearchCard(b, meta)).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
-        </div>
+        ${renderGrouped(books, t("researchTypeBook"))}
       </section>
       <section class="rl-list" aria-label="${escapeHtml(t("researchTypePaper"))}">
         <h3 class="rl-list-title">${escapeHtml(t("researchTypePaper"))} <span class="rl-list-count">(${papers.length})</span></h3>
@@ -278,6 +359,12 @@ function paint(root, data, state) {
       paint(root, data, state);
     });
   });
+  root.querySelectorAll("[data-rl-shelf]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.shelf = btn.dataset.rlShelf;
+      paint(root, data, state);
+    });
+  });
 }
 
 export async function loadResearchLibrary(url = DATA_URL) {
@@ -291,7 +378,7 @@ export async function initResearch(selector = "#rl-root", url = DATA_URL) {
   if (!root) return { ok: false, reason: "missing-root" };
   try {
     const data = await loadResearchLibrary(url);
-    const state = { market: "all", type: "all" };
+    const state = { market: "all", type: "all", shelf: "all" };
     paint(root, data, state);
     return { ok: true, data };
   } catch (err) {

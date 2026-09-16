@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-16T19:36:34+08:00",
+    "updated": "2026-09-16T19:43:08+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW stock bookshelf + papers + podcasts + adjacent discipline titles; strategy candidates with honest calibration",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -15,7 +15,123 @@
     },
     "defaultCoverBook": "./covers/placeholder-book.svg",
     "defaultCoverPaper": "./covers/placeholder-paper.svg",
-    "defaultCoverPodcast": "./covers/placeholder-podcast.svg"
+    "defaultCoverPodcast": "./covers/placeholder-podcast.svg",
+    "shelves": [
+      "core_investing",
+      "value_investing",
+      "business_management",
+      "life_partner_wisdom",
+      "options",
+      "recent_reads",
+      "fi_concepts",
+      "money_values",
+      "investing_basics",
+      "asset_allocation",
+      "financials",
+      "market_analysis",
+      "econ_analysis",
+      "psych_randomness",
+      "biographies",
+      "adjacent"
+    ],
+    "shelfLabels": {
+      "core_investing": {
+        "zh-Hant": "核心投資經典",
+        "en": "Core investing classics",
+        "zh-Hans": "核心投资经典",
+        "ja": "コア投資クラシック"
+      },
+      "value_investing": {
+        "zh-Hant": "價值型投資",
+        "en": "Value investing",
+        "zh-Hans": "价值型投资",
+        "ja": "バリュー投資"
+      },
+      "business_management": {
+        "zh-Hant": "商業管理與商界視角",
+        "en": "Business & management",
+        "zh-Hans": "商业管理与商界视角",
+        "ja": "ビジネス／経営"
+      },
+      "life_partner_wisdom": {
+        "zh-Hant": "人生智慧與合夥人思想",
+        "en": "Life & partner wisdom",
+        "zh-Hans": "人生智慧与合伙人思想",
+        "ja": "人生とパートナーの知恵"
+      },
+      "options": {
+        "zh-Hant": "選擇權／衍生品",
+        "en": "Options / derivatives",
+        "zh-Hans": "期权／衍生品",
+        "ja": "オプション／デリバティブ"
+      },
+      "recent_reads": {
+        "zh-Hant": "近期閱讀與推薦書",
+        "en": "Recent reads & picks",
+        "zh-Hans": "近期阅读与推荐书",
+        "ja": "最近の読書・推薦"
+      },
+      "fi_concepts": {
+        "zh-Hant": "必看財商觀念書",
+        "en": "Must-read FI concepts",
+        "zh-Hans": "必看财商观念书",
+        "ja": "必須のマネーリテラシー"
+      },
+      "money_values": {
+        "zh-Hant": "理財與金錢價值觀",
+        "en": "Money values & mindset",
+        "zh-Hans": "理财与金钱价值观",
+        "ja": "お金の価値観"
+      },
+      "investing_basics": {
+        "zh-Hant": "投資理財入門",
+        "en": "Investing basics",
+        "zh-Hans": "投资理财入门",
+        "ja": "投資入門"
+      },
+      "asset_allocation": {
+        "zh-Hant": "資產配置",
+        "en": "Asset allocation",
+        "zh-Hans": "资产配置",
+        "ja": "資産配分"
+      },
+      "financials": {
+        "zh-Hant": "財報分析",
+        "en": "Financial statement analysis",
+        "zh-Hans": "财报分析",
+        "ja": "財務諸表分析"
+      },
+      "market_analysis": {
+        "zh-Hant": "投資分析與戰勝市場",
+        "en": "Market analysis & edge",
+        "zh-Hans": "投资分析与战胜市场",
+        "ja": "投資分析・市場攻略"
+      },
+      "econ_analysis": {
+        "zh-Hant": "經濟分析",
+        "en": "Economic analysis",
+        "zh-Hans": "经济分析",
+        "ja": "経済分析"
+      },
+      "psych_randomness": {
+        "zh-Hant": "投資心理／隨機性／人性",
+        "en": "Psychology / randomness / human nature",
+        "zh-Hans": "投资心理／随机性／人性",
+        "ja": "投資心理／ランダム／人間性"
+      },
+      "biographies": {
+        "zh-Hant": "名人傳記",
+        "en": "Biographies",
+        "zh-Hans": "名人传记",
+        "ja": "伝記"
+      },
+      "adjacent": {
+        "zh-Hant": "其他／隣接",
+        "en": "Other / adjacent",
+        "zh-Hans": "其他／隣接",
+        "ja": "その他／隣接"
+      }
+    }
   },
   "items": [
     {
@@ -60,7 +176,7 @@
           "損益の形を平易に説明；個別注文助言はしない"
         ]
       },
-      "strategyCandidate": "watch",
+      "strategyCandidate": "yes",
       "status": "candidate",
       "mathGateNote": "Educational options UI candidate; olympiad math gate not passed — public Yahoo chain screens only.",
       "sources": [
@@ -86,7 +202,8 @@
         "McMillan",
         "volatility",
         "US"
-      ]
+      ],
+      "shelf": "options"
     },
     {
       "id": "podcast-gooaye",
@@ -162,7 +279,8 @@
           "薄商いの急騰より出来高付きブレイク",
           "ヘッジ商品はコア資金にしない"
         ]
-      }
+      },
+      "shelf": "market_analysis"
     },
     {
       "id": "book-kostolany-egg",
@@ -228,7 +346,8 @@
           "絶望付近は堅い手が蓄積、陶酔付近は弱い手が主導",
           "出来高は保有移転の印であり逸話取引ではない"
         ]
-      }
+      },
+      "shelf": "psych_randomness"
     },
     {
       "id": "book-howard-marks-cycle",
@@ -292,7 +411,8 @@
           "熱い市場はハードルを上げサイズを抑える",
           "冷えた市場はサバイバー探し可だがリスク予算は厳しく"
         ]
-      }
+      },
+      "shelf": "market_analysis"
     },
     {
       "id": "book-rates-literacy-tw",
@@ -355,7 +475,8 @@
           "金利急騰は守備寄り；持続下落で慎重にリスクオン",
           "台湾はUSD/TWDストレスも見、現地金利＝米金利と見なさない"
         ]
-      }
+      },
+      "shelf": "econ_analysis"
     },
     {
       "id": "book-que-you-shang-fi",
@@ -418,7 +539,8 @@
           "ドローダウンと現金バッファを管理し銘柄アルファにしない",
           "年金逸話や生活レバレッジでタイミングしない"
         ]
-      }
+      },
+      "shelf": "fi_concepts"
     },
     {
       "id": "book-fi-shelf-discipline",
@@ -480,43 +602,44 @@
           "陶酔期の反FOMO。封筒予算で銘柄順位付けしない",
           "レバレッジ思想を株式因子にしない"
         ]
-      }
+      },
+      "shelf": "fi_concepts"
     },
     {
       "id": "book-security-analysis-concepts",
       "market": "US",
       "type": "book",
-      "title": "Security Analysis — core concepts (Graham & Dodd)",
+      "title": "證券分析（Security Analysis）— Graham & Dodd",
       "authors": [
         "Benjamin Graham",
         "David Dodd"
       ],
       "year": 1934,
-      "summary": "Original concept summary only: separate investment from speculation; anchor on earning power, asset coverage, and a margin of safety versus price. Informs value-style master packs (PE/PB/debt filters), not narrative stock tips.",
+      "summary": "Original concept summary (upgraded full title): separate investment from speculation; earning power, asset coverage, margin of safety. Buffett Columbia textbook lineage (Futu #2). Informs PE/PB/debt value packs.",
       "formulas": [
         "margin_of_safety_proxy ← f(earnings_yield, book_coverage, leverage)",
         "value_screen ← low PE/PB ∧ tolerable debt ∧ positive operating metrics"
       ],
-      "strategyCandidate": "watch",
+      "strategyCandidate": "yes",
       "status": "candidate",
       "mathGateNote": "Public PE/PB/ROE proxies exist in master packs; full MOS math not gated yet.",
       "sources": [
-        "public domain concepts / classroom summaries"
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
       ],
       "isbn": "0071603123",
       "coverUrl": "https://covers.openlibrary.org/b/isbn/0071603123-L.jpg",
       "coverFallback": "./covers/placeholder-book.svg",
       "titleLocalized": {
-        "zh-Hant": "證券分析 — 核心概念（葛拉漢／杜德）",
-        "en": "Security Analysis — core concepts (Graham & Dodd)",
-        "zh-Hans": "证券分析 — 核心概念（格雷厄姆／多德）",
-        "ja": "証券分析 — 核心概念（グレアム＆ドッド）"
+        "zh-Hant": "證券分析（Security Analysis）— Graham & Dodd",
+        "en": "Security Analysis (Graham & Dodd)",
+        "zh-Hans": "证券分析",
+        "ja": "証券分析（グレアム＆ドッド）"
       },
       "summaryLocalized": {
-        "en": "Original concept summary only: separate investment from speculation; anchor on earning power, asset coverage, and a margin of safety versus price. Informs value-style master packs (PE/PB/debt filters), not narrative stock tips.",
-        "zh-Hant": "原創概念摘要：區分投資與投機；錨定獲利能力、資產覆蓋與相對價格的安全邊際。影響價值風格大師包（本益／淨值／負債濾網），而非敘事薦股。",
-        "zh-Hans": "原创概念摘要：区分投资与投机；锚定获利能力、资产覆盖与相对价格的安全边际。影响价值风格大师包（本益／净值／负债滤网），而非叙事荐股。",
-        "ja": "オリジナル概念要約：投資と投機を分ける；収益力・資産カバレッジ・価格に対する安全余裕。価値系マスターパック（PE/PB/負債）に活かし、物語り推奨には使わない。"
+        "zh-Hant": "原創概念摘要（升級完整書名）：區分投資與投機；獲利能力、資產覆蓋、安全邊際。巴菲特哥大教材脈絡（富途#2）。",
+        "en": "Original concept summary (upgraded title): investment vs speculation; earning power, MOS. Buffett Columbia lineage (Futu #2).",
+        "zh-Hans": "原创概念摘要（升级完整书名）：区分投资与投机；获利能力、安全边际。",
+        "ja": "投資と投機を分ける。収益力・安全余裕。"
       },
       "plainTakeaways": [
         "區分投資與投機，先看獲利能力與資產覆蓋",
@@ -544,43 +667,44 @@
           "価格に対する安全余裕を求める",
           "価値スクリーン（PE/PB/負債）に活かし物語り推奨には使わない"
         ]
-      }
+      },
+      "shelf": "core_investing"
     },
     {
       "id": "book-intelligent-investor-concepts",
       "market": "US",
       "type": "book",
-      "title": "The Intelligent Investor — core concepts",
+      "title": "智慧型股票投資人／聰明的投資者（The Intelligent Investor）",
       "authors": [
         "Benjamin Graham"
       ],
       "year": 1949,
-      "summary": "Original concept summary: defensive vs enterprising investor; Mr. Market as a quote machine, not a guru; insist on process and margin of safety over forecasting. Maps to stance dials and position-size caps, not day-trade rules.",
+      "summary": "Original concept summary (upgraded full title): defensive vs enterprising investor; Mr. Market as a quote machine; margin of safety over forecasting. Buffett’s foundational book (Futu list #1). Maps to stance dials and size caps.",
       "formulas": [
         "defensive_vs_enterprising ← stance dial from regime",
         "size_mult ← STANCE_SIZE_MULT[stance]",
         "Mr_Market_quote ← last close (do not treat as intrinsic)"
       ],
-      "strategyCandidate": "watch",
+      "strategyCandidate": "yes",
       "status": "candidate",
-      "mathGateNote": "Stance sizing live; enterprising checklist still conceptual.",
+      "mathGateNote": "Stance sizing live; enterprising checklist still conceptual — yes for core value.",
       "sources": [
-        "public knowledge concepts"
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
       ],
       "isbn": "0060555661",
       "coverUrl": "https://covers.openlibrary.org/b/id/36434-L.jpg",
       "coverFallback": "./covers/placeholder-book.svg",
       "titleLocalized": {
-        "zh-Hant": "智慧型股票投資人 — 核心概念",
-        "en": "The Intelligent Investor — core concepts",
-        "zh-Hans": "聪明的投资者 — 核心概念",
-        "ja": "賢明なる投資家 — 核心概念"
+        "zh-Hant": "智慧型股票投資人／聰明的投資者（The Intelligent Investor）",
+        "en": "The Intelligent Investor (Benjamin Graham)",
+        "zh-Hans": "聪明的投资者",
+        "ja": "賢明なる投資家"
       },
       "summaryLocalized": {
-        "en": "Original concept summary: defensive vs enterprising investor; Mr. Market as a quote machine, not a guru; insist on process and margin of safety over forecasting. Maps to stance dials and position-size caps, not day-trade rules.",
-        "zh-Hant": "原創概念摘要：防禦型 vs 積極型投資人；市場先生是報價機而非導師；堅持流程與安全邊際勝過預測。對應姿態 dial 與部位上限，而非當沖規則。",
-        "zh-Hans": "原创概念摘要：防御型 vs 积极型投资人；市场先生是报价机而非导师；坚持流程与安全边际胜过预测。对应姿态 dial 与部位上限，而非短线规则。",
-        "ja": "オリジナル概念要約：防御型 vs 積極型；Mr.Marketは相場機械であり導師ではない。予測よりプロセスと安全余裕。スタンスダイヤルとサイズ上限に写像し、デイトレ規則にはしない。"
+        "zh-Hant": "原創概念摘要（升級完整書名）：防禦型 vs 積極型；市場先生是報價機；安全邊際勝過預測。巴菲特奠基讀本（富途#1）。",
+        "en": "Original concept summary (upgraded title): defensive vs enterprising; Mr. Market; MOS. Buffett foundation (Futu #1).",
+        "zh-Hans": "原创概念摘要（升级完整书名）：防御型 vs 积极型；市场先生；安全边际。巴菲特奠基读本。",
+        "ja": "防御型と積極型。Mr.Marketは相場機械。安全余裕。"
       },
       "plainTakeaways": [
         "防禦型與積極型投資人用不同姿態與部位上限",
@@ -608,7 +732,8 @@
           "Mr.Marketは相場機械であり導師ではない",
           "予測よりプロセスと安全余裕"
         ]
-      }
+      },
+      "shelf": "core_investing"
     },
     {
       "id": "book-random-walk-concepts",
@@ -671,7 +796,8 @@
           "ホット情報やチャート迷信に懐疑的であれ",
           "ペーパー戦略はサンプル外検証後に採用を検討"
         ]
-      }
+      },
+      "shelf": "investing_basics"
     },
     {
       "id": "book-tw-market-structure",
@@ -735,7 +861,8 @@
           "外資／投信／自己の単元フローは重要シグナル",
           "T+2は現金決済タグのみで移動平均の魔法ではない"
         ]
-      }
+      },
+      "shelf": "market_analysis"
     },
     {
       "id": "paper-finsaber-llm-2025",
@@ -802,7 +929,8 @@
           "強気で過度慎重・弱気で過度積極になりやすい",
           "モデル複雑化よりレジームリスク管理とトレンド検出を優先"
         ]
-      }
+      },
+      "shelf": "market_analysis"
     },
     {
       "id": "paper-genai-stock-selection-2026",
@@ -866,7 +994,8 @@
           "検索品質を制御し伝統シグナルと比較する",
           "再現可能特徴とゲート通過後に採用を検討"
         ]
-      }
+      },
+      "shelf": "market_analysis"
     },
     {
       "id": "book-lynch-one-up",
@@ -930,7 +1059,8 @@
           "個人観察は開始フィルタでありインサイダー近道ではない"
         ]
       },
-      "isbn": "0743200403"
+      "isbn": "0743200403",
+      "shelf": "market_analysis"
     },
     {
       "id": "book-lynch-learn-to-earn",
@@ -991,7 +1121,8 @@
           "リテラシー教材であり日次買いボタンではない"
         ]
       },
-      "isbn": "0684811634"
+      "isbn": "0684811634",
+      "shelf": "investing_basics"
     },
     {
       "id": "book-lynch-beating-street",
@@ -1055,7 +1186,8 @@
           "ファンダが変わればテーゼを見直す"
         ]
       },
-      "isbn": "0671891634"
+      "isbn": "0671891634",
+      "shelf": "market_analysis"
     },
     {
       "id": "book-bollinger-bands",
@@ -1120,41 +1252,43 @@
           "単独エントリー理由にしない"
         ]
       },
-      "isbn": "0071373683"
+      "isbn": "0071373683",
+      "shelf": "market_analysis"
     },
     {
       "id": "book-fisher-common-stocks",
       "market": "US",
       "type": "book",
-      "title": "非常潛力股（Common Stocks and Uncommon Profits）",
+      "title": "怎樣選擇成長股／非常潛力股（Common Stocks and Uncommon Profits）",
       "authors": [
         "Philip A. Fisher"
       ],
       "year": 1958,
-      "summary": "Original concept summary: growth-quality checklist emphasizing durable franchise, R&D/sales culture, and management honesty—classic scuttlebutt is hard to code; site keeps only public proxies (margin stability, growth persistence) as watch features.",
+      "summary": "Original concept summary (upgraded Chinese title 怎樣選擇成長股): growth-quality checklist—durable franchise, R&D/sales culture, management honesty. Buffett endorsed Fisher (Futu #3). Public proxies only.",
       "formulas": [
         "growth_quality_proxy ← stable_margins ∧ multi_year_sales_growth",
         "scuttlebutt ← NOT coded (qualitative)"
       ],
-      "strategyCandidate": "watch",
+      "strategyCandidate": "yes",
       "status": "candidate",
       "mathGateNote": "Qualitative scuttlebutt excluded; public growth-quality proxies only.",
       "sources": [
-        "bookshelf photo 2026-09-16 (original summary only)"
+        "bookshelf photo 2026-09-16 (original summary only)",
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
       ],
       "coverUrl": "https://covers.openlibrary.org/b/isbn/0471445509-L.jpg",
       "coverFallback": "./covers/placeholder-book.svg",
       "titleLocalized": {
-        "zh-Hant": "非常潛力股（Common Stocks and Uncommon Profits）",
+        "zh-Hant": "怎樣選擇成長股／非常潛力股（Common Stocks and Uncommon Profits）",
         "en": "Common Stocks and Uncommon Profits (Philip Fisher)",
-        "zh-Hans": "非常潜力股（Common Stocks and Uncommon Profits）",
+        "zh-Hans": "怎样选择成长股／非常潜力股",
         "ja": "株式投資で普通でない利益を得る"
       },
       "summaryLocalized": {
-        "zh-Hant": "原創概念摘要：成長品質清單強調耐久事業、研發／銷售文化與誠信管理；經典傳聞調查難編碼，站方只保留公開代理（利潤率穩定、成長延續）作觀察特徵。",
-        "en": "Original concept summary: growth-quality checklist emphasizing durable franchise, R&D/sales culture, and management honesty—classic scuttlebutt is hard to code; site keeps only public proxies (margin stability, growth persistence) as watch features.",
-        "zh-Hans": "原创概念摘要：成长品质清单强调耐久事业、研发／销售文化与诚信管理；经典传闻调查难编码，站方只保留公开代理（利润率稳定、成长延续）作观察特征。",
-        "ja": "オリジナル概念要約：スカウトルバットは符号化せず、公開プロキシのみ。"
+        "zh-Hant": "原創概念摘要（升級中文書名《怎樣選擇成長股》）：成長品質清單。巴菲特推崇費雪（富途#3）。只用公開代理。",
+        "en": "Original concept summary (upgraded Chinese title): growth-quality checklist. Buffett endorsed Fisher (Futu #3). Public proxies only.",
+        "zh-Hans": "原创概念摘要（升级中文书名《怎样选择成长股》）：成长品质清单。巴菲特推崇费雪。",
+        "ja": "成長品質チェック。公開プロキシのみ。"
       },
       "plainTakeaways": [
         "成長要看品質與耐久，不只看短期飆速",
@@ -1183,7 +1317,8 @@
           "経営誠実さは質的欄で偽精度スコアにしない"
         ]
       },
-      "isbn": "0471445509"
+      "isbn": "0471445509",
+      "shelf": "core_investing"
     },
     {
       "id": "book-bernstein-four-pillars",
@@ -1246,13 +1381,14 @@
           "銘柄選定式にしない"
         ]
       },
-      "isbn": "0071385290"
+      "isbn": "0071385290",
+      "shelf": "asset_allocation"
     },
     {
       "id": "book-marks-most-important",
       "market": "BOTH",
       "type": "book",
-      "title": "投資最重要的事（The Most Important Thing）",
+      "title": "投資最重要的事／有關投資與人生最重要的事（The Most Important Thing）",
       "authors": [
         "Howard Marks"
       ],
@@ -1271,9 +1407,9 @@
       "coverUrl": "https://covers.openlibrary.org/b/isbn/0231153686-L.jpg",
       "coverFallback": "./covers/placeholder-book.svg",
       "titleLocalized": {
-        "zh-Hant": "投資最重要的事（The Most Important Thing）",
+        "zh-Hant": "投資最重要的事／有關投資與人生最重要的事（The Most Important Thing）",
         "en": "The Most Important Thing (Howard Marks)",
-        "zh-Hans": "投资最重要的事（The Most Important Thing）",
+        "zh-Hans": "投资最重要的事／有关投资与人生最重要的事",
         "ja": "投資で一番大切なこと"
       },
       "summaryLocalized": {
@@ -1309,7 +1445,8 @@
           "サイクル温度の補完であり推奨リストではない"
         ]
       },
-      "isbn": "0231153686"
+      "isbn": "0231153686",
+      "shelf": "value_investing"
     },
     {
       "id": "book-ellis-losers-game",
@@ -1372,7 +1509,8 @@
           "コア・サテライト支援であり追撃式ではない"
         ]
       },
-      "isbn": "0070220102"
+      "isbn": "0070220102",
+      "shelf": "investing_basics"
     },
     {
       "id": "book-tw-ta-primers-shelf",
@@ -1435,7 +1573,8 @@
           "雑誌SOPと主力話はまず教材",
           "本番前にサンプル外検証"
         ]
-      }
+      },
+      "shelf": "investing_basics"
     },
     {
       "id": "book-tw-high-div-etf-shelf",
@@ -1498,7 +1637,8 @@
           "最高利回り追いはアルファではない",
           "流動性と費用をセットで見る"
         ]
-      }
+      },
+      "shelf": "investing_basics"
     },
     {
       "id": "book-statementdog-tw",
@@ -1560,7 +1700,8 @@
           "ワークシートや推奨リストをコピーしない",
           "既存候補と重複のため新パックなし"
         ]
-      }
+      },
+      "shelf": "market_analysis"
     },
     {
       "id": "book-money-smart-thin-guides",
@@ -1620,7 +1761,8 @@
           "号の推奨はルール引擎に入れない",
           "テクニカル／高配当書架と分けてタグ"
         ]
-      }
+      },
+      "shelf": "investing_basics"
     },
     {
       "id": "book-hagstrom-buffett-way",
@@ -1683,7 +1825,8 @@
           "伝記逸話は売買シグナルにしない"
         ]
       },
-      "isbn": "1118503252"
+      "isbn": "1118503252",
+      "shelf": "value_investing"
     },
     {
       "id": "book-snowball-buffett",
@@ -1743,7 +1886,8 @@
           "物語から売買規則を抽出しない"
         ]
       },
-      "isbn": "0553805096"
+      "isbn": "0553805096",
+      "shelf": "biographies"
     },
     {
       "id": "book-make-money-with-money",
@@ -1804,7 +1948,8 @@
           "現金バッファとリスク予算が先",
           "銘柄アルファにしない"
         ]
-      }
+      },
+      "shelf": "money_values"
     },
     {
       "id": "book-wealth-freedom-path",
@@ -1865,7 +2010,8 @@
           "生存とプロセスがスローガンに勝る",
           "株ランキング式を発明しない"
         ]
-      }
+      },
+      "shelf": "money_values"
     },
     {
       "id": "book-eker-millionaire-mind",
@@ -1927,7 +2073,8 @@
           "FI規律書架と同じレーン"
         ]
       },
-      "isbn": "0060763280"
+      "isbn": "0060763280",
+      "shelf": "fi_concepts"
     },
     {
       "id": "book-think-and-grow-rich",
@@ -1987,7 +2134,8 @@
           "歴史文献タグのみ"
         ]
       },
-      "isbn": "0449214923"
+      "isbn": "0449214923",
+      "shelf": "fi_concepts"
     },
     {
       "id": "book-harvard-finlit-popularizations",
@@ -2046,7 +2194,8 @@
           "大衆マネーリテラシーのみ",
           "取引可能ルールを抽出しない"
         ]
-      }
+      },
+      "shelf": "fi_concepts"
     },
     {
       "id": "book-econ-common-sense",
@@ -2107,7 +2256,8 @@
           "予測モデルや銘柄ピッカーではない",
           "金利リテラシー書架を補完"
         ]
-      }
+      },
+      "shelf": "econ_analysis"
     },
     {
       "id": "book-huang-qituan-others-earn",
@@ -2166,7 +2316,8 @@
           "機会費用は行動規律",
           "テクニカル／ファンダ画面に変換しない"
         ]
-      }
+      },
+      "shelf": "money_values"
     },
     {
       "id": "book-myers-social-psychology",
@@ -2229,7 +2380,8 @@
           "ペーパートレード規律候補のみ"
         ]
       },
-      "isbn": "0073531898"
+      "isbn": "0073531898",
+      "shelf": "psych_randomness"
     },
     {
       "id": "book-aq-adversity-quotient",
@@ -2292,7 +2444,8 @@
           "押し目買いアルファにしない"
         ]
       },
-      "isbn": "0471178926"
+      "isbn": "0471178926",
+      "shelf": "psych_randomness"
     },
     {
       "id": "book-self-discipline-power",
@@ -2353,7 +2506,8 @@
           "強弱方向の主張なし",
           "ペーパートレード規律用"
         ]
-      }
+      },
+      "shelf": "adjacent"
     },
     {
       "id": "book-songchi-gan",
@@ -2414,7 +2568,8 @@
           "リラックスは規律であり指標ではない",
           "ボラ予測にしない"
         ]
-      }
+      },
+      "shelf": "adjacent"
     },
     {
       "id": "book-stop-procrastination",
@@ -2475,7 +2630,8 @@
           "先延ばし対策はプロセス用",
           "ペーパートレード規律候補"
         ]
-      }
+      },
+      "shelf": "adjacent"
     },
     {
       "id": "book-jingjin-refinement",
@@ -2536,7 +2692,8 @@
           "意図的練習はプロセス改善",
           "ペーパートレード規律候補"
         ]
-      }
+      },
+      "shelf": "adjacent"
     },
     {
       "id": "book-wang-yangming-xinxue",
@@ -2595,7 +2752,8 @@
           "哲学は銘柄式ではない",
           "規律メモのみ"
         ]
-      }
+      },
+      "shelf": "adjacent"
     },
     {
       "id": "book-sushu",
@@ -2654,7 +2812,8 @@
           "規律文献タグのみ",
           "格言から画面を書かない"
         ]
-      }
+      },
+      "shelf": "adjacent"
     },
     {
       "id": "book-guiguzi",
@@ -2713,7 +2872,8 @@
           "古典権謀を取引に符号化しない",
           "規律文献のみ"
         ]
-      }
+      },
+      "shelf": "adjacent"
     },
     {
       "id": "book-inamori-shelf",
@@ -2772,7 +2932,8 @@
           "株式因子にしない",
           "クラスター目録で十分"
         ]
-      }
+      },
+      "shelf": "business_management"
     },
     {
       "id": "book-grant-give-and-take",
@@ -2832,7 +2993,8 @@
           "strategyCandidate=no"
         ]
       },
-      "isbn": "0670026555"
+      "isbn": "0670026555",
+      "shelf": "business_management"
     },
     {
       "id": "book-moon-different",
@@ -2892,7 +3054,8 @@
           "当面 deferred"
         ]
       },
-      "isbn": "0307460851"
+      "isbn": "0307460851",
+      "shelf": "business_management"
     },
     {
       "id": "book-diamond-getting-more",
@@ -2952,7 +3115,8 @@
           "strategyCandidate=no"
         ]
       },
-      "isbn": "0307716902"
+      "isbn": "0307716902",
+      "shelf": "business_management"
     },
     {
       "id": "book-shell-springboard",
@@ -3012,7 +3176,8 @@
           "deferred"
         ]
       },
-      "isbn": "1591845475"
+      "isbn": "1591845475",
+      "shelf": "business_management"
     },
     {
       "id": "book-walton-made-in-america",
@@ -3073,7 +3238,8 @@
           "deferred"
         ]
       },
-      "isbn": "0385426151"
+      "isbn": "0385426151",
+      "shelf": "business_management"
     },
     {
       "id": "book-biz-soft-skills-shelf",
@@ -3132,7 +3298,8 @@
           "明確な市場心理写像がなければ戦略に入れない",
           "三十六計／EQ／リーダーシップ通俗を含む"
         ]
-      }
+      },
+      "shelf": "business_management"
     },
     {
       "id": "book-trump-never-give-up",
@@ -3192,7 +3359,8 @@
           "strategyCandidate=no"
         ]
       },
-      "isbn": "0470190841"
+      "isbn": "0470190841",
+      "shelf": "biographies"
     },
     {
       "id": "book-isaacson-steve-jobs",
@@ -3252,7 +3420,8 @@
           "deferred"
         ]
       },
-      "isbn": "1451648537"
+      "isbn": "1451648537",
+      "shelf": "biographies"
     },
     {
       "id": "book-lifestyle-shelf-deferred",
@@ -3312,6 +3481,3060 @@
           "生活随筆は銘柄選定と無関係",
           "同棚の標記のみ",
           "相場式を発明しない"
+        ]
+      },
+      "shelf": "adjacent"
+    },
+    {
+      "id": "book-business-adventures",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "business_management",
+      "title": "商業冒險（Business Adventures）",
+      "authors": [
+        "John Brooks"
+      ],
+      "year": 1969,
+      "summary": "Original concept summary: twelve mid-century business case narratives that teach judgment under uncertainty—management quality, not period trade copies. Buffett famously gifted it; paraphrase only.",
+      "formulas": [
+        "mgmt_quality_read ← narrative_case ≠ trade_signal"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128",
+        "https://openlibrary.org/works/OL16492216W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/8231778-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "商業冒險（Business Adventures）",
+        "en": "Business Adventures (John Brooks)",
+        "zh-Hans": "商业冒险",
+        "ja": "ビジネス・アドベンチャーズ"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：十二則商業個案練不確定下判斷——讀管理品質，不抄舊交易。",
+        "en": "Original concept summary: business cases for judgment under uncertainty—management quality, not period trades.",
+        "zh-Hans": "原创概念摘要：商业个案练判断——读管理品质。",
+        "ja": "不確実性下の判断を鍛える事例。"
+      },
+      "plainTakeaways": [
+        "用商業個案練判斷，不是抄舊時代交易",
+        "關注激勵、治理與資訊不對稱",
+        "當管理品質讀物，不當選股密技書"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "用商業個案練判斷，不是抄舊時代交易",
+          "關注激勵、治理與資訊不對稱",
+          "當管理品質讀物，不當選股密技書"
+        ],
+        "en": [
+          "Practice judgment on business cases — do not copy period trades",
+          "Watch incentives, governance, information asymmetry",
+          "Read for management quality, not stock tips"
+        ],
+        "zh-Hans": [
+          "用商业个案练判断，不是抄旧时代交易",
+          "关注激励、治理与信息不对称",
+          "当管理品质读物，不当选股密技书"
+        ],
+        "ja": [
+          "ケースで判断力を鍛える",
+          "インセンティブと統治を見る",
+          "経営品質の読物であり銘柄裏技ではない"
+        ]
+      }
+    },
+    {
+      "id": "book-outsiders-thorndike",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "business_management",
+      "title": "商界局外人（The Outsiders）",
+      "authors": [
+        "William N. Thorndike"
+      ],
+      "year": 2012,
+      "summary": "Original concept summary: CEOs who compounded per-share value via disciplined capital allocation—checklist for filings, not tickers. Buffett praised publicly.",
+      "formulas": [
+        "capital_allocation_lens ← buybacks ∧ M&A_discipline ∧ cash_use"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128",
+        "https://openlibrary.org/works/OL16599653W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/9145342-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "商界局外人（The Outsiders）",
+        "en": "The Outsiders (William Thorndike)",
+        "zh-Hans": "商界局外人",
+        "ja": "アウトサイダーズ"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：資本配置傑出的CEO個案——讀財報清單，非薦股。",
+        "en": "Original concept summary: capital-allocation CEOs—filings checklist, not tips.",
+        "zh-Hans": "原创概念摘要：资本配置CEO个案——读财报清单。",
+        "ja": "資本配分に優れたCEO事例。"
+      },
+      "plainTakeaways": [
+        "盯每股價值與資本配置紀律",
+        "回購、併購與現金用途對照財報",
+        "當管理觀察清單，不當薦股名單"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "盯每股價值與資本配置紀律",
+          "回購、併購與現金用途對照財報",
+          "當管理觀察清單，不當薦股名單"
+        ],
+        "en": [
+          "Watch per-share value and capital-allocation discipline",
+          "Cross-check buybacks, M&A, cash use against filings",
+          "Management checklist — not a tip sheet"
+        ],
+        "zh-Hans": [
+          "盯每股价值与资本配置纪律",
+          "回购、并购与现金用途对照财报",
+          "当管理观察清单，不当荐股名单"
+        ],
+        "ja": [
+          "一株価値と資本配分を見る",
+          "自社株買い・M&Aを開示で照合",
+          "経営チェックリストであり推奨リストではない"
+        ]
+      },
+      "isbn": "1422162672"
+    },
+    {
+      "id": "book-stress-test-geithner",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "business_management",
+      "title": "壓力測試：對金融危機的反思（Stress Test）",
+      "authors": [
+        "Timothy F. Geithner"
+      ],
+      "year": 2014,
+      "summary": "Original concept summary: crisis-manager memoir on liquidity, solvency optics, and institutional coordination in 2008—regime/risk literacy, not a retail playbook. Futu Buffett list.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Memoir / policy context only — not a strategy candidate.",
+      "sources": [
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/7285073-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "壓力測試：對金融危機的反思（Stress Test）",
+        "en": "Stress Test (Timothy Geithner)",
+        "zh-Hans": "压力测试",
+        "ja": "ストレステスト"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：2008流動性、清償與機構協調——總經風險素養，非交易劇本。",
+        "en": "Original concept summary: 2008 liquidity/solvency and coordination—risk literacy, not playbook.",
+        "zh-Hans": "原创概念摘要：2008流动性与机构协调——总经素养。",
+        "ja": "2008の流動性と制度調整。"
+      },
+      "plainTakeaways": [
+        "區分流動性危機與清償危機",
+        "當成總經／制度風險讀物，不當當沖劇本",
+        "管理溝通影響市場恢復速度"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "區分流動性危機與清償危機",
+          "當成總經／制度風險讀物，不當當沖劇本",
+          "管理溝通影響市場恢復速度"
+        ],
+        "en": [
+          "Separate liquidity-crisis vs solvency-crisis playbooks",
+          "Macro/institutional risk literacy — not day-trade scripts",
+          "Communication costs shape recovery speed"
+        ],
+        "zh-Hans": [
+          "区分流动性危机与清偿危机",
+          "当总经／制度风险读物，不当短线剧本",
+          "沟通影响市场恢复速度"
+        ],
+        "ja": [
+          "流動性危機と支払能力危機を分ける",
+          "マクロ／制度リスクの読物",
+          "調整コストが回復速度に影響"
+        ]
+      }
+    },
+    {
+      "id": "book-welch-straight-from-gut",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "business_management",
+      "title": "傑克·韋爾奇自傳（Jack: Straight from the Gut）",
+      "authors": [
+        "Jack Welch",
+        "John A. Byrne"
+      ],
+      "year": 2001,
+      "summary": "Original concept summary: GE-era operating memoir on candor, talent density, execution pace. Buffett 2001 letter praised Welch—management-culture lens, not investable formula.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/286200-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "傑克·韋爾奇自傳（Jack: Straight from the Gut）",
+        "en": "Jack: Straight from the Gut",
+        "zh-Hans": "杰克·韦尔奇自传",
+        "ja": "ジャック・ウェルチ自伝"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：GE坦白、人才與執行節奏。巴菲特2001信稱讚——管理文化透鏡。",
+        "en": "Original concept summary: GE candor/talent/execution. Buffett 2001 praise—management lens.",
+        "zh-Hans": "原创概念摘要：GE管理文化透镜。",
+        "ja": "GE時代の経営文化レンズ。"
+      },
+      "plainTakeaways": [
+        "觀察坦白文化與人才密度，不當神化單一CEO",
+        "執行節奏與激勵屬質化欄位",
+        "傳記≠可回測選股規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "觀察坦白文化與人才密度，不當神化單一CEO",
+          "執行節奏與激勵屬質化欄位",
+          "傳記≠可回測選股規則"
+        ],
+        "en": [
+          "Candor culture and talent density — do not idolize one CEO",
+          "Execution pace stays qualitative",
+          "Memoir ≠ backtestable stock rule"
+        ],
+        "zh-Hans": [
+          "观察坦白文化与人才密度",
+          "执行节奏与激励属质化栏位",
+          "传记≠可回测选股规则"
+        ],
+        "ja": [
+          "率直さと人材密度を見る",
+          "実行テンポは質的欄",
+          "回想録はバックテスト規則ではない"
+        ]
+      }
+    },
+    {
+      "id": "book-bogle-clash-cultures",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "core_investing",
+      "title": "文化衝突：投資，還是投機（The Clash of the Cultures）",
+      "authors": [
+        "John C. Bogle"
+      ],
+      "year": 2012,
+      "summary": "Original concept summary: Bogle’s contrast of long-horizon investing vs short-horizon speculation/agency costs. Matches Futu Chinese title《文化衝突：投資，還是投機》(2012-letter era). Process hygiene only.",
+      "formulas": [
+        "fee_drag ← expense_ratio ∧ turnover"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/9145343-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "文化衝突：投資，還是投機（The Clash of the Cultures）",
+        "en": "The Clash of the Cultures (John Bogle)",
+        "zh-Hans": "文化冲突：投资，还是投机",
+        "ja": "文化の衝突：投資か投機か"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：博格對長視野投資 vs 投機／代理成本。對應富途《文化衝突》。",
+        "en": "Original concept summary: investing vs speculation/agency costs. Matches Futu Chinese title.",
+        "zh-Hans": "原创概念摘要：长视野投资 vs 投机／代理成本。",
+        "ja": "長期投資と投機の対比。"
+      },
+      "plainTakeaways": [
+        "長持有投資與短線投機／代理成本要分清",
+        "費用與周轉侵蝕複利，優先流程衛生",
+        "對照基金費率與持有期間"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "長持有投資與短線投機／代理成本要分清",
+          "費用與周轉侵蝕複利，優先流程衛生",
+          "對照基金費率與持有期間"
+        ],
+        "en": [
+          "Separate long-horizon investing from speculation and agency costs",
+          "Fees and turnover erode compounding",
+          "Check expense ratios and holding periods"
+        ],
+        "zh-Hans": [
+          "长持有投资与短线投机／代理成本要分清",
+          "费用与周转侵蚀复利",
+          "对照基金费率与持有期"
+        ],
+        "ja": [
+          "長期投資と投機／代理コストを分ける",
+          "費用と回転が複利を削る",
+          "信託報酬と保有期間を見る"
+        ]
+      }
+    },
+    {
+      "id": "book-schwed-customers-yachts",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "psych_randomness",
+      "title": "客戶的遊艇在哪裡？（Where Are the Customers' Yachts?）",
+      "authors": [
+        "Fred Schwed Jr."
+      ],
+      "year": 1940,
+      "summary": "Original concept summary: Wall Street satire on sales incentives vs client outcomes—the book Buffett’s 2006 letter called among the most interesting on investing. Skepticism of pitched certainty; not a factor model.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128",
+        "https://www.berkshirehathaway.com/letters/2006ltr.pdf"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/13703721-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "客戶的遊艇在哪裡？（Where Are the Customers' Yachts?）",
+        "en": "Where Are the Customers' Yachts?",
+        "zh-Hans": "客户的游艇在哪里？",
+        "ja": "顧客のヨットはどこだ？"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：銷售誘因 vs 客戶結果諷刺——巴菲特2006信稱最有趣投資書之一。",
+        "en": "Original concept summary: sales vs client outcomes satire—Buffett 2006 most-interesting investing book.",
+        "zh-Hans": "原创概念摘要：销售诱因讽刺——巴菲特2006信提及。",
+        "ja": "2006書簡で言及の風刺書。"
+      },
+      "plainTakeaways": [
+        "對『保證致富』話術保持懷疑",
+        "分清銷售誘因與客戶長期結果",
+        "當投資心理諷刺讀物，不當量化因子"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "對『保證致富』話術保持懷疑",
+          "分清銷售誘因與客戶長期結果",
+          "當投資心理諷刺讀物，不當量化因子"
+        ],
+        "en": [
+          "Stay skeptical of guaranteed-wealth pitches",
+          "Separate sales incentives from client outcomes",
+          "Psychology satire — not a factor model"
+        ],
+        "zh-Hans": [
+          "对保证致富话术保持怀疑",
+          "分清销售诱因与客户长期结果",
+          "当投资心理读物，不当量化因子"
+        ],
+        "ja": [
+          "保証話法に懐疑的であれ",
+          "販売インセンティブと顧客成果を分ける",
+          "心理の風刺でありファクターではない"
+        ]
+      }
+    },
+    {
+      "id": "book-keynes-essays-persuasion",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "core_investing",
+      "title": "勸説集（Essays in Persuasion）",
+      "authors": [
+        "John Maynard Keynes"
+      ],
+      "year": 1931,
+      "summary": "Original concept summary: Keynes essays on money, markets, persuasion—Buffett said reading Keynes can sharpen market wisdom. Macro humility and narrative risk; not coded signals.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/246426-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "勸説集（Essays in Persuasion）",
+        "en": "Essays in Persuasion (Keynes)",
+        "zh-Hans": "劝说集",
+        "ja": "説得論集（ケインズ）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：凱因斯論貨幣與說服——市場智慧謙卑，非編碼訊號。",
+        "en": "Original concept summary: Keynes on money/persuasion—market wisdom humility, not coded signals.",
+        "zh-Hans": "原创概念摘要：凯恩斯论货币与说服。",
+        "ja": "ケインズの貨幣と説得。"
+      },
+      "plainTakeaways": [
+        "總經敘事當謙卑來源，不當精確買賣點",
+        "說服與預期驅動市場但難穩定程式化",
+        "思想史／市場智慧觀察候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "總經敘事當謙卑來源，不當精確買賣點",
+          "說服與預期驅動市場但難穩定程式化",
+          "思想史／市場智慧觀察候選"
+        ],
+        "en": [
+          "Macro narratives as humility — not precise entries",
+          "Persuasion moves markets but resists stable coding",
+          "Market-wisdom watch only"
+        ],
+        "zh-Hans": [
+          "总经叙事当谦卑来源，不当精确买卖点",
+          "说服与预期驱动市场但难程式化",
+          "思想史观察候选"
+        ],
+        "ja": [
+          "マクロ物語は謙虚さの源",
+          "説得は符号化しにくい",
+          "市場の知恵として様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-poor-charlie-almanack",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "life_partner_wisdom",
+      "title": "窮查理的普通常識（Poor Charlie's Almanack）",
+      "authors": [
+        "Charlie Munger",
+        "Peter D. Kaufman"
+      ],
+      "year": 2005,
+      "summary": "Original concept summary: Munger multidisciplinary mental models, inversion, worldly wisdom—partner-style decision hygiene. Qualitative gates; no numeric factors invented from speeches.",
+      "formulas": [
+        "inversion_check ← ask_what_would_make_this_fail"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL5858665W",
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/8337563-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "窮查理的普通常識（Poor Charlie's Almanack）",
+        "en": "Poor Charlie's Almanack",
+        "zh-Hans": "穷查理的普通常识",
+        "ja": "貧乏チャーリーの年鑑"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：蒙格多元思維與逆向思考——合夥人式決策衛生。",
+        "en": "Original concept summary: Munger mental models and inversion—partner decision hygiene.",
+        "zh-Hans": "原创概念摘要：蒙格多元思维与逆向思考。",
+        "ja": "マンガーの多元モデル。"
+      },
+      "plainTakeaways": [
+        "多元思維模型與逆向思考做決策衛生",
+        "誘因偏差與能力圈優先於華麗預測",
+        "質化閘門觀察，不當假精確分數"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "多元思維模型與逆向思考做決策衛生",
+          "誘因偏差與能力圈優先於華麗預測",
+          "質化閘門觀察，不當假精確分數"
+        ],
+        "en": [
+          "Multidisciplinary models and inversion for decision hygiene",
+          "Incentive bias and circle of competence beat forecasts",
+          "Qualitative watch — no fake precision scores"
+        ],
+        "zh-Hans": [
+          "多元思维模型与逆向思考",
+          "诱因偏差与能力圈优先于华丽预测",
+          "质化闸门，不当假精确分数"
+        ],
+        "ja": [
+          "多元モデルと逆転思考",
+          "インセンティブと能力円を優先",
+          "質的ゲートで偽精度にしない"
+        ]
+      }
+    },
+    {
+      "id": "book-buffett-essays-cunningham",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "life_partner_wisdom",
+      "title": "巴菲特致股東的信（The Essays of Warren Buffett）",
+      "authors": [
+        "Warren Buffett",
+        "Lawrence A. Cunningham"
+      ],
+      "year": 1997,
+      "summary": "Original concept summary: Cunningham topical arrangement of Buffett letters—governance, accounting candor, owner earnings, circle of competence. Value/quality watch themes; no verbatim letter reprint.",
+      "formulas": [
+        "owner_earnings_lens ← reported_earnings ± maintenance_capex_adj"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128",
+        "https://www.berkshirehathaway.com/letters/letters.html"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/1119803276-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "巴菲特致股東的信（The Essays of Warren Buffett）",
+        "en": "The Essays of Warren Buffett (Cunningham ed.)",
+        "zh-Hans": "巴菲特致股东的信",
+        "ja": "バフェットからの手紙"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：Cunningham整理股東信主題——治理、會計坦白、業主盈餘、能力圈。不轉載原文。",
+        "en": "Original concept summary: topical Buffett letters—governance, owner earnings, circle of competence. No verbatim reprint.",
+        "zh-Hans": "原创概念摘要：股东信主题整理——治理、业主盈余、能力圈。",
+        "ja": "書簡主題整理。原文転載なし。"
+      },
+      "plainTakeaways": [
+        "業主盈餘與會計誠實優先於華麗非GAAP",
+        "能力圈與長期業主心態勝過題材追逐",
+        "治理與資本配置是質化觀察欄"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "業主盈餘與會計誠實優先於華麗非GAAP",
+          "能力圈與長期業主心態勝過題材追逐",
+          "治理與資本配置是質化觀察欄"
+        ],
+        "en": [
+          "Owner earnings and accounting candor over flashy non-GAAP",
+          "Circle of competence beats theme-chasing",
+          "Governance/capital allocation stay qualitative"
+        ],
+        "zh-Hans": [
+          "业主盈余与会计诚实优先于非GAAP",
+          "能力圈与长期业主心态胜过题材追逐",
+          "治理与资本配置是质化观察栏"
+        ],
+        "ja": [
+          "オーナー利益と会計の率直さ",
+          "能力円がテーマ追いより重要",
+          "統治と資本配分は質的欄"
+        ]
+      }
+    },
+    {
+      "id": "book-omaha-fog",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "recent_reads",
+      "title": "奧馬哈之霧",
+      "authors": [
+        "鍾偉"
+      ],
+      "year": 2014,
+      "summary": "Original concept summary: Chinese Buffett/Berkshire interpretive guide emphasizing circle of competence and long holding—companion literacy, not a substitute for primary letters.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "奧馬哈之霧",
+        "en": "Omaha's Fog",
+        "zh-Hans": "奥马哈之雾",
+        "ja": "オマハの霧"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：中文巴菲特詮釋讀本——素養輔助，不能取代原始信。",
+        "en": "Original concept summary: Chinese Buffett interpretive guide—literacy aid, not primary substitute.",
+        "zh-Hans": "原创概念摘要：中文巴菲特诠释读本。",
+        "ja": "バフェット解釈の補助読物。"
+      },
+      "plainTakeaways": [
+        "回到能力圈與長期持有的常識",
+        "二手詮釋需對照原始股東信",
+        "觀察候選，不當自動跟單"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "回到能力圈與長期持有的常識",
+          "二手詮釋需對照原始股東信",
+          "觀察候選，不當自動跟單"
+        ],
+        "en": [
+          "Circle-of-competence and long-hold commons",
+          "Cross-check secondary takes against primary letters",
+          "Watch only — no auto-copy trades"
+        ],
+        "zh-Hans": [
+          "回到能力圈与长期持有常识",
+          "二手诠释需对照原始股东信",
+          "观察候选，不当自动跟单"
+        ],
+        "ja": [
+          "能力円と長期保有",
+          "二次解釈は原書簡と照合",
+          "様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-steady-mindset-50",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "recent_reads",
+      "title": "穩住投資心態的50個智慧",
+      "authors": [
+        "Various"
+      ],
+      "year": 2018,
+      "summary": "Original concept summary: short mindset maxims for calm drawdowns—discipline reminders only; no coded edge claimed.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "穩住投資心態的50個智慧",
+        "en": "50 Wisdoms for a Steady Investing Mindset",
+        "zh-Hans": "稳住投资心态的50个智慧",
+        "ja": "投資心态を安定させる50の知恵"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：度過回撤的短箴言——只作紀律提醒。",
+        "en": "Original concept summary: calm-drawdown maxims—discipline only.",
+        "zh-Hans": "原创概念摘要：度过回撤短箴言——纪律提醒。",
+        "ja": "下落を耐える短箴言。"
+      },
+      "plainTakeaways": [
+        "回撤時先守流程與部位上限",
+        "心態口號不能取代風險預算",
+        "紀律提醒，非策略來源"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "回撤時先守流程與部位上限",
+          "心態口號不能取代風險預算",
+          "紀律提醒，非策略來源"
+        ],
+        "en": [
+          "In drawdowns keep process and size caps",
+          "Mindset slogans do not replace risk budgets",
+          "Discipline reminder — not strategy"
+        ],
+        "zh-Hans": [
+          "回撤时先守流程与部位上限",
+          "心态口号不能取代风险预算",
+          "纪律提醒，非策略来源"
+        ],
+        "ja": [
+          "下落時はプロセスとサイズ上限",
+          "标語はリスク予算の代わりにならない",
+          "規律リマインダー"
+        ]
+      }
+    },
+    {
+      "id": "book-long-term-buy",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "recent_reads",
+      "title": "長期買進",
+      "authors": [
+        "（長期持有讀本）"
+      ],
+      "year": 2020,
+      "summary": "Original concept summary: long-horizon accumulation and reduced timing obsession—DCA/hold hygiene; still needs valuation and liquidity filters.",
+      "formulas": [
+        "dca_hygiene ← schedule_buy ∧ ¬all_in_timing"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "長期買進",
+        "en": "Buy for the Long Term",
+        "zh-Hans": "长期买进",
+        "ja": "長期買い"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：長視野累積、降低擇時——仍需估值與流動性。",
+        "en": "Original concept summary: long-horizon accumulation over timing—still needs valuation/liquidity.",
+        "zh-Hans": "原创概念摘要：长视野累积、降低择时。",
+        "ja": "長期積立とタイミング抑制。"
+      },
+      "plainTakeaways": [
+        "降低擇時執念，改看長期投入節奏",
+        "仍需估值與流動性濾網",
+        "累積紀律≠無視價格"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "降低擇時執念，改看長期投入節奏",
+          "仍需估值與流動性濾網",
+          "累積紀律≠無視價格"
+        ],
+        "en": [
+          "Reduce timing obsession; favor accumulation cadence",
+          "Still apply valuation and liquidity filters",
+          "Accumulation ≠ ignoring price"
+        ],
+        "zh-Hans": [
+          "降低择时执念，改看长期投入节奏",
+          "仍需估值与流动性滤网",
+          "累积纪律≠无视价格"
+        ],
+        "ja": [
+          "タイミング執着を減らし積立節奏へ",
+          "バリュエーションと流動性は必要",
+          "積立＝価格無視ではない"
+        ]
+      }
+    },
+    {
+      "id": "book-just-keep-buying",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "recent_reads",
+      "title": "持續買進（Just Keep Buying）",
+      "authors": [
+        "Nick Maggiulli"
+      ],
+      "year": 2022,
+      "summary": "Original concept summary: data-first arguments for consistent buying and savings rates over perfect timing—savings/DCA hygiene; not stock-picking alpha.",
+      "formulas": [
+        "savings_rate_first ← pay_yourself ∧ schedule_invest"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL27914810W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/14561679-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "持續買進（Just Keep Buying）",
+        "en": "Just Keep Buying (Nick Maggiulli)",
+        "zh-Hans": "持续买进",
+        "ja": "ジャスト・キープ・バイイング"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：持續買進與儲蓄率勝過完美擇時——財務衛生，非alpha。",
+        "en": "Original concept summary: consistent buying and savings rates over timing—hygiene, not alpha.",
+        "zh-Hans": "原创概念摘要：持续买进与储蓄率——财务卫生。",
+        "ja": "継続買いと貯蓄率。"
+      },
+      "plainTakeaways": [
+        "儲蓄率與持續投入通常勝過完美擇時",
+        "用數據校正『等回檔』偏誤",
+        "個人財務衛生，非選股alpha"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "儲蓄率與持續投入通常勝過完美擇時",
+          "用數據校正『等回檔』偏誤",
+          "個人財務衛生，非選股alpha"
+        ],
+        "en": [
+          "Savings rate and consistent buying beat perfect timing",
+          "Correct wait-for-dip bias with data",
+          "Personal-finance hygiene — not alpha"
+        ],
+        "zh-Hans": [
+          "储蓄率与持续投入通常胜过完美择时",
+          "用数据校正等回档偏误",
+          "个人财务卫生，非选股alpha"
+        ],
+        "ja": [
+          "貯蓄率と継続買いが完璧タイミングに勝りやすい",
+          "押し目待ちバイアスをデータで補正",
+          "家計衛生でありアルファではない"
+        ]
+      }
+    },
+    {
+      "id": "book-wealth-ladder",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "recent_reads",
+      "title": "財富階梯",
+      "authors": [
+        "（財商階梯讀本）"
+      ],
+      "year": 2019,
+      "summary": "Original concept summary: staged wealth-building metaphors (cash buffer → assets → ownership)—FI literacy framing; not a market-timing system.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "財富階梯",
+        "en": "The Wealth Ladder",
+        "zh-Hans": "财富阶梯",
+        "ja": "富のはしご"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：現金緩衝→資產→所有權階梯——財商框架，非擇時。",
+        "en": "Original concept summary: cash→assets→ownership ladder—FI framing, not timing.",
+        "zh-Hans": "原创概念摘要：现金→资产→所有权阶梯。",
+        "ja": "現金→資産→所有の段階。"
+      },
+      "plainTakeaways": [
+        "先現金緩衝再談風險資產",
+        "階梯隱喻不能省略估值",
+        "財商框架，非擇時系統"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "先現金緩衝再談風險資產",
+          "階梯隱喻不能省略估值",
+          "財商框架，非擇時系統"
+        ],
+        "en": [
+          "Cash buffer before risk assets",
+          "Ladder metaphors do not skip valuation",
+          "FI framing — not timing"
+        ],
+        "zh-Hans": [
+          "先现金缓冲再谈风险资产",
+          "阶梯隐喻不能省略估值",
+          "财商框架，非择时系统"
+        ],
+        "ja": [
+          "現金バッファを先に",
+          "はしご比喩でバリュエーションを省略しない",
+          "FI枠組みでありタイミング手法ではない"
+        ]
+      }
+    },
+    {
+      "id": "book-rethink-investing",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "recent_reads",
+      "title": "重新思考投資",
+      "authors": [
+        "（投資反思讀本）"
+      ],
+      "year": 2021,
+      "summary": "Original concept summary: re-examining fees, benchmarks, and narrative risk after bull markets—process-reset checklist.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "重新思考投資",
+        "en": "Rethinking Investing",
+        "zh-Hans": "重新思考投资",
+        "ja": "投資を再考する"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：牛市後重檢費用、基準與敘事風險。",
+        "en": "Original concept summary: post-bull fee/benchmark/narrative reset.",
+        "zh-Hans": "原创概念摘要：牛市后重检费用与叙事风险。",
+        "ja": "強気後の費用再点検。"
+      },
+      "plainTakeaways": [
+        "牛市後重檢費用、基準與敘事風險",
+        "流程重置清單，非新因子",
+        "觀察候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "牛市後重檢費用、基準與敘事風險",
+          "流程重置清單，非新因子",
+          "觀察候選"
+        ],
+        "en": [
+          "After bulls, re-check fees, benchmarks, narrative risk",
+          "Process-reset checklist — not a new factor",
+          "Watch"
+        ],
+        "zh-Hans": [
+          "牛市后重检费用、基准与叙事风险",
+          "流程重置清单，非新因子",
+          "观察候选"
+        ],
+        "ja": [
+          "強気後に費用・ベンチ・物語リスクを再点検",
+          "プロセス再設定であり新因子ではない",
+          "様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-investing-uncertain-era",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "recent_reads",
+      "title": "不確定時代的投資關鍵",
+      "authors": [
+        "（不確定性讀本）"
+      ],
+      "year": 2020,
+      "summary": "Original concept summary: scenario thinking and position sizing under uncertainty—aligns with stance dials; avoids false-precision forecasts.",
+      "formulas": [
+        "scenario_size ← stance_mult × risk_budget"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "不確定時代的投資關鍵",
+        "en": "Investing Keys for Uncertain Times",
+        "zh-Hans": "不确定时代的投资关键",
+        "ja": "不確実時代の投資の鍵"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：不確定下情境與部位——對齊姿態 dial。",
+        "en": "Original concept summary: scenarios/sizing under uncertainty—stance dials.",
+        "zh-Hans": "原创概念摘要：不确定下情境与部位。",
+        "ja": "不確実下のシナリオとサイズ。"
+      },
+      "plainTakeaways": [
+        "情境思考與部位上限優先於點預測",
+        "對齊姿態 dial，避免假精確",
+        "風險衛生觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "情境思考與部位上限優先於點預測",
+          "對齊姿態 dial，避免假精確",
+          "風險衛生觀察"
+        ],
+        "en": [
+          "Scenarios and size caps beat point forecasts",
+          "Align with stance dials; avoid false precision",
+          "Risk-hygiene watch"
+        ],
+        "zh-Hans": [
+          "情境思考与部位上限优先于点预测",
+          "对齐姿态 dial，避免假精确",
+          "风险卫生观察"
+        ],
+        "ja": [
+          "シナリオとサイズ上限が点予測に勝る",
+          "スタンスダイヤルに合わせ偽精度を避ける",
+          "リスク衛生の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-rich-dad-poor-dad",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "fi_concepts",
+      "title": "富爸爸窮爸爸（Rich Dad Poor Dad）",
+      "authors": [
+        "Robert T. Kiyosaki"
+      ],
+      "year": 1997,
+      "summary": "Original concept summary: popular FI framing of assets vs liabilities and cash-flow literacy—mindset primer; not rigorous market strategy.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/1612680194-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "富爸爸窮爸爸（Rich Dad Poor Dad）",
+        "en": "Rich Dad Poor Dad",
+        "zh-Hans": "富爸爸穷爸爸",
+        "ja": "金持ち父さん貧乏父さん"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：資產／負債與現金流財商框架——心態入門，非嚴謹策略。",
+        "en": "Original concept summary: assets vs liabilities framing—mindset primer, not strategy.",
+        "zh-Hans": "原创概念摘要：资产／负债现金流框架——心态入门。",
+        "ja": "資産と負債の入門。"
+      },
+      "plainTakeaways": [
+        "先分清資產現金流與負債消耗",
+        "心態入門，不作嚴謹策略來源",
+        "不納入量化選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "先分清資產現金流與負債消耗",
+          "心態入門，不作嚴謹策略來源",
+          "不納入量化選股"
+        ],
+        "en": [
+          "Separate cash-flowing assets from liability drains",
+          "Mindset primer — not rigorous strategy",
+          "Not a quant stock candidate"
+        ],
+        "zh-Hans": [
+          "先分清资产现金流与负债消耗",
+          "心态入门，不作严谨策略来源",
+          "不纳入量化选股"
+        ],
+        "ja": [
+          "キャッシュフロー資産と負債を分ける",
+          "マインド入門であり厳密戦略ではない",
+          "定量銘柄候補にしない"
+        ]
+      }
+    },
+    {
+      "id": "book-rich-dad-cashflow",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "fi_concepts",
+      "title": "富爸爸有錢有理",
+      "authors": [
+        "Robert T. Kiyosaki"
+      ],
+      "year": 2000,
+      "summary": "Original concept summary: Rich Dad companion on cash-flow quadrants—educational metaphor; not a securities edge.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "富爸爸有錢有理",
+        "en": "Rich Dad — Cashflow companion",
+        "zh-Hans": "富爸爸有钱有理",
+        "ja": "リッチダッド・キャッシュフロー"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：現金流象限與財商遊戲——教學隱喻，非證券優勢。",
+        "en": "Original concept summary: cash-flow quadrants—metaphor, not edge.",
+        "zh-Hans": "原创概念摘要：现金流象限——教学隐喻。",
+        "ja": "キャッシュフロー象限の教材。"
+      },
+      "plainTakeaways": [
+        "現金流象限是教學隱喻",
+        "財商遊戲≠證券優勢",
+        "不納入策略"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "現金流象限是教學隱喻",
+          "財商遊戲≠證券優勢",
+          "不納入策略"
+        ],
+        "en": [
+          "Cash-flow quadrants are teaching metaphors",
+          "Literacy games ≠ securities edge",
+          "Not a strategy candidate"
+        ],
+        "zh-Hans": [
+          "现金流象限是教学隐喻",
+          "财商游戏≠证券优势",
+          "不纳入策略"
+        ],
+        "ja": [
+          "キャッシュフロー象限は教材メタファー",
+          "ゲームは証券エッジではない",
+          "戦略非候補"
+        ]
+      }
+    },
+    {
+      "id": "book-mastering-money",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "fi_concepts",
+      "title": "駕馭金錢",
+      "authors": [
+        "（行為財商讀本）"
+      ],
+      "year": 2018,
+      "summary": "Original concept summary: behavior-first money control (budgeting, autopay investing)—household hygiene; not alpha research.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "駕馭金錢",
+        "en": "Mastering Money",
+        "zh-Hans": "驾驭金钱",
+        "ja": "お金を使いこなす"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：預算與自動投入——家計衛生，非alpha。",
+        "en": "Original concept summary: budgeting/autopay—household hygiene, not alpha.",
+        "zh-Hans": "原创概念摘要：预算与自动投入——家计卫生。",
+        "ja": "予算と自動積立。"
+      },
+      "plainTakeaways": [
+        "預算、自動投入與目標帳戶屬家計衛生",
+        "行為設計優先於找明牌",
+        "不納入選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "預算、自動投入與目標帳戶屬家計衛生",
+          "行為設計優先於找明牌",
+          "不納入選股"
+        ],
+        "en": [
+          "Budgets and autopay investing are household hygiene",
+          "Behavior design beats tip hunting",
+          "Not a stock-pick candidate"
+        ],
+        "zh-Hans": [
+          "预算、自动投入与目标帐户属家计卫生",
+          "行为设计优先于找明牌",
+          "不纳入选股"
+        ],
+        "ja": [
+          "予算・自動積立は家計衛生",
+          "行動設計が銘柄予想に勝る",
+          "銘柄候補にしない"
+        ]
+      }
+    },
+    {
+      "id": "book-small-money-big-wealth",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "money_values",
+      "title": "把小錢滾成大財富",
+      "authors": [
+        "（複利／儲蓄讀本）"
+      ],
+      "year": 2016,
+      "summary": "Original concept summary: compound-interest and savings-rate stories for small accounts—motivation/literacy; still needs fee and risk awareness.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "把小錢滾成大財富",
+        "en": "Turn Small Money into Big Wealth",
+        "zh-Hans": "把小钱滚成大财富",
+        "ja": "少額を大きな富へ"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：小帳戶複利與儲蓄率——動機／素養，非策略。",
+        "en": "Original concept summary: compounding stories for small accounts—literacy, not strategy.",
+        "zh-Hans": "原创概念摘要：小帐户复利与储蓄率。",
+        "ja": "少額の複利と貯蓄率。"
+      },
+      "plainTakeaways": [
+        "小帳戶先看儲蓄率與費用",
+        "複利故事不能省略風險",
+        "動機讀物，非策略"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "小帳戶先看儲蓄率與費用",
+          "複利故事不能省略風險",
+          "動機讀物，非策略"
+        ],
+        "en": [
+          "Small accounts: prioritize savings rate and fees",
+          "Compounding stories must keep risk in view",
+          "Motivational literacy — not strategy"
+        ],
+        "zh-Hans": [
+          "小帐户先看储蓄率与费用",
+          "复利故事不能省略风险",
+          "动机读物，非策略"
+        ],
+        "ja": [
+          "少額は貯蓄率と費用から",
+          "複利話にリスクを省略しない",
+          "動機付け読物"
+        ]
+      }
+    },
+    {
+      "id": "book-psychology-of-money",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "money_values",
+      "title": "致富心態（The Psychology of Money）",
+      "authors": [
+        "Morgan Housel"
+      ],
+      "year": 2020,
+      "summary": "Original concept summary: behavior stories on luck, risk, and enough—soft constraints for sizing and stay-invested hygiene; not a factor book.",
+      "formulas": [
+        "enough_rule ← stop_raising_risk_after_goal"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL20815791W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/10389354-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "致富心態（The Psychology of Money）",
+        "en": "The Psychology of Money",
+        "zh-Hans": "致富心态",
+        "ja": "お金の心理学"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：運氣、風險與足夠——部位／續抱軟約束；非因子書。",
+        "en": "Original concept summary: luck/risk/enough—sizing soft constraints; not factors.",
+        "zh-Hans": "原创概念摘要：运气、风险与足够——软约束。",
+        "ja": "運・リスク・足りる。"
+      },
+      "plainTakeaways": [
+        "運氣、風險與『足夠』影響持有行為",
+        "軟約束對部位與續抱有幫助",
+        "行為觀察，非因子書"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "運氣、風險與『足夠』影響持有行為",
+          "軟約束對部位與續抱有幫助",
+          "行為觀察，非因子書"
+        ],
+        "en": [
+          "Luck, risk, and enough shape holding behavior",
+          "Soft constraints help sizing and stay-invested",
+          "Behavior watch — not a factor book"
+        ],
+        "zh-Hans": [
+          "运气、风险与足够影响持有行为",
+          "软约束对部位与续抱有帮助",
+          "行为观察，非因子书"
+        ],
+        "ja": [
+          "運・リスク・『足りる』が保有行動を形作る",
+          "ソフト制約がサイズと継続保有に効く",
+          "行動の様子見でありファクター本ではない"
+        ]
+      }
+    },
+    {
+      "id": "book-earn-money-and-happiness",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "money_values",
+      "title": "賺錢也賺幸福",
+      "authors": [
+        "（金錢與幸福讀本）"
+      ],
+      "year": 2017,
+      "summary": "Original concept summary: balances income goals with well-being—return chasing can tax health/relationships; lifestyle constraint, not alpha.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "賺錢也賺幸福",
+        "en": "Earn Money and Happiness",
+        "zh-Hans": "赚钱也赚幸福",
+        "ja": "お金も幸せも"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：收入與幸福感平衡——人生風控，非alpha。",
+        "en": "Original concept summary: income vs well-being—life risk control, not alpha.",
+        "zh-Hans": "原创概念摘要：收入与幸福感平衡。",
+        "ja": "収入と幸福のバランス。"
+      },
+      "plainTakeaways": [
+        "報酬追逐可能透支健康與關係",
+        "幸福約束屬人生風控",
+        "非選股來源"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "報酬追逐可能透支健康與關係",
+          "幸福約束屬人生風控",
+          "非選股來源"
+        ],
+        "en": [
+          "Return-chasing can tax health and relationships",
+          "Well-being is life risk control",
+          "Not a stock-pick source"
+        ],
+        "zh-Hans": [
+          "报酬追逐可能透支健康与关系",
+          "幸福约束属人生风控",
+          "非选股来源"
+        ],
+        "ja": [
+          "リターン追逐は健康と関係を削りうる",
+          "幸福は人生のリスク管理",
+          "銘柄ソースではない"
+        ]
+      }
+    },
+    {
+      "id": "book-rich-people-do-this",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "money_values",
+      "title": "原來有錢人都這麼做",
+      "authors": [
+        "（習慣讀本）"
+      ],
+      "year": 2015,
+      "summary": "Original concept summary: habit lists attributed to wealthy people—optional behavior prompts; correlation ≠ investable edge.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "原來有錢人都這麼做",
+        "en": "What Rich People Actually Do",
+        "zh-Hans": "原来有钱人都这么做",
+        "ja": "お金持ちの習慣"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：有錢人習慣清單——可選提示；相關≠優勢。",
+        "en": "Original concept summary: wealthy-habit lists—optional prompts; correlation ≠ edge.",
+        "zh-Hans": "原创概念摘要：有钱人习惯清单。",
+        "ja": "富裕層の習慣リスト。"
+      },
+      "plainTakeaways": [
+        "習慣清單當可選行為提示",
+        "相關≠可投資優勢",
+        "不納入策略"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "習慣清單當可選行為提示",
+          "相關≠可投資優勢",
+          "不納入策略"
+        ],
+        "en": [
+          "Habit lists as optional behavior prompts",
+          "Correlation ≠ investable edge",
+          "Not a strategy candidate"
+        ],
+        "zh-Hans": [
+          "习惯清单当可选行为提示",
+          "相关≠可投资优势",
+          "不纳入策略"
+        ],
+        "ja": [
+          "習慣リストは任意の行動ヒント",
+          "相関はエッジではない",
+          "戦略非候補"
+        ]
+      }
+    },
+    {
+      "id": "book-naval-almanack",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "money_values",
+      "title": "納瓦爾寶典（The Almanack of Naval Ravikant）",
+      "authors": [
+        "Eric Jorgenson",
+        "Naval Ravikant"
+      ],
+      "year": 2020,
+      "summary": "Original concept summary: leverage, specific knowledge, equity ownership—founder/career capital mindset; soft overlap with public-market sizing discipline.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL21672492W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/10449931-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "納瓦爾寶典（The Almanack of Naval Ravikant）",
+        "en": "The Almanack of Naval Ravikant",
+        "zh-Hans": "纳瓦尔宝典",
+        "ja": "ナヴァルのアルマナック"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：槓桿、特定知識與股權——職涯資本；與公開市場紀律軟重疊。",
+        "en": "Original concept summary: leverage/specific knowledge/equity—career capital; soft market overlap.",
+        "zh-Hans": "原创概念摘要：杠杆、特定知识与股权。",
+        "ja": "レバレッジと固有知識。"
+      },
+      "plainTakeaways": [
+        "特定知識與槓桿屬職涯資本思維",
+        "股權思維可對照長期業主心態",
+        "軟重疊觀察，非價量因子"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "特定知識與槓桿屬職涯資本思維",
+          "股權思維可對照長期業主心態",
+          "軟重疊觀察，非價量因子"
+        ],
+        "en": [
+          "Specific knowledge and leverage are career-capital themes",
+          "Equity mindset can echo owner investing",
+          "Soft overlap watch — not price/volume factors"
+        ],
+        "zh-Hans": [
+          "特定知识与杠杆属职涯资本思维",
+          "股权思维可对照长期业主心态",
+          "软重叠观察，非价量因子"
+        ],
+        "ja": [
+          "固有知識とレバレッジはキャリア資本",
+          "株式保有思考はオーナー投資と重なりうる",
+          "ソフト様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-die-with-zero",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "money_values",
+      "title": "別把你的錢留到死（Die with Zero）",
+      "authors": [
+        "Bill Perkins"
+      ],
+      "year": 2020,
+      "summary": "Original concept summary: time-bucketing life experiences vs endless deferral of spending—personal finance philosophy; not market timing.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL20820823W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/10433791-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "別把你的錢留到死（Die with Zero）",
+        "en": "Die with Zero",
+        "zh-Hans": "别把你的钱留到死",
+        "ja": "ゼロで死ね"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：人生體驗時段化 vs 無限延後——財務哲學，非擇時。",
+        "en": "Original concept summary: time-bucket experiences vs deferral—philosophy, not timing.",
+        "zh-Hans": "原创概念摘要：人生体验时段化——非择时。",
+        "ja": "体験の時間配分。"
+      },
+      "plainTakeaways": [
+        "人生體驗時段化，避免無限延後消費",
+        "個人財務哲學，非擇時",
+        "不納入選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "人生體驗時段化，避免無限延後消費",
+          "個人財務哲學，非擇時",
+          "不納入選股"
+        ],
+        "en": [
+          "Time-bucket life experiences; avoid endless deferral",
+          "Personal-finance philosophy — not timing",
+          "Not a stock candidate"
+        ],
+        "zh-Hans": [
+          "人生体验时段化，避免无限延后消费",
+          "个人财务哲学，非择时",
+          "不纳入选股"
+        ],
+        "ja": [
+          "体験を時間帯で配分し先送りしすぎない",
+          "家計哲学であり相場タイミングではない",
+          "銘柄非候補"
+        ]
+      }
+    },
+    {
+      "id": "book-why-not-print-money",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "investing_basics",
+      "title": "為什麼不能一直印鈔票",
+      "authors": [
+        "（貨幣／通膨入門）"
+      ],
+      "year": 2019,
+      "summary": "Original concept summary: plain-language intro to money printing, inflation, purchasing power—rates literacy; not trade signals.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "為什麼不能一直印鈔票",
+        "en": "Why Can't We Just Keep Printing Money?",
+        "zh-Hans": "为什么不能一直印钞票",
+        "ja": "なぜお金を刷り続けられないのか"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：印鈔與通膨白話入門——利率素養，非訊號。",
+        "en": "Original concept summary: money printing/inflation primer—rates literacy, not signals.",
+        "zh-Hans": "原创概念摘要：印钞与通胀白话入门。",
+        "ja": "紙幣増発とインフレの入門。"
+      },
+      "plainTakeaways": [
+        "印鈔、通膨與購買力要用白話連起來",
+        "支援利率素養，非交易訊號",
+        "入門觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "印鈔、通膨與購買力要用白話連起來",
+          "支援利率素養，非交易訊號",
+          "入門觀察"
+        ],
+        "en": [
+          "Link money printing, inflation, purchasing power plainly",
+          "Supports rates literacy — not trade signals",
+          "Basics watch"
+        ],
+        "zh-Hans": [
+          "印钞、通胀与购买力要用白话连起来",
+          "支援利率素养，非交易信号",
+          "入门观察"
+        ],
+        "ja": [
+          "紙幣増発・インフレ・購買力を平易に結ぶ",
+          "金利リテラシー支援でありシグナルではない",
+          "入門の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-bogle-common-sense",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "investing_basics",
+      "title": "約翰柏格投資常識（The Little Book of Common Sense Investing）",
+      "authors": [
+        "John C. Bogle"
+      ],
+      "year": 2007,
+      "summary": "Original concept summary: low-cost broad index ownership and fee minimization as default for most investors—benchmark hygiene; active packs stay separate.",
+      "formulas": [
+        "fee_default ← prefer_low_expense_broad_beta"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL17985259W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/1239500-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "約翰柏格投資常識（The Little Book of Common Sense Investing）",
+        "en": "The Little Book of Common Sense Investing",
+        "zh-Hans": "约翰博格投资常识",
+        "ja": "投資の常識（ボーグル）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：低成本廣基指數與費用最小化——多數人預設路徑。",
+        "en": "Original concept summary: low-cost broad indexes and fee minimization—default path.",
+        "zh-Hans": "原创概念摘要：低成本广基指数与费用最小化。",
+        "ja": "低コスト指数と費用最小化。"
+      },
+      "plainTakeaways": [
+        "多數人優先低成本廣基指數",
+        "費用最小化是預設衛生",
+        "主動包另案候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "多數人優先低成本廣基指數",
+          "費用最小化是預設衛生",
+          "主動包另案候選"
+        ],
+        "en": [
+          "Most investors: prefer low-cost broad indexes",
+          "Fee minimization is default hygiene",
+          "Active packs stay separate candidates"
+        ],
+        "zh-Hans": [
+          "多数人优先低成本广基指数",
+          "费用最小化是预设卫生",
+          "主动包另案候选"
+        ],
+        "ja": [
+          "低コスト広範インデックスを既定に",
+          "費用最小化が衛生",
+          "アクティブ包は別候補"
+        ]
+      }
+    },
+    {
+      "id": "book-random-walk-10-rules",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "investing_basics",
+      "title": "漫步華爾街的10條投資金律",
+      "authors": [
+        "Burton G. Malkiel"
+      ],
+      "year": 2015,
+      "summary": "Original concept summary: condensed random-walk rules—diversification, costs, realistic returns; complements existing random-walk concept entry.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "漫步華爾街的10條投資金律",
+        "en": "A Random Walk — 10 Rules",
+        "zh-Hans": "漫步华尔街的10条投资金律",
+        "ja": "ウォール街のランダム・ウォーク実践ルール"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：漫步華爾街濃縮金律——分散、成本、務實報酬。",
+        "en": "Original concept summary: condensed random-walk rules—diversification, costs, realistic returns.",
+        "zh-Hans": "原创概念摘要：漫步华尔街浓缩金律。",
+        "ja": "分散・コスト・現実的リターン。"
+      },
+      "plainTakeaways": [
+        "分散、成本與報酬預期要務實",
+        "與漫步華爾街概念條目互補",
+        "入門金律觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "分散、成本與報酬預期要務實",
+          "與漫步華爾街概念條目互補",
+          "入門金律觀察"
+        ],
+        "en": [
+          "Be realistic on diversification, costs, return expectations",
+          "Complements existing random-walk concept entry",
+          "Basics watch"
+        ],
+        "zh-Hans": [
+          "分散、成本与报酬预期要务实",
+          "与漫步华尔街概念条目互补",
+          "入门金律观察"
+        ],
+        "ja": [
+          "分散・コスト・期待リターンを現実的に",
+          "ランダムウォーク概念項目と補完",
+          "入門ルールの様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-my-job-is-shareholder",
+      "market": "TW",
+      "type": "book",
+      "shelf": "investing_basics",
+      "title": "我的職業是股東",
+      "authors": [
+        "（股東思維讀本）"
+      ],
+      "year": 2016,
+      "summary": "Original concept summary: retail identity as business owner rather than tip consumer—encourages reading statements; TW-friendly framing.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "我的職業是股東",
+        "en": "My Profession Is Shareholder",
+        "zh-Hans": "我的职业是股东",
+        "ja": "私の職業は株主"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：散戶轉為事業業主——鼓勵讀財報；台股友善。",
+        "en": "Original concept summary: retail as owner not tip-consumer—read statements; TW-friendly.",
+        "zh-Hans": "原创概念摘要：散户转为事业业主。",
+        "ja": "ヒント消費者からオーナーへ。"
+      },
+      "plainTakeaways": [
+        "把自己當事業合夥人，而非明牌消費者",
+        "鼓勵讀財報與股東會資料",
+        "台股友善入門觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "把自己當事業合夥人，而非明牌消費者",
+          "鼓勵讀財報與股東會資料",
+          "台股友善入門觀察"
+        ],
+        "en": [
+          "See yourself as owner, not tip consumer",
+          "Encourages reading statements and AGM materials",
+          "TW-friendly basics watch"
+        ],
+        "zh-Hans": [
+          "把自己当事业合伙人，而非明牌消费者",
+          "鼓励读财报与股东会资料",
+          "台股友善入门观察"
+        ],
+        "ja": [
+          "ヒント消費者ではなく事業オーナーとして",
+          "財務諸表と総会資料を読む",
+          "台湾向け入門の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-yale-swensen",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "asset_allocation",
+      "title": "耶魯操盤手（Unconventional Success）",
+      "authors": [
+        "David F. Swensen"
+      ],
+      "year": 2005,
+      "summary": "Original concept summary: endowment-style diversification and fee skepticism for individuals—asset-class hygiene; retail alternatives access differs.",
+      "formulas": [
+        "alloc_hygiene ← diversify_classes ∧ minimize_fees"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL5805308W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/472541-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "耶魯操盤手（Unconventional Success）",
+        "en": "Unconventional Success (Swensen)",
+        "zh-Hans": "耶鲁操盘手",
+        "ja": "イェールのポートフォリオ"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：捐贈基金式分散與費用懷疑——配置衛生。",
+        "en": "Original concept summary: endowment diversification and fee skepticism—allocation hygiene.",
+        "zh-Hans": "原创概念摘要：捐赠基金式分散与费用怀疑。",
+        "ja": "分散と費用懐疑。"
+      },
+      "plainTakeaways": [
+        "資產類別分散與費用懷疑是核心",
+        "另類資產散戶可得性不同",
+        "配置衛生觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "資產類別分散與費用懷疑是核心",
+          "另類資產散戶可得性不同",
+          "配置衛生觀察"
+        ],
+        "en": [
+          "Asset-class diversification and fee skepticism are core",
+          "Alternatives access differs for retail",
+          "Allocation hygiene watch"
+        ],
+        "zh-Hans": [
+          "资产类别分散与费用怀疑是核心",
+          "另类资产散户可得性不同",
+          "配置卫生观察"
+        ],
+        "ja": [
+          "資産クラス分散と費用懐疑が核心",
+          "オルタナの個人アクセスは異なる",
+          "配分衛生の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-intelligent-asset-allocator",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "asset_allocation",
+      "title": "智慧型資產配置（The Intelligent Asset Allocator）",
+      "authors": [
+        "William J. Bernstein"
+      ],
+      "year": 2000,
+      "summary": "Original concept summary: DIY portfolio math on correlation, rebalancing, historical risk—pairs with Four Pillars already in library.",
+      "formulas": [
+        "rebalance_band ← drift_outside_target_band"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL1838495W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/57162-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "智慧型資產配置（The Intelligent Asset Allocator）",
+        "en": "The Intelligent Asset Allocator",
+        "zh-Hans": "智慧型资产配置",
+        "ja": "インテリジェント資産配分"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：相關、再平衡與歷史風險——與館內投資金律互補。",
+        "en": "Original concept summary: correlation/rebalancing math—complements Four Pillars.",
+        "zh-Hans": "原创概念摘要：相关与再平衡——与投资金律互补。",
+        "ja": "相関とリバランスのDIY。"
+      },
+      "plainTakeaways": [
+        "相關、再平衡與歷史風險是配置工具",
+        "與《投資金律》互補",
+        "配置觀察候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "相關、再平衡與歷史風險是配置工具",
+          "與《投資金律》互補",
+          "配置觀察候選"
+        ],
+        "en": [
+          "Correlation, rebalancing, historical risk are allocation tools",
+          "Complements Four Pillars already in library",
+          "Allocation watch"
+        ],
+        "zh-Hans": [
+          "相关、再平衡与历史风险是配置工具",
+          "与投资金律互补",
+          "配置观察候选"
+        ],
+        "ja": [
+          "相関・リバランス・歴史リスク",
+          "『投資の四本柱』と補完",
+          "配分の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-buffett-investment-principles",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "value_investing",
+      "title": "巴菲特的投資原則",
+      "authors": [
+        "（巴菲特原則整理）"
+      ],
+      "year": 2010,
+      "summary": "Original concept summary: secondary compilation of Buffett-style principles (moat, MOS, owner mindset)—cross-check primary letters; value-screen watch.",
+      "formulas": [
+        "value_watch ← moat_proxy ∧ mos_proxy"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16",
+        "https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "巴菲特的投資原則",
+        "en": "Buffett's Investment Principles",
+        "zh-Hans": "巴菲特的投资原则",
+        "ja": "バフェットの投資原則"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：巴菲特式原則二手整理——護城河、安全邊際、業主心態。",
+        "en": "Original concept summary: secondary Buffett principles—moat, MOS, owner mindset.",
+        "zh-Hans": "原创概念摘要：巴菲特原则二手整理。",
+        "ja": "堀・安全余裕の二次整理。"
+      },
+      "plainTakeaways": [
+        "護城河、安全邊際、業主心態為核心詞",
+        "二手整理需對照原始信",
+        "價值濾網觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "護城河、安全邊際、業主心態為核心詞",
+          "二手整理需對照原始信",
+          "價值濾網觀察"
+        ],
+        "en": [
+          "Moat, margin of safety, owner mindset are core terms",
+          "Secondary compilations need primary-letter checks",
+          "Value-screen watch"
+        ],
+        "zh-Hans": [
+          "护城河、安全边际、业主心态为核心词",
+          "二手整理需对照原始信",
+          "价值滤网观察"
+        ],
+        "ja": [
+          "堀・安全余裕・オーナー思考",
+          "二次整理は原書簡と照合",
+          "バリュー画面の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-21c-value-investing",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "value_investing",
+      "title": "21世紀價值投資",
+      "authors": [
+        "（當代價值讀本）"
+      ],
+      "year": 2018,
+      "summary": "Original concept summary: updates classic value for intangibles and quality—bridges Graham screens with ROIC/moat language.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "21世紀價值投資",
+        "en": "21st-Century Value Investing",
+        "zh-Hans": "21世纪价值投资",
+        "ja": "21世紀のバリュー投資"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：經典價值更新到無形資產與品質——與ROIC／護城河橋接。",
+        "en": "Original concept summary: update classic value for intangibles/quality—ROIC/moat bridge.",
+        "zh-Hans": "原创概念摘要：经典价值纳入无形资产与品质。",
+        "ja": "無形資産と質を古典バリューに。"
+      },
+      "plainTakeaways": [
+        "經典價值需納入無形資產與品質",
+        "ROIC／護城河語言與PE/PB並用",
+        "觀察候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "經典價值需納入無形資產與品質",
+          "ROIC／護城河語言與PE/PB並用",
+          "觀察候選"
+        ],
+        "en": [
+          "Classic value needs intangibles and quality",
+          "Combine ROIC/moat language with PE/PB",
+          "Watch candidate"
+        ],
+        "zh-Hans": [
+          "经典价值需纳入无形资产与品质",
+          "ROIC／护城河与PE/PB并用",
+          "观察候选"
+        ],
+        "ja": [
+          "無形資産と質を古典バリューに加える",
+          "ROIC／堀とPE/PBを併用",
+          "様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-valuation-masters-course",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "value_investing",
+      "title": "當代財經大師估值課",
+      "authors": [
+        "（估值教學）"
+      ],
+      "year": 2019,
+      "summary": "Original concept summary: practitioner valuation toolkit (DCF hygiene, peer multiples, scenario ranges)—aligns with programmable PE/PB/ROE screens.",
+      "formulas": [
+        "multiples_vs_peers ← PE_PB_vs_sector",
+        "scenario_range ← bear_base_bull"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Public multiples exist; full DCF olympiad gate still open — candidate.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "當代財經大師估值課",
+        "en": "Modern Masters' Valuation Course",
+        "zh-Hans": "当代财经大师估值课",
+        "ja": "現代バリュエーション講座"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：DCF衛生、同業倍數、情境區間——對齊價值濾網。",
+        "en": "Original concept summary: DCF hygiene, peer multiples, scenarios—value screens.",
+        "zh-Hans": "原创概念摘要：DCF卫生与同业倍数。",
+        "ja": "DCF衛生と倍率。"
+      },
+      "plainTakeaways": [
+        "DCF衛生、同業倍數與情境區間並用",
+        "對齊可程式PE/PB/ROE濾網",
+        "價值包候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "DCF衛生、同業倍數與情境區間並用",
+          "對齊可程式PE/PB/ROE濾網",
+          "價值包候選"
+        ],
+        "en": [
+          "Combine DCF hygiene, peer multiples, scenario ranges",
+          "Aligns with programmable PE/PB/ROE screens",
+          "Value-pack candidate"
+        ],
+        "zh-Hans": [
+          "DCF卫生、同业倍数与情境区间并用",
+          "对齐可程式PE/PB/ROE滤网",
+          "价值包候选"
+        ],
+        "ja": [
+          "DCF衛生・同業倍率・シナリオ幅",
+          "PE/PB/ROE画面と整合",
+          "バリュー包の候補"
+        ]
+      }
+    },
+    {
+      "id": "book-financials-wake-brain",
+      "market": "TW",
+      "type": "book",
+      "shelf": "financials",
+      "title": "越看越醒腦的財報書",
+      "authors": [
+        "（財報白話）"
+      ],
+      "year": 2018,
+      "summary": "Original concept summary: plain three-statement walkthrough for TW readers—literacy before screens; financial-pack candidate.",
+      "formulas": [
+        "three_statements ← IS ∧ BS ∧ CF"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "越看越醒腦的財報書",
+        "en": "The Financials Book That Wakes Your Brain",
+        "zh-Hans": "越看越醒脑的财报书",
+        "ja": "財務諸表が頭を冴えさせる本"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：台股讀者向三表白話——財務包候選。",
+        "en": "Original concept summary: plain three-statement walkthrough for TW—financial packs.",
+        "zh-Hans": "原创概念摘要：三表白话——财务包候选。",
+        "ja": "三表の平易ガイド。"
+      },
+      "plainTakeaways": [
+        "先讀懂三表再談篩選",
+        "白話財報素養支援財務包",
+        "候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "先讀懂三表再談篩選",
+          "白話財報素養支援財務包",
+          "候選"
+        ],
+        "en": [
+          "Read the three statements before screening",
+          "Plain financial literacy supports financial packs",
+          "Candidate"
+        ],
+        "zh-Hans": [
+          "先读懂三表再谈筛选",
+          "白话财报素养支援财务包",
+          "候选"
+        ],
+        "ja": [
+          "三表を読んでからスクリーニング",
+          "平易な財務リテラシー",
+          "候補"
+        ]
+      }
+    },
+    {
+      "id": "book-five-rules-dorsey",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "financials",
+      "title": "股市真規則（The Five Rules for Successful Stock Investing）",
+      "authors": [
+        "Pat Dorsey"
+      ],
+      "year": 2003,
+      "summary": "Original concept summary: Morningstar-style economic moat plus financial statement red flags—maps to quality/value public ratios.",
+      "formulas": [
+        "moat_plus_redflags ← quality_proxy ∧ ¬fraud_flags"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL3275987W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/302783-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "股市真規則（The Five Rules for Successful Stock Investing）",
+        "en": "The Five Rules for Successful Stock Investing",
+        "zh-Hans": "股市真规则",
+        "ja": "株式投資成功の5つのルール"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：晨星式護城河與財報紅旗——品質／價值公開比率。",
+        "en": "Original concept summary: Morningstar moat plus statement red flags—quality/value ratios.",
+        "zh-Hans": "原创概念摘要：护城河与财报红旗。",
+        "ja": "堀と財務レッドフラグ。"
+      },
+      "plainTakeaways": [
+        "護城河＋財報紅旗一起看",
+        "對應品質／價值公開比率",
+        "候選納入觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "護城河＋財報紅旗一起看",
+          "對應品質／價值公開比率",
+          "候選納入觀察"
+        ],
+        "en": [
+          "Combine economic moat with financial red flags",
+          "Maps to quality/value public ratios",
+          "Yes/watch candidate"
+        ],
+        "zh-Hans": [
+          "护城河＋财报红旗一起看",
+          "对应品质／价值公开比率",
+          "候选纳入观察"
+        ],
+        "ja": [
+          "経済的堀と財務レッドフラグ",
+          "質／バリュー公開比率へ",
+          "候補"
+        ]
+      }
+    },
+    {
+      "id": "book-accountant-ops-essence",
+      "market": "TW",
+      "type": "book",
+      "shelf": "financials",
+      "title": "大會計師教你從財報數字看懂經營本質",
+      "authors": [
+        "（會計師財報系列）"
+      ],
+      "year": 2017,
+      "summary": "Original concept summary: accountant-led reading of operating reality behind numbers—margin structure, cash conversion; TW financial literacy.",
+      "formulas": [],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "大會計師教你從財報數字看懂經營本質",
+        "en": "Accountant Guide: Operating Essence",
+        "zh-Hans": "大会计师教你从财报数字看懂经营本质",
+        "ja": "会計士が教える経営の本質"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：會計師帶讀經營現實與現金轉換——台股財務素養。",
+        "en": "Original concept summary: accountant-led operating reality and cash conversion.",
+        "zh-Hans": "原创概念摘要：会计带读经营现实与现金转换。",
+        "ja": "数字の奥の事業実態。"
+      },
+      "plainTakeaways": [
+        "數字背後看經營現實與現金轉換",
+        "支援台股財務篩選素養",
+        "候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "數字背後看經營現實與現金轉換",
+          "支援台股財務篩選素養",
+          "候選"
+        ],
+        "en": [
+          "Read operating reality and cash conversion behind numbers",
+          "Supports TW financial-screen literacy",
+          "Candidate"
+        ],
+        "zh-Hans": [
+          "数字背后看经营现实与现金转换",
+          "支援台股财务筛选素养",
+          "候选"
+        ],
+        "ja": [
+          "数字の奥の事業実態と現金化",
+          "台湾財務画面のリテラシー",
+          "候補"
+        ]
+      }
+    },
+    {
+      "id": "book-accountant-industry-essence",
+      "market": "TW",
+      "type": "book",
+      "shelf": "financials",
+      "title": "大會計師教你從財報數字看懂產業本質",
+      "authors": [
+        "（會計師財報系列）"
+      ],
+      "year": 2018,
+      "summary": "Original concept summary: industry-structure reading via ratios (cyclicality, capital intensity)—pairs with operating-essence companion.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "大會計師教你從財報數字看懂產業本質",
+        "en": "Accountant Guide: Industry Essence",
+        "zh-Hans": "大会计师教你从财报数字看懂产业本质",
+        "ja": "会計士が教える産業の本質"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：用財報比率讀產業結構——與經營本質篇互補。",
+        "en": "Original concept summary: industry structure via ratios—pairs with ops companion.",
+        "zh-Hans": "原创概念摘要：用财报比率读产业结构。",
+        "ja": "比率で産業構造を読む。"
+      },
+      "plainTakeaways": [
+        "用比率讀產業週期與資本密集",
+        "與經營本質篇互補",
+        "產業濾網觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "用比率讀產業週期與資本密集",
+          "與經營本質篇互補",
+          "產業濾網觀察"
+        ],
+        "en": [
+          "Read industry cyclicality and capital intensity via ratios",
+          "Pairs with operating-essence companion",
+          "Sector-filter watch"
+        ],
+        "zh-Hans": [
+          "用比率读产业周期与资本密集",
+          "与经营本质篇互补",
+          "产业滤网观察"
+        ],
+        "ja": [
+          "比率で産業循環と資本集約を読む",
+          "経営本質編と対",
+          "セクター画面の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-little-book-moats",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "market_analysis",
+      "title": "尋找投資護城河（The Little Book That Builds Wealth）",
+      "authors": [
+        "Pat Dorsey"
+      ],
+      "year": 2008,
+      "summary": "Original concept summary: taxonomy of economic moats—guides quality screens with public proxies where possible; else qualitative.",
+      "formulas": [
+        "moat_proxy ← stable_margins ∧ pricing_power_public"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL16982114W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/7915755-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "尋找投資護城河（The Little Book That Builds Wealth）",
+        "en": "The Little Book That Builds Wealth",
+        "zh-Hans": "寻找投资护城河",
+        "ja": "富を築く小さな本（堀）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：經濟護城河類型學——公開代理才程式化。",
+        "en": "Original concept summary: economic-moat taxonomy—code public proxies only.",
+        "zh-Hans": "原创概念摘要：经济护城河类型学。",
+        "ja": "経済的堀の類型。"
+      },
+      "plainTakeaways": [
+        "護城河類型決定品質濾網語言",
+        "能公開代理才進程式，否則質化",
+        "品質候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "護城河類型決定品質濾網語言",
+          "能公開代理才進程式，否則質化",
+          "品質候選"
+        ],
+        "en": [
+          "Moat types shape quality-screen language",
+          "Code only public proxies; else qualitative",
+          "Quality candidate"
+        ],
+        "zh-Hans": [
+          "护城河类型决定品质滤网语言",
+          "能公开代理才进程式，否则质化",
+          "品质候选"
+        ],
+        "ja": [
+          "堀タイプが質画面の言語を決める",
+          "公開プロキシのみ符号化",
+          "質の候補"
+        ]
+      }
+    },
+    {
+      "id": "book-three-most-important-questions",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "market_analysis",
+      "title": "投資最重要的3個問題",
+      "authors": [
+        "（投資決策框架）"
+      ],
+      "year": 2016,
+      "summary": "Original concept summary: decision-frame reducing investing to business, price, risk—checklist hygiene overlapping Marks/Buffett themes.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "投資最重要的3個問題",
+        "en": "The 3 Most Important Investing Questions",
+        "zh-Hans": "投资最重要的3个问题",
+        "ja": "投資で最も重要な3つの質問"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：事業、價格、風險三問——決策衛生。",
+        "en": "Original concept summary: business/price/risk questions—decision hygiene.",
+        "zh-Hans": "原创概念摘要：事业、价格、风险三问。",
+        "ja": "事業・価格・リスクの問い。"
+      },
+      "plainTakeaways": [
+        "事業、價格、風險三問當檢查清單",
+        "與Marks／巴菲特主題重疊",
+        "決策衛生觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "事業、價格、風險三問當檢查清單",
+          "與Marks／巴菲特主題重疊",
+          "決策衛生觀察"
+        ],
+        "en": [
+          "Business, price, risk as load-bearing checklist",
+          "Overlaps Marks/Buffett themes",
+          "Decision-hygiene watch"
+        ],
+        "zh-Hans": [
+          "事业、价格、风险三问当检查清单",
+          "与Marks／巴菲特主题重叠",
+          "决策卫生观察"
+        ],
+        "ja": [
+          "事業・価格・リスクのチェックリスト",
+          "Marks／バフェット主題と重なる",
+          "意思決定衛生の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-island-economics",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "econ_analysis",
+      "title": "小島經濟學（How an Economy Grows and Why It Crashes）",
+      "authors": [
+        "Peter D. Schiff",
+        "Andrew J. Schiff"
+      ],
+      "year": 2010,
+      "summary": "Original concept summary: parable of saving, credit, and boom-bust—macro intuition aid; storytelling, not a precise forecasting model.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0470526700-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "小島經濟學（How an Economy Grows and Why It Crashes）",
+        "en": "How an Economy Grows and Why It Crashes",
+        "zh-Hans": "小岛经济学",
+        "ja": "島の経済学"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：儲蓄、信用與繁榮／崩潰寓言——總經直覺。",
+        "en": "Original concept summary: saving/credit boom-bust parable—macro intuition.",
+        "zh-Hans": "原创概念摘要：储蓄、信用与繁荣／崩溃寓言。",
+        "ja": "貯蓄と信用の寓話。"
+      },
+      "plainTakeaways": [
+        "儲蓄、信用與繁榮／崩潰寓言",
+        "總經直覺輔助，非精確預測模型",
+        "觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "儲蓄、信用與繁榮／崩潰寓言",
+          "總經直覺輔助，非精確預測模型",
+          "觀察"
+        ],
+        "en": [
+          "Parable of saving, credit, boom-bust",
+          "Macro intuition aid — not precise forecast model",
+          "Watch"
+        ],
+        "zh-Hans": [
+          "储蓄、信用与繁荣／崩溃寓言",
+          "总经直觉辅助，非精确预测模型",
+          "观察"
+        ],
+        "ja": [
+          "貯蓄・信用・好況／崩壊の寓話",
+          "マクロ直感の補助であり精密予測ではない",
+          "様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-econ-indicators-sizing",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "econ_analysis",
+      "title": "經濟指標教你加減碼",
+      "authors": [
+        "（經濟指標實用）"
+      ],
+      "year": 2017,
+      "summary": "Original concept summary: maps common macro prints to risk-on/off posture—aligns with regime dials; avoid single-print overfitting.",
+      "formulas": [
+        "macro_posture ← dial(rates, growth_prints)"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "經濟指標教你加減碼",
+        "en": "Economic Indicators for Position Sizing",
+        "zh-Hans": "经济指标教你加减码",
+        "ja": "経済指標でポジション加減"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：宏觀數據對風險偏好加減碼——對齊regime。",
+        "en": "Original concept summary: macro prints to risk posture—regime dials.",
+        "zh-Hans": "原创概念摘要：宏观数据对风险偏好加减码。",
+        "ja": "マクロ指標とリスク姿勢。"
+      },
+      "plainTakeaways": [
+        "宏觀數據對姿態加減碼，避免單點過擬合",
+        "對齊市場regime dial",
+        "觀察候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "宏觀數據對姿態加減碼，避免單點過擬合",
+          "對齊市場regime dial",
+          "觀察候選"
+        ],
+        "en": [
+          "Map macro prints to posture sizing — avoid single-print overfitting",
+          "Aligns with market regime dials",
+          "Watch"
+        ],
+        "zh-Hans": [
+          "宏观数据对姿态加减码，避免单点过拟合",
+          "对齐市场regime dial",
+          "观察候选"
+        ],
+        "ja": [
+          "マクロ指標で姿勢の加減。単発過適合を避ける",
+          "レジームダイヤルと整合",
+          "様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-big-debt-crises",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "econ_analysis",
+      "title": "大債危機（Big Debt Crises）",
+      "authors": [
+        "Ray Dalio"
+      ],
+      "year": 2018,
+      "summary": "Original concept summary: archetypal debt-cycle templates (inflationary vs deflationary)—regime literacy for leverage stress; not a day-trade clock.",
+      "formulas": [
+        "debt_cycle_lens ← leverage_stress ∧ inflation_regime"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL20108784W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/11980955-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "大債危機（Big Debt Crises）",
+        "en": "Big Debt Crises (Ray Dalio)",
+        "zh-Hans": "大债危机",
+        "ja": "大きな債務危機"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：通膨／通縮債務週期模板——槓桿regime素養。",
+        "en": "Original concept summary: inflationary/deflationary debt cycles—leverage regime literacy.",
+        "zh-Hans": "原创概念摘要：通胀／通缩债务周期模板。",
+        "ja": "債務サイクルの型。"
+      },
+      "plainTakeaways": [
+        "通膨型／通縮型債務週期模板",
+        "槓桿壓力的regime素養",
+        "非當沖時鐘"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "通膨型／通縮型債務週期模板",
+          "槓桿壓力的regime素養",
+          "非當沖時鐘"
+        ],
+        "en": [
+          "Inflationary vs deflationary debt-cycle templates",
+          "Regime literacy for leverage stress",
+          "Not a day-trade clock"
+        ],
+        "zh-Hans": [
+          "通胀型／通缩型债务周期模板",
+          "杠杆压力的regime素养",
+          "非短线时钟"
+        ],
+        "ja": [
+          "インフレ型／デフレ型債務サイクル",
+          "レバレッジ圧力のレジーム理解",
+          "デイトレ時計ではない"
+        ]
+      }
+    },
+    {
+      "id": "book-zurich-axioms",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "psych_randomness",
+      "title": "蘇黎士投機定律（The Zurich Axioms）",
+      "authors": [
+        "Max Gunther"
+      ],
+      "year": 1985,
+      "summary": "Original concept summary: speculative maxims on risk appetite, greed, forecast distrust—behavioral guardrails; not a mechanical system.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/1564143747-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "蘇黎士投機定律（The Zurich Axioms）",
+        "en": "The Zurich Axioms",
+        "zh-Hans": "苏黎世投机定律",
+        "ja": "チューリッヒの公理"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：風險胃口與不信任預測——行為護欄。",
+        "en": "Original concept summary: risk appetite and forecast distrust—behavioral guardrails.",
+        "zh-Hans": "原创概念摘要：风险胃口与不信任预测。",
+        "ja": "リスク食欲と予測不信。"
+      },
+      "plainTakeaways": [
+        "風險胃口、貪婪與不信任預測的箴言",
+        "行為護欄，非機械系統",
+        "觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "風險胃口、貪婪與不信任預測的箴言",
+          "行為護欄，非機械系統",
+          "觀察"
+        ],
+        "en": [
+          "Maxims on risk appetite, greed, forecast distrust",
+          "Behavioral guardrails — not mechanical system",
+          "Watch"
+        ],
+        "zh-Hans": [
+          "风险胃口、贪婪与不信任预测的箴言",
+          "行为护栏，非机械系统",
+          "观察"
+        ],
+        "ja": [
+          "リスク食欲・欲望・予測不信の公理",
+          "行動のガードレールであり機械システムではない",
+          "様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-black-swan",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "psych_randomness",
+      "title": "黑天鵝（The Black Swan）",
+      "authors": [
+        "Nassim Nicholas Taleb"
+      ],
+      "year": 2007,
+      "summary": "Original concept summary: fragility to rare events and narrative fallacy—fat-tail humility in sizing; not a predictor of specific swans.",
+      "formulas": [
+        "fat_tail_humility ← cap_single_name_risk"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL5735750W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/5721840-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "黑天鵝（The Black Swan）",
+        "en": "The Black Swan",
+        "zh-Hans": "黑天鹅",
+        "ja": "ブラック・スワン"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：罕見事件脆弱性與敘事謬誤——肥尾謙卑於部位。",
+        "en": "Original concept summary: rare-event fragility and narrative fallacy—fat-tail sizing humility.",
+        "zh-Hans": "原创概念摘要：罕见事件脆弱性与叙事谬误。",
+        "ja": "稀事象への脆さ。"
+      },
+      "plainTakeaways": [
+        "對罕見事件脆弱性保持謙卑",
+        "敘事謬誤會假造事後必然",
+        "部位衛生觀察，非預測書"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "對罕見事件脆弱性保持謙卑",
+          "敘事謬誤會假造事後必然",
+          "部位衛生觀察，非預測書"
+        ],
+        "en": [
+          "Stay humble about fragility to rare events",
+          "Narrative fallacy invents inevitability after the fact",
+          "Sizing hygiene — not swan predictor"
+        ],
+        "zh-Hans": [
+          "对罕见事件脆弱性保持谦卑",
+          "叙事谬误会假造事后必然",
+          "部位卫生观察，非预测书"
+        ],
+        "ja": [
+          "稀事象への脆さに謙虚であれ",
+          "物語の誤謬が事後必然を作る",
+          "サイズ衛生であり予測書ではない"
+        ]
+      }
+    },
+    {
+      "id": "book-fooled-by-randomness",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "psych_randomness",
+      "title": "隨機騙局（Fooled by Randomness）",
+      "authors": [
+        "Nassim Nicholas Taleb"
+      ],
+      "year": 2001,
+      "summary": "Original concept summary: survivorship and luck misread as skill—calibration warning for backtests and hot streaks.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL5735748W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/855791-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "隨機騙局（Fooled by Randomness）",
+        "en": "Fooled by Randomness",
+        "zh-Hans": "随机骗局",
+        "ja": "まぐれ"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：倖存者偏差把運氣誤當技能——回測校準警告。",
+        "en": "Original concept summary: survivorship misreads luck as skill—backtest calibration.",
+        "zh-Hans": "原创概念摘要：幸存者偏差把运气误当技能。",
+        "ja": "生存者バイアスと運。"
+      },
+      "plainTakeaways": [
+        "倖存者偏差會把運氣誤當技能",
+        "回測與連勝都要校準懷疑",
+        "觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "倖存者偏差會把運氣誤當技能",
+          "回測與連勝都要校準懷疑",
+          "觀察"
+        ],
+        "en": [
+          "Survivorship can misread luck as skill",
+          "Calibrate skepticism on backtests and hot streaks",
+          "Watch"
+        ],
+        "zh-Hans": [
+          "幸存者偏差会把运气误当技能",
+          "回测与连胜都要校准怀疑",
+          "观察"
+        ],
+        "ja": [
+          "生存者バイアスが運を技能と誤認",
+          "バックテストと連勝に懐疑校正",
+          "様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-antifragile",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "psych_randomness",
+      "title": "反脆弱（Antifragile）",
+      "authors": [
+        "Nassim Nicholas Taleb"
+      ],
+      "year": 2012,
+      "summary": "Original concept summary: systems that gain from volatility vs fragile ones—optionality and barbell metaphors for risk design; conceptual watch.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL16489153W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/9180157-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "反脆弱（Antifragile）",
+        "en": "Antifragile",
+        "zh-Hans": "反脆弱",
+        "ja": "反脆弱性"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：從波動受益 vs 脆弱——選擇權／槓鈴風險設計。",
+        "en": "Original concept summary: gain-from-volatility vs fragile—optionality/barbell risk design.",
+        "zh-Hans": "原创概念摘要：从波动受益 vs 脆弱。",
+        "ja": "ボラから得する系。"
+      },
+      "plainTakeaways": [
+        "從波動受益 vs 脆弱系統的差別",
+        "選擇權思維／槓鈴隱喻可當風險設計",
+        "概念觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "從波動受益 vs 脆弱系統的差別",
+          "選擇權思維／槓鈴隱喻可當風險設計",
+          "概念觀察"
+        ],
+        "en": [
+          "Distinguish gain-from-volatility vs fragile systems",
+          "Optionality/barbell metaphors for risk design",
+          "Conceptual watch"
+        ],
+        "zh-Hans": [
+          "从波动受益 vs 脆弱系统",
+          "选择权思维／杠铃隐喻可当风险设计",
+          "概念观察"
+        ],
+        "ja": [
+          "ボラから得する系と脆い系",
+          "オプション性／バーベル比喩",
+          "概念の様子見"
+        ]
+      }
+    },
+    {
+      "id": "book-franklin-autobiography",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "biographies",
+      "title": "富蘭克林自傳（The Autobiography of Benjamin Franklin）",
+      "authors": [
+        "Benjamin Franklin"
+      ],
+      "year": 1791,
+      "summary": "Original concept summary: virtue habits, thrift, civic self-improvement—character biography often cited by Buffett/Munger admirers; not a market model.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "https://openlibrary.org/works/OL15840983W"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/id/5647361-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "富蘭克林自傳（The Autobiography of Benjamin Franklin）",
+        "en": "The Autobiography of Benjamin Franklin",
+        "zh-Hans": "富兰克林自传",
+        "ja": "フランクリン自伝"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：德行習慣與節儉——品格傳記；非市場模型。",
+        "en": "Original concept summary: virtue habits and thrift—character biography; not market model.",
+        "zh-Hans": "原创概念摘要：德行习惯与节俭——品格传记。",
+        "ja": "徳と倹約の伝記。"
+      },
+      "plainTakeaways": [
+        "德行習慣與節儉屬品格傳記",
+        "常被巴菲特／蒙格愛好者提及",
+        "非市場模型"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "德行習慣與節儉屬品格傳記",
+          "常被巴菲特／蒙格愛好者提及",
+          "非市場模型"
+        ],
+        "en": [
+          "Virtue habits and thrift as character biography",
+          "Often cited by Buffett/Munger admirers",
+          "Not a market model"
+        ],
+        "zh-Hans": [
+          "德行习惯与节俭属品格传记",
+          "常被巴菲特／蒙格爱好者提及",
+          "非市场模型"
+        ],
+        "ja": [
+          "徳の習慣と倹約の伝記",
+          "バフェット／マンガー愛好者が言及しがち",
+          "市場モデルではない"
+        ]
+      }
+    },
+    {
+      "id": "book-gambler-stock-god",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "biographies",
+      "title": "他是賭神更是股神",
+      "authors": [
+        "（賭徒／交易員傳記）"
+      ],
+      "year": 2015,
+      "summary": "Original concept summary: dramatized trader/gambler biography tropes—entertainment risk; do not confuse narrative luck with repeatable edge.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "他是賭神更是股神",
+        "en": "Gambler and Stock God",
+        "zh-Hans": "他是赌神更是股神",
+        "ja": "賭けの神か株の神か"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：賭徒／交易員傳記套路——勿把敘事運氣當優勢。",
+        "en": "Original concept summary: trader/gambler bio tropes—luck ≠ edge.",
+        "zh-Hans": "原创概念摘要：赌徒／交易员传记套路。",
+        "ja": "賭博／トレーダー伝記の定型。"
+      },
+      "plainTakeaways": [
+        "傳記戲劇化易把運氣當可複製優勢",
+        "娛樂風險高，暫緩納入策略",
+        "非候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "傳記戲劇化易把運氣當可複製優勢",
+          "娛樂風險高，暫緩納入策略",
+          "非候選"
+        ],
+        "en": [
+          "Dramatized bios confuse luck with repeatable edge",
+          "High entertainment risk — deferred",
+          "Non-candidate"
+        ],
+        "zh-Hans": [
+          "传记戏剧化易把运气当可复制优势",
+          "娱乐风险高，暂缓纳入策略",
+          "非候选"
+        ],
+        "ja": [
+          "劇化伝記は運を再現可能エッジと誤認しやすい",
+          "娯楽リスク高。戦略は暫定見送り",
+          "非候補"
+        ]
+      }
+    },
+    {
+      "id": "book-tao-of-munger",
+      "market": "BOTH",
+      "type": "book",
+      "shelf": "biographies",
+      "title": "蒙格之道（The Tao of Charlie Munger）",
+      "authors": [
+        "David Clark"
+      ],
+      "year": 2017,
+      "summary": "Original concept summary: curated Munger quotations on psychology and business—companion to Poor Charlie; qualitative partner wisdom watch.",
+      "formulas": [],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Educational / conceptual only; math gate not passed.",
+      "sources": [
+        "User curated Chinese bookshelf taxonomy 2026-09-16"
+      ],
+      "coverUrl": "./covers/placeholder-book.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "蒙格之道（The Tao of Charlie Munger）",
+        "en": "The Tao of Charlie Munger",
+        "zh-Hans": "蒙格之道",
+        "ja": "チャーリー・マンガーの道"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：蒙格語錄——《窮查理》伴侶；質化合夥人智慧。",
+        "en": "Original concept summary: curated Munger quotes—Poor Charlie companion; qualitative watch.",
+        "zh-Hans": "原创概念摘要：蒙格语录——穷查理伴侣。",
+        "ja": "マンガー語録。"
+      },
+      "plainTakeaways": [
+        "蒙格語錄整理，補《窮查理》",
+        "心理與商業質化智慧",
+        "合夥人思想觀察"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "蒙格語錄整理，補《窮查理》",
+          "心理與商業質化智慧",
+          "合夥人思想觀察"
+        ],
+        "en": [
+          "Curated Munger quotes—companion to Poor Charlie",
+          "Qualitative psychology/business wisdom",
+          "Partner-wisdom watch"
+        ],
+        "zh-Hans": [
+          "蒙格语录整理，补穷查理",
+          "心理与商业质化智慧",
+          "合伙人思想观察"
+        ],
+        "ja": [
+          "マンガー語録。『貧乏チャーリー』の補",
+          "心理とビジネスの質的知恵",
+          "パートナー思想の様子見"
         ]
       }
     }

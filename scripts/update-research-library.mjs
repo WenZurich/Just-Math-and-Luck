@@ -29,6 +29,11 @@ const MARKETS = new Set(["US", "TW", "BOTH"]);
 const TYPES = new Set(["book", "paper", "podcast"]);
 const CAND = new Set(["yes", "no", "watch"]);
 const STATUS = new Set(["candidate", "deferred", "adopted", "rejected"]);
+const SHELVES = new Set([
+  "core_investing","value_investing","business_management","life_partner_wisdom","options",
+  "recent_reads","fi_concepts","money_values","investing_basics","asset_allocation",
+  "financials","market_analysis","econ_analysis","psych_randomness","biographies","adjacent",
+]);
 
 const check = process.argv.includes("--check");
 
@@ -74,6 +79,8 @@ function validateItem(it, i) {
   if (typeof it.summary !== "string" || it.summary.length < 40) {
     fail(`${prefix}: summary too short`);
   }
+  if (it.shelf != null && !SHELVES.has(it.shelf)) fail(`${prefix}: bad shelf ${it.shelf}`);
+  if (!it.shelf) fail(`${prefix}: missing shelf`);
 }
 
 function main() {

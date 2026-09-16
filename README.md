@@ -68,10 +68,11 @@ Discussions 已開；`src/config.js` 內含 `repoId`／`categoryId`（General）
 
 ## 研究書庫（`#research`）
 
-持續累積美／台股市相關**書單＋論文**：標題 → 摘要 → 可程式化公式 → 是否納入策略候選。
+持續累積美／台股市相關**書單＋論文**：標題 → 摘要 → 重點作法 → 是否納入策略候選。UI 以可橫向捲動的**書架分類 chips** 篩選（核心投資經典／商業管理／合夥人思想／選擇權／財報／心理…）。
 
-- 資料：`public/data/research-library.json`（build／Pages 同步到 `docs/data/`）
+- 資料：`public/data/research-library.json`（欄位含 `shelf`；build／Pages 同步到 `docs/data/`）
 - 更新 stub：`node scripts/update-research-library.mjs`（平日例行；摘要須自寫，禁止貼著作權原文）
+- 富途巴菲特書單參考：[巴菲特推薦書單（上）](https://www.futunn.com/hk/learn/detail-buffett-recommended-book-list-part-1-1337-2104400128)
 - **正式納入策略需數學閘門通過（目前未過）**— UI 僅標 candidate／watch／deferred
 
 

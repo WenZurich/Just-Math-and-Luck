@@ -350,3 +350,57 @@
     gap: 0.85rem;
   }
 }
+
+
+/* Scrollable shelf chips — do not clip labels */
+.rl-shelf-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.35rem;
+  margin: 0 0 0.75rem;
+  padding: 0.35rem 0.15rem 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  max-width: 100%;
+}
+
+.rl-shelf-scroll .rl-shelf-chip {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  background: #f3f5f8;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.78rem;
+}
+
+.rl-shelf-scroll .rl-shelf-chip.is-active {
+  color: var(--accent);
+  background: #fff;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.rl-chip-count {
+  opacity: 0.65;
+  font-weight: 600;
+  margin-left: 0.15rem;
+}
+
+.rl-badge.rl-shelf {
+  background: color-mix(in srgb, #e8eef8 90%, white);
+  color: #334155;
+}
+
+.rl-shelf-group {
+  margin-bottom: 1.1rem;
+}
+
+.rl-shelf-title {
+  margin: 0 0 0.55rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
