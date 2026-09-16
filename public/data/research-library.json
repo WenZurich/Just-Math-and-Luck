@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-16T15:35:23+08:00",
+    "updated": "2026-09-16T18:45:00+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW stock bookshelf + papers + podcasts; strategy candidates with honest calibration",
+    "purpose": "Growing US+TW stock bookshelf + papers + podcasts + adjacent discipline titles; strategy candidates with honest calibration",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -795,6 +795,2453 @@
           "生成AIは特徴発見の助けであり即買いボタンではない",
           "検索品質を制御し伝統シグナルと比較する",
           "再現可能特徴とゲート通過後に採用を検討"
+        ]
+      }
+    },
+    {
+      "id": "book-lynch-one-up",
+      "market": "BOTH",
+      "type": "book",
+      "title": "彼得·林區 選股戰略（One Up On Wall Street）",
+      "authors": [
+        "Peter Lynch",
+        "John Rothchild"
+      ],
+      "year": 1989,
+      "summary": "Original concept summary: invest in what you can understand from everyday observation, classify businesses by growth profile, and treat personal knowledge as a starting filter—not a license to ignore valuation or liquidity. Informs quality/growth watchlists; does not invent tips from the book text.",
+      "formulas": [
+        "lynch_bucket ← classify(growth_profile)",
+        "understandability_filter ← liquid ∧ covered_by_public_filings"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Public growth/liquidity proxies exist; scuttlebutt NLP not in v1. Candidate only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0743200403-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "彼得·林區 選股戰略（One Up On Wall Street）",
+        "en": "One Up On Wall Street (Peter Lynch)",
+        "zh-Hans": "彼得·林奇 选股战略（One Up On Wall Street）",
+        "ja": "One Up On Wall Street（ピーター・リンチ）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：從日常可理解的事業出發，依成長類型分桶，把個人觀察當起點濾網——不是忽略估值與流動性的通行證。影響成長／品質觀察清單，不從書中複製薦股。",
+        "en": "Original concept summary: invest in what you can understand from everyday observation, classify businesses by growth profile, and treat personal knowledge as a starting filter—not a license to ignore valuation or liquidity. Informs quality/growth watchlists; does not invent tips from the book text.",
+        "zh-Hans": "原创概念摘要：从日常可理解的事业出发，依成长类型分桶，把个人观察当起点滤网——不是忽略估值与流动性的通行证。影响成长／品质观察清单，不从书中复制荐股。",
+        "ja": "オリジナル概念要約：理解できる事業から始め成長タイプで分類。個人観察は開始フィルタ。"
+      },
+      "plainTakeaways": [
+        "從你真正理解的事業開始，而不是聽故事就買",
+        "依成長類型分桶，再談估值與流動性",
+        "個人觀察是起點濾網，不是內幕捷徑"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "從你真正理解的事業開始，而不是聽故事就買",
+          "依成長類型分桶，再談估值與流動性",
+          "個人觀察是起點濾網，不是內幕捷徑"
+        ],
+        "en": [
+          "Start from businesses you actually understand — not story chasing",
+          "Bucket by growth profile, then apply valuation and liquidity",
+          "Personal observation is a start filter, not an insider shortcut"
+        ],
+        "zh-Hans": [
+          "从你真正理解的事业开始，而不是听故事就买",
+          "依成长类型分桶，再谈估值与流动性",
+          "个人观察是起点滤网，不是内幕捷径"
+        ],
+        "ja": [
+          "本当に理解できる事業から始める",
+          "成長タイプで分けてからバリュエーションと流動性",
+          "個人観察は開始フィルタでありインサイダー近道ではない"
+        ]
+      },
+      "isbn": "0743200403"
+    },
+    {
+      "id": "book-lynch-learn-to-earn",
+      "market": "BOTH",
+      "type": "book",
+      "title": "彼得·林區 學以致富（Learn to Earn）",
+      "authors": [
+        "Peter Lynch",
+        "John Rothchild"
+      ],
+      "year": 1995,
+      "summary": "Original concept summary: literacy-first investing primer—how companies make money, why markets exist, and why long-horizon owners beat tip-chasers. Used as education / process hygiene for new readers, not as a daily alpha screen.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Literacy / process hygiene only — no ticker screen from this title.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0684811634-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "彼得·林區 學以致富（Learn to Earn）",
+        "en": "Learn to Earn (Peter Lynch)",
+        "zh-Hans": "彼得·林奇 学以致富（Learn to Earn）",
+        "ja": "Learn to Earn（ピーター・リンチ）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：投資識字優先——公司如何賺錢、市場為何存在、為何長期持有勝過追明牌。作新手教育／流程衛生，不當每日 alpha 選股。",
+        "en": "Original concept summary: literacy-first investing primer—how companies make money, why markets exist, and why long-horizon owners beat tip-chasers. Used as education / process hygiene for new readers, not as a daily alpha screen.",
+        "zh-Hans": "原创概念摘要：投资识字优先——公司如何赚钱、市场为何存在、为何长期持有胜过追明牌。作新手教育／流程卫生，不当每日 alpha 选股。",
+        "ja": "オリジナル概念要約：投資リテラシー優先。日次アルファ画面には使わない。"
+      },
+      "plainTakeaways": [
+        "先搞懂公司如何賺錢，再談買賣",
+        "長期持有心態勝過追明牌",
+        "作識字教材，不當每日選股按鈕"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "先搞懂公司如何賺錢，再談買賣",
+          "長期持有心態勝過追明牌",
+          "作識字教材，不當每日選股按鈕"
+        ],
+        "en": [
+          "Learn how companies make money before trading",
+          "Long-horizon ownership beats tip chasing",
+          "Literacy material — not a daily buy button"
+        ],
+        "zh-Hans": [
+          "先搞懂公司如何赚钱，再谈买卖",
+          "长期持有心态胜过追明牌",
+          "作识字教材，不当每日选股按钮"
+        ],
+        "ja": [
+          "売買の前に企業がどう稼ぐかを学ぶ",
+          "長期保有はヒント追いに勝る",
+          "リテラシー教材であり日次買いボタンではない"
+        ]
+      },
+      "isbn": "0684811634"
+    },
+    {
+      "id": "book-lynch-beating-street",
+      "market": "BOTH",
+      "type": "book",
+      "title": "彼得·林區 征服股海（Beating the Street）",
+      "authors": [
+        "Peter Lynch",
+        "John Rothchild"
+      ],
+      "year": 1993,
+      "summary": "Original concept summary: case-study style follow-on to One Up—emphasizes homework on holdings, skepticism toward crowded favorites, and revisiting thesis when fundamentals change. Maps to review checklists, not copy-trade lists.",
+      "formulas": [
+        "holding_review ← thesis_still_true ∧ liquidity_ok",
+        "crowded_favorite_demote ← extreme_RS ∧ thin_vol"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Review checklist conceptual; no copy of historical Magellan holdings.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0671891634-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "彼得·林區 征服股海（Beating the Street）",
+        "en": "Beating the Street (Peter Lynch)",
+        "zh-Hans": "彼得·林奇 征服股海（Beating the Street）",
+        "ja": "Beating the Street（ピーター・リンチ）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：選股戰略的個案延伸——強調持倉作業、對擁擠熱門保持懷疑、基本面變了要重審論點。對應覆核清單，不複製歷史 Magellan 持股。",
+        "en": "Original concept summary: case-study style follow-on to One Up—emphasizes homework on holdings, skepticism toward crowded favorites, and revisiting thesis when fundamentals change. Maps to review checklists, not copy-trade lists.",
+        "zh-Hans": "原创概念摘要：选股战略的个案延伸——强调持仓作业、对拥挤热门保持怀疑、基本面变了要重审论点。对应复核清单，不复制历史 Magellan 持股。",
+        "ja": "オリジナル概念要約：保有銘柄の宿題と混雑人気への懐疑。履歴保有のコピーではない。"
+      },
+      "plainTakeaways": [
+        "持倉要定期做功課，不是買了就放著不管",
+        "擁擠熱門要降權，尤其量能跟不上",
+        "基本面變了就重審論點"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "持倉要定期做功課，不是買了就放著不管",
+          "擁擠熱門要降權，尤其量能跟不上",
+          "基本面變了就重審論點"
+        ],
+        "en": [
+          "Do homework on holdings — do not set-and-forget blindly",
+          "Demote crowded favorites when volume does not confirm",
+          "Revisit the thesis when fundamentals change"
+        ],
+        "zh-Hans": [
+          "持仓要定期做功课，不是买了就放着不管",
+          "拥挤热门要降权，尤其量能跟不上",
+          "基本面变了就重审论点"
+        ],
+        "ja": [
+          "保有銘柄の宿題を怠らない",
+          "混雑人気は出来高確認が弱いと降格",
+          "ファンダが変わればテーゼを見直す"
+        ]
+      },
+      "isbn": "0671891634"
+    },
+    {
+      "id": "book-bollinger-bands",
+      "market": "BOTH",
+      "type": "book",
+      "title": "布林通道聖經（Bollinger on Bollinger Bands）",
+      "authors": [
+        "John Bollinger"
+      ],
+      "year": 2001,
+      "summary": "Original concept summary: volatility bands around a moving average frame squeeze/expansion regimes; bandwidth and %B are public-data computable. Candidate overlays for mean-reversion vs breakout context—never as lone buy buttons.",
+      "formulas": [
+        "BB_mid ← SMA(n)",
+        "BB_width ← (upper−lower)/mid",
+        "pctB ← (close−lower)/(upper−lower)",
+        "squeeze ← BB_width low percentile → watch expansion"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "OHLCV primitives olympiad-safe; pack not shipped this turn — candidate only until sample-out.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0071373683-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "布林通道聖經（Bollinger on Bollinger Bands）",
+        "en": "Bollinger on Bollinger Bands",
+        "zh-Hans": "布林带圣经（Bollinger on Bollinger Bands）",
+        "ja": "ボリンジャーバンド"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：均線上下的波動帶描述擠壓／擴張；帶寬與 %B 可用公開行情計算。可作回歸 vs 突破情境疊加——絕不當單一買進按鈕。",
+        "en": "Original concept summary: volatility bands around a moving average frame squeeze/expansion regimes; bandwidth and %B are public-data computable. Candidate overlays for mean-reversion vs breakout context—never as lone buy buttons.",
+        "zh-Hans": "原创概念摘要：均线上下的波动带描述挤压／扩张；带宽与 %B 可用公开行情计算。可作回归 vs 突破情境叠加——绝不当单一买进按钮。",
+        "ja": "オリジナル概念要約：スクイーズ／拡大の文脈重ね。単独の買いボタンにしない。"
+      },
+      "plainTakeaways": [
+        "用波動帶寬看擠壓與擴張，而不是單看碰軌就買賣",
+        "%B 與帶寬是可公開計算的輔助訊號",
+        "只當情境疊加，不當唯一進場理由"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "用波動帶寬看擠壓與擴張，而不是單看碰軌就買賣",
+          "%B 與帶寬是可公開計算的輔助訊號",
+          "只當情境疊加，不當唯一進場理由"
+        ],
+        "en": [
+          "Read squeeze vs expansion from bandwidth — not touch-the-band alone",
+          "%B and bandwidth are public-data helpers",
+          "Context overlay only — never the sole entry reason"
+        ],
+        "zh-Hans": [
+          "用波动带宽看挤压与扩张，而不是单看碰轨就买卖",
+          "%B 与带宽是可公开计算的辅助信号",
+          "只当情境叠加，不当唯一进场理由"
+        ],
+        "ja": [
+          "帯幅でスクイーズ／拡大を見る",
+          "%Bと帯幅は公開データの補助",
+          "単独エントリー理由にしない"
+        ]
+      },
+      "isbn": "0071373683"
+    },
+    {
+      "id": "book-fisher-common-stocks",
+      "market": "US",
+      "type": "book",
+      "title": "非常潛力股（Common Stocks and Uncommon Profits）",
+      "authors": [
+        "Philip A. Fisher"
+      ],
+      "year": 1958,
+      "summary": "Original concept summary: growth-quality checklist emphasizing durable franchise, R&D/sales culture, and management honesty—classic scuttlebutt is hard to code; site keeps only public proxies (margin stability, growth persistence) as watch features.",
+      "formulas": [
+        "growth_quality_proxy ← stable_margins ∧ multi_year_sales_growth",
+        "scuttlebutt ← NOT coded (qualitative)"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Qualitative scuttlebutt excluded; public growth-quality proxies only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0471445509-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "非常潛力股（Common Stocks and Uncommon Profits）",
+        "en": "Common Stocks and Uncommon Profits (Philip Fisher)",
+        "zh-Hans": "非常潜力股（Common Stocks and Uncommon Profits）",
+        "ja": "株式投資で普通でない利益を得る"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：成長品質清單強調耐久事業、研發／銷售文化與誠信管理；經典傳聞調查難編碼，站方只保留公開代理（利潤率穩定、成長延續）作觀察特徵。",
+        "en": "Original concept summary: growth-quality checklist emphasizing durable franchise, R&D/sales culture, and management honesty—classic scuttlebutt is hard to code; site keeps only public proxies (margin stability, growth persistence) as watch features.",
+        "zh-Hans": "原创概念摘要：成长品质清单强调耐久事业、研发／销售文化与诚信管理；经典传闻调查难编码，站方只保留公开代理（利润率稳定、成长延续）作观察特征。",
+        "ja": "オリジナル概念要約：スカウトルバットは符号化せず、公開プロキシのみ。"
+      },
+      "plainTakeaways": [
+        "成長要看品質與耐久，不只看短期飆速",
+        "傳聞調查難自動化，只用公開財報代理",
+        "管理誠信屬質化欄位，不當假精確分數"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "成長要看品質與耐久，不只看短期飆速",
+          "傳聞調查難自動化，只用公開財報代理",
+          "管理誠信屬質化欄位，不當假精確分數"
+        ],
+        "en": [
+          "Judge growth by quality and durability, not short rockets alone",
+          "Scuttlebutt is hard to automate — use public filing proxies",
+          "Management honesty stays qualitative — no fake precision scores"
+        ],
+        "zh-Hans": [
+          "成长要看品质与耐久，不只看短期飙速",
+          "传闻调查难自动化，只用公开财报代理",
+          "管理诚信属质化栏位，不当假精确分数"
+        ],
+        "ja": [
+          "成長は質と耐久で見る",
+          "スカウトルバットは自動化せず公開資料代理",
+          "経営誠実さは質的欄で偽精度スコアにしない"
+        ]
+      },
+      "isbn": "0471445509"
+    },
+    {
+      "id": "book-bernstein-four-pillars",
+      "market": "BOTH",
+      "type": "book",
+      "title": "投資金律（The Four Pillars of Investing）",
+      "authors": [
+        "William J. Bernstein"
+      ],
+      "year": 2002,
+      "summary": "Original concept summary: theory, history, psychology, and business pillars argue for diversified low-cost exposure and skepticism toward product salesmanship. Reinforces index/diversification hygiene and math-gate caution—not stock-picking alpha.",
+      "formulas": [
+        "diversify_low_cost ← core_allocation hygiene",
+        "product_sales_skepticism ← fee_drag check"
+      ],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Allocation hygiene / anti-product-hype — not a ticker screen.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0071385290-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "投資金律（The Four Pillars of Investing）",
+        "en": "The Four Pillars of Investing (Bernstein)",
+        "zh-Hans": "投资金律（The Four Pillars of Investing）",
+        "ja": "投資の四本柱"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：理論／歷史／心理／商業四柱，主張低成本分散與對產品銷售話術保持懷疑。強化指數／分散衛生與數學閘門謹慎——非個股 alpha。",
+        "en": "Original concept summary: theory, history, psychology, and business pillars argue for diversified low-cost exposure and skepticism toward product salesmanship. Reinforces index/diversification hygiene and math-gate caution—not stock-picking alpha.",
+        "zh-Hans": "原创概念摘要：理论／历史／心理／商业四柱，主张低成本分散与对产品销售话术保持怀疑。强化指数／分散卫生与数学闸门谨慎——非个股 alpha。",
+        "ja": "オリジナル概念要約：低コスト分散と商品売り込みへの懐疑。銘柄アルファではない。"
+      },
+      "plainTakeaways": [
+        "低成本分散是核心衛生，不是落伍",
+        "對金融產品銷售話術保持懷疑",
+        "不當個股選股公式"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "低成本分散是核心衛生，不是落伍",
+          "對金融產品銷售話術保持懷疑",
+          "不當個股選股公式"
+        ],
+        "en": [
+          "Low-cost diversification is core hygiene, not outdated",
+          "Stay skeptical of product salesmanship",
+          "Not a stock-picking formula"
+        ],
+        "zh-Hans": [
+          "低成本分散是核心卫生，不是落伍",
+          "对金融产品销售话术保持怀疑",
+          "不当个股选股公式"
+        ],
+        "ja": [
+          "低コスト分散は基本衛生",
+          "商品売り込みに懐疑的であれ",
+          "銘柄選定式にしない"
+        ]
+      },
+      "isbn": "0071385290"
+    },
+    {
+      "id": "book-marks-most-important",
+      "market": "BOTH",
+      "type": "book",
+      "title": "投資最重要的事（The Most Important Thing）",
+      "authors": [
+        "Howard Marks"
+      ],
+      "year": 2011,
+      "summary": "Original concept summary (distinct from Mastering the Market Cycle): risk is the chance of permanent loss and of missing prospective return; second-level thinking and asymmetric payoff awareness guide stance. Complements temperature dials already on site.",
+      "formulas": [
+        "risk ← permanent_loss_odds ⊕ missed_return_odds",
+        "second_level ← avoid_consensus_crowding_proxy"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Complements Marks cycle temperature; no separate pack this turn.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0231153686-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "投資最重要的事（The Most Important Thing）",
+        "en": "The Most Important Thing (Howard Marks)",
+        "zh-Hans": "投资最重要的事（The Most Important Thing）",
+        "ja": "投資で一番大切なこと"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要（有別於《掌握市場週期》）：風險是永久損失與錯過預期報酬的機會；二階思考與不對稱報酬意識引導姿態。補強站上既有溫度 dial。",
+        "en": "Original concept summary (distinct from Mastering the Market Cycle): risk is the chance of permanent loss and of missing prospective return; second-level thinking and asymmetric payoff awareness guide stance. Complements temperature dials already on site.",
+        "zh-Hans": "原创概念摘要（有别于《掌握市场周期》）：风险是永久损失与错过预期报酬的机会；二阶思考与不对称报酬意识引导姿态。补强站上既有温度 dial。",
+        "ja": "オリジナル概念要約：《市場サイクル》とは別冊。温度ダイヤルを補完。"
+      },
+      "plainTakeaways": [
+        "風險同時看永久損失與錯過報酬",
+        "二階思考：群眾共識擁擠時要更謹慎",
+        "補強週期溫度，不另開薦股清單"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "風險同時看永久損失與錯過報酬",
+          "二階思考：群眾共識擁擠時要更謹慎",
+          "補強週期溫度，不另開薦股清單"
+        ],
+        "en": [
+          "Risk covers permanent loss and missed return",
+          "Second-level thinking: be careful when consensus is crowded",
+          "Complements cycle temperature — no separate tip list"
+        ],
+        "zh-Hans": [
+          "风险同时看永久损失与错过报酬",
+          "二阶思考：群众共识拥挤时要更谨慎",
+          "补强周期温度，不另开荐股清单"
+        ],
+        "ja": [
+          "永久損失と機会損失の両方を見る",
+          "合意が混雑したら慎重に",
+          "サイクル温度の補完であり推奨リストではない"
+        ]
+      },
+      "isbn": "0231153686"
+    },
+    {
+      "id": "book-ellis-losers-game",
+      "market": "BOTH",
+      "type": "book",
+      "title": "散戶的勝利／贏者的遊戲（Winning the Loser's Game）",
+      "authors": [
+        "Charles D. Ellis"
+      ],
+      "year": 1998,
+      "summary": "Original concept summary: most active attempts lose to costs and error rates—winning often means not losing via overtrading. Supports low-turnover / core-satellite hygiene already echoed by Gooaye packs; not a momentum screen.",
+      "formulas": [
+        "losers_game ← cost_drag + overtrade_error",
+        "prefer: low_turnover core"
+      ],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Process hygiene aligning with core–satellite; no new alpha pack.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0070220102-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "散戶的勝利／贏者的遊戲（Winning the Loser's Game）",
+        "en": "Winning the Loser's Game (Charles Ellis)",
+        "zh-Hans": "失败者的游戏／散户的胜利（Winning the Loser's Game）",
+        "ja": "敗者のゲーム"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：多數主動操作輸給成本與失誤率——贏常意味著少輸於過度交易。支援低周轉／核心－衛星衛生；非動能選股。",
+        "en": "Original concept summary: most active attempts lose to costs and error rates—winning often means not losing via overtrading. Supports low-turnover / core-satellite hygiene already echoed by Gooaye packs; not a momentum screen.",
+        "zh-Hans": "原创概念摘要：多数主动操作输给成本与失误率——赢常意味着少输于过度交易。支持低周转／核心－卫星卫生；非动能选股。",
+        "ja": "オリジナル概念要約：コストと過取引を避ける衛生。モメンタム画面ではない。"
+      },
+      "plainTakeaways": [
+        "少輸常常比多贏更重要",
+        "成本與過度交易是隱形殺手",
+        "支援核心－衛星，不當追漲殺跌公式"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "少輸常常比多贏更重要",
+          "成本與過度交易是隱形殺手",
+          "支援核心－衛星，不當追漲殺跌公式"
+        ],
+        "en": [
+          "Not losing often beats trying to win more",
+          "Costs and overtrading are silent killers",
+          "Supports core–satellite — not chase/fade formulas"
+        ],
+        "zh-Hans": [
+          "少输常常比多赢更重要",
+          "成本与过度交易是隐形杀手",
+          "支持核心－卫星，不当追涨杀跌公式"
+        ],
+        "ja": [
+          "負けを減らすことが勝ちより大事なことが多い",
+          "コストと過取引が静かな敵",
+          "コア・サテライト支援であり追撃式ではない"
+        ]
+      },
+      "isbn": "0070220102"
+    },
+    {
+      "id": "book-tw-ta-primers-shelf",
+      "market": "TW",
+      "type": "book",
+      "title": "台股技術入門書架（MACD／KDJ／K線／波段SOP）",
+      "authors": [
+        "Money 錢／Smart 智富等技術入門叢書（書架）"
+      ],
+      "year": 2018,
+      "summary": "Shelf cluster of thin TW technical primers (MACD signals, KDJ, K-line chart books, swing SOPs). Site may reuse public OHLCV indicator definitions as optional overlays; magazine SOPs and major-player narratives stay out of production screens until math-gated.",
+      "formulas": [
+        "MACD ← EMA12−EMA26; signal←EMA9(MACD)",
+        "KDJ/stoch ← public stochastic definition",
+        "Kline_patterns ← educational only (no auto-pattern pack this turn)"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Indicator math is public; pattern/SOP packs deferred. No unreadable math in UI.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-tw-ta-primers.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "台股技術入門書架（MACD／KDJ／K線／波段SOP）",
+        "en": "TW technical primers shelf (MACD / KDJ / K-line / swing SOP)",
+        "zh-Hans": "台股技术入门书架（MACD／KDJ／K线／波段SOP）",
+        "ja": "台湾テクニカル入門書架"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "書架上的薄本技術入門（MACD、KDJ、K線圖解、波段 SOP）。站方可重用公開 OHLCV 指標定義作可選疊加；雜誌 SOP 與主力敘事在數學閘門前不進正式選股。",
+        "en": "Shelf cluster of thin TW technical primers (MACD signals, KDJ, K-line chart books, swing SOPs). Site may reuse public OHLCV indicator definitions as optional overlays; magazine SOPs and major-player narratives stay out of production screens until math-gated.",
+        "zh-Hans": "书架上的薄本技术入门（MACD、KDJ、K线图解、波段 SOP）。站方可重用公开 OHLCV 指标定义作可选叠加；杂志 SOP 与主力叙事在数学闸门前不进正式选股。",
+        "ja": "公開指標定義のみ候補。雑誌SOPや主力物語はゲート前に本番へ入れない。"
+      },
+      "plainTakeaways": [
+        "MACD／KDJ／K線可作輔助，不作唯一理由",
+        "雜誌 SOP 與主力故事先當教材",
+        "進正式選股前要過樣本外驗證"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "MACD／KDJ／K線可作輔助，不作唯一理由",
+          "雜誌 SOP 與主力故事先當教材",
+          "進正式選股前要過樣本外驗證"
+        ],
+        "en": [
+          "MACD/KDJ/K-line are helpers — never sole reasons",
+          "Treat magazine SOPs and smart-money stories as teaching material first",
+          "Require out-of-sample checks before production screens"
+        ],
+        "zh-Hans": [
+          "MACD／KDJ／K线可作辅助，不作唯一理由",
+          "杂志 SOP 与主力故事先当教材",
+          "进正式选股前要过样本外验证"
+        ],
+        "ja": [
+          "MACD/KDJ/ローソクは補助",
+          "雑誌SOPと主力話はまず教材",
+          "本番前にサンプル外検証"
+        ]
+      }
+    },
+    {
+      "id": "book-tw-high-div-etf-shelf",
+      "market": "TW",
+      "type": "book",
+      "title": "台股高股息／ETF 入門書架",
+      "authors": [
+        "高股息ETF／存股入門叢書（書架）"
+      ],
+      "year": 2020,
+      "summary": "TW retail shelf on high-dividend ETFs and cun-gu (dividend holding) primers. Useful for income-bucket labeling and fee/distribution literacy; yield-chasing without drawdown gates is explicitly rejected as alpha.",
+      "formulas": [
+        "income_bucket_tag ← ETF∨high_div_label",
+        "reject: max_yield_sort as alpha",
+        "require: liquidity ∧ fee_drag awareness"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Income tagging only; max-yield sorts blocked as alpha.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-tw-high-div-etf.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "台股高股息／ETF 入門書架",
+        "en": "TW high-dividend / ETF primers shelf",
+        "zh-Hans": "台股高股息／ETF 入门书架",
+        "ja": "台湾高配当／ETF入門書架"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "台股高股息 ETF 與存股入門書架。可用於收益籃標籤與費用／配息識字；無回撤閘門的追高殖利率明確不當 alpha。",
+        "en": "TW retail shelf on high-dividend ETFs and cun-gu (dividend holding) primers. Useful for income-bucket labeling and fee/distribution literacy; yield-chasing without drawdown gates is explicitly rejected as alpha.",
+        "zh-Hans": "台股高股息 ETF 与存股入门书架。可用于收益篮标签与费用／配息识字；无回撤闸门的追高收益率明确不当 alpha。",
+        "ja": "インカム标签と費用リテラシー。高利回り追いのアルファ化は拒否。"
+      },
+      "plainTakeaways": [
+        "高股息／ETF 先當收益籃與費用識字",
+        "追最高殖利率不是選股 alpha",
+        "流動性與費用拖累要一起看"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "高股息／ETF 先當收益籃與費用識字",
+          "追最高殖利率不是選股 alpha",
+          "流動性與費用拖累要一起看"
+        ],
+        "en": [
+          "Treat high-div/ETF books as income-bucket and fee literacy",
+          "Chasing max yield is not stock-picking alpha",
+          "Always pair liquidity with fee drag"
+        ],
+        "zh-Hans": [
+          "高股息／ETF 先当收益篮与费用识字",
+          "追最高收益率不是选股 alpha",
+          "流动性与费用拖累要一起看"
+        ],
+        "ja": [
+          "高配当／ETFはインカムと費用の識字",
+          "最高利回り追いはアルファではない",
+          "流動性と費用をセットで見る"
+        ]
+      }
+    },
+    {
+      "id": "book-statementdog-tw",
+      "market": "TW",
+      "type": "book",
+      "title": "財報狗教你挖好股（書架）",
+      "authors": [
+        "財報狗團隊"
+      ],
+      "year": 2016,
+      "summary": "TW fundamentals education brand teaching statement reading and screening hygiene. Aligns with public PE/PB/ROE/debt filters already used as value-style candidates; no copyrighted worksheets copied.",
+      "formulas": [
+        "value_quality ← PE/PB/ROE/debt public filters",
+        "statement_literacy ← education only"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Overlaps existing value master packs; no new pack unless gate passes.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-statementdog.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "財報狗教你挖好股（書架）",
+        "en": "StatementDog — digging good stocks (shelf)",
+        "zh-Hans": "财报狗教你挖好股（书架）",
+        "ja": "財報狗：良い株の発掘（書架）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "台股財報識字品牌，教報表閱讀與篩選衛生。對齊站上既有本益／淨值／ROE／負債等價值候選濾網；不複製版權工作表。",
+        "en": "TW fundamentals education brand teaching statement reading and screening hygiene. Aligns with public PE/PB/ROE/debt filters already used as value-style candidates; no copyrighted worksheets copied.",
+        "zh-Hans": "台股财报识字品牌，教报表阅读与筛选卫生。对齐站上既有本益／净值／ROE／负债等价值候选滤网；不复制版权工作表。",
+        "ja": "既存の価値フィルタと整合。著作権ワークシートは複製しない。"
+      },
+      "plainTakeaways": [
+        "財報識字對齊公開價值濾網",
+        "不複製書中工作表或薦股名單",
+        "與既有價值候選重疊，暫不新開包"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "財報識字對齊公開價值濾網",
+          "不複製書中工作表或薦股名單",
+          "與既有價值候選重疊，暫不新開包"
+        ],
+        "en": [
+          "Statement literacy aligns with public value filters",
+          "Do not copy worksheets or tip lists from the book",
+          "Overlaps existing value candidates — no new pack yet"
+        ],
+        "zh-Hans": [
+          "财报识字对齐公开价值滤网",
+          "不复制书中工作表或荐股名单",
+          "与既有价值候选重叠，暂不新开包"
+        ],
+        "ja": [
+          "財務リテラシーは公開価値フィルタと整合",
+          "ワークシートや推奨リストをコピーしない",
+          "既存候補と重複のため新パックなし"
+        ]
+      }
+    },
+    {
+      "id": "book-money-smart-thin-guides",
+      "market": "TW",
+      "type": "book",
+      "title": "Money 錢／Smart 智富 薄本入門指南（書架叢集）",
+      "authors": [
+        "Money 錢",
+        "Smart 智富"
+      ],
+      "year": 2019,
+      "summary": "Magazine-style thin guides common on TW investment shelves—quick primers on charts, ETFs, and retail SOPs. Catalogued as education cluster; individual issue tips are not ingested as strategy rules.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Education cluster only; no issue-level tip ingestion.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-money-smart-guides.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "Money 錢／Smart 智富 薄本入門指南（書架叢集）",
+        "en": "Money / Smart thin primer guides (shelf cluster)",
+        "zh-Hans": "Money 钱／Smart 智富 薄本入门指南（书架丛集）",
+        "ja": "Money／Smart 薄冊入門（書架）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "台股投資理財架常見雜誌風薄本——圖表、ETF、散戶 SOP 速成。作教育叢集建檔；單期明牌不進策略規則。",
+        "en": "Magazine-style thin guides common on TW investment shelves—quick primers on charts, ETFs, and retail SOPs. Catalogued as education cluster; individual issue tips are not ingested as strategy rules.",
+        "zh-Hans": "台股投资理财架常见杂志风薄本——图表、ETF、散户 SOP 速成。作教育丛集建档；单期明牌不进策略规则。",
+        "ja": "教育クラスター。号ごとの推奨は戦略に入れない。"
+      },
+      "plainTakeaways": [
+        "薄本當速成識字，不當策略來源",
+        "單期明牌不進規則引擎",
+        "與技術／高股息書架分開標記"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "薄本當速成識字，不當策略來源",
+          "單期明牌不進規則引擎",
+          "與技術／高股息書架分開標記"
+        ],
+        "en": [
+          "Thin guides are crash literacy — not strategy sources",
+          "Issue-level tips stay out of the rules engine",
+          "Tag separately from TA / high-div shelves"
+        ],
+        "zh-Hans": [
+          "薄本当速成识字，不当策略来源",
+          "单期明牌不进规则引擎",
+          "与技术／高股息书架分开标记"
+        ],
+        "ja": [
+          "薄冊は速習リテラシー",
+          "号の推奨はルール引擎に入れない",
+          "テクニカル／高配当書架と分けてタグ"
+        ]
+      }
+    },
+    {
+      "id": "book-hagstrom-buffett-way",
+      "market": "US",
+      "type": "book",
+      "title": "巴菲特之道（The Warren Buffett Way）",
+      "authors": [
+        "Robert G. Hagstrom"
+      ],
+      "year": 1994,
+      "summary": "Original concept summary of Hagstrom’s synthesis of Buffett-style business quality, owner earnings focus, and circle of competence—public proxies only (ROE, leverage, consistency). Biography anecdotes are not coded as timing signals.",
+      "formulas": [
+        "buffett_quality_proxy ← high_ROE ∧ moderate_leverage ∧ earnings_consistency",
+        "circle_of_competence ← coverage_universe filter"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Quality proxies overlap value/growth packs; anecdotes excluded.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/1118503252-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "巴菲特之道（The Warren Buffett Way）",
+        "en": "The Warren Buffett Way (Hagstrom)",
+        "zh-Hans": "巴菲特之道（The Warren Buffett Way）",
+        "ja": "バフェットの投資法"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "原創概念摘要：Hagstrom 對巴菲特式事業品質、業主盈餘與能力圈的整理——只用公開代理（ROE、槓桿、盈餘穩定）。傳記軼事不作擇時訊號。",
+        "en": "Original concept summary of Hagstrom’s synthesis of Buffett-style business quality, owner earnings focus, and circle of competence—public proxies only (ROE, leverage, consistency). Biography anecdotes are not coded as timing signals.",
+        "zh-Hans": "原创概念摘要：Hagstrom 对巴菲特式事业品质、业主盈余与能力圈的整理——只用公开代理（ROE、杠杆、盈余稳定）。传记轶事不作择时信号。",
+        "ja": "公開プロキシのみ。伝記逸話はタイミングに使わない。"
+      },
+      "plainTakeaways": [
+        "事業品質與能力圈優先於聽故事",
+        "ROE／槓桿／盈餘穩定作公開代理",
+        "傳記軼事不作進出場訊號"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "事業品質與能力圈優先於聽故事",
+          "ROE／槓桿／盈餘穩定作公開代理",
+          "傳記軼事不作進出場訊號"
+        ],
+        "en": [
+          "Business quality and circle of competence beat story listening",
+          "Use ROE / leverage / earnings consistency as public proxies",
+          "Biography anecdotes are not entry/exit signals"
+        ],
+        "zh-Hans": [
+          "事业品质与能力圈优先于听故事",
+          "ROE／杠杆／盈余稳定作公开代理",
+          "传记轶事不作进出场信号"
+        ],
+        "ja": [
+          "事業品質と能力の輪が物語より先",
+          "ROE／レバ／利益安定を公開代理に",
+          "伝記逸話は売買シグナルにしない"
+        ]
+      },
+      "isbn": "1118503252"
+    },
+    {
+      "id": "book-snowball-buffett",
+      "market": "US",
+      "type": "book",
+      "title": "滾雪球：巴菲特和他的財富人生（上／下）",
+      "authors": [
+        "Alice Schroeder"
+      ],
+      "year": 2008,
+      "summary": "Authorized Buffett biography (The Snowball). Catalogued for historical context and temperament notes only—compounding and reputation risk as discipline metaphors. No trade rules extracted from biographical narrative.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Biography context only — no trade rules from narrative.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0553805096-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "滾雪球：巴菲特和他的財富人生（上／下）",
+        "en": "The Snowball: Warren Buffett (Alice Schroeder)",
+        "zh-Hans": "滚雪球：巴菲特和他的财富人生（上／下）",
+        "ja": "スノーボール：バフェット伝"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "巴菲特授權傳記《滾雪球》。只作歷史脈絡與性情筆記——複利與聲譽風險當紀律隱喻。不從敘事抽交易規則。",
+        "en": "Authorized Buffett biography (The Snowball). Catalogued for historical context and temperament notes only—compounding and reputation risk as discipline metaphors. No trade rules extracted from biographical narrative.",
+        "zh-Hans": "巴菲特授权传记《滚雪球》。只作历史脉络与性情笔记——复利与声誉风险当纪律隐喻。不从叙事抽交易规则。",
+        "ja": "伝記の文脈と気質メモのみ。物語から売買規則を抽出しない。"
+      },
+      "plainTakeaways": [
+        "傳記提供性情與複利隱喻，不是下單清單",
+        "聲譽與長期複利是紀律提醒",
+        "不從故事抽進出場規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "傳記提供性情與複利隱喻，不是下單清單",
+          "聲譽與長期複利是紀律提醒",
+          "不從故事抽進出場規則"
+        ],
+        "en": [
+          "Biography gives temperament and compounding metaphors — not an order list",
+          "Reputation and long compounding are discipline reminders",
+          "Do not extract entry/exit rules from stories"
+        ],
+        "zh-Hans": [
+          "传记提供性情与复利隐喻，不是下单清单",
+          "声誉与长期复利是纪律提醒",
+          "不从故事抽进出场规则"
+        ],
+        "ja": [
+          "伝記は気質と複利の比喩",
+          "評判と長期複利は規律のリマインダー",
+          "物語から売買規則を抽出しない"
+        ]
+      },
+      "isbn": "0553805096"
+    },
+    {
+      "id": "book-make-money-with-money",
+      "market": "BOTH",
+      "type": "book",
+      "title": "用錢賺錢：通向財富自由之路",
+      "authors": [
+        "大眾理財入門（書架）"
+      ],
+      "year": 2018,
+      "summary": "Popular FI-path primer on putting capital to work. Kept as cash-runway / allocation literacy only—same discipline lane as other FI shelf items; not a stock screen.",
+      "formulas": [
+        "D2: dry_powder_tag_by_regime"
+      ],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "FI literacy / cash runway only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-make-money-with-money.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "用錢賺錢：通向財富自由之路",
+        "en": "Make money with money — path to FI (popular primer)",
+        "zh-Hans": "用钱赚钱：通向财富自由之路",
+        "ja": "お金でお金を稼ぐ：FIへの道"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "大眾『用錢賺錢』財務自由入門。只作現金跑道／配置識字——與其他 FI 書架同紀律巷；不當選股。",
+        "en": "Popular FI-path primer on putting capital to work. Kept as cash-runway / allocation literacy only—same discipline lane as other FI shelf items; not a stock screen.",
+        "zh-Hans": "大众『用钱赚钱』财务自由入门。只作现金跑道／配置识字——与其他 FI 书架同纪律巷；不当选股。",
+        "ja": "現金ランウェイ／配分リテラシーのみ。"
+      },
+      "plainTakeaways": [
+        "只借『讓錢為你工作』作配置識字",
+        "現金緩衝與風險預算優先",
+        "不當個股 alpha"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "只借『讓錢為你工作』作配置識字",
+          "現金緩衝與風險預算優先",
+          "不當個股 alpha"
+        ],
+        "en": [
+          "Use make-money-with-money only as allocation literacy",
+          "Cash buffers and risk budgets come first",
+          "Not ticker alpha"
+        ],
+        "zh-Hans": [
+          "只借『让钱为你工作』作配置识字",
+          "现金缓冲与风险预算优先",
+          "不当个股 alpha"
+        ],
+        "ja": [
+          "お金に働かせるは配分識字のみ",
+          "現金バッファとリスク予算が先",
+          "銘柄アルファにしない"
+        ]
+      }
+    },
+    {
+      "id": "book-wealth-freedom-path",
+      "market": "BOTH",
+      "type": "book",
+      "title": "財富自由：思維、方法和道路",
+      "authors": [
+        "大眾財富自由讀本（書架）"
+      ],
+      "year": 2017,
+      "summary": "Generic wealth-freedom mindset/methods primer (Simplified Chinese shelf). Catalogued under FI discipline—survivability and process over return slogans; no formulas invented for stock ranking.",
+      "formulas": [
+        "D1: survivability_over_return"
+      ],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Mindset/FI discipline only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-wealth-freedom-path.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "財富自由：思維、方法和道路",
+        "en": "Wealth freedom: mindset, methods, path (primer)",
+        "zh-Hans": "财富自由：思维、方法和道路",
+        "ja": "富の自由：思考・方法・道"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "簡體書架常見財富自由思維／方法讀本。歸 FI 紀律——存活與流程勝過口號報酬；不發明選股公式。",
+        "en": "Generic wealth-freedom mindset/methods primer (Simplified Chinese shelf). Catalogued under FI discipline—survivability and process over return slogans; no formulas invented for stock ranking.",
+        "zh-Hans": "简体书架常见财富自由思维／方法读本。归 FI 纪律——存活与流程胜过口号报酬；不发明选股公式。",
+        "ja": "FI規律。標語リターンより生存とプロセス。"
+      },
+      "plainTakeaways": [
+        "思維讀本歸紀律，不歸選股",
+        "存活與流程勝過自由口號",
+        "不發明股票排名公式"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "思維讀本歸紀律，不歸選股",
+          "存活與流程勝過自由口號",
+          "不發明股票排名公式"
+        ],
+        "en": [
+          "Mindset primers belong to discipline, not stock picking",
+          "Survivability and process beat freedom slogans",
+          "Do not invent equity ranking formulas"
+        ],
+        "zh-Hans": [
+          "思维读本归纪律，不归选股",
+          "存活与流程胜过自由口号",
+          "不发明股票排名公式"
+        ],
+        "ja": [
+          "マインド本は規律レーン",
+          "生存とプロセスがスローガンに勝る",
+          "株ランキング式を発明しない"
+        ]
+      }
+    },
+    {
+      "id": "book-eker-millionaire-mind",
+      "market": "BOTH",
+      "type": "book",
+      "title": "有錢人和你想的不一樣（Secrets of the Millionaire Mind）",
+      "authors": [
+        "T. Harv Eker"
+      ],
+      "year": 2005,
+      "summary": "Popular money-mindset book. Kept only as behavioral hygiene against lifestyle upgrades and FOMO spending—not as market timing or factor weights.",
+      "formulas": [
+        "D3: no_lifestyle_upgrade_leverage_in_euphoria"
+      ],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Behavioral hygiene only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0060763280-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "有錢人和你想的不一樣（Secrets of the Millionaire Mind）",
+        "en": "Secrets of the Millionaire Mind (T. Harv Eker)",
+        "zh-Hans": "有钱人和你想的不一样（Secrets of the Millionaire Mind）",
+        "ja": "お金持ちのマインド"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "大眾金錢心態書。只作反生活升級槓桿與反 FOMO 花費的行為衛生——不作市場擇時或因子權重。",
+        "en": "Popular money-mindset book. Kept only as behavioral hygiene against lifestyle upgrades and FOMO spending—not as market timing or factor weights.",
+        "zh-Hans": "大众金钱心态书。只作反生活升级杠杆与反 FOMO 花费的行为卫生——不作市场择时或因子权重。",
+        "ja": "行動衛生のみ。タイミングや因子にしない。"
+      },
+      "plainTakeaways": [
+        "心態書只對應反 FOMO／反槓桿升級",
+        "不作擇時或因子權重",
+        "與 FI 紀律書架同巷"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "心態書只對應反 FOMO／反槓桿升級",
+          "不作擇時或因子權重",
+          "與 FI 紀律書架同巷"
+        ],
+        "en": [
+          "Mindset book maps only to anti-FOMO / anti-leverage-upgrade hygiene",
+          "Not timing or factor weights",
+          "Same lane as FI discipline shelf"
+        ],
+        "zh-Hans": [
+          "心态书只对应反 FOMO／反杠杆升级",
+          "不作择时或因子权重",
+          "与 FI 纪律书架同巷"
+        ],
+        "ja": [
+          "反FOMO／反レバ升級の衛生のみ",
+          "タイミングや因子にしない",
+          "FI規律書架と同じレーン"
+        ]
+      },
+      "isbn": "0060763280"
+    },
+    {
+      "id": "book-think-and-grow-rich",
+      "market": "BOTH",
+      "type": "book",
+      "title": "思考致富（Think and Grow Rich）",
+      "authors": [
+        "Napoleon Hill"
+      ],
+      "year": 1937,
+      "summary": "Classic success-philosophy text. Catalogued as historical mindset literature; explicitly not used for equity screens, affirmations-as-alpha, or unverifiable secret rules.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Historical mindset literature — no equity screen.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0449214923-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "思考致富（Think and Grow Rich）",
+        "en": "Think and Grow Rich (Napoleon Hill)",
+        "zh-Hans": "思考致富（Think and Grow Rich）",
+        "ja": "思考は現実化する"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "經典成功哲學讀本。作歷史心態文獻建檔；明確不用於選股、肯定句當 alpha、或不可驗證的秘密規則。",
+        "en": "Classic success-philosophy text. Catalogued as historical mindset literature; explicitly not used for equity screens, affirmations-as-alpha, or unverifiable secret rules.",
+        "zh-Hans": "经典成功哲学读本。作历史心态文献建档；明确不用于选股、肯定句当 alpha、或不可验证的秘密规则。",
+        "ja": "歴史的マインド文献。株式画面や秘密ルールに使わない。"
+      },
+      "plainTakeaways": [
+        "成功哲學≠選股公式",
+        "肯定句不當市場 alpha",
+        "只作歷史文獻標記"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "成功哲學≠選股公式",
+          "肯定句不當市場 alpha",
+          "只作歷史文獻標記"
+        ],
+        "en": [
+          "Success philosophy ≠ stock formulas",
+          "Affirmations are not market alpha",
+          "Historical literature tag only"
+        ],
+        "zh-Hans": [
+          "成功哲学≠选股公式",
+          "肯定句不当市场 alpha",
+          "只作历史文献标记"
+        ],
+        "ja": [
+          "成功哲学≠銘柄式",
+          "アファメーションは市場アルファではない",
+          "歴史文献タグのみ"
+        ]
+      },
+      "isbn": "0449214923"
+    },
+    {
+      "id": "book-harvard-finlit-popularizations",
+      "market": "BOTH",
+      "type": "book",
+      "title": "哈佛投資課／哈佛財商課（品牌通俗讀本叢集）",
+      "authors": [
+        "品牌通俗商學院讀本（書架）"
+      ],
+      "year": 2016,
+      "summary": "Branded Harvard Investment / Financial IQ class popularizations common on Simplified Chinese shelves. Treat as mass-market literacy booklets—not official Harvard curricula. No strategy rules; summarize cautiously as pop finance.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Popularization cluster — not official curriculum; no strategy rules.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-harvard-finlit.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "哈佛投資課／哈佛財商課（品牌通俗讀本叢集）",
+        "en": "Harvard invest / money-IQ popularizations (cluster)",
+        "zh-Hans": "哈佛投资课／哈佛财商课（品牌通俗读本丛集）",
+        "ja": "ハーバード投資／金商リテラシー通俗本"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "簡體架常見哈佛投資課／財商課品牌通俗本。當大眾識字小冊——非官方哈佛課綱。不抽策略規則；謹慎標為流行理財。",
+        "en": "Branded Harvard Investment / Financial IQ class popularizations common on Simplified Chinese shelves. Treat as mass-market literacy booklets—not official Harvard curricula. No strategy rules; summarize cautiously as pop finance.",
+        "zh-Hans": "简体架常见哈佛投资课／财商课品牌通俗本。当大众识字小册——非官方哈佛课纲。不抽策略规则；谨慎标为流行理财。",
+        "ja": "公式カリキュラムではない通俗本。戦略規則なし。"
+      },
+      "plainTakeaways": [
+        "品牌課名≠官方課綱",
+        "只當大眾財商識字",
+        "不抽可交易規則"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "品牌課名≠官方課綱",
+          "只當大眾財商識字",
+          "不抽可交易規則"
+        ],
+        "en": [
+          "Branded class names ≠ official curricula",
+          "Mass-market money literacy only",
+          "No tradable rules extracted"
+        ],
+        "zh-Hans": [
+          "品牌课名≠官方课纲",
+          "只当大众财商识字",
+          "不抽可交易规则"
+        ],
+        "ja": [
+          "ブランド講義名≠公式カリキュラム",
+          "大衆マネーリテラシーのみ",
+          "取引可能ルールを抽出しない"
+        ]
+      }
+    },
+    {
+      "id": "book-econ-common-sense",
+      "market": "BOTH",
+      "type": "book",
+      "title": "經濟常識一本全",
+      "authors": [
+        "經濟常識入門（書架）"
+      ],
+      "year": 2015,
+      "summary": "One-volume economic common-sense primer. Useful as vocabulary hygiene (inflation, rates, GDP labels) supporting regime literacy already on site; not a forecasting model.",
+      "formulas": [
+        "vocab_hygiene ← inflation/rates/GDP labels"
+      ],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Vocabulary hygiene only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-econ-common-sense.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "經濟常識一本全",
+        "en": "Economic common sense — complete primer",
+        "zh-Hans": "经济常识一本全",
+        "ja": "経済常識いっさい本"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "一本搞定式經濟常識入門。作通膨／利率／GDP 等詞彙衛生，支援站上政權識字；非預測模型。",
+        "en": "One-volume economic common-sense primer. Useful as vocabulary hygiene (inflation, rates, GDP labels) supporting regime literacy already on site; not a forecasting model.",
+        "zh-Hans": "一本搞定式经济常识入门。作通胀／利率／GDP 等词汇卫生，支援站上政权识字；非预测模型。",
+        "ja": "語彙衛生。予測モデルではない。"
+      },
+      "plainTakeaways": [
+        "經濟詞彙識字支援政權理解",
+        "不是預測模型或選股器",
+        "與利率入門書架互補"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "經濟詞彙識字支援政權理解",
+          "不是預測模型或選股器",
+          "與利率入門書架互補"
+        ],
+        "en": [
+          "Econ vocabulary supports regime literacy",
+          "Not a forecasting model or stock picker",
+          "Complements the rates-literacy shelf"
+        ],
+        "zh-Hans": [
+          "经济词汇识字支援政权理解",
+          "不是预测模型或选股器",
+          "与利率入门书架互补"
+        ],
+        "ja": [
+          "経済語彙はレジーム理解の助け",
+          "予測モデルや銘柄ピッカーではない",
+          "金利リテラシー書架を補完"
+        ]
+      }
+    },
+    {
+      "id": "book-huang-qituan-others-earn",
+      "market": "TW",
+      "type": "book",
+      "title": "別人怎麼賺錢，是你不會的（黃啟團）",
+      "authors": [
+        "黃啟團"
+      ],
+      "year": 2018,
+      "summary": "TW popular title on alternative income paths and money habits. Catalogued as retail finance psychology / opportunity-cost literacy; not converted into ticker screens.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Retail finance psychology — no ticker screen.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-huang-qituan.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "別人怎麼賺錢，是你不會的（黃啟團）",
+        "en": "How others make money (Huang Qi-tuan)",
+        "zh-Hans": "别人怎么赚钱，是你不会的（黄启团）",
+        "ja": "他人の稼ぎ方（黄啟團）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "台版大眾理財：另類收入與金錢習慣。作散戶財經心理／機會成本識字；不轉成個股選股。",
+        "en": "TW popular title on alternative income paths and money habits. Catalogued as retail finance psychology / opportunity-cost literacy; not converted into ticker screens.",
+        "zh-Hans": "台版大众理财：另类收入与金钱习惯。作散户财经心理／机会成本识字；不转成个股选股。",
+        "ja": "個人投資家の心理／機会費用識字。銘柄画面にしない。"
+      },
+      "plainTakeaways": [
+        "收入路徑多元是識字，不是荐股",
+        "機會成本意識歸行為紀律",
+        "不轉成技術或基本面選股包"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "收入路徑多元是識字，不是荐股",
+          "機會成本意識歸行為紀律",
+          "不轉成技術或基本面選股包"
+        ],
+        "en": [
+          "Diverse income paths are literacy — not stock tips",
+          "Opportunity-cost awareness belongs to behavior discipline",
+          "Do not convert into TA or fundamental screen packs"
+        ],
+        "zh-Hans": [
+          "收入路径多元是识字，不是荐股",
+          "机会成本意识归行为纪律",
+          "不转成技术或基本面选股包"
+        ],
+        "ja": [
+          "収入経路の多様さは識字",
+          "機会費用は行動規律",
+          "テクニカル／ファンダ画面に変換しない"
+        ]
+      }
+    },
+    {
+      "id": "book-myers-social-psychology",
+      "market": "BOTH",
+      "type": "book",
+      "title": "社會心理學（Social Psychology, Myers）",
+      "authors": [
+        "David G. Myers"
+      ],
+      "year": 1983,
+      "summary": "Academic social-psychology textbook (Chinese edition on shelf). Candidate source for paper-trade risk discipline: conformity, groupthink, and attribution biases as journaling prompts—not alpha factors.",
+      "formulas": [
+        "bias_journal ← conformity|groupthink|attribution prompts",
+        "NOT: social_bias_score as alpha"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Paper-trade discipline prompts only; no alpha factor from textbook constructs.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0073531898-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "社會心理學（Social Psychology, Myers）",
+        "en": "Social Psychology (David Myers)",
+        "zh-Hans": "社会心理学（Social Psychology, Myers）",
+        "ja": "社会心理学（マイヤーズ）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "學術社會心理學教科書（架上中譯）。紙上交易風險紀律候選：從眾、群體思維、歸因偏誤作日誌提示——非 alpha 因子。",
+        "en": "Academic social-psychology textbook (Chinese edition on shelf). Candidate source for paper-trade risk discipline: conformity, groupthink, and attribution biases as journaling prompts—not alpha factors.",
+        "zh-Hans": "学术社会心理学教科书（架上中译）。纸上交易风险纪律候选：从众、群体思维、归因偏误作日志提示——非 alpha 因子。",
+        "ja": "ペーパートレード規律のジャーナル用。アルファ因子にしない。"
+      },
+      "plainTakeaways": [
+        "從眾／群體思維作交易日誌提醒",
+        "歸因偏誤用來檢討，不當選股分數",
+        "只服務紙上交易紀律候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "從眾／群體思維作交易日誌提醒",
+          "歸因偏誤用來檢討，不當選股分數",
+          "只服務紙上交易紀律候選"
+        ],
+        "en": [
+          "Use conformity/groupthink as trade-journal prompts",
+          "Attribution bias for review — not stock scores",
+          "Serves paper-trade discipline candidates only"
+        ],
+        "zh-Hans": [
+          "从众／群体思维作交易日志提醒",
+          "归因偏误用来检讨，不当选股分数",
+          "只服务纸上交易纪律候选"
+        ],
+        "ja": [
+          "同調／集団思考を取引日誌に",
+          "帰属バイアスは見直し用で銘柄点にしない",
+          "ペーパートレード規律候補のみ"
+        ]
+      },
+      "isbn": "0073531898"
+    },
+    {
+      "id": "book-aq-adversity-quotient",
+      "market": "BOTH",
+      "type": "book",
+      "title": "逆商（Adversity Quotient）",
+      "authors": [
+        "Paul G. Stoltz"
+      ],
+      "year": 1997,
+      "summary": "AQ / adversity-quotient popular psychology. Maps to drawdown survivability and process persistence for paper trading—explicitly not a buy-the-dip alpha signal.",
+      "formulas": [
+        "D1 echo: dd_survivability mindset",
+        "NOT: buy_dip_because_AQ"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Discipline candidate for paper-trade persistence; not buy-the-dip alpha.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0471178926-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "逆商（Adversity Quotient）",
+        "en": "Adversity Quotient (Paul Stoltz)",
+        "zh-Hans": "逆商（Adversity Quotient）",
+        "ja": "逆境指数（AQ）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "逆商／逆境商數大眾心理。對應紙上交易的回撤存活與流程堅持——明確不是因為逆商所以抄底的 alpha。",
+        "en": "AQ / adversity-quotient popular psychology. Maps to drawdown survivability and process persistence for paper trading—explicitly not a buy-the-dip alpha signal.",
+        "zh-Hans": "逆商／逆境商数大众心理。对应纸上交易的回撤存活与流程坚持——明确不是因为逆商所以抄底的 alpha。",
+        "ja": "ドローダウン生存とプロセス継続。押し目買いアルファではない。"
+      },
+      "plainTakeaways": [
+        "逆境商數對應回撤存活心態",
+        "堅持流程，不是堅持加碼",
+        "不作抄底 alpha"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "逆境商數對應回撤存活心態",
+          "堅持流程，不是堅持加碼",
+          "不作抄底 alpha"
+        ],
+        "en": [
+          "AQ maps to drawdown survivability mindset",
+          "Persist in process — not in averaging down",
+          "Not buy-the-dip alpha"
+        ],
+        "zh-Hans": [
+          "逆境商数对应回撤存活心态",
+          "坚持流程，不是坚持加码",
+          "不作抄底 alpha"
+        ],
+        "ja": [
+          "AQはドローダウン生存マインド",
+          "プロセス堅持でありナンピン堅持ではない",
+          "押し目買いアルファにしない"
+        ]
+      },
+      "isbn": "0471178926"
+    },
+    {
+      "id": "book-self-discipline-power",
+      "market": "BOTH",
+      "type": "book",
+      "title": "自律力",
+      "authors": [
+        "小野（書架版）"
+      ],
+      "year": 2019,
+      "summary": "Self-discipline popular title. Paper-trade candidate for habit tracking (scan log, size caps)—no market-direction claims.",
+      "formulas": [
+        "D4: process_log_every_dial"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Habit / process logging for paper trade only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-self-discipline.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "自律力",
+        "en": "Self-discipline power (popular title)",
+        "zh-Hans": "自律力",
+        "ja": "自律力"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "自律主題大眾書。紙上交易候選：習慣追蹤（掃描日誌、部位上限）——不論市場方向。",
+        "en": "Self-discipline popular title. Paper-trade candidate for habit tracking (scan log, size caps)—no market-direction claims.",
+        "zh-Hans": "自律主题大众书。纸上交易候选：习惯追踪（扫描日志、部位上限）——不论市场方向。",
+        "ja": "習慣追跡のみ。相場方向の主張なし。"
+      },
+      "plainTakeaways": [
+        "自律對應日誌與部位上限習慣",
+        "不論多空方向",
+        "服務紙上交易紀律"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "自律對應日誌與部位上限習慣",
+          "不論多空方向",
+          "服務紙上交易紀律"
+        ],
+        "en": [
+          "Discipline maps to journaling and size-cap habits",
+          "No bull/bear direction claims",
+          "Serves paper-trade discipline"
+        ],
+        "zh-Hans": [
+          "自律对应日志与部位上限习惯",
+          "不论多空方向",
+          "服务纸上交易纪律"
+        ],
+        "ja": [
+          "日誌とサイズ上限の習慣",
+          "強弱方向の主張なし",
+          "ペーパートレード規律用"
+        ]
+      }
+    },
+    {
+      "id": "book-songchi-gan",
+      "market": "BOTH",
+      "type": "book",
+      "title": "松弛感",
+      "authors": [
+        "范俊娟"
+      ],
+      "year": 2021,
+      "summary": "Relaxation / anti-anxiety popular psychology. Candidate reminder against overtrading when stressed—discipline only, not a volatility-timing model.",
+      "formulas": [
+        "anti_overtrade_when_stressed ← manual flag"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Anti-overtrade hygiene when stressed; not vol timing.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-songchi-gan.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "松弛感",
+        "en": "Sense of relaxation (popular psychology)",
+        "zh-Hans": "松弛感",
+        "ja": "リラックス感"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "鬆弛／抗焦慮大眾心理。壓力大時反過度交易的提醒——只作紀律，不是波動擇時模型。",
+        "en": "Relaxation / anti-anxiety popular psychology. Candidate reminder against overtrading when stressed—discipline only, not a volatility-timing model.",
+        "zh-Hans": "松弛／抗焦虑大众心理。压力大时反过度交易的提醒——只作纪律，不是波动择时模型。",
+        "ja": "ストレス時の過取引抑制。ボラ・タイミング模型ではない。"
+      },
+      "plainTakeaways": [
+        "壓力大時先降交易頻率",
+        "鬆弛感是紀律，不是指標",
+        "不當波動率預測"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "壓力大時先降交易頻率",
+          "鬆弛感是紀律，不是指標",
+          "不當波動率預測"
+        ],
+        "en": [
+          "When stressed, cut trading frequency first",
+          "Relaxation is discipline, not an indicator",
+          "Not a volatility forecast"
+        ],
+        "zh-Hans": [
+          "压力大时先降交易频率",
+          "松弛感是纪律，不是指标",
+          "不当波动率预测"
+        ],
+        "ja": [
+          "ストレス時は取引頻度を下げる",
+          "リラックスは規律であり指標ではない",
+          "ボラ予測にしない"
+        ]
+      }
+    },
+    {
+      "id": "book-stop-procrastination",
+      "market": "BOTH",
+      "type": "book",
+      "title": "戒了吧！拖延症",
+      "authors": [
+        "辰格"
+      ],
+      "year": 2018,
+      "summary": "Anti-procrastination self-help. Maps to executing the planned scan/journal routine—not to forcing trades to get it done.",
+      "formulas": [
+        "execute_planned_routine ∧ ¬force_trade"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Routine execution hygiene; never force trades.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-stop-procrastination.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "戒了吧！拖延症",
+        "en": "Stop procrastinating! (self-help)",
+        "zh-Hans": "戒了吧！拖延症",
+        "ja": "先延ばしやめろ"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "反拖延自助。對應執行既定掃描／日誌流程——不是為了做完而硬交易。",
+        "en": "Anti-procrastination self-help. Maps to executing the planned scan/journal routine—not to forcing trades to get it done.",
+        "zh-Hans": "反拖延自助。对应执行既定扫描／日志流程——不是为了做完而硬交易。",
+        "ja": "予定ルーチン実行。無理な取引で完了しない。"
+      },
+      "plainTakeaways": [
+        "完成掃描與日誌，不等於一定要下單",
+        "反拖延服務流程，不服務硬交易",
+        "紙上交易紀律候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "完成掃描與日誌，不等於一定要下單",
+          "反拖延服務流程，不服務硬交易",
+          "紙上交易紀律候選"
+        ],
+        "en": [
+          "Finishing the scan/journal ≠ must place an order",
+          "Anti-procrastination serves process, not forced trades",
+          "Paper-trade discipline candidate"
+        ],
+        "zh-Hans": [
+          "完成扫描与日志，不等于一定要下单",
+          "反拖延服务流程，不服务硬交易",
+          "纸上交易纪律候选"
+        ],
+        "ja": [
+          "スキャン／日誌完了＝発注必須ではない",
+          "先延ばし対策はプロセス用",
+          "ペーパートレード規律候補"
+        ]
+      }
+    },
+    {
+      "id": "book-jingjin-refinement",
+      "market": "BOTH",
+      "type": "book",
+      "title": "精進：如何成為一個很厲害的人",
+      "authors": [
+        "采銅"
+      ],
+      "year": 2016,
+      "summary": "Personal-refinement / deliberate-practice popular title (采銅). Candidate for continuous improvement of scan notes and post-mortems—not market prediction.",
+      "formulas": [
+        "deliberate_practice ← post_mortem notes"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Deliberate practice on process notes only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-jingjin.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "精進：如何成為一個很厲害的人",
+        "en": "Refinement / deliberate practice (Cai Tong)",
+        "zh-Hans": "精进：如何成为一个很厉害的人",
+        "ja": "精進：すごい人になる方法"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "自我精進／刻意練習大眾書（采銅）。候選用於掃描筆記與事後檢討的持續改善——非市場預測。",
+        "en": "Personal-refinement / deliberate-practice popular title (采銅). Candidate for continuous improvement of scan notes and post-mortems—not market prediction.",
+        "zh-Hans": "自我精进／刻意练习大众书（采铜）。候选用于扫描笔记与事后检讨的持续改善——非市场预测。",
+        "ja": "ノートと事後検証の改善。相場予測ではない。"
+      },
+      "plainTakeaways": [
+        "精進用在筆記與複盤，不用在預測",
+        "刻意練習對應流程改善",
+        "紙上交易紀律候選"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "精進用在筆記與複盤，不用在預測",
+          "刻意練習對應流程改善",
+          "紙上交易紀律候選"
+        ],
+        "en": [
+          "Refine notes and post-mortems — not forecasts",
+          "Deliberate practice maps to process improvement",
+          "Paper-trade discipline candidate"
+        ],
+        "zh-Hans": [
+          "精进用在笔记与复盘，不用在预测",
+          "刻意练习对应流程改善",
+          "纸上交易纪律候选"
+        ],
+        "ja": [
+          "ノートと振り返りの精進",
+          "意図的練習はプロセス改善",
+          "ペーパートレード規律候補"
+        ]
+      }
+    },
+    {
+      "id": "book-wang-yangming-xinxue",
+      "market": "BOTH",
+      "type": "book",
+      "title": "王陽明：心學的智慧",
+      "authors": [
+        "王陽明思想讀本（書架）"
+      ],
+      "year": 2015,
+      "summary": "Wang Yangming mind-philosophy popularization. Discipline-note lane: unify knowledge and action in following the written plan—no stock formulas from classics.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Philosophy discipline notes only.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-wang-yangming.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "王陽明：心學的智慧",
+        "en": "Wang Yangming: wisdom of xinxue (popular)",
+        "zh-Hans": "王阳明：心学的智慧",
+        "ja": "王陽明：心学の知恵"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "王陽明心學通俗讀本。紀律筆記巷：知行合一於執行書面計畫——不從經典發明選股公式。",
+        "en": "Wang Yangming mind-philosophy popularization. Discipline-note lane: unify knowledge and action in following the written plan—no stock formulas from classics.",
+        "zh-Hans": "王阳明心学通俗读本。纪律笔记巷：知行合一于执行书面计划——不从经典发明选股公式。",
+        "ja": "知行合一は計画実行の規律。古典から銘柄式を作らない。"
+      },
+      "plainTakeaways": [
+        "知行合一＝執行既定計畫",
+        "哲學不作選股公式",
+        "紀律筆記而已"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "知行合一＝執行既定計畫",
+          "哲學不作選股公式",
+          "紀律筆記而已"
+        ],
+        "en": [
+          "Unity of knowledge and action = execute the written plan",
+          "Philosophy is not a stock formula",
+          "Discipline notes only"
+        ],
+        "zh-Hans": [
+          "知行合一＝执行既定计划",
+          "哲学不作选股公式",
+          "纪律笔记而已"
+        ],
+        "ja": [
+          "知行合一＝書かれた計画の実行",
+          "哲学は銘柄式ではない",
+          "規律メモのみ"
+        ]
+      }
+    },
+    {
+      "id": "book-sushu",
+      "market": "BOTH",
+      "type": "book",
+      "title": "素書",
+      "authors": [
+        "黃石公（傳世）"
+      ],
+      "year": 200,
+      "summary": "Classical Chinese strategy/ethics text (Su Shu). Catalogued as philosophy/strategy discipline literature—no inventing equity signals from aphorisms.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Classical philosophy — no equity signals from aphorisms.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-sushu.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "素書",
+        "en": "Su Shu (classical strategy text)",
+        "zh-Hans": "素书",
+        "ja": "素書"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "傳世策略／修身古典。作哲學／策略紀律文獻——不從格言發明股價訊號。",
+        "en": "Classical Chinese strategy/ethics text (Su Shu). Catalogued as philosophy/strategy discipline literature—no inventing equity signals from aphorisms.",
+        "zh-Hans": "传世策略／修身古典。作哲学／策略纪律文献——不从格言发明股价信号。",
+        "ja": "古典。格言から株価シグナルを作らない。"
+      },
+      "plainTakeaways": [
+        "古典修身≠量化訊號",
+        "只作紀律文獻標記",
+        "不從格言寫選股式"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "古典修身≠量化訊號",
+          "只作紀律文獻標記",
+          "不從格言寫選股式"
+        ],
+        "en": [
+          "Classical ethics ≠ quant signals",
+          "Discipline literature tag only",
+          "Do not write screens from aphorisms"
+        ],
+        "zh-Hans": [
+          "古典修身≠量化信号",
+          "只作纪律文献标记",
+          "不从格言写选股式"
+        ],
+        "ja": [
+          "古典修養≠クオンツ信号",
+          "規律文献タグのみ",
+          "格言から画面を書かない"
+        ]
+      }
+    },
+    {
+      "id": "book-guiguzi",
+      "market": "BOTH",
+      "type": "book",
+      "title": "鬼谷子",
+      "authors": [
+        "鬼谷子（傳世）"
+      ],
+      "year": 400,
+      "summary": "Classical persuasion/statecraft text. Discipline-only catalog: skepticism toward rhetorical persuasion in tips and narratives—no coded vertical/horizontal market tactics.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Rhetoric skepticism only — no coded stratagems as market tactics.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-guiguzi.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "鬼谷子",
+        "en": "Guiguzi (classical persuasion text)",
+        "zh-Hans": "鬼谷子",
+        "ja": "鬼谷子"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "古典縱橫／遊說文獻。只作紀律建檔：對明牌敘事的修辭保持懷疑——不把縱橫編成市場戰術。",
+        "en": "Classical persuasion/statecraft text. Discipline-only catalog: skepticism toward rhetorical persuasion in tips and narratives—no coded vertical/horizontal market tactics.",
+        "zh-Hans": "古典纵横／游说文献。只作纪律建档：对明牌叙事的修辞保持怀疑——不把纵横编成市场战术。",
+        "ja": "レトリック懐疑のみ。縦横を市場戦術に符号化しない。"
+      },
+      "plainTakeaways": [
+        "對遊說式荐股修辭保持懷疑",
+        "古典權謀不作交易編碼",
+        "紀律文獻而已"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "對遊說式荐股修辭保持懷疑",
+          "古典權謀不作交易編碼",
+          "紀律文獻而已"
+        ],
+        "en": [
+          "Stay skeptical of persuasive tip rhetoric",
+          "Do not code classical stratagems as trades",
+          "Discipline literature only"
+        ],
+        "zh-Hans": [
+          "对游说式荐股修辞保持怀疑",
+          "古典权谋不作交易编码",
+          "纪律文献而已"
+        ],
+        "ja": [
+          "説得口調の推奨に懐疑的であれ",
+          "古典権謀を取引に符号化しない",
+          "規律文献のみ"
+        ]
+      }
+    },
+    {
+      "id": "book-inamori-shelf",
+      "market": "BOTH",
+      "type": "book",
+      "title": "稻盛和夫書架（心／活法／給年輕人的忠告／哲學）",
+      "authors": [
+        "稻盛和夫"
+      ],
+      "year": 2004,
+      "summary": "Inamori Kazuo philosophy cluster (Heart, Living Way, Advice to Youth, Philosophy). Business ethics and perseverance as personal discipline—not equity factors or timing rules.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Business ethics discipline — not equity factors.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-inamori-shelf.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "稻盛和夫書架（心／活法／給年輕人的忠告／哲學）",
+        "en": "Inamori Kazuo shelf (Heart / Living / Advice / Philosophy)",
+        "zh-Hans": "稻盛和夫书架（心／活法／给年轻人的忠告／哲学）",
+        "ja": "稲盛和夫書架（心／生き方／忠告／哲学）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "稻盛和夫哲學叢集（《心》《活法》《給年輕人的忠告》《哲學》）。企業倫理與堅持作個人紀律——非股票因子或擇時。",
+        "en": "Inamori Kazuo philosophy cluster (Heart, Living Way, Advice to Youth, Philosophy). Business ethics and perseverance as personal discipline—not equity factors or timing rules.",
+        "zh-Hans": "稻盛和夫哲学丛集（《心》《活法》《给年轻人的忠告》《哲学》）。企业伦理与坚持作个人纪律——非股票因子或择时。",
+        "ja": "企業倫理と忍耐の個人規律。株式因子やタイミングではない。"
+      },
+      "plainTakeaways": [
+        "經營哲學歸個人紀律",
+        "不作股票因子",
+        "叢集建檔即可"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "經營哲學歸個人紀律",
+          "不作股票因子",
+          "叢集建檔即可"
+        ],
+        "en": [
+          "Management philosophy stays personal discipline",
+          "Not equity factors",
+          "Cluster catalog is enough"
+        ],
+        "zh-Hans": [
+          "经营哲学归个人纪律",
+          "不作股票因子",
+          "丛集建档即可"
+        ],
+        "ja": [
+          "経営哲学は個人規律",
+          "株式因子にしない",
+          "クラスター目録で十分"
+        ]
+      }
+    },
+    {
+      "id": "book-grant-give-and-take",
+      "market": "BOTH",
+      "type": "book",
+      "title": "沃頓助人課／Give and Take",
+      "authors": [
+        "Adam Grant"
+      ],
+      "year": 2013,
+      "summary": "Adam Grant’s Give and Take (Wharton-branded Chinese edition). Soft-skills catalog on reciprocity styles; optional note that extreme taker salesmanship in products warrants fee skepticism—still strategyCandidate=no for screens.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Soft skills / reciprocity — not a market screen.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0670026555-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "沃頓助人課／Give and Take",
+        "en": "Give and Take (Adam Grant)",
+        "zh-Hans": "沃顿助人课／Give and Take",
+        "ja": "ギブ・アンド・テイク"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "Adam Grant《Give and Take》（沃頓品牌中譯）。互惠風格軟技能建檔；可選提醒對索取型產品推銷保持費用懷疑——仍不作選股。",
+        "en": "Adam Grant’s Give and Take (Wharton-branded Chinese edition). Soft-skills catalog on reciprocity styles; optional note that extreme taker salesmanship in products warrants fee skepticism—still strategyCandidate=no for screens.",
+        "zh-Hans": "Adam Grant《Give and Take》（沃顿品牌中译）。互惠风格软技能建档；可选提醒对索取型产品推销保持费用怀疑——仍不作选股。",
+        "ja": "ソフトスキル。画面にはしない。"
+      },
+      "plainTakeaways": [
+        "互惠風格是職場識字，不是選股",
+        "對索取型銷售保持費用懷疑",
+        "strategyCandidate=no"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "互惠風格是職場識字，不是選股",
+          "對索取型銷售保持費用懷疑",
+          "strategyCandidate=no"
+        ],
+        "en": [
+          "Reciprocity styles are workplace literacy — not stock picking",
+          "Fee skepticism toward taker-style salesmanship",
+          "strategyCandidate=no"
+        ],
+        "zh-Hans": [
+          "互惠风格是职场识字，不是选股",
+          "对索取型销售保持费用怀疑",
+          "strategyCandidate=no"
+        ],
+        "ja": [
+          "互恵スタイルは職場識字",
+          "テイカー型売り込みには費用懐疑",
+          "strategyCandidate=no"
+        ]
+      },
+      "isbn": "0670026555"
+    },
+    {
+      "id": "book-moon-different",
+      "market": "BOTH",
+      "type": "book",
+      "title": "哈佛行銷課／Different",
+      "authors": [
+        "Youngme Moon"
+      ],
+      "year": 2010,
+      "summary": "Youngme Moon’s Different (Harvard-branded marketing popularization). Catalog on escaping competitive herd in product space—interesting metaphor for crowded trades, but not coded as RS demotion without a separate gate.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Marketing metaphor only; crowded-trade demotion already covered elsewhere.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0307460851-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "哈佛行銷課／Different",
+        "en": "Different (Youngme Moon)",
+        "zh-Hans": "哈佛营销课／Different",
+        "ja": "Different（ヤングミ・ムーン）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "Youngme Moon《Different》（哈佛品牌行銷通俗）。產品空間逃離競爭羊群的識字——對擁擠交易有隱喻，但未另編碼為 RS 降權。",
+        "en": "Youngme Moon’s Different (Harvard-branded marketing popularization). Catalog on escaping competitive herd in product space—interesting metaphor for crowded trades, but not coded as RS demotion without a separate gate.",
+        "zh-Hans": "Youngme Moon《Different》（哈佛品牌营销通俗）。产品空间逃离竞争羊群的识字——对拥挤交易有隐喻，但未另编码为 RS 降权。",
+        "ja": "マーケ隠喩。別ゲートなしにRS降格へ符号化しない。"
+      },
+      "plainTakeaways": [
+        "差異化是行銷識字",
+        "擁擠隱喻不自動變成選股規則",
+        "暫 deferred"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "差異化是行銷識字",
+          "擁擠隱喻不自動變成選股規則",
+          "暫 deferred"
+        ],
+        "en": [
+          "Differentiation is marketing literacy",
+          "Crowding metaphors do not auto-become screen rules",
+          "Deferred for now"
+        ],
+        "zh-Hans": [
+          "差异化是营销识字",
+          "拥挤隐喻不自动变成选股规则",
+          "暂 deferred"
+        ],
+        "ja": [
+          "差別化はマーケ識字",
+          "混雑の比喩は自動で画面規則にならない",
+          "当面 deferred"
+        ]
+      },
+      "isbn": "0307460851"
+    },
+    {
+      "id": "book-diamond-getting-more",
+      "market": "BOTH",
+      "type": "book",
+      "title": "談判課／Getting More",
+      "authors": [
+        "Stuart Diamond"
+      ],
+      "year": 2010,
+      "summary": "Stuart Diamond negotiation course popularization. Soft-skills catalog for deal framing—irrelevant to daily OHLCV screens; strategyCandidate=no.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Negotiation soft skill — not OHLCV.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0307716902-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "談判課／Getting More",
+        "en": "Getting More (Stuart Diamond)",
+        "zh-Hans": "谈判课／Getting More",
+        "ja": "Getting More（交渉）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "Stuart Diamond 談判課通俗本。成交框架軟技能——與每日 OHLCV 選股無關；strategyCandidate=no。",
+        "en": "Stuart Diamond negotiation course popularization. Soft-skills catalog for deal framing—irrelevant to daily OHLCV screens; strategyCandidate=no.",
+        "zh-Hans": "Stuart Diamond 谈判课通俗本。成交框架软技能——与每日 OHLCV 选股无关；strategyCandidate=no。",
+        "ja": "交渉ソフトスキル。OHLCV画面とは無関係。"
+      },
+      "plainTakeaways": [
+        "談判技巧≠行情選股",
+        "只作軟技能建檔",
+        "strategyCandidate=no"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "談判技巧≠行情選股",
+          "只作軟技能建檔",
+          "strategyCandidate=no"
+        ],
+        "en": [
+          "Negotiation skill ≠ market screening",
+          "Soft-skills catalog only",
+          "strategyCandidate=no"
+        ],
+        "zh-Hans": [
+          "谈判技巧≠行情选股",
+          "只作软技能建档",
+          "strategyCandidate=no"
+        ],
+        "ja": [
+          "交渉スキル≠相場スクリーニング",
+          "ソフトスキル目録のみ",
+          "strategyCandidate=no"
+        ]
+      },
+      "isbn": "0307716902"
+    },
+    {
+      "id": "book-shell-springboard",
+      "market": "BOTH",
+      "type": "book",
+      "title": "成功課／Springboard",
+      "authors": [
+        "G. Richard Shell"
+      ],
+      "year": 2013,
+      "summary": "G. Richard Shell’s Springboard (Wharton success-course popularization). Career-meaning soft skill; deferred, strategyCandidate=no.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Career soft skill — deferred.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/1591845475-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "成功課／Springboard",
+        "en": "Springboard (G. Richard Shell)",
+        "zh-Hans": "成功课／Springboard",
+        "ja": "Springboard（成功課）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "G. Richard Shell《Springboard》（沃頓成功課通俗）。職涯意義軟技能；deferred，strategyCandidate=no。",
+        "en": "G. Richard Shell’s Springboard (Wharton success-course popularization). Career-meaning soft skill; deferred, strategyCandidate=no.",
+        "zh-Hans": "G. Richard Shell《Springboard》（沃顿成功课通俗）。职涯意义软技能；deferred，strategyCandidate=no。",
+        "ja": "キャリア意味のソフトスキル。deferred。"
+      },
+      "plainTakeaways": [
+        "成功課是職涯識字",
+        "與選股無關",
+        "deferred"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "成功課是職涯識字",
+          "與選股無關",
+          "deferred"
+        ],
+        "en": [
+          "Success course is career literacy",
+          "Not about stock picking",
+          "deferred"
+        ],
+        "zh-Hans": [
+          "成功课是职涯识字",
+          "与选股无关",
+          "deferred"
+        ],
+        "ja": [
+          "成功課はキャリア識字",
+          "銘柄選定とは無関係",
+          "deferred"
+        ]
+      },
+      "isbn": "1591845475"
+    },
+    {
+      "id": "book-walton-made-in-america",
+      "market": "US",
+      "type": "book",
+      "title": "富甲美國（Sam Walton: Made in America）",
+      "authors": [
+        "Sam Walton",
+        "John Huey"
+      ],
+      "year": 1992,
+      "summary": "Walmart founder autobiography. Business-history catalog on cost discipline and customer focus—interesting operating metaphors, not equity timing rules.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Business history — not timing rules.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0385426151-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "富甲美國（Sam Walton: Made in America）",
+        "en": "Sam Walton: Made in America",
+        "zh-Hans": "富甲美国（Sam Walton: Made in America）",
+        "ja": "メイド・イン・アメリカ"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "沃爾瑪創辦人自傳。商業史建檔：成本紀律與顧客導向——經營隱喻有趣，非股票擇時規則。",
+        "en": "Walmart founder autobiography. Business-history catalog on cost discipline and customer focus—interesting operating metaphors, not equity timing rules.",
+        "zh-Hans": "沃尔玛创办人自传。商业史建档：成本纪律与顾客导向——经营隐喻有趣，非股票择时规则。",
+        "ja": "ビジネス史。株式タイミング規則ではない。"
+      },
+      "plainTakeaways": [
+        "成本與顧客導向是經營史識字",
+        "不作擇時規則",
+        "deferred"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "成本與顧客導向是經營史識字",
+          "不作擇時規則",
+          "deferred"
+        ],
+        "en": [
+          "Cost and customer focus are business-history literacy",
+          "Not timing rules",
+          "deferred"
+        ],
+        "zh-Hans": [
+          "成本与顾客导向是经营史识字",
+          "不作择时规则",
+          "deferred"
+        ],
+        "ja": [
+          "コストと顧客志向は経営史識字",
+          "タイミング規則にしない",
+          "deferred"
+        ]
+      },
+      "isbn": "0385426151"
+    },
+    {
+      "id": "book-biz-soft-skills-shelf",
+      "market": "BOTH",
+      "type": "book",
+      "title": "職場／商戰軟技能書架（三十六計、EQ、說話／辦事藝術、哈佛管理課、領導力）",
+      "authors": [
+        "大眾職場／領導讀本叢集（書架）"
+      ],
+      "year": 2016,
+      "summary": "Cluster of workplace soft-skills and pop leadership titles (36 stratagems for business, EQ, speaking/handling-affairs arts, Harvard management popularizations, leadership laws). Catalogued deferred with strategyCandidate=no unless a clear market-psychology map appears later.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Soft-skills cluster — no market screen mapping this turn.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-biz-soft-skills.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "職場／商戰軟技能書架（三十六計、EQ、說話／辦事藝術、哈佛管理課、領導力）",
+        "en": "Workplace / biz soft-skills shelf (36 stratagems, EQ, speaking, leadership)",
+        "zh-Hans": "职场／商战软技能书架（三十六计、EQ、说话／办事艺术、哈佛管理课、领导力）",
+        "ja": "職場／商戦ソフトスキル書架"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "職場軟技能與流行領導叢集（商戰三十六計、EQ、說話／辦事藝術、哈佛管理通俗、領導力法則）。暫 deferred、strategyCandidate=no，除非日後有清楚市場心理映射。",
+        "en": "Cluster of workplace soft-skills and pop leadership titles (36 stratagems for business, EQ, speaking/handling-affairs arts, Harvard management popularizations, leadership laws). Catalogued deferred with strategyCandidate=no unless a clear market-psychology map appears later.",
+        "zh-Hans": "职场软技能与流行领导丛集（商战三十六计、EQ、说话／办事艺术、哈佛管理通俗、领导力法则）。暂 deferred、strategyCandidate=no，除非日后有清楚市场心理映射。",
+        "ja": "ソフトスキル叢集。当面 strategyCandidate=no。"
+      },
+      "plainTakeaways": [
+        "軟技能叢集先建檔",
+        "沒有清楚市場心理映射就不進策略",
+        "含三十六計／EQ／領導通俗本"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "軟技能叢集先建檔",
+          "沒有清楚市場心理映射就不進策略",
+          "含三十六計／EQ／領導通俗本"
+        ],
+        "en": [
+          "Catalog the soft-skills cluster first",
+          "No strategy without a clear market-psychology map",
+          "Includes 36 stratagems / EQ / leadership popularizations"
+        ],
+        "zh-Hans": [
+          "软技能丛集先建档",
+          "没有清楚市场心理映射就不进策略",
+          "含三十六计／EQ／领导通俗本"
+        ],
+        "ja": [
+          "まずソフトスキルを目録化",
+          "明確な市場心理写像がなければ戦略に入れない",
+          "三十六計／EQ／リーダーシップ通俗を含む"
+        ]
+      }
+    },
+    {
+      "id": "book-trump-never-give-up",
+      "market": "US",
+      "type": "book",
+      "title": "永不放棄——特朗普自述",
+      "authors": [
+        "Donald Trump"
+      ],
+      "year": 2008,
+      "summary": "Trump business-memoir popularization (Never Give Up). Catalogued as biography/soft-skills shelf item—persistence slogans are not market strategies; strategyCandidate=no.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Memoir slogans ≠ market strategy.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0470190841-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "永不放棄——特朗普自述",
+        "en": "Trump: Never Give Up",
+        "zh-Hans": "永不放弃——特朗普自述",
+        "ja": "トランプ：Never Give Up"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "特朗普商業回憶通俗（《永不放棄》）。傳記／軟技能架物件——堅持口號不是市場策略；strategyCandidate=no。",
+        "en": "Trump business-memoir popularization (Never Give Up). Catalogued as biography/soft-skills shelf item—persistence slogans are not market strategies; strategyCandidate=no.",
+        "zh-Hans": "特朗普商业回忆通俗（《永不放弃》）。传记／软技能架物件——坚持口号不是市场策略；strategyCandidate=no。",
+        "ja": "回顧録。粘りスローガンは市場戦略ではない。"
+      },
+      "plainTakeaways": [
+        "回憶錄口號≠交易策略",
+        "只作傳記建檔",
+        "strategyCandidate=no"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "回憶錄口號≠交易策略",
+          "只作傳記建檔",
+          "strategyCandidate=no"
+        ],
+        "en": [
+          "Memoir slogans ≠ trading strategies",
+          "Biography catalog only",
+          "strategyCandidate=no"
+        ],
+        "zh-Hans": [
+          "回忆录口号≠交易策略",
+          "只作传记建档",
+          "strategyCandidate=no"
+        ],
+        "ja": [
+          "回顧録のスローガン≠取引戦略",
+          "伝記目録のみ",
+          "strategyCandidate=no"
+        ]
+      },
+      "isbn": "0470190841"
+    },
+    {
+      "id": "book-isaacson-steve-jobs",
+      "market": "US",
+      "type": "book",
+      "title": "賈伯斯傳（Steve Jobs）",
+      "authors": [
+        "Walter Isaacson"
+      ],
+      "year": 2011,
+      "summary": "Isaacson biography of Steve Jobs. Technology-business history context only—product obsession metaphors are not coded as momentum or theme screens.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Tech business biography — no theme/momentum coding from narrative.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/1451648537-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "賈伯斯傳（Steve Jobs）",
+        "en": "Steve Jobs (Walter Isaacson)",
+        "zh-Hans": "乔布斯传（Steve Jobs）",
+        "ja": "スティーブ・ジョブズ"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "Walter Isaacson《賈伯斯傳》。科技商業史脈絡——產品偏執隱喻不編碼為動能或主題選股。",
+        "en": "Isaacson biography of Steve Jobs. Technology-business history context only—product obsession metaphors are not coded as momentum or theme screens.",
+        "zh-Hans": "Walter Isaacson《乔布斯传》。科技商业史脉络——产品偏执隐喻不编码为动能或主题选股。",
+        "ja": "テック経営史。物語をモメンタム／テーマ画面にしない。"
+      },
+      "plainTakeaways": [
+        "傳記提供科技史脈絡",
+        "產品故事不當主題選股",
+        "deferred"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "傳記提供科技史脈絡",
+          "產品故事不當主題選股",
+          "deferred"
+        ],
+        "en": [
+          "Biography provides tech-business context",
+          "Product stories are not theme screens",
+          "deferred"
+        ],
+        "zh-Hans": [
+          "传记提供科技史脉络",
+          "产品故事不当主题选股",
+          "deferred"
+        ],
+        "ja": [
+          "伝記はテック史の文脈",
+          "製品物語をテーマ画面にしない",
+          "deferred"
+        ]
+      },
+      "isbn": "1451648537"
+    },
+    {
+      "id": "book-lifestyle-shelf-deferred",
+      "market": "BOTH",
+      "type": "book",
+      "title": "生活／散文書架（蔡瀾吃飯、張小嫻等）",
+      "authors": [
+        "蔡瀾",
+        "張小嫻",
+        "生活散文叢集（書架）"
+      ],
+      "year": 2014,
+      "summary": "Lifestyle and essay titles photographed beside finance shelves (Chua Lam food/life essays, Amy Cheung, etc.). Brief catalog as deferred / strategyCandidate=no—explicitly do not invent stock formulas from lifestyle prose.",
+      "formulas": [],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Lifestyle prose — zero stock formulas.",
+      "sources": [
+        "bookshelf photo 2026-09-16 (original summary only)"
+      ],
+      "coverUrl": "./covers/book-lifestyle-shelf.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "生活／散文書架（蔡瀾吃飯、張小嫻等）",
+        "en": "Lifestyle / essay shelf (Chua Lam, Amy Cheung, etc.)",
+        "zh-Hans": "生活／散文书架（蔡澜吃饭、张小娴等）",
+        "ja": "生活／随筆書架（蔡瀾・張小嫻など）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "與理財架同框拍攝的生活／散文（蔡瀾飲食生活、張小嫻等）。簡短建檔為 deferred／strategyCandidate=no——明確不從生活散文發明選股公式。",
+        "en": "Lifestyle and essay titles photographed beside finance shelves (Chua Lam food/life essays, Amy Cheung, etc.). Brief catalog as deferred / strategyCandidate=no—explicitly do not invent stock formulas from lifestyle prose.",
+        "zh-Hans": "与理财架同框拍摄的生活／散文（蔡澜饮食生活、张小娴等）。简短建档为 deferred／strategyCandidate=no——明确不从生活散文发明选股公式。",
+        "ja": "生活随筆。株式式を発明しない。"
+      },
+      "plainTakeaways": [
+        "生活散文與選股無關",
+        "只作同框書架標記",
+        "不發明任何行情公式"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "生活散文與選股無關",
+          "只作同框書架標記",
+          "不發明任何行情公式"
+        ],
+        "en": [
+          "Lifestyle essays are unrelated to stock picking",
+          "Shelf co-occurrence tag only",
+          "Invent no market formulas"
+        ],
+        "zh-Hans": [
+          "生活散文与选股无关",
+          "只作同框书架标记",
+          "不发明任何行情公式"
+        ],
+        "ja": [
+          "生活随筆は銘柄選定と無関係",
+          "同棚の標記のみ",
+          "相場式を発明しない"
         ]
       }
     }

@@ -26,7 +26,7 @@ const SRC = path.join(ROOT, "public/data/research-library.json");
 const DOCS = path.join(ROOT, "docs/data/research-library.json");
 
 const MARKETS = new Set(["US", "TW", "BOTH"]);
-const TYPES = new Set(["book", "paper"]);
+const TYPES = new Set(["book", "paper", "podcast"]);
 const CAND = new Set(["yes", "no", "watch"]);
 const STATUS = new Set(["candidate", "deferred", "adopted", "rejected"]);
 
