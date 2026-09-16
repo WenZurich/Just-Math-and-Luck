@@ -1,10 +1,11 @@
+import { t, numberLocale } from './i18n.js';
 /**
  * Global 彈幕 + chat list.
  * Works when STOCK_SOCIAL_CONFIG / VITE_SUPABASE_* present;
  * otherwise shows 「討論功能尚未啟用」and keeps UI read-only.
  */
 
-const BACKEND_MSG = '討論功能尚未啟用';
+const BACKEND_MSG = () => t('backendOff');
 
 function readSupabaseConfig(cfg = globalThis.STOCK_SOCIAL_CONFIG || {}) {
   const env =
@@ -96,7 +97,7 @@ export function initDanmaku(options = {}) {
   const flyEnabled = () => !!(flyToggle && flyToggle.checked);
 
   if (!url || !anon) {
-    status.textContent = BACKEND_MSG;
+    status.textContent = BACKEND_MSG();
     status.classList.add('is-warn');
     if (form) {
       form.querySelectorAll('input,button').forEach((el) => {
@@ -104,9 +105,9 @@ export function initDanmaku(options = {}) {
       });
     }
     if (list) {
-      list.innerHTML = '<li class="ss-empty">討論功能尚未啟用</li>';
+      list.innerHTML = `<li class="ss-empty">${escapeHtml(t('backendOff'))}</li>`;
     }
-    return { ok: false, reason: 'no-config', message: BACKEND_MSG };
+    return { ok: false, reason: 'no-config', message: BACKEND_MSG() };
   }
 
   client = createClient(url, anon);
@@ -141,7 +142,7 @@ export function initDanmaku(options = {}) {
         chronological.forEach((r) => lastSeen.add(r.id));
       }
     } catch (e) {
-      status.textContent = `讀取失敗：${e.message}`;
+      status.textContent = t('readFail', { msg: e.message });
       status.classList.add('is-warn');
     }
   }
@@ -150,7 +151,7 @@ export function initDanmaku(options = {}) {
     form.addEventListener('submit', async (ev) => {
       ev.preventDefault();
       if (!client || cooling) return;
-      const nickname = (nickInput?.value || '訪客').trim().slice(0, 24) || '訪客';
+      const nickname = (nickInput?.value || t('guest')).trim().slice(0, 24) || t('guest');
       const body = (bodyInput?.value || '').trim().slice(0, maxLen);
       if (!body) return;
       cooling = true;
@@ -160,7 +161,7 @@ export function initDanmaku(options = {}) {
         if (bodyInput) bodyInput.value = '';
         await refresh(true);
       } catch (e) {
-        status.textContent = `發送失敗：${e.message}`;
+        status.textContent = t('sendFail', { msg: e.message });
         status.classList.add('is-warn');
       } finally {
         window.setTimeout(() => {

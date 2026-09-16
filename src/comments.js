@@ -1,3 +1,4 @@
+import { t, numberLocale } from './i18n.js';
 /**
  * Per-ticker discussion: market-aware tabs.
  * US: 本站留言 | Reddit | 富途
@@ -5,20 +6,24 @@
  * Local posts require Supabase anon INSERT (RLS). Giscus is site-level fallback only.
  */
 
-const BACKEND_MSG = '討論功能尚未啟用';
+const BACKEND_MSG = () => t('backendOff');
 
-const US_TABS = [
-  { id: 'local', label: '本站留言' },
-  { id: 'reddit', label: 'Reddit' },
-  { id: 'futu', label: '富途' },
-];
+function usTabs() {
+  return [
+    { id: 'local', label: t('localComments') },
+    { id: 'reddit', label: 'Reddit' },
+    { id: 'futu', label: t('futu') },
+  ];
+}
 
-const TW_TABS = [
-  { id: 'local', label: '本站留言' },
-  { id: 'ptt', label: 'PTT' },
-  { id: 'dcard', label: 'Dcard' },
-  { id: 'threads', label: 'Threads' },
-];
+function twTabs() {
+  return [
+    { id: 'local', label: t('localComments') },
+    { id: 'ptt', label: 'PTT' },
+    { id: 'dcard', label: 'Dcard' },
+    { id: 'threads', label: 'Threads' },
+  ];
+}
 
 function inferMarket(ticker, explicit) {
   const m = String(explicit || '').toUpperCase();
@@ -27,7 +32,7 @@ function inferMarket(ticker, explicit) {
 }
 
 function tabsForMarket(market) {
-  return market === 'TW' ? TW_TABS : US_TABS;
+  return market === 'TW' ? twTabs() : usTabs();
 }
 
 function readSupabaseConfig(cfg = globalThis.STOCK_SOCIAL_CONFIG || {}) {
@@ -94,7 +99,7 @@ function findTickerEntry(digest, sourceKey, ticker) {
 
 function renderExternalPanel(entry, sourceLabel, { futuMode = false } = {}) {
   if (!entry) {
-    return `<p class="ss-empty">無 ${escapeHtml(sourceLabel)}</p>`;
+    return `<p class="ss-empty">${escapeHtml(t('noSource', { source: sourceLabel }))}</p>`;
   }
   const parts = [];
   if (entry.blocker) {
@@ -122,8 +127,8 @@ function renderExternalPanel(entry, sourceLabel, { futuMode = false } = {}) {
   }
   if (news.length) {
     const newsTitle = futuMode
-      ? '新聞／討論線索（非留言）'
-      : '相關公開新聞（非社群評論）';
+      ? t('newsClues')
+      : t('relatedNews');
     parts.push(`<p class="ss-digest-sub">${newsTitle}</p>`);
     parts.push(
       news
@@ -203,9 +208,9 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
           <div class="ss-thread-status"></div>
           <ul class="ss-thread-list"></ul>
           <form class="ss-thread-form ss-composer">
-            <input class="ss-nick" maxlength="24" placeholder="暱稱（選填）" autocomplete="nickname" />
-            <textarea class="ss-body" maxlength="${maxLen}" rows="2" placeholder="留言" required></textarea>
-            <button type="submit">送出</button>
+            <input class="ss-nick" maxlength="24" placeholder="${escapeHtml(t('nickPlaceholder'))}" autocomplete="nickname" />
+            <textarea class="ss-body" maxlength="${maxLen}" rows="2" placeholder="${escapeHtml(t('commentPlaceholder'))}" required></textarea>
+            <button type="submit">${escapeHtml(t("send"))}</button>
           </form>
         </div>
         ${externalPanels}
@@ -226,7 +231,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
     dcard: ['dcard', 'Dcard', false],
     threads: ['threads', 'Threads', false],
     reddit: ['reddit', 'Reddit', false],
-    futu: ['futu', '富途', true],
+    futu: ['futu', t('futu'), true],
   };
   for (const tab of sourceTabs) {
     if (tab.id === 'local') continue;
@@ -262,12 +267,12 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
   });
 
   if (!url || !anon) {
-    status.textContent = BACKEND_MSG;
+    status.textContent = BACKEND_MSG();
     status.className = 'ss-thread-status is-warn';
     form.querySelectorAll('input,textarea,button').forEach((el) => {
       el.disabled = true;
     });
-    list.innerHTML = `<li class="ss-empty">後端未接上</li>`;
+    list.innerHTML = `<li class="ss-empty">${escapeHtml(t('backendNotConnected'))}</li>`;
     return { ok: false, reason: 'no-config', market };
   }
 
@@ -279,7 +284,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
     try {
       const rows = await client.list(ticker);
       if (!rows.length) {
-        list.innerHTML = '<li class="ss-empty">尚無留言</li>';
+        list.innerHTML = `<li class="ss-empty">${escapeHtml(t('noLocalComments'))}</li>`;
         return;
       }
       list.innerHTML = rows
@@ -288,12 +293,12 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
             `<li><strong>${escapeHtml(r.nickname)}</strong> ${escapeHtml(
               r.body
             )}<span class="meta">${escapeHtml(
-              new Date(r.created_at).toLocaleString('zh-TW', { hour12: false })
+              new Date(r.created_at).toLocaleString(numberLocale(), { hour12: false })
             )}</span></li>`
         )
         .join('');
     } catch (e) {
-      status.textContent = `讀取失敗：${e.message}`;
+      status.textContent = t('readFail', { msg: e.message });
       status.className = 'ss-thread-status is-warn';
     }
   }
@@ -302,7 +307,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
     ev.preventDefault();
     if (cooling) return;
     const nickname =
-      (form.querySelector('.ss-nick').value || '訪客').trim().slice(0, 24) || '訪客';
+      (form.querySelector('.ss-nick').value || t('guest')).trim().slice(0, 24) || t('guest');
     const body = (form.querySelector('.ss-body').value || '').trim().slice(0, maxLen);
     if (!body) return;
     cooling = true;
@@ -313,7 +318,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
       form.querySelector('.ss-body').value = '';
       await refresh();
     } catch (e) {
-      status.textContent = `發送失敗：${e.message}`;
+      status.textContent = t('sendFail', { msg: e.message });
       status.className = 'ss-thread-status is-warn';
     } finally {
       window.setTimeout(() => {
@@ -351,7 +356,7 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
   const maxLen = Math.min(cfg.commentMaxLen || 500, options.maxLen || 200);
   const cooldown = cfg.postCooldownMs || 4000;
   const title = options.title || ticker;
-  const emptyLine = options.emptyLine || '目前尚無訊息';
+  const emptyLine = options.emptyLine || t('noMessages');
   const layer = options.danmakuLayer || document.querySelector('#ss-danmaku-layer');
   const flyToggle =
     options.flyToggle ||
@@ -364,11 +369,11 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
   mountEl.innerHTML = `
     <div class="chat-room-label">${escapeHtml(title)}</div>
     <div class="ss-thread-status chat-status-line" aria-live="polite"></div>
-    <ul class="ss-thread-list chat-messages" aria-label="訊息"></ul>
+    <ul class="ss-thread-list chat-messages" aria-label="${escapeHtml(t('messages'))}"></ul>
     <form class="ss-thread-form chat-composer">
-      <input class="ss-nick" maxlength="24" placeholder="暱稱（選填）" autocomplete="nickname" />
-      <input class="ss-body" maxlength="${maxLen}" placeholder="輸入留言" required autocomplete="off" />
-      <button type="submit" class="chat-send">送出</button>
+      <input class="ss-nick" maxlength="24" placeholder="${escapeHtml(t('nickPlaceholder'))}" autocomplete="nickname" />
+      <input class="ss-body" maxlength="${maxLen}" placeholder="${escapeHtml(t('commentInput'))}" required autocomplete="off" />
+      <button type="submit" class="chat-send">${escapeHtml(t("send"))}</button>
     </form>
   `;
 
@@ -389,7 +394,7 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
   }
 
   if (!url || !anon) {
-    status.textContent = BACKEND_MSG;
+    status.textContent = BACKEND_MSG();
     status.className = 'ss-thread-status chat-status-line is-warn';
     form.querySelectorAll('input,button').forEach((el) => {
       el.disabled = true;
@@ -415,7 +420,7 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
             `<li><span class="nick">${escapeHtml(r.nickname)}</span>${escapeHtml(
               r.body
             )}<span class="meta">${escapeHtml(
-              new Date(r.created_at).toLocaleString('zh-TW', { hour12: false })
+              new Date(r.created_at).toLocaleString(numberLocale(), { hour12: false })
             )}</span></li>`
         )
         .join('');
@@ -427,7 +432,7 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
       }
       if (lastSeen.size > 200) lastSeen = new Set([...lastSeen].slice(-100));
     } catch (e) {
-      status.textContent = BACKEND_MSG;
+      status.textContent = BACKEND_MSG();
       status.className = 'ss-thread-status chat-status-line is-warn';
     }
   }
@@ -436,7 +441,7 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
     ev.preventDefault();
     if (cooling) return;
     const nickname =
-      (form.querySelector('.ss-nick').value || '訪客').trim().slice(0, 24) || '訪客';
+      (form.querySelector('.ss-nick').value || t('guest')).trim().slice(0, 24) || t('guest');
     const body = (form.querySelector('.ss-body').value || '').trim().slice(0, maxLen);
     if (!body) return;
     cooling = true;
@@ -447,7 +452,7 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
       form.querySelector('.ss-body').value = '';
       await refresh(true);
     } catch (e) {
-      status.textContent = `發送失敗`;
+      status.textContent = t('sendFailShort');
       status.className = 'ss-thread-status chat-status-line is-warn';
     } finally {
       window.setTimeout(() => {
@@ -510,7 +515,7 @@ export function initSiteGiscus(selector = '#ss-giscus', options = {}) {
   const g = cfg.giscus || {};
   if (!g.enabled || !g.repoId || !g.categoryId) {
     el.innerHTML =
-      '<p class="ss-chat-status is-warn">Giscus 尚未設定（需 repoId／categoryId）。請見說明文件。</p>';
+      `<p class="ss-chat-status is-warn">${escapeHtml(t('giscusUnset'))}</p>`;
     return { ok: false, reason: 'no-config' };
   }
   const host = el.querySelector('.ss-giscus-host') || el;

@@ -3,13 +3,15 @@ import "./danmaku.css";
 import "./comments.css";
 import "./social-digest.css";
 import config from "./config.js";
+import { term, escapeHtml } from "./glossary.js";
 import {
-  term,
-  escapeHtml,
-  renderGlossarySection,
-  bindTermLinks,
-  bindGlossaryAccordion,
-} from "./glossary.js";
+  t,
+  applyDocumentLang,
+  numberLocale,
+  renderLangSwitcher,
+  bindLangSwitcher,
+  onLangChange,
+} from "./i18n.js";
 import {
   renderPaperSection,
   bindPaperTabs,
@@ -41,7 +43,7 @@ function fmtPct(n, digits = 2) {
 
 function fmtNum(n, digits = 2) {
   if (n == null || Number.isNaN(n)) return "—";
-  return Number(n).toLocaleString("zh-TW", {
+  return Number(n).toLocaleString(numberLocale(), {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
   });
@@ -58,7 +60,7 @@ function fmtAsOf(iso) {
   try {
     const d = new Date(iso);
     return (
-      d.toLocaleString("zh-TW", {
+      d.toLocaleString(numberLocale(), {
         timeZone: "Asia/Taipei",
         year: "numeric",
         month: "2-digit",
@@ -67,7 +69,7 @@ function fmtAsOf(iso) {
         minute: "2-digit",
         second: "2-digit",
         hour12: false,
-      }) + "（台北）"
+      }) + t("taipei")
     );
   } catch {
     return iso;
@@ -76,11 +78,11 @@ function fmtAsOf(iso) {
 
 function smaBadges(stock) {
   const a20 = stock.aboveSma20
-    ? `<span class="badge sma-on">${term("sma20", "SMA20↑")}</span>`
-    : `<span class="badge sma-off">${term("sma20", "SMA20↓")}</span>`;
+    ? `<span class="badge sma-on">${term("sma20", "SMA20")}↑</span>`
+    : `<span class="badge sma-off">${term("sma20", "SMA20")}↓</span>`;
   const a50 = stock.aboveSma50
-    ? `<span class="badge sma-on">${term("sma50", "SMA50↑")}</span>`
-    : `<span class="badge sma-off">${term("sma50", "SMA50↓")}</span>`;
+    ? `<span class="badge sma-on">${term("sma50", "SMA50")}↑</span>`
+    : `<span class="badge sma-off">${term("sma50", "SMA50")}↓</span>`;
   return a20 + a50;
 }
 
@@ -92,7 +94,7 @@ function screenBadges(screens) {
       if (key === "A") return `<span class="badge screen">${term("screenA", "A")}</span>`;
       if (key === "B") return `<span class="badge screen">${term("screenB", "B")}</span>`;
       if (key === "C") return `<span class="badge screen">${term("screenC", "C")}</span>`;
-      if (key === "observe") return `<span class="badge screen">觀察</span>`;
+      if (key === "observe") return `<span class="badge screen">${escapeHtml(t("observe"))}</span>`;
       return `<span class="badge screen">${escapeHtml(key)}</span>`;
     })
     .join("");
@@ -108,7 +110,7 @@ function renderIndexStrip(indices) {
       item.value != null
         ? fmtNum(item.value, 2)
         : incomplete
-          ? "資料不全"
+          ? escapeHtml(t("dataIncomplete"))
           : "—";
     const pct =
       item.dayPct != null
@@ -116,7 +118,7 @@ function renderIndexStrip(indices) {
         : "";
     const session =
       item.session === "intraday"
-        ? ` · ${term("intraday", "盤中")}`
+        ? ` · ${term("intraday", t("intraday"))}`
         : "";
     chips.push(`
       <div class="index-chip ${incomplete ? "incomplete" : ""}">
@@ -127,21 +129,21 @@ function renderIndexStrip(indices) {
     `);
   };
 
-  pushPct("tw", term("taiex", indices.tw?.name || "台灣加權 TAIEX"), indices.tw);
-  pushPct("otc", term("otc", indices.otc?.name || "櫃買"), indices.otc);
-  pushPct("spx", term("spx", indices.spx?.name || "S&P 500"), indices.spx);
-  pushPct("nasdaq", term("nasdaq", indices.nasdaq?.name || "Nasdaq"), indices.nasdaq);
-  pushPct("sox", term("sox", indices.sox?.name || "SOX"), indices.sox);
+  pushPct("tw", term("taiex", indices.tw?.name || t("taiex")), indices.tw);
+  pushPct("otc", term("otc", indices.otc?.name || t("otc")), indices.otc);
+  pushPct("spx", term("spx", indices.spx?.name || t("spx")), indices.spx);
+  pushPct("nasdaq", term("nasdaq", indices.nasdaq?.name || t("nasdaq")), indices.nasdaq);
+  pushPct("sox", term("sox", indices.sox?.name || t("sox")), indices.sox);
 
   if (indices.usdTwd) {
     const fx = indices.usdTwd;
     const show = fx.taipeiClose ?? fx.yahoo;
     chips.push(`
       <div class="index-chip">
-        <div class="label">${term("usdtwd", "USD/TWD")}</div>
+        <div class="label">${term("usdtwd", t("usdtwd"))}</div>
         <div class="value">${fmtNum(show, 3)}</div>
         <div class="pct flat" style="font-size:0.7rem">
-          台北收 ${fx.taipeiClose != null ? fmtNum(fx.taipeiClose, 3) : "—"}
+          ${escapeHtml(t("taipeiClose"))} ${fx.taipeiClose != null ? fmtNum(fx.taipeiClose, 3) : "—"}
           · Yahoo ${fx.yahoo != null ? fmtNum(fx.yahoo, 3) : "—"}
         </div>
       </div>
@@ -154,15 +156,15 @@ function renderIndexStrip(indices) {
 function renderTopCard(stock, rank) {
   const market =
     stock.market === "TW"
-      ? term("twStock", "台股")
+      ? term("twStock", t("twStock"))
       : stock.market === "US"
-        ? term("usStock", "美股")
+        ? term("usStock", t("usStock"))
         : escapeHtml(stock.market || "");
-  const rs =
+  const rsLabel =
     stock.rsVsIndexPp != null
-      ? `<div class="metric"><div class="m-label">${term("rs", "RS vs 指數")}</div><div class="m-val ${pctClass(stock.rsVsIndexPp)}">${fmtPct(stock.rsVsIndexPp)}</div></div>`
+      ? `<div class="metric"><div class="m-label">${term("rs", "RS")}</div><div class="m-val ${pctClass(stock.rsVsIndexPp)}">${fmtPct(stock.rsVsIndexPp)}</div></div>`
       : stock.priorClosePct != null
-        ? `<div class="metric"><div class="m-label">${term("priorClose", "前收漲幅")}</div><div class="m-val ${pctClass(stock.priorClosePct)}">${fmtPct(stock.priorClosePct)}</div></div>`
+        ? `<div class="metric"><div class="m-label">${term("priorClose", t("priorCloseFull"))}</div><div class="m-val ${pctClass(stock.priorClosePct)}">${fmtPct(stock.priorClosePct)}</div></div>`
         : `<div class="metric"><div class="m-label">${term("rs", "RS")}</div><div class="m-val">—</div></div>`;
 
   return `
@@ -170,7 +172,7 @@ function renderTopCard(stock, rank) {
       <div class="rank">TOP ${rank}</div>
       <div class="head">
         <div class="ticker-block">
-          <div class="ticker">${term("ticker", stock.ticker)}</div>
+          <div class="ticker">${escapeHtml(stock.ticker)}</div>
           <div class="name">${escapeHtml(stock.name || "")}</div>
         </div>
         <div class="price-block">
@@ -184,15 +186,15 @@ function renderTopCard(stock, rank) {
         ${smaBadges(stock)}
       </div>
       <div class="metrics">
-        ${rs}
-        <div class="metric"><div class="m-label">${term("pct5d", "5 日")}</div><div class="m-val ${pctClass(stock.pct5d)}">${fmtPct(stock.pct5d)}</div></div>
-        <div class="metric"><div class="m-label">${term("pct1m", "約 1 月")}</div><div class="m-val ${pctClass(stock.pct1m)}">${fmtPct(stock.pct1m)}</div></div>
-        <div class="metric"><div class="m-label">${term("volRatio", "量比")}</div><div class="m-val">${stock.volRatio != null ? fmtNum(stock.volRatio, 2) + "×" : "—"}</div></div>
+        ${rsLabel}
+        <div class="metric"><div class="m-label">${term("pct5d", t("pct5d"))}</div><div class="m-val ${pctClass(stock.pct5d)}">${fmtPct(stock.pct5d)}</div></div>
+        <div class="metric"><div class="m-label">${term("pct1m", t("pct1m"))}</div><div class="m-val ${pctClass(stock.pct1m)}">${fmtPct(stock.pct1m)}</div></div>
+        <div class="metric"><div class="m-label">${term("volRatio", t("volRatio"))}</div><div class="m-val">${stock.volRatio != null ? fmtNum(stock.volRatio, 2) + "×" : "—"}</div></div>
       </div>
-      ${(stock.business || stock.why || stock.risk) ? `<details class="fold-block card-fold"><summary>詳情</summary>
-        ${stock.business ? `<p class="card-text"><strong>本業</strong>　${escapeHtml(stock.business)}</p>` : ""}
-        ${stock.why ? `<p class="card-text"><strong>理由</strong>　${escapeHtml(stock.why)}</p>` : ""}
-        ${stock.risk ? `<p class="card-text risk"><strong>風險</strong>　${linkRiskText(stock.risk)}</p>` : ""}
+      ${(stock.business || stock.why || stock.risk) ? `<details class="fold-block card-fold"><summary>${escapeHtml(t("details"))}</summary>
+        ${stock.business ? `<p class="card-text"><strong>${escapeHtml(t("business"))}</strong>　${escapeHtml(stock.business)}</p>` : ""}
+        ${stock.why ? `<p class="card-text"><strong>${escapeHtml(t("reason"))}</strong>　${escapeHtml(stock.why)}</p>` : ""}
+        ${stock.risk ? `<p class="card-text risk"><strong>${escapeHtml(t("risk"))}</strong>　${linkRiskText(stock.risk)}</p>` : ""}
       </details>` : ""}
       <div data-ticker-comments="${escapeHtml(stock.ticker)}" data-market="${escapeHtml(stock.market === 'TW' || String(stock.ticker).endsWith('.TW') ? 'TW' : 'US')}"></div>
     </article>
@@ -200,10 +202,10 @@ function renderTopCard(stock, rank) {
 }
 
 function linkRiskText(text) {
-  let t = escapeHtml(text);
-  t = t.replace(/漲停/g, term("limitUp", "漲停"));
-  t = t.replace(/動能/g, term("momentum", "動能"));
-  return t;
+  let s = escapeHtml(text);
+  s = s.replace(/漲停/g, term("limitUp", t("limitUp")));
+  s = s.replace(/動能/g, term("momentum", t("momentum")));
+  return s;
 }
 
 function tableRows(list) {
@@ -241,7 +243,7 @@ function mobileCards(list) {
         s.rsVsIndexPp != null
           ? `<span class="${pctClass(s.rsVsIndexPp)}">${term("rs", "RS")} ${fmtPct(s.rsVsIndexPp)}</span>`
           : s.priorClosePct != null
-            ? `<span class="${pctClass(s.priorClosePct)}">${term("priorClose", "前收")} ${fmtPct(s.priorClosePct)}</span>`
+            ? `<span class="${pctClass(s.priorClosePct)}">${term("priorClose", t("priorClose"))} ${fmtPct(s.priorClosePct)}</span>`
             : "";
       return `
       <div class="list-card">
@@ -259,44 +261,32 @@ function mobileCards(list) {
           ${rs}
           <span class="${pctClass(s.pct5d)}">${term("pct5d", "5d")} ${fmtPct(s.pct5d)}</span>
           <span class="${pctClass(s.pct1m)}">${term("pct1m", "1m")} ${fmtPct(s.pct1m)}</span>
-          <span>${term("volRatio", "量比")} ${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</span>
+          <span>${term("volRatio", t("volRatio"))} ${s.volRatio != null ? fmtNum(s.volRatio, 2) + "×" : "—"}</span>
         </div>
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
         ${s.why ? `<p class="lc-why">${escapeHtml(s.why)}</p>` : ""}
-        ${s.risk && s.risk !== "—" ? `<p class="lc-why" style="color:#fbbf24">風險：${linkRiskText(s.risk)}</p>` : ""}
+        ${s.risk && s.risk !== "—" ? `<p class="lc-why" style="color:#fbbf24">${escapeHtml(t("risk"))}：${linkRiskText(s.risk)}</p>` : ""}
         <div data-ticker-comments="${escapeHtml(s.ticker)}" data-market="${escapeHtml(String(s.ticker).endsWith('.TW') ? 'TW' : (s.market === 'TW' ? 'TW' : 'US'))}"></div>
       </div>`;
     })
     .join("");
 }
 
-function renderListSection(id, list) {
-  if (!list?.length) return "";
+function renderListHeaders() {
   return `
-    <div class="panel ${id === "us" ? "active" : ""}" id="panel-${id}" role="tabpanel">
-      <div class="table-wrap">
-        <table class="stock-table">
-          <thead>
-            <tr>
-              <th>${term("ticker", "代碼")}</th>
-              <th>名稱</th>
-              <th>價格</th>
-              <th>${term("dayPct", "日漲跌")}</th>
-              <th>${term("rs", "RS")}／${term("priorClose", "前收")}</th>
-              <th>${term("pct5d", "5 日")}</th>
-              <th>${term("pct1m", "約 1 月")}</th>
-              <th>${term("volRatio", "量比")}</th>
-              <th>均線</th>
-              <th>${term("screening", "篩選")}</th>
-              <th>理由</th>
-            </tr>
-          </thead>
-          <tbody>${tableRows(list)}</tbody>
-        </table>
-      </div>
-      <div class="mobile-list">${mobileCards(list)}</div>
-    </div>
-  `;
+    <tr>
+      <th>${term("ticker", t("ticker"))}</th>
+      <th>${escapeHtml(t("name"))}</th>
+      <th>${escapeHtml(t("price"))}</th>
+      <th>${term("dayPct", t("dayPct"))}</th>
+      <th>${term("rs", "RS")}／${term("priorClose", t("priorClose"))}</th>
+      <th>${term("pct5d", t("pct5d"))}</th>
+      <th>${term("pct1m", t("pct1m"))}</th>
+      <th>${term("volRatio", t("volRatio"))}</th>
+      <th>${escapeHtml(t("ma"))}</th>
+      <th>${term("screening", t("screening"))}</th>
+      <th>${escapeHtml(t("reason"))}</th>
+    </tr>`;
 }
 
 function renderParity(parity) {
@@ -304,81 +294,26 @@ function renderParity(parity) {
   const prem = parity.premiumPct;
   return `
     <section class="section">
-      <h2 class="section-title">${term("adr", "ADR")} ${term("parity", "平價")}｜TSM vs 2330</h2>
+      <h2 class="section-title">${term("adr", "ADR")} ${term("parity", t("parity"))}｜TSM vs 2330</h2>
       <div class="parity-block">
         <div class="parity-side">
-          <div class="p-label">${term("usStock", "美股")} ${term("adr", "ADR")}</div>
+          <div class="p-label">${term("usStock", t("usStock"))} ${term("adr", "ADR")}</div>
           <div class="p-ticker">TSM</div>
           <div class="p-price">${fmtPrice(parity.tsm, "USD")}</div>
         </div>
         <div class="parity-mid">
-          <div class="row"><span>${term("adsRatio", "換股比")}</span>　<strong>${escapeHtml(parity.adsRatio || "—")}</strong></div>
-          <div class="row"><span>${term("parity", "隱含價")}</span>　<strong>${parity.impliedUsdTaipeiFx != null ? fmtNum(parity.impliedUsdTaipeiFx, 2) : "—"}</strong></div>
-          <div class="row"><span>${term("premium", "溢價")}</span>　<strong class="${pctClass(prem)}">${fmtPct(prem)}</strong></div>
+          <div class="row"><span>${term("adsRatio", t("adsRatio"))}</span>　<strong>${escapeHtml(parity.adsRatio || "—")}</strong></div>
+          <div class="row"><span>${term("parity", t("implied"))}</span>　<strong>${parity.impliedUsdTaipeiFx != null ? fmtNum(parity.impliedUsdTaipeiFx, 2) : "—"}</strong></div>
+          <div class="row"><span>${term("premium", t("premium"))}</span>　<strong class="${pctClass(prem)}">${fmtPct(prem)}</strong></div>
         </div>
         <div class="parity-side">
-          <div class="p-label">${term("twStock", "台股")}</div>
+          <div class="p-label">${term("twStock", t("twStock"))}</div>
           <div class="p-ticker">2330.TW</div>
           <div class="p-price">${fmtPrice(parity.tw2330, "TWD")}</div>
         </div>
         ${parity.note ? `<p class="parity-note">${escapeHtml(parity.note)}</p>` : ""}
       </div>
     </section>
-  `;
-}
-
-function renderMethod(method) {
-  if (!method) return "";
-  const map = { A: "screenA", B: "screenB", C: "screenC" };
-  const items = Object.keys(method)
-    .map((k) => {
-      const id = map[k] || "screening";
-      return `<li><span class="screen-key">${term(id, k)}</span><span>${escapeHtml(method[k])}</span></li>`;
-    })
-    .join("");
-  return `
-    <details class="fold-block help-fold" id="help-method">
-      <summary>詳情 · ${term("screening", "每日篩選條件")}</summary>
-      <ul class="method-list fold-list">${items}</ul>
-    </details>
-  `;
-}
-
-function renderHelpPage(data) {
-  return `
-    <div class="help-doc">
-      <header class="view-header">
-        <h2 class="view-title">說明</h2>
-      </header>
-      <ul class="help-short">
-        <li><strong>今日</strong> — 動能／相對強度／均線／量比篩選候選</li>
-        <li><strong>策略</strong> — 價量／籌碼／財務／大師條件命中</li>
-        <li><strong>模擬</strong> — 自 2026-09-15 累計；訊號即成交（非真實下單）</li>
-        <li><strong>社群</strong> — 站內討論與外部公開摘要（僅供參考）</li>
-      </ul>
-      <details class="fold-block help-fold" id="help-data">
-        <summary>詳情 · 資料來源</summary>
-        <ul class="fold-list">
-          <li>行情：Yahoo Finance（可能半日落後）</li>
-          <li>台股估值／法人：證交所、櫃買 OpenAPI</li>
-          <li>財報：MOPS／證交所 open data</li>
-          <li>產物：<code>latest.json</code> · <code>strategy-screener.json</code> · <code>paper-portfolio.json</code> · <code>social-digest.json</code></li>
-        </ul>
-      </details>
-      ${renderMethod(data?.method)}
-      <details class="fold-block help-fold" id="help-strategies">
-        <summary>詳情 · 策略選股</summary>
-        <p class="fold-p">缺 PE／ROE 等欄位則略過，不填假數字。輸出 <code>strategy-screener.json</code>。</p>
-      </details>
-      <details class="fold-block help-fold" id="help-paper">
-        <summary>詳情 · 紙上模擬</summary>
-        <ul class="fold-list">
-          <li>台股帳：NT$3,000,000（獨立）</li>
-          <li>美股帳：US$100,000（獨立）</li>
-          <li>同一 <code>asOf</code> 只處理一次；買進即成交</li>
-        </ul>
-      </details>
-    </div>
   `;
 }
 
@@ -414,7 +349,7 @@ function lobbyTicker(market) {
 
 function renderTop5ByMarket(list, marketLabel) {
   if (!list.length) {
-    return `<div class="empty-state">${escapeHtml(marketLabel)} 暫無 Top 候選</div>`;
+    return `<div class="empty-state">${escapeHtml(t("emptyTop", { market: marketLabel }))}</div>`;
   }
   return `<div class="top5-grid">${list
     .map((s, i) => renderTopCard(s, i + 1))
@@ -436,29 +371,29 @@ function renderChatRoom(data) {
   return `
     <div class="chat-room" id="chat-room" data-market="US" data-mode="lobby">
       <header class="chat-room-bar">
-        <div class="chat-market-tabs" role="tablist" aria-label="市場">
-          <button type="button" class="chat-mkt active" data-chat-market="US" role="tab" aria-selected="true">美股聊天</button>
-          <button type="button" class="chat-mkt" data-chat-market="TW" role="tab" aria-selected="false">台股聊天</button>
+        <div class="chat-market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
+          <button type="button" class="chat-mkt active" data-chat-market="US" role="tab" aria-selected="true">${escapeHtml(t("chatUs"))}</button>
+          <button type="button" class="chat-mkt" data-chat-market="TW" role="tab" aria-selected="false">${escapeHtml(t("chatTw"))}</button>
         </div>
         <label class="chat-fx-toggle">
           <input type="checkbox" id="ss-danmaku-toggle" />
-          <span>彈幕效果</span>
+          <span>${escapeHtml(t("danmakuFx"))}</span>
         </label>
       </header>
-      <div class="chat-sub-tabs" role="tablist" aria-label="房間">
-        <button type="button" class="chat-tab active" data-chat-mode="lobby" role="tab" aria-selected="true">大廳</button>
-        <button type="button" class="chat-tab" data-chat-mode="ticker" role="tab" aria-selected="false">個股</button>
+      <div class="chat-sub-tabs" role="tablist" aria-label="${escapeHtml(t("room"))}">
+        <button type="button" class="chat-tab active" data-chat-mode="lobby" role="tab" aria-selected="true">${escapeHtml(t("lobby"))}</button>
+        <button type="button" class="chat-tab" data-chat-mode="ticker" role="tab" aria-selected="false">${escapeHtml(t("perTicker"))}</button>
       </div>
-      <div class="chat-chip-row" data-chip-market="US" role="tablist" aria-label="美股標的" hidden>
-        ${chipHtml(usChips, "US") || `<span class="chat-empty">暫無美股標的</span>`}
+      <div class="chat-chip-row" data-chip-market="US" role="tablist" aria-label="${escapeHtml(t("usTickers"))}" hidden>
+        ${chipHtml(usChips, "US") || `<span class="chat-empty">${escapeHtml(t("noUsTickers"))}</span>`}
       </div>
-      <div class="chat-chip-row" data-chip-market="TW" role="tablist" aria-label="台股標的" hidden>
-        ${chipHtml(twChips, "TW") || `<span class="chat-empty">暫無台股標的</span>`}
+      <div class="chat-chip-row" data-chip-market="TW" role="tablist" aria-label="${escapeHtml(t("twTickers"))}" hidden>
+        ${chipHtml(twChips, "TW") || `<span class="chat-empty">${escapeHtml(t("noTwTickers"))}</span>`}
       </div>
-      <div id="ss-chat-mount" class="chat-shell" aria-label="聊天室"></div>
+      <div id="ss-chat-mount" class="chat-shell" aria-label="${escapeHtml(t("chatRoom"))}"></div>
       <details class="fold-block chat-external">
-        <summary>外部討論</summary>
-        <div id="ss-social-digest" aria-label="外部討論摘要"></div>
+        <summary>${escapeHtml(t("externalDiscuss"))}</summary>
+        <div id="ss-social-digest" aria-label="${escapeHtml(t("externalDigest"))}"></div>
         <div id="ss-giscus" class="ss-giscus-section" aria-label="Giscus">
           <div class="ss-giscus-host"></div>
         </div>
@@ -467,25 +402,26 @@ function renderChatRoom(data) {
   `;
 }
 
-const VIEWS = [
-  { id: "today", label: "今日", hash: "today" },
-  { id: "strategies", label: "策略", hash: "strategies" },
-  { id: "paper", label: "模擬", hash: "paper" },
-  { id: "social", label: "社群", hash: "social" },
-  { id: "help", label: "說明", hash: "help" },
-];
+function getViews() {
+  return [
+    { id: "today", label: t("navToday"), hash: "today" },
+    { id: "strategies", label: t("navStrategies"), hash: "strategies" },
+    { id: "paper", label: t("navPaper"), hash: "paper" },
+    { id: "social", label: t("navSocial"), hash: "social" },
+  ];
+}
 
 const HASH_ALIASES = {
   today: "today",
   strategies: "strategies",
   paper: "paper",
   social: "social",
-  help: "help",
-  glossary: "help",
+  help: "today",
+  glossary: "today",
   danmaku: "social",
   "social-digest": "social",
   giscus: "social",
-  method: "help",
+  method: "today",
 };
 
 const NAV_ICONS = {
@@ -493,7 +429,6 @@ const NAV_ICONS = {
   strategies: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 19h16v2H4v-2zm2.5-3.5 4-4 3 3L21 6.5 19.5 5l-6 7.5-3-3L4 14.5l2.5 1z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   social: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C7 3 3 6.6 3 11c0 2.4 1.2 4.5 3.1 6L5 21l4.3-1.4c.9.3 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z"/></svg>`,
-  help: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2zm0 15a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm1.6-5.35c-.55.35-.85.6-.95 1.1l-.1.75h-1.5l.12-.95c.15-.95.7-1.5 1.4-1.95.55-.35.9-.6.9-1.15 0-.55-.45-.95-1.15-.95-.75 0-1.2.4-1.35 1.05l-1.45-.35C9.75 8.2 10.7 7.2 12.2 7.2c1.65 0 2.85 1 2.85 2.4 0 .85-.45 1.5-1.45 2.05z"/></svg>`,
 };
 
 function parseViewFromHash() {
@@ -502,28 +437,29 @@ function parseViewFromHash() {
 }
 
 function renderNavItems(variant) {
-  return VIEWS.map((v) => {
-    const icon = NAV_ICONS[v.id] || "";
-    return `
+  return getViews()
+    .map((v) => {
+      const icon = NAV_ICONS[v.id] || "";
+      return `
       <button type="button"
         class="nav-item"
         data-nav="${v.id}"
         data-variant="${variant}"
-        aria-label="${v.label}"
+        aria-label="${escapeHtml(v.label)}"
         aria-current="false">
         <span class="nav-icon">${icon}</span>
-        <span class="nav-label">${v.label}</span>
+        <span class="nav-label">${escapeHtml(v.label)}</span>
       </button>`;
-  }).join("");
+    })
+    .join("");
 }
 
 function renderApp(data, paper) {
   const top5 = data.top5 || [];
   const us = data.us || [];
   const tw = data.tw || [];
-  const disclaimer = escapeHtml(
-    "投資涉及風險，資訊僅供參考，非投資建議"
-  );
+  const disclaimer = escapeHtml(t("disclaimer"));
+  const headers = renderListHeaders();
 
   return `
     ${renderDanmakuLayer()}
@@ -533,17 +469,20 @@ function renderApp(data, paper) {
         <div class="chrome-brand">
           <div class="brand-mark" aria-hidden="true"></div>
           <div class="brand-text">
-            <h1>${term("screening", "每日數學選股")}</h1>
-            <p class="brand-meta">資料 ${fmtAsOf(data.asOf)}</p>
+            <h1>${escapeHtml(t("siteTitle"))}</h1>
+            <p class="brand-meta">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}</p>
           </div>
         </div>
-        <nav class="nav-desktop" aria-label="主要導覽">
-          ${renderNavItems("desktop")}
-        </nav>
+        <div class="chrome-actions">
+          ${renderLangSwitcher()}
+          <nav class="nav-desktop" aria-label="${escapeHtml(t("navMain"))}">
+            ${renderNavItems("desktop")}
+          </nav>
+        </div>
       </div>
       <p class="disclaimer-line" role="note">${disclaimer}</p>
-      <div class="market-strip-wrap" aria-label="市場報價">
-        <span class="market-strip-label">熱門</span>
+      <div class="market-strip-wrap" aria-label="${escapeHtml(t("marketQuotes"))}">
+        <span class="market-strip-label">${escapeHtml(t("hot"))}</span>
         ${renderIndexStrip(data.indices || {})}
       </div>
     </header>
@@ -552,36 +491,22 @@ function renderApp(data, paper) {
       <div class="view" id="view-today" data-view="today" hidden>
         <span id="today" class="view-anchor" tabindex="-1"></span>
         <header class="view-header view-header-tight">
-          <h2 class="view-title">今日選股</h2>
+          <h2 class="view-title">${escapeHtml(t("todayPicks"))}</h2>
         </header>
-        <div class="tabs market-tabs" role="tablist" aria-label="市場">
-          <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", "美股")}（${us.length}）</button>
-          <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", "台股")}（${tw.length}）</button>
+        <div class="tabs market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
+          <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", t("usStock"))}（${us.length}）</button>
+          <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", t("twStock"))}（${tw.length}）</button>
         </div>
         <div class="panel active" id="panel-us" role="tabpanel">
           <section class="section">
-            <h2 class="section-title">${term("usStock", "美股")} Top</h2>
-            ${renderTop5ByMarket(top5.filter((s) => stockMarket(s) === "US"), "美股")}
+            <h2 class="section-title">${escapeHtml(t("usTop"))}</h2>
+            ${renderTop5ByMarket(top5.filter((s) => stockMarket(s) === "US"), t("usStock"))}
           </section>
           <section class="section">
-            <h2 class="section-title">美股清單</h2>
+            <h2 class="section-title">${escapeHtml(t("usList"))}</h2>
             <div class="table-wrap">
               <table class="stock-table">
-                <thead>
-                  <tr>
-                    <th>${term("ticker", "代碼")}</th>
-                    <th>名稱</th>
-                    <th>價格</th>
-                    <th>${term("dayPct", "日漲跌")}</th>
-                    <th>${term("rs", "RS")}／${term("priorClose", "前收")}</th>
-                    <th>${term("pct5d", "5 日")}</th>
-                    <th>${term("pct1m", "約 1 月")}</th>
-                    <th>${term("volRatio", "量比")}</th>
-                    <th>均線</th>
-                    <th>${term("screening", "篩選")}</th>
-                    <th>理由</th>
-                  </tr>
-                </thead>
+                <thead>${headers}</thead>
                 <tbody>${tableRows(us)}</tbody>
               </table>
             </div>
@@ -590,28 +515,14 @@ function renderApp(data, paper) {
         </div>
         <div class="panel" id="panel-tw" role="tabpanel">
           <section class="section">
-            <h2 class="section-title">${term("twStock", "台股")} Top</h2>
-            ${renderTop5ByMarket(top5.filter((s) => stockMarket(s) === "TW"), "台股")}
+            <h2 class="section-title">${escapeHtml(t("twTop"))}</h2>
+            ${renderTop5ByMarket(top5.filter((s) => stockMarket(s) === "TW"), t("twStock"))}
           </section>
           <section class="section">
-            <h2 class="section-title">台股清單</h2>
+            <h2 class="section-title">${escapeHtml(t("twList"))}</h2>
             <div class="table-wrap">
               <table class="stock-table">
-                <thead>
-                  <tr>
-                    <th>${term("ticker", "代碼")}</th>
-                    <th>名稱</th>
-                    <th>價格</th>
-                    <th>${term("dayPct", "日漲跌")}</th>
-                    <th>${term("rs", "RS")}／${term("priorClose", "前收")}</th>
-                    <th>${term("pct5d", "5 日")}</th>
-                    <th>${term("pct1m", "約 1 月")}</th>
-                    <th>${term("volRatio", "量比")}</th>
-                    <th>均線</th>
-                    <th>${term("screening", "篩選")}</th>
-                    <th>理由</th>
-                  </tr>
-                </thead>
+                <thead>${headers}</thead>
                 <tbody>${tableRows(tw)}</tbody>
               </table>
             </div>
@@ -634,24 +545,13 @@ function renderApp(data, paper) {
         <span id="social" class="view-anchor" tabindex="-1"></span>
         ${renderChatRoom(data)}
       </div>
-
-      <div class="view" id="view-help" data-view="help" hidden>
-        <span id="help" class="view-anchor" tabindex="-1"></span>
-        ${renderHelpPage(data)}
-        ${renderGlossarySection()}
-        <details class="fold-block help-fold" id="help-legal">
-          <summary>詳情 · 免責</summary>
-          <p class="disclaimer">${disclaimer}</p>
-          <p class="tz-note">報價採台灣慣例紅漲綠跌 · 模擬交易非真實成交 · 外部摘要僅供參考</p>
-        </details>
-      </div>
     </main>
 
-    <nav class="nav-bottom" aria-label="主要導覽">
+    <nav class="nav-bottom" aria-label="${escapeHtml(t("navMain"))}">
       ${renderNavItems("mobile")}
     </nav>
 
-    <p class="site-footer">投資涉及風險，資訊僅供參考，非投資建議 · 點選名詞可查看定義</p>
+    <p class="site-footer">${escapeHtml(t("footer"))}</p>
   `;
 }
 
@@ -683,6 +583,8 @@ function showView(root, viewId, { updateHash = true, scrollTop = true } = {}) {
   return id;
 }
 
+let navHashHandler = null;
+
 function bindAppNav(root) {
   const go = (viewId, opts) => showView(root, viewId, opts);
 
@@ -693,9 +595,9 @@ function bindAppNav(root) {
     btn.addEventListener("click", () => go(btn.dataset.jump));
   });
 
-  window.addEventListener("hashchange", () => {
-    go(parseViewFromHash(), { updateHash: false });
-  });
+  if (navHashHandler) window.removeEventListener("hashchange", navHashHandler);
+  navHashHandler = () => go(parseViewFromHash(), { updateHash: false });
+  window.addEventListener("hashchange", navHashHandler);
 
   go(parseViewFromHash(), { updateHash: true, scrollTop: false });
   return { go };
@@ -717,7 +619,6 @@ function bindTabs(root) {
     });
   });
 }
-
 
 function bindChatRoom(root, data, { config, digest } = {}) {
   const room = root.querySelector("#chat-room");
@@ -754,8 +655,8 @@ function bindChatRoom(root, data, { config, digest } = {}) {
       handle = mountTickerRoom(mount, ticker, {
         config,
         market,
-        title: market === "TW" ? "台股大廳" : "美股大廳",
-        emptyLine: "目前尚無訊息",
+        title: market === "TW" ? t("twLobby") : t("usLobby"),
+        emptyLine: t("noMessages"),
         maxLen: 80,
       });
       return;
@@ -764,7 +665,7 @@ function bindChatRoom(root, data, { config, digest } = {}) {
     const chip =
       row?.querySelector(".chat-chip.active") || row?.querySelector(".chat-chip");
     if (!chip) {
-      mount.innerHTML = `<p class="chat-empty">此市場目前無標的可討論</p>`;
+      mount.innerHTML = `<p class="chat-empty">${escapeHtml(t("noTickersDiscuss"))}</p>`;
       handle = { destroy() {} };
       return;
     }
@@ -773,7 +674,7 @@ function bindChatRoom(root, data, { config, digest } = {}) {
       digest,
       market,
       title: chip.dataset.ticker,
-      emptyLine: "目前尚無留言",
+      emptyLine: t("noComments"),
     });
   };
 
@@ -786,7 +687,6 @@ function bindChatRoom(root, data, { config, digest } = {}) {
         b.classList.toggle("active", on);
         b.setAttribute("aria-selected", on ? "true" : "false");
       });
-      // reset active chip in new market
       const row = room.querySelector(`.chat-chip-row[data-chip-market="${market}"]`);
       row?.querySelectorAll(".chat-chip").forEach((c, i) => c.classList.toggle("active", i === 0));
       syncChips();
@@ -820,40 +720,69 @@ function bindChatRoom(root, data, { config, digest } = {}) {
   openRoom();
 }
 
+/** Cached fetch for lang re-render without reload */
+let cachedData = null;
+let cachedPaper = null;
+let cachedDigest = null;
+async function mountUi(app) {
+  const data = cachedData;
+  const paper = cachedPaper;
+  const viewBefore = parseViewFromHash();
+  app.innerHTML = renderApp(data, paper);
+  document.title = t("siteTitle");
+  applyDocumentLang();
+
+  const nav = bindAppNav(app);
+  showView(app, viewBefore, { updateHash: true, scrollTop: false });
+  bindTabs(app);
+  bindPaperTabs(app);
+  bindLangSwitcher(app);
+  await initStrategies("#xq-root");
+  void config;
+  let digest = cachedDigest;
+  const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);
+  if (digestResult?.ok) {
+    digest = digestResult.data;
+    cachedDigest = digest;
+  } else if (!digest) {
+    try {
+      digest = await loadSocialDigest(config.socialDigestUrl);
+      cachedDigest = digest;
+    } catch {
+      digest = null;
+    }
+  }
+  bindChatRoom(app, data, { config, digest });
+  mountAllTickerComments(app, { config, digest });
+  initSiteGiscus("#ss-giscus", { config });
+  void nav;
+}
+
+async function remount() {
+  const app = document.getElementById("app");
+  if (!app || !cachedData) return;
+  await mountUi(app);
+}
+
 async function main() {
   const app = document.getElementById("app");
+  applyDocumentLang();
+  const loading = document.getElementById("loading");
+  if (loading) loading.textContent = t("loading");
   try {
     const res = await fetch(DATA_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const paper = await loadPaperPortfolio();
-    app.innerHTML = renderApp(data, paper);
-    const nav = bindAppNav(app);
-    bindTabs(app);
-    bindPaperTabs(app);
-    bindGlossaryAccordion(app);
-    bindTermLinks(app, {
-      beforeScroll() {
-        nav.go("help", { updateHash: true, scrollTop: false });
-      },
-    });
-    await initStrategies("#xq-root");
-    void config;
-    let digest = null;
-    const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);
-    if (digestResult?.ok) digest = digestResult.data;
-    else {
-      try {
-        digest = await loadSocialDigest(config.socialDigestUrl);
-      } catch {
-        digest = null;
-      }
+    cachedData = await res.json();
+    cachedPaper = await loadPaperPortfolio();
+    await mountUi(app);
+    if (!main._langHooked) {
+      main._langHooked = true;
+      onLangChange(() => {
+        void remount();
+      });
     }
-    bindChatRoom(app, data, { config, digest });
-    mountAllTickerComments(app, { config, digest });
-    initSiteGiscus("#ss-giscus", { config });
   } catch (err) {
-    app.innerHTML = `<div class="error">無法載入資料（${escapeHtml(err.message)}）。請確認以靜態伺服器開啟，且 data/latest.json 存在。</div>`;
+    app.innerHTML = `<div class="error">${escapeHtml(t("loadError", { msg: err.message }))}</div>`;
   }
 }
 
