@@ -12635,8 +12635,941 @@
         ],
         "source": "scripts/study/bookshelf-framework-2026-09-16"
       }
+    },
+    {
+      "id": "gooaye-tw-semicon-chain",
+      "name": "股癌包｜台股半導體鏈強勢",
+      "category": "綜合",
+      "categoryGroup": "綜合",
+      "xqTags": [
+        "綜合",
+        "股癌",
+        "半導體"
+      ],
+      "market": "TW",
+      "status": "candidate",
+      "plainTakeaways": [
+        "看一籃子權值／半導體鏈，不單壓一檔護國神山",
+        "需站上短中期均線，且量能不太縮",
+        "排除爆量不足的追高紅K"
+      ],
+      "description": "Gooaye 公開主題近似：護國神山供應鏈／權值核心用「籃子」檢視強弱（Yahoo OHLCV）。非節目喊單、非投資建議；不含分點籌碼。",
+      "conditions": [
+        {
+          "text": "標的屬於公開可追蹤的台股半導體／權值鏈觀察清單",
+          "status": "pass"
+        },
+        {
+          "text": "收盤站上 SMA20 與 SMA50",
+          "status": "pass"
+        },
+        {
+          "text": "近 20 日量比大致不縮（量比 ≳ 0.85）",
+          "status": "pass"
+        },
+        {
+          "text": "排除薄量追高／一個月噴很凶但量能發虛的標的",
+          "status": "pass"
+        },
+        {
+          "text": "流動性足夠（5 日均量代理 ≥ 約 300 張）",
+          "status": "pass"
+        }
+      ],
+      "hits": [
+        {
+          "ticker": "3034.TW",
+          "name": "聯詠",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 548,
+            "dayPct": 1.29,
+            "pct5d": 0.92,
+            "pct1m": 8.51,
+            "volRatio": 0.9,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "chain": "tw_semicon_mega",
+            "avgVol5Zhang": 2956.6
+          }
+        },
+        {
+          "ticker": "2454.TW",
+          "name": "聯發科",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 4530,
+            "dayPct": 2.26,
+            "pct5d": -2.05,
+            "pct1m": 16.6,
+            "volRatio": 0.88,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "chain": "tw_semicon_mega",
+            "avgVol5Zhang": 6130
+          }
+        }
+      ],
+      "blockers": [],
+      "incomplete": false,
+      "notes": [
+        "清單 15 檔 · 命中 2 · 缺行情 0",
+        "來源：scripts/study/gooaye-framework-2026-09-16（G1/G5/G9）"
+      ],
+      "calibrationNotes": {
+        "status": "candidate",
+        "matchedXq": [
+          "公開 Yahoo 日K／均線／量比"
+        ],
+        "stillDiffers": [
+          "清單為公開常見大型半導體鏈代號，不是節目私房單",
+          "無分點／券商籌碼；數學閘門未做完整樣本外驗證"
+        ],
+        "source": "scripts/study/gooaye-framework-2026-09-16",
+        "olympiadGate": "user-ordered redesign; shipped as candidate with honest calibration"
+      }
+    },
+    {
+      "id": "gooaye-us-risk-on",
+      "name": "股癌包｜美股利率／風險偏好代理",
+      "category": "綜合",
+      "categoryGroup": "綜合",
+      "xqTags": [
+        "綜合",
+        "股癌",
+        "利率"
+      ],
+      "market": "US",
+      "status": "candidate",
+      "plainTakeaways": [
+        "用美債利率方向當風險偏好溫度計（只影響美股包）",
+        "偏風險偏好時看大型科技／半導體是否仍站上均線且有量",
+        "利率急升時提高門檻，不跟薄量追高"
+      ],
+      "description": "Gooaye 總經／聯準會主題近似：美債殖利率 20 日變化作 risk-on／off 代理，再篩美股大型科技與半導體（與台股包分開）。非投資建議。",
+      "conditions": [
+        {
+          "text": "美債 20 日變化約 0.272pp → 代理區間「risk_off」",
+          "status": "pass"
+        },
+        {
+          "text": "標的為公開大型科技／半導體觀察清單（美股）",
+          "status": "pass"
+        },
+        {
+          "text": "需同時站上 SMA50 與 SMA200",
+          "status": "pass"
+        },
+        {
+          "text": "量比需高於本區間門檻（約 1.1×）",
+          "status": "pass"
+        },
+        {
+          "text": "排除薄量追高與發虛噴出",
+          "status": "pass"
+        }
+      ],
+      "hits": [
+        {
+          "ticker": "QCOM",
+          "name": "Qualcomm",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 187.8,
+            "dayPct": 4.25,
+            "pct5d": 7.88,
+            "pct1m": 13.28,
+            "volRatio": 1.19,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "rateRegime": "risk_off",
+            "dUs10Y_20d": 0.2719998359680176,
+            "volFloor": 1.1
+          }
+        }
+      ],
+      "blockers": [],
+      "incomplete": false,
+      "notes": [
+        "rateRegime=risk_off dUs10Y_20d=0.2719998359680176 · hits=1 · missing=0",
+        "來源：gooaye-framework G4/G5/G2；台美不混包"
+      ],
+      "calibrationNotes": {
+        "status": "candidate",
+        "matchedXq": [
+          "^TNX 變化＋Yahoo 美股日K"
+        ],
+        "stillDiffers": [
+          "利率門檻為啟發式代理，非節目參數",
+          "未使用選擇權／信用利差完整模型"
+        ],
+        "source": "scripts/study/gooaye-framework-2026-09-16",
+        "olympiadGate": "user-ordered redesign; candidate until longer calibration"
+      }
+    },
+    {
+      "id": "gooaye-tw-vol-breakout",
+      "name": "股癌包｜台股量能突破（去 FOMO）",
+      "category": "技術",
+      "categoryGroup": "技術",
+      "xqTags": [
+        "技術",
+        "股癌",
+        "價量"
+      ],
+      "market": "TW",
+      "status": "adopted",
+      "plainTakeaways": [
+        "放量且站上短均線，才比較像有人真的在接力",
+        "紅K很兇但量發虛 → 當散戶追價雜訊濾掉",
+        "法人同步另見「法人同步做多」；本包不含分點籌碼"
+      ],
+      "description": "Gooaye 風險／散戶心理主題近似：量能突破＋去薄量追高。與既有「法人同步做多」並存；本包純 OHLCV，不發明籌碼。",
+      "conditions": [
+        {
+          "text": "台股宇宙；收盤站上 SMA20",
+          "status": "pass"
+        },
+        {
+          "text": "量比 ≳ 1.5（相對近 20 日均量）",
+          "status": "pass"
+        },
+        {
+          "text": "5 日均量代理 ≥ 約 300 張",
+          "status": "pass"
+        },
+        {
+          "text": "排除「大漲＋薄量＋五日已噴」的追價型態",
+          "status": "pass"
+        }
+      ],
+      "hits": [
+        {
+          "ticker": "2468.TW",
+          "name": "華經",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 43.65,
+            "dayPct": 0.92,
+            "pct5d": 34.51,
+            "pct1m": 23.65,
+            "volRatio": 14.76,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 11969.5,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "1528.TW",
+          "name": "恩德",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 24.95,
+            "dayPct": 1.22,
+            "pct5d": 23.21,
+            "pct1m": 33.42,
+            "volRatio": 5.21,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 18604.8,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "3311.TW",
+          "name": "閎暉",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 38.1,
+            "dayPct": 3.53,
+            "pct5d": 17.96,
+            "pct1m": 21.14,
+            "volRatio": 4.17,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 1609.9,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "5269.TW",
+          "name": "祥碩",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 1475,
+            "dayPct": 7.66,
+            "pct5d": 5.73,
+            "pct1m": 8.46,
+            "volRatio": 3.59,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 589.7,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "7765.TW",
+          "name": "中華資安",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 240,
+            "dayPct": 2.13,
+            "pct5d": 9.84,
+            "pct1m": 7.62,
+            "volRatio": 3.45,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": false,
+            "avgVol5Zhang": 671.8,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "6689.TW",
+          "name": "伊雲谷",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 67,
+            "dayPct": -3.32,
+            "pct5d": 9.12,
+            "pct1m": 11.3,
+            "volRatio": 3.24,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 2783.5,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "6112.TW",
+          "name": "邁達特",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 49.7,
+            "dayPct": 3.22,
+            "pct5d": 12.19,
+            "pct1m": 13.21,
+            "volRatio": 3.24,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 8285.9,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2254.TW",
+          "name": "巨鎧精密-創",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 74.2,
+            "dayPct": 1.5,
+            "pct5d": 13.8,
+            "pct1m": 25.13,
+            "volRatio": 3.11,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 1641.5,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "6861.TW",
+          "name": "睿生光電",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 223,
+            "dayPct": -2.19,
+            "pct5d": 20.22,
+            "pct1m": 12.34,
+            "volRatio": 2.72,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 2605.5,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "6168.TW",
+          "name": "宏齊",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 32.15,
+            "dayPct": 9.91,
+            "pct5d": 8.61,
+            "pct1m": 32.58,
+            "volRatio": 2.7,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 7824,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "6706.TW",
+          "name": "惠特",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 147,
+            "dayPct": 2.44,
+            "pct5d": 18.55,
+            "pct1m": 24.05,
+            "volRatio": 2.69,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 12092.6,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2338.TW",
+          "name": "光罩",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 50.7,
+            "dayPct": 9.98,
+            "pct5d": 22.17,
+            "pct1m": 32.9,
+            "volRatio": 2.53,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 38141.1,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "6715.TW",
+          "name": "嘉基",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 393,
+            "dayPct": 9.93,
+            "pct5d": 10.86,
+            "pct1m": -6.21,
+            "volRatio": 2.43,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 1748.6,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "4961.TW",
+          "name": "天鈺",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 181,
+            "dayPct": 1.4,
+            "pct5d": 2.26,
+            "pct1m": 13.13,
+            "volRatio": 2.34,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 1142.9,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2471.TW",
+          "name": "資通",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 51.9,
+            "dayPct": 0.39,
+            "pct5d": 5.06,
+            "pct1m": 6.03,
+            "volRatio": 2.24,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 754.9,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "3016.TW",
+          "name": "嘉晶",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 115.5,
+            "dayPct": 5,
+            "pct5d": 15.5,
+            "pct1m": 10.16,
+            "volRatio": 2.23,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 20915.8,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "4956.TW",
+          "name": "光鋐",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 35.25,
+            "dayPct": 9.98,
+            "pct5d": 3.68,
+            "pct1m": 19.49,
+            "volRatio": 2.16,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 2546.5,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "4915.TW",
+          "name": "致伸",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 65.6,
+            "dayPct": 0,
+            "pct5d": 6.84,
+            "pct1m": 10.44,
+            "volRatio": 1.95,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": false,
+            "avgVol5Zhang": 7336.3,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2413.TW",
+          "name": "環科",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 53,
+            "dayPct": 9.96,
+            "pct5d": 4.95,
+            "pct1m": 22.54,
+            "volRatio": 1.91,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 7734.7,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2302.TW",
+          "name": "麗正",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 44.2,
+            "dayPct": 9.95,
+            "pct5d": 5.24,
+            "pct1m": -2.43,
+            "volRatio": 1.91,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 2546.7,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "1727.TW",
+          "name": "中華化",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 95.6,
+            "dayPct": 6.1,
+            "pct5d": 4.94,
+            "pct1m": 7.3,
+            "volRatio": 1.85,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 3086.3,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "9933.TW",
+          "name": "中鼎",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 42.75,
+            "dayPct": 2.03,
+            "pct5d": 6.48,
+            "pct1m": 4.22,
+            "volRatio": 1.85,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 3101.4,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2455.TW",
+          "name": "全新",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 515,
+            "dayPct": -0.96,
+            "pct5d": -3.38,
+            "pct1m": 23.35,
+            "volRatio": 1.78,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 5191.2,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "3066.TWO",
+          "name": "李洲",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 25.75,
+            "dayPct": 6.63,
+            "pct5d": 8.88,
+            "pct1m": 12.45,
+            "volRatio": 1.72,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 834.9,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2481.TW",
+          "name": "強茂",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 168.5,
+            "dayPct": 9.77,
+            "pct5d": 10.86,
+            "pct1m": 20.79,
+            "volRatio": 1.64,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 50097.4,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "3229.TW",
+          "name": "晟鈦",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 61.1,
+            "dayPct": 1.33,
+            "pct5d": 0.66,
+            "pct1m": 19.57,
+            "volRatio": 1.55,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 8953.7,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2351.TW",
+          "name": "順德",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 236,
+            "dayPct": -6.16,
+            "pct5d": -0.63,
+            "pct1m": 34.09,
+            "volRatio": 1.55,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 10330.7,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2891.TW",
+          "name": "中信金",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 70.8,
+            "dayPct": 1.58,
+            "pct5d": 6.31,
+            "pct1m": 6.47,
+            "volRatio": 1.52,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 35797.9,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "3605.TW",
+          "name": "宏致",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 140,
+            "dayPct": 9.8,
+            "pct5d": 8.11,
+            "pct1m": 15.7,
+            "volRatio": 1.51,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 10315.9,
+            "pack": "vol_breakout"
+          }
+        },
+        {
+          "ticker": "2305.TW",
+          "name": "全友",
+          "market": "TW",
+          "currency": "TWD",
+          "metrics": {
+            "price": 49.4,
+            "dayPct": 9.9,
+            "pct5d": 41.14,
+            "pct1m": 78.99,
+            "volRatio": 1.51,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "avgVol5Zhang": 45624.9,
+            "pack": "vol_breakout"
+          }
+        }
+      ],
+      "blockers": [],
+      "incomplete": false,
+      "notes": [
+        "可與 inst-sync 並讀；G11 的籌碼半邊不在此包捏造",
+        "status=adopted（OHLCV 規則單純、可重現）"
+      ],
+      "calibrationNotes": {
+        "status": "adopted",
+        "matchedXq": [
+          "量比突破＋均線",
+          "FOMO 薄量降權"
+        ],
+        "stillDiffers": [
+          "未接分點／券商；門檻非 XQ 專有條件一字不差"
+        ],
+        "source": "scripts/study/gooaye-framework-2026-09-16",
+        "olympiadGate": "OHLCV-only; math-guards cover SMA/volRatio primitives"
+      }
+    },
+    {
+      "id": "gooaye-us-fomo-filter",
+      "name": "股癌包｜美股去 FOMO 動能",
+      "category": "技術",
+      "categoryGroup": "技術",
+      "xqTags": [
+        "技術",
+        "股癌",
+        "價量"
+      ],
+      "market": "US",
+      "status": "candidate",
+      "plainTakeaways": [
+        "只要站上中期均線、量能不虛的動能",
+        "濾掉薄量噴出與一個月發虛火箭",
+        "與台股包分開，不混成世界心情分數"
+      ],
+      "description": "Gooaye 散戶心理／風險控管主題近似（美股宇宙）：有量的均線上方動能，去掉薄量追高。候選狀態，待更長樣本校正。",
+      "conditions": [
+        {
+          "text": "美股宇宙；收盤站上 SMA50",
+          "status": "pass"
+        },
+        {
+          "text": "量比 ≳ 1.0",
+          "status": "pass"
+        },
+        {
+          "text": "流動性足夠（5 日均量 ≳ 50 萬股）",
+          "status": "pass"
+        },
+        {
+          "text": "排除薄量追高與發虛噴出；五日大跌過深者不進",
+          "status": "pass"
+        }
+      ],
+      "hits": [
+        {
+          "ticker": "QLYS",
+          "name": "Qualys",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 185.37,
+            "dayPct": 7.21,
+            "pct5d": 8.84,
+            "pct1m": -0.37,
+            "volRatio": 1.77,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "pack": "us_fomo_filter"
+          }
+        },
+        {
+          "ticker": "CRWD",
+          "name": "CrowdStrike",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 242.49,
+            "dayPct": 3.02,
+            "pct5d": 15.46,
+            "pct1m": 11.77,
+            "volRatio": 1.45,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "pack": "us_fomo_filter"
+          }
+        },
+        {
+          "ticker": "ZS",
+          "name": "Zscaler",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 193.89,
+            "dayPct": 1.13,
+            "pct5d": 19.73,
+            "pct1m": 5.6,
+            "volRatio": 1.22,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "pack": "us_fomo_filter"
+          }
+        },
+        {
+          "ticker": "QCOM",
+          "name": "Qualcomm",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 187.8,
+            "dayPct": 4.25,
+            "pct5d": 7.88,
+            "pct1m": 13.28,
+            "volRatio": 1.19,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "pack": "us_fomo_filter"
+          }
+        },
+        {
+          "ticker": "META",
+          "name": "Meta",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 670.24,
+            "dayPct": 0.7,
+            "pct5d": 9.25,
+            "pct1m": 13.63,
+            "volRatio": 1.05,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "pack": "us_fomo_filter"
+          }
+        },
+        {
+          "ticker": "FTNT",
+          "name": "Fortinet",
+          "market": "US",
+          "currency": "USD",
+          "metrics": {
+            "price": 172.37,
+            "dayPct": 1.29,
+            "pct5d": 9.46,
+            "pct1m": 7.72,
+            "volRatio": 1.03,
+            "aboveSma20": true,
+            "aboveSma50": true,
+            "aboveSma200": true,
+            "pack": "us_fomo_filter"
+          }
+        }
+      ],
+      "blockers": [],
+      "incomplete": false,
+      "notes": [
+        "G2/G6；candidate"
+      ],
+      "calibrationNotes": {
+        "status": "candidate",
+        "matchedXq": [
+          "均線＋量比＋流動性"
+        ],
+        "stillDiffers": [
+          "FOMO 門檻啟發式",
+          "宇宙取決於當日掃描清單"
+        ],
+        "source": "scripts/study/gooaye-framework-2026-09-16",
+        "olympiadGate": "user-ordered; candidate"
+      }
     }
   ],
   "glossaryHint": "名詞（本益比、營益率、毛利率、外資、投信、自營商、均線多頭、RSI、振幅、張）見站內名詞小辭典。",
-  "exportNote": "可複製本 JSON（strategy-screener.json）自行回測；站內不提供券商下單。"
+  "exportNote": "可複製本 JSON（strategy-screener.json）自行回測；站內不提供券商下單。",
+  "gooayePacksAsOf": "2026-09-16T07:36:39.471Z"
 }

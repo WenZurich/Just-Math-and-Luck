@@ -11,6 +11,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildTwFundamentalBundle, codeOfTicker } from "./tw-fundamentals.mjs";
 import { buildAllMasters } from "./master-strategies.mjs";
+import { buildAllGooayePacks, gooayeUniverseBoost } from "./gooaye-strategies.mjs";
 // Peter Lynch now lives in master-strategies (TW MOPS, skip-if-missing).
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -1415,6 +1416,40 @@ async function main() {
     if (pe != null && !peMap.has(u.ticker)) peMap.set(u.ticker, pe);
   }
 
+  // Gooaye curated mega-cap / semi lists into OHLCV universe (+ fetch bars)
+  {
+    const gooayeNew = [];
+    for (const g of gooayeUniverseBoost()) {
+      if (g.market === "TW" && !twSet.has(g.ticker)) {
+        twSet.set(g.ticker, { ticker: g.ticker, name: g.name, market: "TW" });
+        gooayeNew.push(twSet.get(g.ticker));
+      } else if (g.market === "US" && !usSet.has(g.ticker)) {
+        usSet.set(g.ticker, { ticker: g.ticker, name: g.name, market: "US" });
+        gooayeNew.push(usSet.get(g.ticker));
+      } else if (!ohlcvMap.has(g.ticker)) {
+        const u =
+          g.market === "TW" ? twSet.get(g.ticker) : usSet.get(g.ticker);
+        if (u) gooayeNew.push(u);
+      }
+    }
+    if (gooayeNew.length) {
+      console.log("Gooaye OHLCV boost", gooayeNew.length);
+      await mapPool(gooayeNew, CONCURRENCY, async (u) => {
+        try {
+          const c = await yahooChart(u.ticker);
+          if (c) {
+            ohlcvMap.set(u.ticker, c);
+            if (!u.name || u.name === u.ticker) u.name = c.name;
+            ok++;
+          } else fail++;
+        } catch {
+          fail++;
+        }
+        await sleep(80);
+      });
+    }
+  }
+
   // Pull extra master-candidate names into OHLCV universe so hit counts aren't universe-starved
   {
     const already = new Set(twSet.keys());
@@ -1554,6 +1589,27 @@ async function main() {
     ...masterStrategies, // includes 彼得林區 (TW MOPS) + other masters; no US mix
   ];
 
+  // Gooaye（股癌）packs — US/TW separate; no invented chip/branch data
+  {
+    let gooayeRateCtx = {};
+    try {
+      if (fs.existsSync(LATEST)) {
+        const latest = JSON.parse(fs.readFileSync(LATEST, "utf8"));
+        const usR = latest.marketRegime?.us;
+        gooayeRateCtx = {
+          liquidityBias: usR?.liquidityBias ?? null,
+          dUs10Y_20d: usR?.features?.d_US10Y_20d ?? usR?.features?.dUs10Y_20d ?? null,
+        };
+      }
+    } catch (e) {
+      console.warn("gooaye rateCtx:", e.message);
+    }
+    const gooayeUniverse = [...twSet.values(), ...usSet.values()];
+    const gooayePacks = buildAllGooayePacks({ universe: gooayeUniverse, ohlcvMap, rateCtx: gooayeRateCtx });
+    strategies.push(...gooayePacks);
+    console.log("Gooaye packs", gooayePacks.map((p) => `${p.id}:${p.hits.length}`).join(", "));
+  }
+
   // Attach latest OHLCV bar date (Asia/Taipei) — never claim「今日」if bar is prior session
   const allBarDates = [];
   for (const s of strategies) {
@@ -1617,6 +1673,30 @@ async function main() {
       "名詞（本益比、營益率、毛利率、外資、投信、自營商、均線多頭、RSI、振幅、張）見站內名詞小辭典。",
     exportNote: "可複製本 JSON（strategy-screener.json）自行回測；站內不提供券商下單。",
   };
+
+  // Preserve Gooaye packs if a partial rewrite dropped them
+  try {
+    if (fs.existsSync(OUT_PUBLIC)) {
+      const prev = JSON.parse(fs.readFileSync(OUT_PUBLIC, "utf8"));
+      for (const id of [
+        "gooaye-tw-semicon-chain",
+        "gooaye-us-risk-on",
+        "gooaye-tw-vol-breakout",
+        "gooaye-us-fomo-filter",
+      ]) {
+        if (!strategies.some((s) => s.id === id)) {
+          const prevPack = (prev.strategies || []).find((s) => s.id === id);
+          if (prevPack) {
+            strategies.push(prevPack);
+            payload.strategies = strategies;
+            console.log("Preserved", id, "from prior screener");
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("gooaye preserve skipped:", e.message);
+  }
 
   // Preserve 週期 pack if daily-scan / prior run attached kostolany
   try {

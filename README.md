@@ -93,3 +93,11 @@ XQ 風格「策略選股（邏輯條件）」：分類切換（精選／價量�
 | 詹姆士歐沙那希 | ✅ EPS連季成長＋PE／ROE（MOPS 季報拆單季） |
 
 輸出：`public/data/strategy-screener.json`（build 後進 `docs/data/`）。**不宣稱**與 XQ 專有籌碼庫一致。
+
+## Gooaye（股癌）研究包
+
+- 框架筆記：`scripts/study/gooaye-framework-2026-09-16.md`（原創可操作摘要；無逐字稿）
+- 策略包（美／台分開、無自造分點籌碼）：`gooaye-tw-semicon-chain`、`gooaye-us-risk-on`、`gooaye-tw-vol-breakout`、`gooaye-us-fomo-filter`
+- 研究書架：`podcast-gooaye`（type=podcast）
+- 快速合併：`node scripts/merge-gooaye-packs.mjs`
+

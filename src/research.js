@@ -8,6 +8,7 @@ import { t, getLang } from "./i18n.js";
 const DATA_URL = "./data/research-library.json";
 const DEFAULT_BOOK_COVER = "./covers/placeholder-book.svg";
 const DEFAULT_PAPER_COVER = "./covers/placeholder-paper.svg";
+const DEFAULT_PODCAST_COVER = "./covers/placeholder-podcast.svg";
 
 const STATUS_CLASS = {
   candidate: "rl-status-candidate",
@@ -49,7 +50,9 @@ function marketLabel(m) {
 }
 
 function typeLabel(type) {
-  return type === "paper" ? t("researchTypePaper") : t("researchTypeBook");
+  if (type === "paper") return t("researchTypePaper");
+  if (type === "podcast") return t("researchTypePodcast");
+  return t("researchTypeBook");
 }
 
 function pickLocalized(map, fallback) {
@@ -72,6 +75,9 @@ function coverSrc(item, meta) {
   if (item.type === "paper") {
     return meta?.defaultCoverPaper || DEFAULT_PAPER_COVER;
   }
+  if (item.type === "podcast") {
+    return meta?.defaultCoverPodcast || DEFAULT_PODCAST_COVER;
+  }
   return meta?.defaultCoverBook || DEFAULT_BOOK_COVER;
 }
 
@@ -79,6 +85,9 @@ function coverFallback(item, meta) {
   if (item.coverFallback) return item.coverFallback;
   if (item.type === "paper") {
     return meta?.defaultCoverPaper || DEFAULT_PAPER_COVER;
+  }
+  if (item.type === "podcast") {
+    return meta?.defaultCoverPodcast || DEFAULT_PODCAST_COVER;
   }
   return meta?.defaultCoverBook || DEFAULT_BOOK_COVER;
 }
@@ -212,6 +221,7 @@ function paint(root, data, state) {
   const filtered = filterItems(items, state);
   const books = filtered.filter((i) => i.type === "book");
   const papers = filtered.filter((i) => i.type === "paper");
+  const podcasts = filtered.filter((i) => i.type === "podcast");
   const meta = data?.meta || {};
   const metaNote = meta.mathGate
     ? `<p class="rl-meta-line">${escapeHtml(mathGateBannerText(data))}</p>`
@@ -228,10 +238,11 @@ function paint(root, data, state) {
         <button type="button" class="rl-filter${state.type === "all" ? " is-active" : ""}" data-rl-type="all">${escapeHtml(t("researchFilterAll"))}</button>
         <button type="button" class="rl-filter${state.type === "book" ? " is-active" : ""}" data-rl-type="book">${escapeHtml(t("researchTypeBook"))}</button>
         <button type="button" class="rl-filter${state.type === "paper" ? " is-active" : ""}" data-rl-type="paper">${escapeHtml(t("researchTypePaper"))}</button>
+        <button type="button" class="rl-filter${state.type === "podcast" ? " is-active" : ""}" data-rl-type="podcast">${escapeHtml(t("researchTypePodcast"))}</button>
       </div>
     </div>
     ${metaNote}
-    <p class="rl-counts">${escapeHtml(t("researchCounts", { books: books.length, papers: papers.length, total: filtered.length }))}</p>
+    <p class="rl-counts">${escapeHtml(t("researchCounts", { books: books.length, papers: papers.length, podcasts: podcasts.length, total: filtered.length }))}</p>
     <div class="rl-lists">
       <section class="rl-list" aria-label="${escapeHtml(t("researchTypeBook"))}">
         <h3 class="rl-list-title">${escapeHtml(t("researchTypeBook"))} <span class="rl-list-count">(${books.length})</span></h3>
@@ -243,6 +254,12 @@ function paint(root, data, state) {
         <h3 class="rl-list-title">${escapeHtml(t("researchTypePaper"))} <span class="rl-list-count">(${papers.length})</span></h3>
         <div class="rl-grid">
           ${papers.length ? papers.map((p) => renderResearchCard(p, meta)).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
+        </div>
+      </section>
+      <section class="rl-list" aria-label="${escapeHtml(t("researchTypePodcast"))}">
+        <h3 class="rl-list-title">${escapeHtml(t("researchTypePodcast"))} <span class="rl-list-count">(${podcasts.length})</span></h3>
+        <div class="rl-grid">
+          ${podcasts.length ? podcasts.map((p) => renderResearchCard(p, meta)).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
         </div>
       </section>
     </div>`;

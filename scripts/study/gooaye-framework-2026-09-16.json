@@ -1,0 +1,341 @@
+{
+  "id": "gooaye-framework-2026-09-16",
+  "updated": "2026-09-16T15:33:06+08:00",
+  "timezone": "Asia/Taipei",
+  "show": {
+    "name": "Gooaye 股癌",
+    "host": "謝孟恭",
+    "appleId": "1500839292",
+    "feed": "https://feeds.soundon.fm/podcasts/954689a5-3096-43a4-a80b-7810b219cef3.xml",
+    "episodeCountRss": 697,
+    "epRange": {
+      "min": 1,
+      "max": 697
+    }
+  },
+  "copyright": "Original operational summaries only — no verbatim transcripts",
+  "listeningLimitations": {
+    "audioFullCatalog": false,
+    "rssInventory": true,
+    "showNotesMined": true,
+    "publicWebSummaries": true,
+    "transcripts": "mostly unavailable / not used verbatim",
+    "sampledTextEpisodes": 15
+  },
+  "principles": [
+    "regime_risk_first",
+    "yahoo_twse_only",
+    "us_tw_separate",
+    "core_satellite",
+    "plain_ui_language",
+    "no_invented_chip_branch"
+  ],
+  "rules": [
+    {
+      "id": "G1",
+      "name": "core_vs_single_name",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "computable": true
+    },
+    {
+      "id": "G2",
+      "name": "hot_market_volume_bar",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "computable": true
+    },
+    {
+      "id": "G3",
+      "name": "fat_book_trim_rotate",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "computable": true
+    },
+    {
+      "id": "G4",
+      "name": "us_rate_risk_on_proxy",
+      "markets": [
+        "US"
+      ],
+      "computable": true
+    },
+    {
+      "id": "G5",
+      "name": "semi_chain_strength",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "computable": true,
+      "note": "curated public mega-cap lists only"
+    },
+    {
+      "id": "G6",
+      "name": "retail_fomo_demote",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "computable": true
+    },
+    {
+      "id": "G7",
+      "name": "reclaim_after_shock",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "computable": true
+    },
+    {
+      "id": "G8",
+      "name": "hedge_not_core",
+      "markets": [
+        "BOTH"
+      ],
+      "computable": false,
+      "disciplineOnly": true
+    },
+    {
+      "id": "G9",
+      "name": "sector_meltup_survivors",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "computable": true
+    },
+    {
+      "id": "G10",
+      "name": "us_tw_linkage_separate_dials",
+      "markets": [
+        "BOTH"
+      ],
+      "computable": true
+    },
+    {
+      "id": "G11",
+      "name": "vol_breakout_plus_inst_sync_tw",
+      "markets": [
+        "TW"
+      ],
+      "computable": true,
+      "note": "inst half uses existing pack; no chip invent"
+    },
+    {
+      "id": "G12",
+      "name": "leverage_liquidity_discipline",
+      "markets": [
+        "BOTH"
+      ],
+      "computable": true
+    }
+  ],
+  "strategyPacks": [
+    {
+      "id": "gooaye-tw-semicon-chain",
+      "market": "TW",
+      "categoryGroup": "綜合",
+      "status": "candidate",
+      "rules": [
+        "G1",
+        "G5",
+        "G9"
+      ]
+    },
+    {
+      "id": "gooaye-us-risk-on",
+      "market": "US",
+      "categoryGroup": "綜合",
+      "status": "candidate",
+      "rules": [
+        "G4",
+        "G5",
+        "G2"
+      ]
+    },
+    {
+      "id": "gooaye-tw-vol-breakout",
+      "market": "TW",
+      "categoryGroup": "技術",
+      "status": "adopted",
+      "rules": [
+        "G2",
+        "G6",
+        "G11"
+      ]
+    },
+    {
+      "id": "gooaye-us-fomo-filter",
+      "market": "US",
+      "categoryGroup": "技術",
+      "status": "candidate",
+      "rules": [
+        "G2",
+        "G6"
+      ]
+    }
+  ],
+  "sampledEpisodes": [
+    {
+      "episode": "EP89",
+      "title": "EP89 | 玉子燒不加蛋",
+      "pubDate": "Wed, 18 Nov 2020 09:04:46 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/86a5d6fb-a9c0-4bd6-af5b-a5bc4801f5d2",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Index/ETF vs single mega-cap concentration — diversification over hindsight heroes.",
+      "noteCharsAvailable": 488
+    },
+    {
+      "episode": "EP64",
+      "title": "EP64 | Starlink 衛星網路 台美股近況更新",
+      "pubDate": "Sat, 22 Aug 2020 08:25:38 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/dac76287-724c-4e33-be1b-723dc80de826",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "High-level market: use a TW reference level for add/trim; theme satellites need checklist.",
+      "noteCharsAvailable": 387
+    },
+    {
+      "episode": "EP57",
+      "title": "EP57 | 跟風仔都該聊台積電 柳樹理論",
+      "pubDate": "Wed, 29 Jul 2020 05:21:05 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/13f4fe77-d301-414c-aa0d-e1a439d1c2e9",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "TSMC narrative + FX/rate (willow) context — rates/FX as regime inputs.",
+      "noteCharsAvailable": 302
+    },
+    {
+      "episode": "EP153",
+      "title": "EP153 | 三根大紅K散戶不請自來",
+      "pubDate": "Wed, 30 Jun 2021 07:23:14 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/4ab38360-397a-4843-bbfe-d5660d1f677b",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Retail chase of red candles / cold-name hype — FOMO demotion.",
+      "noteCharsAvailable": 501
+    },
+    {
+      "episode": "EP146",
+      "title": "EP146 | NVDA700",
+      "pubDate": "Sat, 05 Jun 2021 09:01:41 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/f251b36a-2fc8-4b51-9040-cc3e9342537e",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "US mega-tech leadership ↔ TW supply-chain watch (linkage, separate books).",
+      "noteCharsAvailable": 325
+    },
+    {
+      "episode": "EP154",
+      "title": "EP154 | 兩點要下山",
+      "pubDate": "Sat, 03 Jul 2021 08:39:16 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/ffc2ecda-5b38-456b-a4c7-14fbcb2a540d",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Hard risk cutoff metaphor (turn around if late) — reclaim/time-stop gate.",
+      "noteCharsAvailable": 612
+    },
+    {
+      "episode": "EP106",
+      "title": "EP106 | ＜コ:彡",
+      "pubDate": "Sat, 16 Jan 2021 08:46:54 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/4f64b26f-30bb-41a4-a3ef-6056351c0fb3",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "VIX/hedge products are costly — not core capital.",
+      "noteCharsAvailable": 347
+    },
+    {
+      "episode": "EP12",
+      "title": "EP12 | QE和零利率都救不起來的市場",
+      "pubDate": "Mon, 16 Mar 2020 05:14:03 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/1b274bf6-d2f8-4116-94ed-7ce155146a31",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Crisis liquidity ≠ automatic equity bailout — respect macro shock.",
+      "noteCharsAvailable": 143
+    },
+    {
+      "episode": "EP450",
+      "title": "EP450 | 🍙",
+      "pubDate": "Sat, 04 May 2024 08:03:16 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/b43a26ae-8394-41cb-9326-04e65e8a6000",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Fed/cycles matter for both US and TW — build independent macro literacy.",
+      "noteCharsAvailable": 588
+    },
+    {
+      "episode": "EP670",
+      "title": "EP670 | 🫡",
+      "pubDate": "Sat, 13 Jun 2026 07:07:21 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/685bc211-b7dc-478b-9463-53a160c20cdf",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "After AI heat then plunge: manage which sleeves to keep vs rotate (book gets fat/thin).",
+      "noteCharsAvailable": 717
+    },
+    {
+      "episode": "EP660",
+      "title": "EP660 | 🍄‍🟫",
+      "pubDate": "Sat, 09 May 2026 02:48:01 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/d55ccb00-f3dd-4dd0-9e7f-e108f6645494",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Risk control when market is euphoric/hot — decision quality over all-in.",
+      "noteCharsAvailable": 642
+    },
+    {
+      "episode": "EP675",
+      "title": "EP675 | 🎢",
+      "pubDate": "Wed, 01 Jul 2026 07:59:09 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/31e6121a-9d45-4204-aac1-f3a2cd7cd5fe",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Plan vs emotion at the open — process discipline before clicks.",
+      "noteCharsAvailable": 606
+    },
+    {
+      "episode": "EP88",
+      "title": "EP88 | 中國瘋狗浪",
+      "pubDate": "Sat, 14 Nov 2020 07:44:02 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/2a580f17-736b-41c1-972d-852cd4aa2eec",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Sector spray: few survivors, exit carsickness — don’t hold every peer.",
+      "noteCharsAvailable": 526
+    },
+    {
+      "episode": "EP77",
+      "title": "EP77 | 麥可貝式歸隊 台美股近況",
+      "pubDate": "Wed, 07 Oct 2020 08:45:51 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/cf8ced13-52df-475a-af1f-e810145399e8",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "TW secondary foundry/MOSFET strength vs US; political uncertainty → size caution.",
+      "noteCharsAvailable": 415
+    },
+    {
+      "episode": "EP126",
+      "title": "EP126 | 棉花",
+      "pubDate": "Sat, 27 Mar 2021 05:09:04 GMT",
+      "link": "https://player.soundon.fm/p/954689a5-3096-43a4-a80b-7810b219cef3/episodes/09774a6e-4282-4864-aaf7-e0693154474f",
+      "access": "rss_show_notes_text_only",
+      "themeTakeaway": "Fed taper/hike talk vs long-duration valuations — rate path as risk dial.",
+      "noteCharsAvailable": 488
+    }
+  ],
+  "publicWebSources": [
+    {
+      "url": "https://feeds.soundon.fm/podcasts/954689a5-3096-43a4-a80b-7810b219cef3.xml",
+      "role": "rss_inventory"
+    },
+    {
+      "url": "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292",
+      "role": "show_page"
+    },
+    {
+      "url": "https://okapi.books.com.tw/article/14542",
+      "role": "public_interview_summary_paraphrased"
+    },
+    {
+      "url": "https://vocus.cc/article/6a5414a0fd897800012aed32",
+      "role": "third_party_episode_notes_themes_only"
+    }
+  ]
+}

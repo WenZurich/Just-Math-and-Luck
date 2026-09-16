@@ -245,6 +245,33 @@ async function main() {
   }
   ok("no unknown category tabs");
 
+  {
+    const gooayeIds = [
+      "gooaye-tw-semicon-chain",
+      "gooaye-us-risk-on",
+      "gooaye-tw-vol-breakout",
+      "gooaye-us-fomo-filter",
+    ];
+    const ids = new Set(strategies.map((s) => s.id));
+    for (const id of gooayeIds) {
+      if (!ids.has(id)) fail(`missing gooaye pack ${id}`);
+      else {
+        const s = strategies.find((x) => x.id === id);
+        if (!Array.isArray(s.plainTakeaways) || !s.plainTakeaways.length) {
+          fail(`gooaye pack ${id} missing plainTakeaways`);
+        } else if (s.market === "TW" && (s.hits || []).some((h) => String(h.market).toUpperCase() === "US")) {
+          fail(`gooaye pack ${id} mixes US hits into TW`);
+        } else if (s.market === "US" && (s.hits || []).some((h) => String(h.market).toUpperCase() === "TW")) {
+          fail(`gooaye pack ${id} mixes TW hits into US`);
+        } else ok(`gooaye pack ${id}`);
+      }
+    }
+    if (!fs.existsSync(path.join(ROOT, "scripts/study/gooaye-framework-2026-09-16.md"))) {
+      fail("missing gooaye framework md");
+    } else ok("gooaye framework study docs");
+  }
+
+
   // —— Research library hash + JSON schema ——
   const rlPath = path.join(ROOT, "public/data/research-library.json");
   if (!fs.existsSync(rlPath)) {
@@ -255,10 +282,13 @@ async function main() {
       const items = rl.items || [];
       const books = items.filter((x) => x.type === "book");
       const papers = items.filter((x) => x.type === "paper");
+      const podcasts = items.filter((x) => x.type === "podcast");
       if (!books.length) fail("research-library has no books");
       else ok(`research books ${books.length}`);
       if (!papers.length) fail("research-library has no papers");
       else ok(`research papers ${papers.length}`);
+      if (!podcasts.length) fail("research-library has no podcasts");
+      else ok(`research podcasts ${podcasts.length}`);
       for (const it of items) {
         for (const k of ["id", "market", "type", "title", "summary", "formulas", "strategyCandidate", "status", "mathGateNote", "sources", "plainTakeaways"]) {
           if (!(k in it)) fail(`research item ${it.id || "?"} missing ${k}`);
@@ -270,7 +300,7 @@ async function main() {
           fail(`research item ${it.id} missing plainTakeawaysLocalized`);
         }
         if (!["US", "TW", "BOTH"].includes(it.market)) fail(`bad market on ${it.id}`);
-        if (!["book", "paper"].includes(it.type)) fail(`bad type on ${it.id}`);
+        if (!["book", "paper", "podcast"].includes(it.type)) fail(`bad type on ${it.id}`);
         if (!["yes", "no", "watch"].includes(it.strategyCandidate)) fail(`bad strategyCandidate on ${it.id}`);
         if (!["candidate", "deferred", "adopted", "rejected"].includes(it.status)) fail(`bad status on ${it.id}`);
         if (!(it.coverUrl || it.cover)) fail(`research item ${it.id} missing coverUrl/cover`);
@@ -279,11 +309,14 @@ async function main() {
         }
       }
       ok("research-library schema");
-      for (const f of ["placeholder-book.svg", "placeholder-paper.svg"]) {
+      for (const f of ["placeholder-book.svg", "placeholder-paper.svg", "placeholder-podcast.svg"]) {
         const cp = path.join(ROOT, "public/covers", f);
         if (!fs.existsSync(cp)) fail(`missing public/covers/${f}`);
         else ok(`cover asset ${f}`);
       }
+      if (!items.some((x) => x.id === "podcast-gooaye" && x.type === "podcast")) {
+        fail("missing podcast-gooaye research item");
+      } else ok("podcast-gooaye research item");
       const researchJs = fs.readFileSync(path.join(ROOT, "src/research.js"), "utf8");
       if (!researchJs.includes("coverUrl") || !researchJs.includes("titleLocalized") || !researchJs.includes("loading=\"lazy\"")) {
         fail("research.js missing cover / localized title / lazy-load wiring");

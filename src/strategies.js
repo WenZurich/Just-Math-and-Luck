@@ -33,6 +33,8 @@ const TW_ONLY_IDS = new Set([
   "chip-main-force",
   "chip-branch",
   "chip-large-holders",
+  "gooaye-tw-semicon-chain",
+  "gooaye-tw-vol-breakout",
 ]);
 
 
@@ -297,6 +299,18 @@ function metricColumns(strategyId) {
         { key: "marketCapHint", label: "市值代理", fmt: (m) => m.marketCapHint || "—" },
         { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => (m.avgVol5Zhang != null ? fmtNum(m.avgVol5Zhang, 1) : "—") },
       ];
+    case "gooaye-tw-semicon-chain":
+    case "gooaye-tw-vol-breakout":
+    case "gooaye-us-risk-on":
+    case "gooaye-us-fomo-filter":
+      return [
+        { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
+        { key: "dayPct", label: t("metricDayPct"), fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
+        { key: "pct5d", label: "5日%", fmt: (m) => fmtPct(m.pct5d), cls: (m) => pctClass(m.pct5d) },
+        { key: "pct1m", label: "1月%", fmt: (m) => fmtPct(m.pct1m), cls: (m) => pctClass(m.pct1m) },
+        { key: "volRatio", label: t("metricVolRatioYday"), fmt: (m) => (m.volRatio != null ? fmtNum(m.volRatio) + "×" : "—") },
+        { key: "aboveSma50", label: "＞SMA50", fmt: (m) => (m.aboveSma50 ? "Y" : "N") },
+      ];
     default:
       return [
         { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
@@ -305,6 +319,14 @@ function metricColumns(strategyId) {
   }
 }
 
+
+
+function renderPlainTakeaways(strategy) {
+  const arr = strategy.plainTakeaways;
+  if (!Array.isArray(arr) || !arr.length) return "";
+  const lis = arr.map((x) => `<li>${escapeHtml(x)}</li>`).join("");
+  return `<div class="xq-takeaways"><h4 class="xq-takeaways-h">${escapeHtml(t("researchTakeaways"))}</h4><ul>${lis}</ul></div>`;
+}
 
 function renderCalibration(strategy) {
   const c = strategy.calibrationNotes;

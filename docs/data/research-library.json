@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-16T15:14:50+08:00",
+    "updated": "2026-09-16T15:35:23+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW stock bookshelf + recent papers; strategy candidates only until math gate passes",
+    "purpose": "Growing US+TW stock bookshelf + papers + podcasts; strategy candidates with honest calibration",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -14,9 +14,86 @@
       "ja": "戦略への正式採用は数学ゲート通過が必要（未通過）— 候補のみ"
     },
     "defaultCoverBook": "./covers/placeholder-book.svg",
-    "defaultCoverPaper": "./covers/placeholder-paper.svg"
+    "defaultCoverPaper": "./covers/placeholder-paper.svg",
+    "defaultCoverPodcast": "./covers/placeholder-podcast.svg"
   },
   "items": [
+    {
+      "id": "podcast-gooaye",
+      "market": "BOTH",
+      "type": "podcast",
+      "title": "Gooaye 股癌（謝孟恭）",
+      "authors": [
+        "謝孟恭"
+      ],
+      "year": 2020,
+      "summary": "Taiwan podcast on markets, macro, risk, and retail psychology. Site uses original operational takeaways from public show notes and summaries (RSS inventory 697 episodes) — not verbatim transcripts. Codifies core–satellite hygiene, semi-chain basket strength, US rate risk-on proxy, and FOMO demotion as Yahoo/TWSE-computable packs; US and TW stay separate.",
+      "formulas": [
+        "G5 tw_semicon: close>SMA20∧SMA50 ∧ vol_ratio_20≳0.85 ∧ ¬thin_FOMO",
+        "G4 us_risk_on: dial(^TNX Δ20d) → vol/SMA gates on mega-tech list",
+        "G6 fomo_demote: dayPct≥7 ∧ vol_ratio<0.9 ∧ pct5d≥12 → exclude",
+        "G11 vol_breakout TW: vol_ratio≳1.5 ∧ close>SMA20 (no chip invent)"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "User ordered strategy redesign from this source; packs shipped candidate/adopted with calibration notes. Full olympiad sample-out still open; OHLCV primitives covered by math-guards.",
+      "sources": [
+        "https://feeds.soundon.fm/podcasts/954689a5-3096-43a4-a80b-7810b219cef3.xml",
+        "scripts/study/gooaye-framework-2026-09-16.md",
+        "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292"
+      ],
+      "coverUrl": "./covers/podcast-gooaye.svg",
+      "coverFallback": "./covers/placeholder-podcast.svg",
+      "titleLocalized": {
+        "zh-Hant": "Gooaye 股癌（謝孟恭）",
+        "en": "Gooaye (Hsieh Meng-kung) podcast",
+        "zh-Hans": "Gooaye 股癌（谢孟恭）",
+        "ja": "Gooaye 股癌（謝孟恭）ポッドキャスト"
+      },
+      "summaryLocalized": {
+        "en": "Taiwan podcast on markets, macro, risk, and retail psychology. Site uses original operational takeaways from public show notes and summaries (RSS inventory 697 episodes) — not verbatim transcripts. Codifies core–satellite hygiene, semi-chain basket strength, US rate risk-on proxy, and FOMO demotion as Yahoo/TWSE-computable packs; US and TW stay separate.",
+        "zh-Hant": "台灣市場／總經／風險／散戶心理 Podcast。本站僅用公開 RSS 與節目說明的「原創可操作摘要」（盤點 697 集），不含逐字稿。已轉成可計算的核心－衛星、半導體鏈籃子、美股利率風險偏好、去 FOMO 規則；美／台分開。",
+        "zh-Hans": "台湾市场／总经／风险／散户心理 Podcast。本站仅用公开 RSS 与节目说明的「原创可操作摘要」（盘点 697 集），不含逐字稿。已转成可计算的核心－卫星、半导体链篮子、美股利率风险偏好、去 FOMO 规则；美／台分开。",
+        "ja": "台湾のマーケット／マクロ／リスク／個人投資家心理のポッドキャスト。公開RSSと番組説明からの独自の運用要約のみ（697エピソード目録）。逐語録なし。コア・サテライト、半導体チェーン、米金利リスクオン、FOMO除外を計算可能なパックに。米／台は分離。"
+      },
+      "plainTakeaways": [
+        "先管風險與部位，再談單一標的故事",
+        "護國神山供應鏈用「籃子強弱」看，不單壓一檔",
+        "美股用利率方向當風險偏好代理；台股另算",
+        "放量突破才較像接力；薄量紅K當散戶追價雜訊",
+        "避險商品不適合當核心部位"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "先管風險與部位，再談單一標的故事",
+          "護國神山供應鏈用「籃子強弱」看，不單壓一檔",
+          "美股用利率方向當風險偏好代理；台股另算",
+          "放量突破才較像接力；薄量紅K當散戶追價雜訊",
+          "避險商品不適合當核心部位"
+        ],
+        "en": [
+          "Risk and sizing first, ticker stories second",
+          "Treat the semiconductor chain as a basket — not one hero name",
+          "US: rate path as risk-on proxy; TW scored separately",
+          "Volume-backed breakouts over thin red-candle chases",
+          "Hedge products are not core capital"
+        ],
+        "zh-Hans": [
+          "先管风险与仓位，再谈单一标的故事",
+          "护国神山供应链用「篮子强弱」看，不单压一档",
+          "美股用利率方向当风险偏好代理；台股另算",
+          "放量突破才较像接力；薄量红K当散户追价杂讯",
+          "避险商品不适合当核心仓位"
+        ],
+        "ja": [
+          "銘柄話より先にリスクとサイズ",
+          "半導体チェーンはバスケットで見る",
+          "米は金利でリスクオン代理、台は別計算",
+          "薄商いの急騰より出来高付きブレイク",
+          "ヘッジ商品はコア資金にしない"
+        ]
+      }
+    },
     {
       "id": "book-kostolany-egg",
       "market": "BOTH",
