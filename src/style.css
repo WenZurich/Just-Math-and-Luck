@@ -1,28 +1,31 @@
 :root {
-  /* MSN Finance–inspired light portal */
-  --bg: #f3f3f3;
+  /* Mainstream light finance app (Fugle / TradingView / MSN) */
+  color-scheme: light;
+  --bg: #f5f7fa;
   --bg-elevated: #ffffff;
   --bg-card: #ffffff;
-  --bg-card-hover: #fafafa;
-  --border: #e6e6e6;
-  --border-soft: #ededed;
-  --text: #2b2b2b;
-  --text-muted: #666666;
-  --text-dim: #8a8a8a;
+  --bg-card-hover: #fafbfc;
+  --bg-chip: #ffffff;
+  --bg-chip-muted: #f0f2f5;
+  --border: #e5e7eb;
+  --border-soft: #eef0f3;
+  --text: #1f2937;
+  --text-muted: #5b6472;
+  --text-dim: #8b93a1;
   --accent: #0078d4;
-  --accent-soft: rgba(0, 120, 212, 0.1);
+  --accent-soft: rgba(0, 120, 212, 0.12);
   --accent-strong: #006cbd;
   --up: #c50f1f;       /* 台股慣例：紅漲 */
   --down: #107c10;     /* 台股慣例：綠跌 */
   --up-bg: rgba(197, 15, 31, 0.08);
   --down-bg: rgba(16, 124, 16, 0.08);
   --warn: #9a6700;
-  --warn-bg: rgba(154, 103, 0, 0.08);
+  --warn-bg: rgba(154, 103, 0, 0.1);
   --ok: #0078d4;
   --radius: 12px;
   --radius-sm: 8px;
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-soft: 0 1px 3px rgba(15, 23, 42, 0.04);
   --font: "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, sans-serif;
   --mono: "Segoe UI", "Noto Sans TC", ui-monospace, monospace;
   --max: 1180px;
@@ -30,6 +33,9 @@
   --chrome-blur: saturate(1.2) blur(12px);
   --header-bg: #ffffff;
   --strip-bg: #ffffff;
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
 }
 
 *,
@@ -59,6 +65,7 @@ body {
   min-height: 100dvh;
   background-image: none;
   -webkit-font-smoothing: antialiased;
+  color-scheme: light;
 }
 
 #app {
@@ -315,7 +322,7 @@ h1 {
 }
 
 .metric {
-  background: var(--bg);
+  background: #f0f2f5;
   border-radius: 6px;
   padding: 0.35rem 0.4rem;
 }
@@ -452,7 +459,7 @@ table.stock-table {
   font-size: 0.72rem;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
-  background: var(--bg-elevated);
+  background: #f7f8fa;
   position: sticky;
   top: 0;
 }
@@ -748,14 +755,14 @@ a.term:hover {
 .glossary-item .g-example {
   color: var(--text-muted);
   font-size: 0.9rem;
-  background: rgba(125, 211, 252, 0.08);
-  border-left: 3px solid #38bdf8;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
   padding: 0.55rem 0.7rem;
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .glossary-item.flash {
-  outline: 2px solid #38bdf8;
-  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+  outline: 2px solid var(--accent);
+  box-shadow: 0 0 0 4px rgba(0, 120, 212, 0.18);
   transition: outline 0.2s, box-shadow 0.2s;
 }
 
@@ -819,10 +826,11 @@ a.term:hover {
   min-width: 44px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: transparent;
+  background: #ffffff;
   color: var(--text-muted);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: var(--shadow-soft);
 }
 .paper-tab-btn:hover {
   color: var(--text);
@@ -830,8 +838,9 @@ a.term:hover {
 }
 .paper-tab-btn.active {
   background: var(--accent-soft);
-  border-color: rgba(59, 130, 246, 0.45);
-  color: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-strong);
+  font-weight: 700;
 }
 .paper-panel {
   display: none;
@@ -911,9 +920,9 @@ a.term:hover {
   margin-bottom: 0.5rem;
 }
 .badge.reason {
-  background: rgba(56, 189, 248, 0.12);
-  color: var(--accent);
-  border-color: rgba(56, 189, 248, 0.3);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
 }
 .badge.reason.stop,
 .badge.reason.momentum-break,
@@ -1284,6 +1293,13 @@ h1 {
 /* Views — one at a time */
 .view-host {
   min-height: 50vh;
+  background: transparent;
+  color: var(--text);
+}
+
+.view {
+  background: transparent;
+  color: var(--text);
 }
 
 .view[hidden] {
@@ -1301,7 +1317,7 @@ h1 {
 }
 
 .view-header {
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-3);
 }
 
 .view-title {
@@ -1532,7 +1548,8 @@ h1 {
   font-size: 0.84em;
   padding: 0.05rem 0.3rem;
   border-radius: 4px;
-  background: rgba(0,0,0,0.28);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
 }
 
 /* —— Paper cumulative banner —— */
@@ -1697,16 +1714,18 @@ h1 {
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--bg-card);
+  background: #ffffff;
   color: var(--text-muted);
   font-weight: 650;
   font-family: var(--font);
   cursor: pointer;
+  box-shadow: var(--shadow-soft);
 }
 .xq-mkt-btn.active {
-  background: rgba(56, 189, 248, 0.14);
-  color: var(--text);
-  border-color: rgba(56, 189, 248, 0.5);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-color: var(--accent);
+  font-weight: 700;
 }
 .paper-book-switch .paper-tab-btn { font-weight: 750; }
 #paper-panel-TW .paper-book { border-color: rgba(248, 113, 113, 0.45); border-width: 2px; }
@@ -2034,5 +2053,33 @@ h1 {
   }
   .nav-bottom .nav-item {
     padding: 0.2rem 0.05rem;
+  }
+}
+
+/* —— Light theme safety net (purge leftover dark shells) —— */
+.view,
+.view-host,
+.xq-section,
+.xq-root,
+.paper-section,
+.chat-room,
+.ss-chat-panel,
+.logic-pipeline {
+  background-color: transparent;
+}
+.xq-chips,
+.xq-panel,
+.xq-sidebar,
+.paper-book,
+.pick-card,
+.list-card,
+.table-wrap,
+.logic-step,
+.chat-room {
+  color: var(--text);
+}
+@media (max-width: 859px) {
+  .xq-chips {
+    background: color-mix(in srgb, var(--bg) 92%, white 8%) !important;
   }
 }
