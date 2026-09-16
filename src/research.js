@@ -3,9 +3,11 @@
  * Data: public/data/research-library.json (original summaries only).
  */
 import { escapeHtml } from "./glossary.js";
-import { t } from "./i18n.js";
+import { t, getLang } from "./i18n.js";
 
 const DATA_URL = "./data/research-library.json";
+const DEFAULT_BOOK_COVER = "./covers/placeholder-book.svg";
+const DEFAULT_PAPER_COVER = "./covers/placeholder-paper.svg";
 
 const STATUS_CLASS = {
   candidate: "rl-status-candidate",
@@ -50,6 +52,37 @@ function typeLabel(type) {
   return type === "paper" ? t("researchTypePaper") : t("researchTypeBook");
 }
 
+function pickLocalized(map, fallback) {
+  if (!map || typeof map !== "object") return fallback;
+  const lang = getLang();
+  return map[lang] || map.en || map["zh-Hant"] || fallback;
+}
+
+function itemTitle(item) {
+  return pickLocalized(item.titleLocalized, item.title) || "";
+}
+
+function itemSummary(item) {
+  return pickLocalized(item.summaryLocalized, item.summary) || "";
+}
+
+function coverSrc(item, meta) {
+  if (item.coverUrl) return item.coverUrl;
+  if (item.cover) return item.cover;
+  if (item.type === "paper") {
+    return meta?.defaultCoverPaper || DEFAULT_PAPER_COVER;
+  }
+  return meta?.defaultCoverBook || DEFAULT_BOOK_COVER;
+}
+
+function coverFallback(item, meta) {
+  if (item.coverFallback) return item.coverFallback;
+  if (item.type === "paper") {
+    return meta?.defaultCoverPaper || DEFAULT_PAPER_COVER;
+  }
+  return meta?.defaultCoverBook || DEFAULT_BOOK_COVER;
+}
+
 function formulaList(formulas) {
   if (!Array.isArray(formulas) || !formulas.length) {
     return `<p class="rl-muted">${escapeHtml(t("researchNoFormulas"))}</p>`;
@@ -73,33 +106,66 @@ function sourceLinks(sources) {
   return `<div class="rl-sources"><span class="rl-k">${escapeHtml(t("researchSources"))}</span> ${links}</div>`;
 }
 
-export function renderResearchCard(item) {
+function coverBlock(item, meta) {
+  const src = coverSrc(item, meta);
+  const fb = coverFallback(item, meta);
+  const alt = itemTitle(item) || typeLabel(item.type);
+  return `
+    <div class="rl-cover-wrap">
+      <img
+        class="rl-cover"
+        src="${escapeHtml(src)}"
+        alt="${escapeHtml(alt)}"
+        loading="lazy"
+        decoding="async"
+        data-rl-fallback="${escapeHtml(fb)}"
+      />
+    </div>`;
+}
+
+function bindCoverFallbacks(root) {
+  root.querySelectorAll("img.rl-cover[data-rl-fallback]").forEach((img) => {
+    img.addEventListener("error", () => {
+      const fb = img.dataset.rlFallback;
+      if (fb && img.getAttribute("src") !== fb) {
+        img.setAttribute("src", fb);
+      } else {
+        img.classList.add("is-broken");
+      }
+    });
+  });
+}
+
+export function renderResearchCard(item, meta = {}) {
   const status = item.status || "candidate";
   const cand = item.strategyCandidate || "watch";
   const year = item.year != null ? String(item.year) : "—";
   const authors = (item.authors || []).join(", ") || "—";
   return `
     <article class="rl-card" data-rl-id="${escapeHtml(item.id)}" data-rl-market="${escapeHtml(item.market)}" data-rl-type="${escapeHtml(item.type)}">
-      <header class="rl-card-head">
-        <div class="rl-badges">
-          <span class="rl-badge rl-type">${escapeHtml(typeLabel(item.type))}</span>
-          <span class="rl-badge rl-market">${escapeHtml(marketLabel(item.market))}</span>
-          <span class="rl-badge ${STATUS_CLASS[status] || ""}">${escapeHtml(statusLabel(status))}</span>
-          <span class="rl-badge ${CANDIDATE_CLASS[cand] || ""}">${escapeHtml(t("researchStrategy"))}: ${escapeHtml(candidateLabel(cand))}</span>
+      ${coverBlock(item, meta)}
+      <div class="rl-card-body">
+        <header class="rl-card-head">
+          <div class="rl-badges">
+            <span class="rl-badge rl-type">${escapeHtml(typeLabel(item.type))}</span>
+            <span class="rl-badge rl-market">${escapeHtml(marketLabel(item.market))}</span>
+            <span class="rl-badge ${STATUS_CLASS[status] || ""}">${escapeHtml(statusLabel(status))}</span>
+            <span class="rl-badge ${CANDIDATE_CLASS[cand] || ""}" title="${escapeHtml(t("researchStrategy"))}">${escapeHtml(candidateLabel(cand))}</span>
+          </div>
+          <h3 class="rl-title">${escapeHtml(itemTitle(item))}</h3>
+          <p class="rl-meta">${escapeHtml(authors)} · ${escapeHtml(year)}</p>
+        </header>
+        <p class="rl-summary">${escapeHtml(itemSummary(item))}</p>
+        <div class="rl-block">
+          <h4 class="rl-h">${escapeHtml(t("researchFormulas"))}</h4>
+          ${formulaList(item.formulas)}
         </div>
-        <h3 class="rl-title">${escapeHtml(item.title)}</h3>
-        <p class="rl-meta">${escapeHtml(authors)} · ${escapeHtml(year)}</p>
-      </header>
-      <p class="rl-summary">${escapeHtml(item.summary)}</p>
-      <div class="rl-block">
-        <h4 class="rl-h">${escapeHtml(t("researchFormulas"))}</h4>
-        ${formulaList(item.formulas)}
+        <div class="rl-block">
+          <h4 class="rl-h">${escapeHtml(t("researchMathGate"))}</h4>
+          <p class="rl-gate-note">${escapeHtml(item.mathGateNote || t("researchMathGateDefault"))}</p>
+        </div>
+        ${sourceLinks(item.sources)}
       </div>
-      <div class="rl-block">
-        <h4 class="rl-h">${escapeHtml(t("researchMathGate"))}</h4>
-        <p class="rl-gate-note">${escapeHtml(item.mathGateNote || t("researchMathGateDefault"))}</p>
-      </div>
-      ${sourceLinks(item.sources)}
     </article>`;
 }
 
@@ -127,13 +193,22 @@ function filterItems(items, { market, type }) {
   });
 }
 
+function mathGateBannerText(data) {
+  const loc = data?.meta?.mathGateLocalized;
+  if (loc && typeof loc === "object") {
+    return pickLocalized(loc, data?.meta?.mathGate) || t("researchMathGateBanner");
+  }
+  return data?.meta?.mathGate || t("researchMathGateBanner");
+}
+
 function paint(root, data, state) {
   const items = Array.isArray(data?.items) ? data.items : [];
   const filtered = filterItems(items, state);
   const books = filtered.filter((i) => i.type === "book");
   const papers = filtered.filter((i) => i.type === "paper");
-  const metaNote = data?.meta?.mathGate
-    ? `<p class="rl-meta-line">${escapeHtml(data.meta.mathGate)}</p>`
+  const meta = data?.meta || {};
+  const metaNote = meta.mathGate
+    ? `<p class="rl-meta-line">${escapeHtml(mathGateBannerText(data))}</p>`
     : "";
 
   root.innerHTML = `
@@ -153,14 +228,20 @@ function paint(root, data, state) {
     <p class="rl-counts">${escapeHtml(t("researchCounts", { books: books.length, papers: papers.length, total: filtered.length }))}</p>
     <div class="rl-lists">
       <section class="rl-list" aria-label="${escapeHtml(t("researchTypeBook"))}">
-        <h3 class="rl-list-title">${escapeHtml(t("researchTypeBook"))}（${books.length}）</h3>
-        ${books.length ? books.map(renderResearchCard).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
+        <h3 class="rl-list-title">${escapeHtml(t("researchTypeBook"))} <span class="rl-list-count">(${books.length})</span></h3>
+        <div class="rl-grid">
+          ${books.length ? books.map((b) => renderResearchCard(b, meta)).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
+        </div>
       </section>
       <section class="rl-list" aria-label="${escapeHtml(t("researchTypePaper"))}">
-        <h3 class="rl-list-title">${escapeHtml(t("researchTypePaper"))}（${papers.length}）</h3>
-        ${papers.length ? papers.map(renderResearchCard).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
+        <h3 class="rl-list-title">${escapeHtml(t("researchTypePaper"))} <span class="rl-list-count">(${papers.length})</span></h3>
+        <div class="rl-grid">
+          ${papers.length ? papers.map((p) => renderResearchCard(p, meta)).join("") : `<p class="rl-empty">${escapeHtml(t("researchEmpty"))}</p>`}
+        </div>
       </section>
     </div>`;
+
+  bindCoverFallbacks(root);
 
   root.querySelectorAll("[data-rl-market]").forEach((btn) => {
     btn.addEventListener("click", () => {

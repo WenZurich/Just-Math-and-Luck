@@ -1,20 +1,30 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-16T12:20:00+08:00",
+    "updated": "2026-09-16T15:07:46+08:00",
     "timezone": "Asia/Taipei",
     "purpose": "Growing US+TW stock bookshelf + recent papers; strategy candidates only until math gate passes",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
-    "mathGate": "正式納入策略需數學閘門通過（目前未過）— candidates only",
-    "updateScript": "scripts/update-research-library.mjs"
+    "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
+    "updateScript": "scripts/update-research-library.mjs",
+    "mathGateLocalized": {
+      "zh-Hant": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
+      "en": "Formal strategy adoption requires the math gate (not passed yet) — candidates only",
+      "zh-Hans": "正式纳入策略需数学闸门通过（目前未过）— 仅候选",
+      "ja": "戦略への正式採用は数学ゲート通過が必要（未通過）— 候補のみ"
+    },
+    "defaultCoverBook": "./covers/placeholder-book.svg",
+    "defaultCoverPaper": "./covers/placeholder-paper.svg"
   },
   "items": [
     {
       "id": "book-kostolany-egg",
       "market": "BOTH",
       "type": "book",
-      "title": "André Kostolany — cycle / egg psychology (shelf: 一個投機者的告白 & related)",
-      "authors": ["André Kostolany"],
+      "title": "安德烈·科斯托拉尼 — 市場週期／雞蛋理論（書架：一個投機者的告白等）",
+      "authors": [
+        "André Kostolany"
+      ],
       "year": 1970,
       "summary": "Public-knowledge cycle framing: firm hands accumulate near despair while shaky hands dominate near euphoria; volume marks ownership transfer; rates often lag risk appetite. Used here as an egg-phase proxy for US and TW dials, not as trade anecdotes.",
       "formulas": [
@@ -26,14 +36,34 @@
       "strategyCandidate": "yes",
       "status": "candidate",
       "mathGateNote": "Partial: regime labels live in marketRegime; full egg→dial table still needs olympiad math gate.",
-      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md", "public knowledge of Kostolany Egg"]
+      "sources": [
+        "scripts/study/bookshelf-framework-2026-09-16.md",
+        "public knowledge of Kostolany Egg"
+      ],
+      "isbn": "3548750451",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/3548750451-L.jpg",
+      "coverFallback": "./covers/book-kostolany-egg.svg",
+      "titleLocalized": {
+        "zh-Hant": "安德烈·科斯托拉尼 — 市場週期／雞蛋理論（書架：一個投機者的告白等）",
+        "en": "André Kostolany — cycle / egg psychology (shelf: confessions of a speculator & related)",
+        "zh-Hans": "安德烈·科斯托拉尼 — 市场周期／鸡蛋理论（书架：一个投机者的告白等）",
+        "ja": "アンドレ・コストラニー — 市場サイクル／卵の理論（投機家の告白ほか）"
+      },
+      "summaryLocalized": {
+        "en": "Public-knowledge cycle framing: firm hands accumulate near despair while shaky hands dominate near euphoria; volume marks ownership transfer; rates often lag risk appetite. Used here as an egg-phase proxy for US and TW dials, not as trade anecdotes.",
+        "zh-Hant": "公開知識的週期框架：絕望區附近堅實手累積、亢奮區附近軟弱手主導；成交量標示籌碼轉移；利率常落後風險偏好。此處用作美／台 dial 的雞蛋相位代理，而非交易軼事。",
+        "zh-Hans": "公开知识的周期框架：绝望区附近坚实手累积、亢奋区附近软弱手主导；成交量标示筹码转移；利率常落后风险偏好。此处用作美／台 dial 的鸡蛋相位代理，而非交易轶事。",
+        "ja": "公開知識のサイクル枠：絶望付近で堅い手が蓄積し、陶酔付近で弱い手が主導。出来高は保有移転の印。金利はリスク選好に遅れがち。米／台ダイヤルの卵位相プロキシとして使い、逸話取引には使わない。"
+      }
     },
     {
       "id": "book-howard-marks-cycle",
       "market": "BOTH",
       "type": "book",
-      "title": "Mastering the Market Cycle (掌握市場週期)",
-      "authors": ["Howard Marks"],
+      "title": "掌握市場週期",
+      "authors": [
+        "Howard Marks"
+      ],
       "year": 2018,
       "summary": "Marks-style practice: take the market’s temperature and adjust aggressiveness rather than calling exact tops. Hot markets raise the bar; cold markets allow survivor hunting with tighter risk budgets.",
       "formulas": [
@@ -44,14 +74,33 @@
       "strategyCandidate": "yes",
       "status": "candidate",
       "mathGateNote": "temperatureScore already coded; checklist completeness + clamp proofs pending math gate.",
-      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md"]
+      "sources": [
+        "scripts/study/bookshelf-framework-2026-09-16.md"
+      ],
+      "isbn": "9781328479259",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781328479259-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "掌握市場週期",
+        "en": "Mastering the Market Cycle",
+        "zh-Hans": "掌握市场周期",
+        "ja": "市場サイクルを制する（Mastering the Market Cycle）"
+      },
+      "summaryLocalized": {
+        "en": "Marks-style practice: take the market’s temperature and adjust aggressiveness rather than calling exact tops. Hot markets raise the bar; cold markets allow survivor hunting with tighter risk budgets.",
+        "zh-Hant": "Marks 式做法：量測市場溫度並調整積極度，而非精準抓頂。熱市場提高門檻；冷市場可在更緊風險預算下尋找倖存者。",
+        "zh-Hans": "Marks 式做法：测量市场温度并调整积极度，而非精准抓顶。热市场提高门槛；冷市场可在更紧风险预算下寻找幸存者。",
+        "ja": "Marks流：市場温度を測り積極度を調整し、正確な天井は狙わない。熱い市場はハードルを上げ、冷えた市場はより厳しいリスク予算でサバイバーを探す。"
+      }
     },
     {
       "id": "book-rates-literacy-tw",
       "market": "BOTH",
       "type": "book",
-      "title": "圖解地表最簡單的利率教科書 (rates literacy)",
-      "authors": ["利率入門讀本（書架）"],
+      "title": "圖解地表最簡單的利率教科書",
+      "authors": [
+        "利率入門讀本（書架）"
+      ],
       "year": 2020,
       "summary": "Rates-literacy primer: treat yield direction as a first-class regime input. Fast spikes lean defensive; sustained declines can reopen risk-on if the egg phase is not euphoric. TW uses US10Y plus USD/TWD stress rather than pretending local yields equal US10Y.",
       "formulas": [
@@ -62,14 +111,32 @@
       "strategyCandidate": "yes",
       "status": "candidate",
       "mathGateNote": "Rate features wired into regime; TW FX overlay still watch-listed for gate proofs.",
-      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md"]
+      "sources": [
+        "scripts/study/bookshelf-framework-2026-09-16.md"
+      ],
+      "coverUrl": "./covers/book-rates-literacy-tw.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "圖解地表最簡單的利率教科書",
+        "en": "Rates literacy primer (illustrated intro)",
+        "zh-Hans": "图解地表最简单的利率教科书",
+        "ja": "図解・いちばんやさしい金利入門"
+      },
+      "summaryLocalized": {
+        "en": "Rates-literacy primer: treat yield direction as a first-class regime input. Fast spikes lean defensive; sustained declines can reopen risk-on if the egg phase is not euphoric. TW uses US10Y plus USD/TWD stress rather than pretending local yields equal US10Y.",
+        "zh-Hant": "利率入門：把殖利率方向當作一級政權輸入。急升偏防守；持續下滑且雞蛋相位非亢奮時可重開風險偏好。台股以美債＋美元／台幣壓力輔助，而非假裝本地利率等於美債。",
+        "zh-Hans": "利率入门：把收益率方向当作一级政权输入。急升偏防守；持续下滑且鸡蛋相位非亢奋时可重开风险偏好。台股以美债＋美元／台币压力辅助，而非假装本地利率等于美债。",
+        "ja": "金利リテラシー：利回り方向を第一級のレジーム入力に。急騰は守備寄り；持続下落かつ卵位相が陶酔でなければリスクオン再開可。台湾は米金利＋USD/TWDストレスを使い、現地金利＝米金利と見なさない。"
+      }
     },
     {
       "id": "book-que-you-shang-fi",
       "market": "TW",
       "type": "book",
       "title": "闕又上 — 勞退／退休金缺口與紀律（書架）",
-      "authors": ["闕又上"],
+      "authors": [
+        "闕又上"
+      ],
       "year": 2015,
       "summary": "TW retirement-gap framing kept only as personal drawdown / survivability hygiene. Explicitly not used as ticker alpha, pension-anecdote timing, or lifestyle leverage rules.",
       "formulas": [
@@ -80,14 +147,32 @@
       "strategyCandidate": "no",
       "status": "deferred",
       "mathGateNote": "Discipline-only; FI-number and pension anecdotes excluded from screens by design.",
-      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md"]
+      "sources": [
+        "scripts/study/bookshelf-framework-2026-09-16.md"
+      ],
+      "coverUrl": "./covers/book-que-you-shang-fi.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "闕又上 — 勞退／退休金缺口與紀律（書架）",
+        "en": "Que You-Shang — pension gap & discipline (shelf)",
+        "zh-Hans": "阙又上 — 劳退／退休金缺口与纪律（书架）",
+        "ja": "闕又上 — 退職金ギャップと規律（書架）"
+      },
+      "summaryLocalized": {
+        "en": "TW retirement-gap framing kept only as personal drawdown / survivability hygiene. Explicitly not used as ticker alpha, pension-anecdote timing, or lifestyle leverage rules.",
+        "zh-Hant": "台股退休金缺口框架僅作個人回撤／存活衛生。明確不用作個股 alpha、年金軼事擇時或生活槓桿規則。",
+        "zh-Hans": "台股退休金缺口框架仅作个人回撤／存活卫生。明确不用作个股 alpha、年金轶事择时或生活杠杆规则。",
+        "ja": "台湾の退職金ギャップ枠は個人のドローダウン／生存衛生のみ。銘柄アルファ・年金逸話タイミング・生活レバレッジ規則には使わない。"
+      }
     },
     {
       "id": "book-fi-shelf-discipline",
       "market": "BOTH",
       "type": "book",
-      "title": "FI / retirement shelf (夏韻芬、YMOYL、財富自由的心理學、富爸爸、錢教)",
-      "authors": ["FI / money-education shelf"],
+      "title": "財務自由／退休書架（夏韻芬、YMOYL、財富自由的心理學、富爸爸、錢教）",
+      "authors": [
+        "FI / money-education shelf"
+      ],
       "year": 2010,
       "summary": "Soft FI and money-education titles mapped to risk-discipline gates only: cash buffers, process logs, anti-FOMO in euphoria. No envelope budgets, affirmations, or Rich-Dad leverage ideology as equity factors.",
       "formulas": [
@@ -97,14 +182,33 @@
       "strategyCandidate": "no",
       "status": "rejected",
       "mathGateNote": "Rejected as alpha sources; residue is sizing / cash / audit only.",
-      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md"]
+      "sources": [
+        "scripts/study/bookshelf-framework-2026-09-16.md"
+      ],
+      "coverUrl": "./covers/book-fi-shelf-discipline.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "財務自由／退休書架（夏韻芬、YMOYL、財富自由的心理學、富爸爸、錢教）",
+        "en": "FI / retirement shelf (discipline titles)",
+        "zh-Hans": "财务自由／退休书架（夏韵芬、YMOYL、财富自由的心理学、富爸爸、钱教）",
+        "ja": "FI／退職書架（規律系タイトル）"
+      },
+      "summaryLocalized": {
+        "en": "Soft FI and money-education titles mapped to risk-discipline gates only: cash buffers, process logs, anti-FOMO in euphoria. No envelope budgets, affirmations, or Rich-Dad leverage ideology as equity factors.",
+        "zh-Hant": "軟性 FI／金錢教育書對應風險紀律閘門：現金緩衝、流程紀錄、亢奮期反 FOMO。不含信封預算、肯定語或富爸爸槓桿意識形態作為選股因子。",
+        "zh-Hans": "软性 FI／金钱教育书对应风险纪律闸门：现金缓冲、流程记录、亢奋期反 FOMO。不含信封预算、肯定语或富爸爸杠杆意识形态作为选股因子。",
+        "ja": "ソフトなFI／マネー教育本はリスク規律ゲートのみ：現金バッファ、プロセス記録、陶酔期の反FOMO。封筒予算・アファメーション・リッチダッド型レバレッジ思想は因子にしない。"
+      }
     },
     {
       "id": "book-security-analysis-concepts",
       "market": "US",
       "type": "book",
       "title": "Security Analysis — core concepts (Graham & Dodd)",
-      "authors": ["Benjamin Graham", "David Dodd"],
+      "authors": [
+        "Benjamin Graham",
+        "David Dodd"
+      ],
       "year": 1934,
       "summary": "Original concept summary only: separate investment from speculation; anchor on earning power, asset coverage, and a margin of safety versus price. Informs value-style master packs (PE/PB/debt filters), not narrative stock tips.",
       "formulas": [
@@ -114,14 +218,33 @@
       "strategyCandidate": "watch",
       "status": "candidate",
       "mathGateNote": "Public PE/PB/ROE proxies exist in master packs; full MOS math not gated yet.",
-      "sources": ["public domain concepts / classroom summaries"]
+      "sources": [
+        "public domain concepts / classroom summaries"
+      ],
+      "isbn": "0071603123",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0071603123-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "證券分析 — 核心概念（葛拉漢／杜德）",
+        "en": "Security Analysis — core concepts (Graham & Dodd)",
+        "zh-Hans": "证券分析 — 核心概念（格雷厄姆／多德）",
+        "ja": "証券分析 — 核心概念（グレアム＆ドッド）"
+      },
+      "summaryLocalized": {
+        "en": "Original concept summary only: separate investment from speculation; anchor on earning power, asset coverage, and a margin of safety versus price. Informs value-style master packs (PE/PB/debt filters), not narrative stock tips.",
+        "zh-Hant": "原創概念摘要：區分投資與投機；錨定獲利能力、資產覆蓋與相對價格的安全邊際。影響價值風格大師包（本益／淨值／負債濾網），而非敘事薦股。",
+        "zh-Hans": "原创概念摘要：区分投资与投机；锚定获利能力、资产覆盖与相对价格的安全边际。影响价值风格大师包（本益／净值／负债滤网），而非叙事荐股。",
+        "ja": "オリジナル概念要約：投資と投機を分ける；収益力・資産カバレッジ・価格に対する安全余裕。価値系マスターパック（PE/PB/負債）に活かし、物語り推奨には使わない。"
+      }
     },
     {
       "id": "book-intelligent-investor-concepts",
       "market": "US",
       "type": "book",
       "title": "The Intelligent Investor — core concepts",
-      "authors": ["Benjamin Graham"],
+      "authors": [
+        "Benjamin Graham"
+      ],
       "year": 1949,
       "summary": "Original concept summary: defensive vs enterprising investor; Mr. Market as a quote machine, not a guru; insist on process and margin of safety over forecasting. Maps to stance dials and position-size caps, not day-trade rules.",
       "formulas": [
@@ -132,14 +255,33 @@
       "strategyCandidate": "watch",
       "status": "candidate",
       "mathGateNote": "Stance sizing live; enterprising checklist still conceptual.",
-      "sources": ["public knowledge concepts"]
+      "sources": [
+        "public knowledge concepts"
+      ],
+      "isbn": "0060555661",
+      "coverUrl": "https://covers.openlibrary.org/b/id/36434-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "智慧型股票投資人 — 核心概念",
+        "en": "The Intelligent Investor — core concepts",
+        "zh-Hans": "聪明的投资者 — 核心概念",
+        "ja": "賢明なる投資家 — 核心概念"
+      },
+      "summaryLocalized": {
+        "en": "Original concept summary: defensive vs enterprising investor; Mr. Market as a quote machine, not a guru; insist on process and margin of safety over forecasting. Maps to stance dials and position-size caps, not day-trade rules.",
+        "zh-Hant": "原創概念摘要：防禦型 vs 積極型投資人；市場先生是報價機而非導師；堅持流程與安全邊際勝過預測。對應姿態 dial 與部位上限，而非當沖規則。",
+        "zh-Hans": "原创概念摘要：防御型 vs 积极型投资人；市场先生是报价机而非导师；坚持流程与安全边际胜过预测。对应姿态 dial 与部位上限，而非短线规则。",
+        "ja": "オリジナル概念要約：防御型 vs 積極型；Mr.Marketは相場機械であり導師ではない。予測よりプロセスと安全余裕。スタンスダイヤルとサイズ上限に写像し、デイトレ規則にはしない。"
+      }
     },
     {
       "id": "book-random-walk-concepts",
       "market": "US",
       "type": "book",
       "title": "A Random Walk Down Wall Street — core concepts",
-      "authors": ["Burton Malkiel"],
+      "authors": [
+        "Burton Malkiel"
+      ],
       "year": 1973,
       "summary": "Original concept summary: prices are hard to beat after costs; favor diversification and skepticism toward hot tips and chart superstition. Used as a caution against overfit screens and as a reminder that paper strategies need out-of-sample math gates.",
       "formulas": [
@@ -149,14 +291,33 @@
       "strategyCandidate": "no",
       "status": "deferred",
       "mathGateNote": "Methodological caution; no direct buy screen from this title.",
-      "sources": ["public knowledge concepts"]
+      "sources": [
+        "public knowledge concepts"
+      ],
+      "isbn": "0393057828",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/0393057828-L.jpg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "漫步華爾街 — 核心概念",
+        "en": "A Random Walk Down Wall Street — core concepts",
+        "zh-Hans": "漫步华尔街 — 核心概念",
+        "ja": "ウォール街のランダム・ウォーカー — 核心概念"
+      },
+      "summaryLocalized": {
+        "en": "Original concept summary: prices are hard to beat after costs; favor diversification and skepticism toward hot tips and chart superstition. Used as a caution against overfit screens and as a reminder that paper strategies need out-of-sample math gates.",
+        "zh-Hant": "原創概念摘要：成本後很難長期擊敗市場；偏好分散與對熱門內幕／圖表迷信的懷疑。用作過度擬合警示，並提醒紙上策略需樣本外數學閘門。",
+        "zh-Hans": "原创概念摘要：成本后很难长期击败市场；偏好分散与对热门内幕／图表迷信的怀疑。用作过度拟合警示，并提醒纸上策略需样本外数学闸门。",
+        "ja": "オリジナル概念要約：コスト後は市場に勝ちにくい；分散とホット情報／チャート迷信への懐疑。過適合への戒めと、ペーパー戦略のサンプル外数学ゲートの必要性。"
+      }
     },
     {
       "id": "book-tw-market-structure",
       "market": "TW",
       "type": "book",
-      "title": "台股結構注意事項（限漲跌／法人籌碼／T+2）— operational notes",
-      "authors": ["Just-Math-and-Luck study notes"],
+      "title": "台股結構注意事項（限漲跌／法人籌碼／T+2）— 操作筆記",
+      "authors": [
+        "Just-Math-and-Luck study notes"
+      ],
       "year": 2026,
       "summary": "TW-specific operational notes derived from the bookshelf framework: ±10% limits distort RS/breadth; foreign/trust/dealer lot flows are first-class chip signals; T+2 affects cash tags only. Not a published book — kept so TW research stays visible beside US canon.",
       "formulas": [
@@ -167,14 +328,36 @@
       "strategyCandidate": "yes",
       "status": "candidate",
       "mathGateNote": "Several chip packs live; limit-aware breadth still candidate.",
-      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md", "scripts/run-strategies.mjs"]
+      "sources": [
+        "scripts/study/bookshelf-framework-2026-09-16.md",
+        "scripts/run-strategies.mjs"
+      ],
+      "coverUrl": "./covers/book-tw-market-structure.svg",
+      "coverFallback": "./covers/placeholder-book.svg",
+      "titleLocalized": {
+        "zh-Hant": "台股結構注意事項（限漲跌／法人籌碼／T+2）— 操作筆記",
+        "en": "TW market structure notes (limits / chips / T+2)",
+        "zh-Hans": "台股结构注意事项（涨跌停／法人筹码／T+2）— 操作笔记",
+        "ja": "台湾株の構造メモ（値幅制限／法人需給／T+2）"
+      },
+      "summaryLocalized": {
+        "en": "TW-specific operational notes derived from the bookshelf framework: ±10% limits distort RS/breadth; foreign/trust/dealer lot flows are first-class chip signals; T+2 affects cash tags only. Not a published book — kept so TW research stays visible beside US canon.",
+        "zh-Hant": "源自書架框架的台股操作筆記：±10% 漲跌停扭曲 RS／廣度；外資／投信／自營商張數是一級籌碼訊號；T+2 只影響現金標籤。非出版書——讓台股研究與美股經典並列可見。",
+        "zh-Hans": "源自书架框架的台股操作笔记：±10% 涨跌停扭曲 RS／广度；外资／投信／自营商张数是一级筹码信号；T+2 只影响现金标签。非出版书——让台股研究与美股经典并列可见。",
+        "ja": "書架枠からの台湾株運用メモ：±10%制限はRS／ブレッドを歪める；外資／投信／自己の単元フローは第一級シグナル；T+2は現金タグのみ。出版書ではなく、米株カノンと並べて台湾研究を可視化する。"
+      }
     },
     {
       "id": "paper-finsaber-llm-2025",
       "market": "US",
       "type": "paper",
       "title": "Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?",
-      "authors": ["Weixian Waylon Li", "Hyeonjun Kim", "Mihai Cucuringu", "Tiejun Ma"],
+      "authors": [
+        "Weixian Waylon Li",
+        "Hyeonjun Kim",
+        "Mihai Cucuringu",
+        "Tiejun Ma"
+      ],
       "year": 2025,
       "summary": "Authors propose FINSABER, a longer-horizon / wider-universe backtest for LLM timing strategies. Reported LLM edges shrink under broader cross-sections and multi-decade windows; regime splits show strategies too cautious in bulls and too aggressive in bears. Takeaway for this site: prioritise regime-aware risk controls and trend detection over stacking LLM complexity — aligns with our math-gate rule before adoption.",
       "formulas": [
@@ -188,14 +371,30 @@
       "sources": [
         "https://arxiv.org/abs/2505.07078",
         "https://doi.org/10.48550/arXiv.2505.07078"
-      ]
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "以 LLM 為基礎的投資策略能否長期擊敗市場？",
+        "en": "Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?",
+        "zh-Hans": "以 LLM 为基础的投资策略能否长期击败市场？",
+        "ja": "LLM投資戦略は長期で市場に勝てるか？"
+      },
+      "summaryLocalized": {
+        "en": "Authors propose FINSABER, a longer-horizon / wider-universe backtest for LLM timing strategies. Reported LLM edges shrink under broader cross-sections and multi-decade windows; regime splits show strategies too cautious in bulls and too aggressive in bears. Takeaway for this site: prioritise regime-aware risk controls and trend detection over stacking LLM complexity — aligns with our math-gate rule before adoption.",
+        "zh-Hant": "作者提出 FINSABER：更長視窗／更廣宇宙檢驗 LLM 擇時。報告顯示在更廣截面與數十年視窗下優勢縮小；政權切分下多頭過保守、空頭過積極。站方啓示：優先政權風險控管與趨勢偵測，而非堆疊 LLM 複雜度——與採用前數學閘門一致。",
+        "zh-Hans": "作者提出 FINSABER：更长视窗／更广宇宙检验 LLM 择时。报告显示在更广截面与数十年视窗下优势缩小；政权切分下多头过保守、空头过积极。站方启示：优先政权风险管控与趋势侦测，而非堆叠 LLM 复杂度——与采用前数学闸门一致。",
+        "ja": "著者らはFINSABERを提案：より長い窓／広いユニバースでLLMタイミングを検証。広い断面と数十年窓では優位が縮小。レジーム分割では強気で過度慎重・弱気で過度積極。当サイトの示唆：LLM複雑化よりレジームリスク管理とトレンド検出を優先——採用前の数学ゲートと一致。"
+      }
     },
     {
       "id": "paper-genai-stock-selection-2026",
       "market": "US",
       "type": "paper",
       "title": "Generative AI for Stock Selection",
-      "authors": ["Keywan Christian Rasekhschaffe"],
+      "authors": [
+        "Keywan Christian Rasekhschaffe"
+      ],
       "year": 2026,
       "summary": "Studies whether generative AI can automate feature discovery in US equities via RAG and structured prompting, then feed features into tabular ML for short-horizon forecasts. AI features are competitive with baselines when retrieval quality is controlled and are weakly correlated with traditional signals (suggesting combination). Site takeaway: interesting research path, but not a drop-in screen — needs reproducible features + math gate.",
       "formulas": [
@@ -209,7 +408,21 @@
       "sources": [
         "https://arxiv.org/abs/2602.00196",
         "https://doi.org/10.48550/arXiv.2602.00196"
-      ]
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "生成式 AI 用於選股",
+        "en": "Generative AI for Stock Selection",
+        "zh-Hans": "生成式 AI 用于选股",
+        "ja": "生成AIによる銘柄選択"
+      },
+      "summaryLocalized": {
+        "en": "Studies whether generative AI can automate feature discovery in US equities via RAG and structured prompting, then feed features into tabular ML for short-horizon forecasts. AI features are competitive with baselines when retrieval quality is controlled and are weakly correlated with traditional signals (suggesting combination). Site takeaway: interesting research path, but not a drop-in screen — needs reproducible features + math gate.",
+        "zh-Hant": "探討生成式 AI 能否以 RAG 與結構化提示自動化美股特徵發現，再餵入表格 ML 做短視窗預測。在檢索品質受控時 AI 特徵具競爭力且與傳統訊號弱相關（暗示可組合）。站方：有趣研究路徑，但非即插即用選股——需可重現特徵＋數學閘門。",
+        "zh-Hans": "探讨生成式 AI 能否以 RAG 与结构化提示自动化美股特征发现，再喂入表格 ML 做短视窗预测。在检索质量受控时 AI 特征具竞争力且与传统信号弱相关（暗示可组合）。站方：有趣研究路径，但非即插即用选股——需可重现特征＋数学闸门。",
+        "ja": "生成AIがRAGと構造化プロンプトで米株特徴を自動発見し、表形式MLに渡して短期予測できるかを研究。検索品質を制御すればAI特徴はベースラインに匹敵し伝統シグナルと弱相関（組み合わせ示唆）。当サイト：興味深いが即採用不可——再現可能特徴＋数学ゲートが必要。"
+      }
     }
   ]
 }

@@ -267,8 +267,29 @@ async function main() {
         if (!["book", "paper"].includes(it.type)) fail(`bad type on ${it.id}`);
         if (!["yes", "no", "watch"].includes(it.strategyCandidate)) fail(`bad strategyCandidate on ${it.id}`);
         if (!["candidate", "deferred", "adopted", "rejected"].includes(it.status)) fail(`bad status on ${it.id}`);
+        if (!(it.coverUrl || it.cover)) fail(`research item ${it.id} missing coverUrl/cover`);
+        if (!it.titleLocalized || typeof it.titleLocalized !== "object") {
+          fail(`research item ${it.id} missing titleLocalized`);
+        }
       }
       ok("research-library schema");
+      for (const f of ["placeholder-book.svg", "placeholder-paper.svg"]) {
+        const cp = path.join(ROOT, "public/covers", f);
+        if (!fs.existsSync(cp)) fail(`missing public/covers/${f}`);
+        else ok(`cover asset ${f}`);
+      }
+      const researchJs = fs.readFileSync(path.join(ROOT, "src/research.js"), "utf8");
+      if (!researchJs.includes("coverUrl") || !researchJs.includes("titleLocalized") || !researchJs.includes("loading=\"lazy\"")) {
+        fail("research.js missing cover / localized title / lazy-load wiring");
+      } else {
+        ok("research.js cover + i18n wiring");
+      }
+      const i18n = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+      if (i18n.includes("目前未過）— candidates only") || i18n.includes("目前未过）— candidates only") || i18n.includes("未通過）— candidates only")) {
+        fail("i18n researchMathGateBanner still mixes English 'candidates only' into CJK");
+      } else {
+        ok("research i18n banners localized");
+      }
     } catch (e) {
       fail(`research-library parse: ${e}`);
     }
