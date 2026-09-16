@@ -472,7 +472,7 @@ function renderApp(data, paper) {
   const tw = data.tw || [];
   const disclaimer = escapeHtml(t("disclaimer"));
   const headers = renderListHeaders();
-  const logoUrl = `${import.meta.env.BASE_URL}logo.svg`;
+  const logoUrl = `${import.meta.env.BASE_URL}logo.png?v=3`;
 
   return `
     ${renderDanmakuLayer()}
@@ -480,7 +480,7 @@ function renderApp(data, paper) {
     <header class="site-chrome">
       <div class="chrome-row">
         <div class="chrome-brand">
-          <img class="brand-mark" src="${logoUrl}" width="32" height="32" alt="" decoding="async" />
+          <img class="brand-mark" src="${logoUrl}" width="40" height="40" alt="每日數學選股" decoding="async" />
           <div class="brand-text">
             <h1>${escapeHtml(t("siteTitle"))}</h1>
             <p class="brand-meta">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}</p>

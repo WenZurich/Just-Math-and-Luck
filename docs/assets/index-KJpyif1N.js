@@ -520,7 +520,7 @@
     <header class="site-chrome">
       <div class="chrome-row">
         <div class="chrome-brand">
-          <img class="brand-mark" src="/Just-Math-and-Luck-/logo.svg" width="32" height="32" alt="" decoding="async" />
+          <img class="brand-mark" src="/Just-Math-and-Luck-/logo.png?v=3" width="40" height="40" alt="每日數學選股" decoding="async" />
           <div class="brand-text">
             <h1>${i(s("siteTitle"))}</h1>
             <p class="brand-meta">${i(s("dataAsOf"))} ${ea(t.asOf)}</p>
