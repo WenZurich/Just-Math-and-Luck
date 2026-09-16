@@ -1255,7 +1255,7 @@ h1 {
   bottom: 0;
   z-index: 50;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0;
   width: 100%;
   max-width: 100vw;
@@ -2079,7 +2079,7 @@ h1 {
 
 @media (max-width: 899px) {
   .nav-bottom .nav-label {
-    font-size: 0.58rem;
+    font-size: 0.52rem;
     line-height: 1.15;
     white-space: nowrap;
     overflow: hidden;
@@ -2087,7 +2087,11 @@ h1 {
     max-width: 100%;
   }
   .nav-bottom .nav-item {
-    padding: 0.2rem 0.05rem;
+    padding: 0.15rem 0.02rem;
+  }
+  .nav-bottom .nav-icon svg {
+    width: 18px;
+    height: 18px;
   }
 }
 

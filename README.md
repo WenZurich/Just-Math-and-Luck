@@ -65,6 +65,14 @@ Discussions 已開；`src/config.js` 內含 `repoId`／`categoryId`（General）
 - Reddit.com 被擋時自動改用 arctic-shift（真實貼文）；Dcard 仍可能需使用者瀏覽器 IP，見 `scripts/fetch-social-browser-notes.md`
 
 
+## 研究書庫（`#research`）
+
+持續累積美／台股市相關**書單＋論文**：標題 → 摘要 → 可程式化公式 → 是否納入策略候選。
+
+- 資料：`public/data/research-library.json`（build／Pages 同步到 `docs/data/`）
+- 更新 stub：`node scripts/update-research-library.mjs`（平日例行；摘要須自寫，禁止貼著作權原文）
+- **正式納入策略需數學閘門通過（目前未過）**— UI 僅標 candidate／watch／deferred
+
 ## 策略選股（`npm run strategies`）
 
 XQ 風格「策略選股（邏輯條件）」：分類切換（精選／價量／籌碼／財務／大師）、明示條件、命中數與計算欄位。

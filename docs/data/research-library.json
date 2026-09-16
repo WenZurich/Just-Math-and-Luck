@@ -1,0 +1,215 @@
+{
+  "meta": {
+    "id": "research-library",
+    "updated": "2026-09-16T12:20:00+08:00",
+    "timezone": "Asia/Taipei",
+    "purpose": "Growing US+TW stock bookshelf + recent papers; strategy candidates only until math gate passes",
+    "copyright": "Original short summaries only — no copyrighted verbatim book text",
+    "mathGate": "正式納入策略需數學閘門通過（目前未過）— candidates only",
+    "updateScript": "scripts/update-research-library.mjs"
+  },
+  "items": [
+    {
+      "id": "book-kostolany-egg",
+      "market": "BOTH",
+      "type": "book",
+      "title": "André Kostolany — cycle / egg psychology (shelf: 一個投機者的告白 & related)",
+      "authors": ["André Kostolany"],
+      "year": 1970,
+      "summary": "Public-knowledge cycle framing: firm hands accumulate near despair while shaky hands dominate near euphoria; volume marks ownership transfer; rates often lag risk appetite. Used here as an egg-phase proxy for US and TW dials, not as trade anecdotes.",
+      "formulas": [
+        "egg_proxy ← f(dd_from_252d_high, index_vol_ratio_20, ΔUS10Y_60d)",
+        "firm_hands ← (ret_21d < 0) ∧ (vol_ratio_20 ≥ 1.5) ∧ (close > SMA200)",
+        "shaky_hands ← elevated_ret_63d ∧ (vol_ratio_20 ≥ 1.8)",
+        "K6 reclaim ← prior_shock ∧ (close > SMA20)"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Partial: regime labels live in marketRegime; full egg→dial table still needs olympiad math gate.",
+      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md", "public knowledge of Kostolany Egg"]
+    },
+    {
+      "id": "book-howard-marks-cycle",
+      "market": "BOTH",
+      "type": "book",
+      "title": "Mastering the Market Cycle (掌握市場週期)",
+      "authors": ["Howard Marks"],
+      "year": 2018,
+      "summary": "Marks-style practice: take the market’s temperature and adjust aggressiveness rather than calling exact tops. Hot markets raise the bar; cold markets allow survivor hunting with tighter risk budgets.",
+      "formulas": [
+        "temperatureScore ∈ [−2, +2] ← Σ proxies(pct_from_SMA200, dd_from_52w_high, ATR_pct_20, ΔUS10Y_20d, breadth, optional HYG/LQD)",
+        "hot (temp ≥ +1) → dial ≤ selective, size_mult cap ≈ 0.9×",
+        "cold (temp ≤ −1) → allow constructive/aggressive on survivors above SMA200"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "temperatureScore already coded; checklist completeness + clamp proofs pending math gate.",
+      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md"]
+    },
+    {
+      "id": "book-rates-literacy-tw",
+      "market": "BOTH",
+      "type": "book",
+      "title": "圖解地表最簡單的利率教科書 (rates literacy)",
+      "authors": ["利率入門讀本（書架）"],
+      "year": 2020,
+      "summary": "Rates-literacy primer: treat yield direction as a first-class regime input. Fast spikes lean defensive; sustained declines can reopen risk-on if the egg phase is not euphoric. TW uses US10Y plus USD/TWD stress rather than pretending local yields equal US10Y.",
+      "formulas": [
+        "R2: ΔUS10Y_20d ≥ +0.25 pp → dial_cap ≤ selective / defensive bias",
+        "R3: ΔUS10Y_60d ≤ −0.25 pp ∧ egg ≠ euphoric → aggressive bias allowed",
+        "R4 (TW): ΔUSDTWD_20d stress → contagion overlay"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Rate features wired into regime; TW FX overlay still watch-listed for gate proofs.",
+      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md"]
+    },
+    {
+      "id": "book-que-you-shang-fi",
+      "market": "TW",
+      "type": "book",
+      "title": "闕又上 — 勞退／退休金缺口與紀律（書架）",
+      "authors": ["闕又上"],
+      "year": 2015,
+      "summary": "TW retirement-gap framing kept only as personal drawdown / survivability hygiene. Explicitly not used as ticker alpha, pension-anecdote timing, or lifestyle leverage rules.",
+      "formulas": [
+        "D1: max_equity_dd_halt (risk budget)",
+        "D2: dry_powder_tag_by_regime",
+        "D3: exclude leveraged-ETF core in euphoria"
+      ],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Discipline-only; FI-number and pension anecdotes excluded from screens by design.",
+      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md"]
+    },
+    {
+      "id": "book-fi-shelf-discipline",
+      "market": "BOTH",
+      "type": "book",
+      "title": "FI / retirement shelf (夏韻芬、YMOYL、財富自由的心理學、富爸爸、錢教)",
+      "authors": ["FI / money-education shelf"],
+      "year": 2010,
+      "summary": "Soft FI and money-education titles mapped to risk-discipline gates only: cash buffers, process logs, anti-FOMO in euphoria. No envelope budgets, affirmations, or Rich-Dad leverage ideology as equity factors.",
+      "formulas": [
+        "D1–D4 discipline gates only",
+        "explicitly_excluded: fi_number_as_alpha, envelope_budget_as_ticker_rank, rich_dad_leverage_ideology"
+      ],
+      "strategyCandidate": "no",
+      "status": "rejected",
+      "mathGateNote": "Rejected as alpha sources; residue is sizing / cash / audit only.",
+      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md"]
+    },
+    {
+      "id": "book-security-analysis-concepts",
+      "market": "US",
+      "type": "book",
+      "title": "Security Analysis — core concepts (Graham & Dodd)",
+      "authors": ["Benjamin Graham", "David Dodd"],
+      "year": 1934,
+      "summary": "Original concept summary only: separate investment from speculation; anchor on earning power, asset coverage, and a margin of safety versus price. Informs value-style master packs (PE/PB/debt filters), not narrative stock tips.",
+      "formulas": [
+        "margin_of_safety_proxy ← f(earnings_yield, book_coverage, leverage)",
+        "value_screen ← low PE/PB ∧ tolerable debt ∧ positive operating metrics"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Public PE/PB/ROE proxies exist in master packs; full MOS math not gated yet.",
+      "sources": ["public domain concepts / classroom summaries"]
+    },
+    {
+      "id": "book-intelligent-investor-concepts",
+      "market": "US",
+      "type": "book",
+      "title": "The Intelligent Investor — core concepts",
+      "authors": ["Benjamin Graham"],
+      "year": 1949,
+      "summary": "Original concept summary: defensive vs enterprising investor; Mr. Market as a quote machine, not a guru; insist on process and margin of safety over forecasting. Maps to stance dials and position-size caps, not day-trade rules.",
+      "formulas": [
+        "defensive_vs_enterprising ← stance dial from regime",
+        "size_mult ← STANCE_SIZE_MULT[stance]",
+        "Mr_Market_quote ← last close (do not treat as intrinsic)"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Stance sizing live; enterprising checklist still conceptual.",
+      "sources": ["public knowledge concepts"]
+    },
+    {
+      "id": "book-random-walk-concepts",
+      "market": "US",
+      "type": "book",
+      "title": "A Random Walk Down Wall Street — core concepts",
+      "authors": ["Burton Malkiel"],
+      "year": 1973,
+      "summary": "Original concept summary: prices are hard to beat after costs; favor diversification and skepticism toward hot tips and chart superstition. Used as a caution against overfit screens and as a reminder that paper strategies need out-of-sample math gates.",
+      "formulas": [
+        "null_hypothesis: E[excess_return | noisy_screen] ≈ 0 after costs",
+        "require: walk-forward / regime-split checks before status=adopted"
+      ],
+      "strategyCandidate": "no",
+      "status": "deferred",
+      "mathGateNote": "Methodological caution; no direct buy screen from this title.",
+      "sources": ["public knowledge concepts"]
+    },
+    {
+      "id": "book-tw-market-structure",
+      "market": "TW",
+      "type": "book",
+      "title": "台股結構注意事項（限漲跌／法人籌碼／T+2）— operational notes",
+      "authors": ["Just-Math-and-Luck study notes"],
+      "year": 2026,
+      "summary": "TW-specific operational notes derived from the bookshelf framework: ±10% limits distort RS/breadth; foreign/trust/dealer lot flows are first-class chip signals; T+2 affects cash tags only. Not a published book — kept so TW research stays visible beside US canon.",
+      "formulas": [
+        "limit_aware_rs: treat near-limit clusters ≠ healthy breadth",
+        "inst_sync: foreign/trust/dealer 1d & 5d lot thresholds",
+        "cash_tag_Tplus2 (settlement hygiene, not SMA math)"
+      ],
+      "strategyCandidate": "yes",
+      "status": "candidate",
+      "mathGateNote": "Several chip packs live; limit-aware breadth still candidate.",
+      "sources": ["scripts/study/bookshelf-framework-2026-09-16.md", "scripts/run-strategies.mjs"]
+    },
+    {
+      "id": "paper-finsaber-llm-2025",
+      "market": "US",
+      "type": "paper",
+      "title": "Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?",
+      "authors": ["Weixian Waylon Li", "Hyeonjun Kim", "Mihai Cucuringu", "Tiejun Ma"],
+      "year": 2025,
+      "summary": "Authors propose FINSABER, a longer-horizon / wider-universe backtest for LLM timing strategies. Reported LLM edges shrink under broader cross-sections and multi-decade windows; regime splits show strategies too cautious in bulls and too aggressive in bears. Takeaway for this site: prioritise regime-aware risk controls and trend detection over stacking LLM complexity — aligns with our math-gate rule before adoption.",
+      "formulas": [
+        "evaluate timing_strategy on long_window × large_universe (anti data-snooping)",
+        "regime_split: bull → avoid over-conservatism; bear → tighten risk controls",
+        "gate: require regime-aware controls before status=adopted"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Supports keeping LLM/narrative packs off production until regime-aware gates pass.",
+      "sources": [
+        "https://arxiv.org/abs/2505.07078",
+        "https://doi.org/10.48550/arXiv.2505.07078"
+      ]
+    },
+    {
+      "id": "paper-genai-stock-selection-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Generative AI for Stock Selection",
+      "authors": ["Keywan Christian Rasekhschaffe"],
+      "year": 2026,
+      "summary": "Studies whether generative AI can automate feature discovery in US equities via RAG and structured prompting, then feed features into tabular ML for short-horizon forecasts. AI features are competitive with baselines when retrieval quality is controlled and are weakly correlated with traditional signals (suggesting combination). Site takeaway: interesting research path, but not a drop-in screen — needs reproducible features + math gate.",
+      "formulas": [
+        "features_AI ← LLM(RAG, structured_prompt | analyst/options/price-volume)",
+        "forecast ← tabular_ML(features_AI ∪ features_classic)",
+        "watch: low corr(features_AI, classic) → optional ensemble after gate"
+      ],
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "No production features yet; retrieval/quality controls not implemented.",
+      "sources": [
+        "https://arxiv.org/abs/2602.00196",
+        "https://doi.org/10.48550/arXiv.2602.00196"
+      ]
+    }
+  ]
+}

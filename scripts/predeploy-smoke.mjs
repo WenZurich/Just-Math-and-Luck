@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#strategies", "#paper", "#social"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#paper", "#social"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-strategies", "view-paper", "view-social"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-paper", "view-social"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -245,7 +245,42 @@ async function main() {
   }
   ok("no unknown category tabs");
 
+  // —— Research library hash + JSON schema ——
+  const rlPath = path.join(ROOT, "public/data/research-library.json");
+  if (!fs.existsSync(rlPath)) {
+    fail("missing public/data/research-library.json");
+  } else {
+    try {
+      const rl = JSON.parse(fs.readFileSync(rlPath, "utf8"));
+      const items = rl.items || [];
+      const books = items.filter((x) => x.type === "book");
+      const papers = items.filter((x) => x.type === "paper");
+      if (!books.length) fail("research-library has no books");
+      else ok(`research books ${books.length}`);
+      if (!papers.length) fail("research-library has no papers");
+      else ok(`research papers ${papers.length}`);
+      for (const it of items) {
+        for (const k of ["id", "market", "type", "title", "summary", "formulas", "strategyCandidate", "status", "mathGateNote", "sources"]) {
+          if (!(k in it)) fail(`research item ${it.id || "?"} missing ${k}`);
+        }
+        if (!["US", "TW", "BOTH"].includes(it.market)) fail(`bad market on ${it.id}`);
+        if (!["book", "paper"].includes(it.type)) fail(`bad type on ${it.id}`);
+        if (!["yes", "no", "watch"].includes(it.strategyCandidate)) fail(`bad strategyCandidate on ${it.id}`);
+        if (!["candidate", "deferred", "adopted", "rejected"].includes(it.status)) fail(`bad status on ${it.id}`);
+      }
+      ok("research-library schema");
+    } catch (e) {
+      fail(`research-library parse: ${e}`);
+    }
+  }
+  if (!mainJs.includes("view-research") || !mainJs.includes('"research"')) {
+    fail("main.js missing research view wiring");
+  } else {
+    ok("research view wired in main.js");
+  }
+
   // —— Explicit jargon regression (live-site crash set) ——
+
   const jargonIds = ["ultra-short", "peter-lynch", "benjamin-graham", "inst-sync", "margin-up"];
   for (const id of jargonIds) {
     const s = strategies.find((x) => x.id === id);

@@ -1,0 +1,268 @@
+/* Research library — light mainstream list UX */
+.research-section {
+  padding-bottom: 1rem;
+}
+
+.rl-banner {
+  margin: 0 0 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, #c9a227 35%, var(--border));
+  background: color-mix(in srgb, #fff8e1 88%, white);
+  color: var(--text);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.rl-root {
+  min-height: 4rem;
+}
+
+.rl-loading,
+.rl-empty,
+.rl-error,
+.rl-muted {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.rl-error {
+  color: #b42318;
+}
+
+.rl-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.85rem;
+  margin-bottom: 0.65rem;
+  align-items: center;
+}
+
+.rl-filter-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border-radius: 10px;
+  background: #f3f5f8;
+  border: 1px solid var(--border);
+}
+
+.rl-filter {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 650;
+  padding: 0.35rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  min-height: 34px;
+}
+
+.rl-filter:hover {
+  color: var(--text);
+  background: #fff;
+}
+
+.rl-filter.is-active {
+  color: var(--accent);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.rl-counts,
+.rl-meta-line {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.rl-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.rl-list-title {
+  margin: 0 0 0.55rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.rl-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.65rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.rl-card-head {
+  margin-bottom: 0.45rem;
+}
+
+.rl-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.rl-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 0.18rem 0.45rem;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+}
+
+.rl-badge.rl-type {
+  background: #e8f0fe;
+  color: #1a56db;
+}
+
+.rl-badge.rl-market {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.rl-status-candidate {
+  background: #fff7ed;
+  color: #c2410c;
+  border-color: #fed7aa;
+}
+
+.rl-status-deferred {
+  background: #f4f4f5;
+  color: #52525b;
+}
+
+.rl-status-adopted {
+  background: #ecfdf3;
+  color: #027a48;
+  border-color: #a6f4c5;
+}
+
+.rl-status-rejected {
+  background: #fef3f2;
+  color: #b42318;
+  border-color: #fecdca;
+}
+
+.rl-cand-yes {
+  background: #eff8ff;
+  color: #175cd3;
+}
+
+.rl-cand-no {
+  background: #f4f4f5;
+  color: #667085;
+}
+
+.rl-cand-watch {
+  background: #fefbe8;
+  color: #a15c07;
+}
+
+.rl-title {
+  margin: 0 0 0.2rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.rl-meta {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.rl-summary {
+  margin: 0.35rem 0 0.55rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.rl-block {
+  margin-top: 0.45rem;
+}
+
+.rl-h {
+  margin: 0 0 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: none;
+}
+
+.rl-formulas {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.rl-formulas li {
+  margin: 0.2rem 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.rl-formulas code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  background: #f5f7fa;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  color: #1f2937;
+  word-break: break-word;
+}
+
+.rl-gate-note {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.rl-sources {
+  margin-top: 0.55rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.rl-sources a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.rl-sources a:hover {
+  text-decoration: underline;
+}
+
+.rl-k {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+@media (min-width: 900px) {
+  .rl-lists {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+}

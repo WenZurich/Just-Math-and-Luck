@@ -28,6 +28,11 @@ import {
   initStrategies,
 } from "./strategies.js";
 import { renderLogicSection, renderRegimeStrip } from "./logic.js";
+import "./research.css";
+import {
+  renderResearchSection,
+  initResearch,
+} from "./research.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -391,6 +396,7 @@ function getViews() {
   return [
     { id: "today", label: t("navToday"), hash: "today" },
     { id: "logic", label: t("navLogic"), hash: "logic" },
+    { id: "research", label: t("navResearch"), hash: "research" },
     { id: "strategies", label: t("navStrategies"), hash: "strategies" },
     { id: "paper", label: t("navPaper"), hash: "paper" },
     { id: "social", label: t("navSocial"), hash: "social" },
@@ -400,11 +406,15 @@ function getViews() {
 const HASH_ALIASES = {
   today: "today",
   logic: "logic",
+  research: "research",
   strategies: "strategies",
   paper: "paper",
   social: "social",
   help: "logic",
   glossary: "logic",
+  bookshelf: "research",
+  library: "research",
+  研究: "research",
   danmaku: "social",
   "social-digest": "social",
   giscus: "social",
@@ -415,6 +425,7 @@ const HASH_ALIASES = {
 const NAV_ICONS = {
   today: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h2v2h6V2h2v2h3a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3V2zm12 8H5v10h14V10zm-2-5H7v2h10V5z"/></svg>`,
   logic: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 2h2v2h-2v-2zm3 0h2v2h-2v-2zm-3 3h2v2h-2v-2zm3 0h2v2h-2v-2zm3-3h2v5h-2v-5z"/></svg>`,
+  research: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12h8v1.5H8V12zm0 3.5h8V17H8v-1.5zm0 3.5h5V20.5H8V19z"/></svg>`,
   strategies: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 19h16v2H4v-2zm2.5-3.5 4-4 3 3L21 6.5 19.5 5l-6 7.5-3-3L4 14.5l2.5 1z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   social: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C7 3 3 6.6 3 11c0 2.4 1.2 4.5 3.1 6L5 21l4.3-1.4c.9.3 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z"/></svg>`,
@@ -529,6 +540,11 @@ function renderApp(data, paper) {
       <div class="view" id="view-logic" data-view="logic" hidden>
         <span id="logic" class="view-anchor" tabindex="-1"></span>
         ${renderLogicSection(data)}
+      </div>
+
+      <div class="view" id="view-research" data-view="research" hidden>
+        <span id="research" class="view-anchor" tabindex="-1"></span>
+        ${renderResearchSection()}
       </div>
 
       <div class="view" id="view-strategies" data-view="strategies" hidden>
@@ -699,6 +715,7 @@ async function mountUi(app) {
   bindPaperTabs(app);
   bindLangSwitcher(app);
   await initStrategies("#xq-root");
+  await initResearch("#rl-root");
   void config;
   let digest = cachedDigest;
   const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);
