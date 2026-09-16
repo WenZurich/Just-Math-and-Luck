@@ -260,8 +260,14 @@ async function main() {
       if (!papers.length) fail("research-library has no papers");
       else ok(`research papers ${papers.length}`);
       for (const it of items) {
-        for (const k of ["id", "market", "type", "title", "summary", "formulas", "strategyCandidate", "status", "mathGateNote", "sources"]) {
+        for (const k of ["id", "market", "type", "title", "summary", "formulas", "strategyCandidate", "status", "mathGateNote", "sources", "plainTakeaways"]) {
           if (!(k in it)) fail(`research item ${it.id || "?"} missing ${k}`);
+        }
+        if (!Array.isArray(it.plainTakeaways) || !it.plainTakeaways.length) {
+          fail(`research item ${it.id} plainTakeaways empty`);
+        }
+        if (!it.plainTakeawaysLocalized || typeof it.plainTakeawaysLocalized !== "object") {
+          fail(`research item ${it.id} missing plainTakeawaysLocalized`);
         }
         if (!["US", "TW", "BOTH"].includes(it.market)) fail(`bad market on ${it.id}`);
         if (!["book", "paper"].includes(it.type)) fail(`bad type on ${it.id}`);
@@ -284,11 +290,27 @@ async function main() {
       } else {
         ok("research.js cover + i18n wiring");
       }
+      if (!researchJs.includes("plainTakeaways") || !researchJs.includes("takeawayList") || !researchJs.includes("researchTakeaways")) {
+        fail("research.js missing plainTakeaways / takeawayList wiring");
+      } else {
+        ok("research.js plain takeaways wiring");
+      }
+      // Default cards must not dump raw formulas or developer mathGateNote
+      if (/formulaList\s*\(/.test(researchJs) || /item\.formulas/.test(researchJs) || /item\.mathGateNote/.test(researchJs)) {
+        fail("research.js still renders raw formulas[] or mathGateNote in UI");
+      } else {
+        ok("research UI hides raw formulas / mathGateNote");
+      }
       const i18n = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
       if (i18n.includes("目前未過）— candidates only") || i18n.includes("目前未过）— candidates only") || i18n.includes("未通過）— candidates only")) {
         fail("i18n researchMathGateBanner still mixes English 'candidates only' into CJK");
       } else {
         ok("research i18n banners localized");
+      }
+      if (!i18n.includes("researchTakeaways") || !i18n.includes("重點作法")) {
+        fail("i18n missing researchTakeaways / 重點作法");
+      } else {
+        ok("research takeaways i18n");
       }
     } catch (e) {
       fail(`research-library parse: ${e}`);
@@ -457,6 +479,21 @@ async function main() {
   }
   if (!/\.xq-tabs/.test(css)) fail("strategies.css missing .xq-tabs");
   else ok("xq-tabs styles present");
+  if (!/\.xq-tabs[^{]*\{[\s\S]*?overflow-x:\s*auto/.test(css)) {
+    fail("strategies.css .xq-tabs missing overflow-x:auto");
+  } else {
+    ok("xq-tabs overflow-x:auto");
+  }
+  if (!/padding-inline[^;]*1\.\d+rem/.test(css) && !/padding-inline-end/.test(css)) {
+    fail("strategies.css .xq-tabs missing padding-inline end for last tab");
+  } else {
+    ok("xq-tabs padding-inline end");
+  }
+  if (!/\.xq-main[^{]*\{[\s\S]*?min-width:\s*0/.test(css)) {
+    fail("strategies.css .xq-main missing min-width:0 (grid overflow clip)");
+  } else {
+    ok("xq-main min-width:0");
+  }
 
   // —— Built docs/data screener stays in sync with public (if both exist) ——
   const docsScreener = path.join(ROOT, "docs/data/strategy-screener.json");

@@ -5,7 +5,8 @@
  * Intended schedule (Asia/Taipei weekdays):
  *  1. Search for new public US/TW finance papers (arXiv / SSRN / central-bank notes).
  *  2. Append items with ORIGINAL short summaries (never paste copyrighted book text).
- *  3. For each item set: market, type, formulas[], strategyCandidate, status, mathGateNote, sources[].
+ *  3. For each item set: market, type, formulas[], plainTakeaways[], strategyCandidate, status, mathGateNote, sources[].
+ *     UI shows plainTakeaways only — formulas/mathGateNote stay machine-facing.
  *  4. Keep status=candidate|watch until olympiad math gate passes → then adopted (or rejected).
  *  5. Copy JSON to docs/data/ when publishing Pages.
  *
@@ -52,12 +53,16 @@ function validateItem(it, i) {
     "year",
     "summary",
     "formulas",
+    "plainTakeaways",
     "strategyCandidate",
     "status",
     "mathGateNote",
     "sources",
   ]) {
     if (!(k in it)) fail(`${prefix}: missing ${k}`);
+  }
+  if (!Array.isArray(it.plainTakeaways) || !it.plainTakeaways.length) {
+    fail(`${prefix}: plainTakeaways must be non-empty array`);
   }
   if (!MARKETS.has(it.market)) fail(`${prefix}: bad market ${it.market}`);
   if (!TYPES.has(it.type)) fail(`${prefix}: bad type ${it.type}`);

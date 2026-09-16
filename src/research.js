@@ -83,25 +83,38 @@ function coverFallback(item, meta) {
   return meta?.defaultCoverBook || DEFAULT_BOOK_COVER;
 }
 
-function formulaList(formulas) {
-  if (!Array.isArray(formulas) || !formulas.length) {
-    return `<p class="rl-muted">${escapeHtml(t("researchNoFormulas"))}</p>`;
+function itemPlainTakeaways(item) {
+  const loc = item?.plainTakeawaysLocalized;
+  if (loc && typeof loc === "object") {
+    const lang = getLang();
+    const arr = loc[lang] || loc["zh-Hant"] || loc.en;
+    if (Array.isArray(arr) && arr.length) return arr;
   }
-  return `<ul class="rl-formulas">${formulas
-    .map((f) => `<li><code>${escapeHtml(f)}</code></li>`)
-    .join("")}</ul>`;
+  if (Array.isArray(item?.plainTakeaways) && item.plainTakeaways.length) {
+    return item.plainTakeaways;
+  }
+  return [];
+}
+
+/** Human-readable takeaways only — never dump raw formulas[] / mathGateNote. */
+function takeawayList(item) {
+  const bullets = itemPlainTakeaways(item);
+  if (!bullets.length) return "";
+  return `<div class="rl-block">
+    <h4 class="rl-h">${escapeHtml(t("researchTakeaways"))}</h4>
+    <ul class="rl-takeaways">${bullets
+      .map((b) => `<li>${escapeHtml(b)}</li>`)
+      .join("")}</ul>
+  </div>`;
 }
 
 function sourceLinks(sources) {
   if (!Array.isArray(sources) || !sources.length) return "";
-  const links = sources
-    .map((s) => {
-      const isUrl = /^https?:\/\//i.test(s);
-      if (isUrl) {
-        return `<a href="${escapeHtml(s)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s)}</a>`;
-      }
-      return `<span>${escapeHtml(s)}</span>`;
-    })
+  // Hide internal repo paths (scripts/study/...) from user-facing cards
+  const publicSources = sources.filter((s) => /^https?:\/\//i.test(String(s)));
+  if (!publicSources.length) return "";
+  const links = publicSources
+    .map((s) => `<a href="${escapeHtml(s)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s)}</a>`)
     .join(" · ");
   return `<div class="rl-sources"><span class="rl-k">${escapeHtml(t("researchSources"))}</span> ${links}</div>`;
 }
@@ -156,14 +169,7 @@ export function renderResearchCard(item, meta = {}) {
           <p class="rl-meta">${escapeHtml(authors)} · ${escapeHtml(year)}</p>
         </header>
         <p class="rl-summary">${escapeHtml(itemSummary(item))}</p>
-        <div class="rl-block">
-          <h4 class="rl-h">${escapeHtml(t("researchFormulas"))}</h4>
-          ${formulaList(item.formulas)}
-        </div>
-        <div class="rl-block">
-          <h4 class="rl-h">${escapeHtml(t("researchMathGate"))}</h4>
-          <p class="rl-gate-note">${escapeHtml(item.mathGateNote || t("researchMathGateDefault"))}</p>
-        </div>
+        ${takeawayList(item)}
         ${sourceLinks(item.sources)}
       </div>
     </article>`;

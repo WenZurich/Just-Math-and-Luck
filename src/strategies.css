@@ -501,15 +501,33 @@
 }
 
 /* —— XQ top tabs (compact sticky; chips are NOT sticky — was covering panel clicks) —— */
+.xq-main {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: visible;
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
+.xq-layout {
+  min-width: 0;
+  max-width: 100%;
+}
 .xq-tabs {
   display: flex;
   flex-wrap: nowrap;
   gap: 0.35rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   overflow-x: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   scrollbar-width: thin;
+  scroll-snap-type: x proximity;
   margin-bottom: 0.65rem;
-  padding: 0.15rem 0 0.45rem;
+  padding-block: 0.15rem 0.45rem;
+  padding-inline: 0.15rem 1.25rem;
   border-bottom: 1px solid var(--border-soft);
 }
 .xq-tab {
@@ -531,6 +549,8 @@
   touch-action: manipulation;
   position: relative;
   z-index: 1;
+  scroll-snap-align: start;
+  white-space: nowrap;
 }
 .xq-tab:hover { background: #f7f8fa; }
 .xq-tab.active {
@@ -562,10 +582,13 @@
     background: rgba(245, 247, 250, 0.97);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    margin-left: -0.15rem;
-    margin-right: -0.15rem;
-    padding-left: 0.15rem;
-    padding-right: 0.15rem;
+    margin-left: 0;
+    margin-right: 0;
+    /* Keep end padding so last tab (週期) clears the screen edge */
+    padding-inline: 0.25rem 1.5rem;
+  }
+  .xq-main {
+    padding-bottom: calc(var(--nav-h, 64px) * 0.15 + 1rem + env(safe-area-inset-bottom, 0px));
   }
   /* Do NOT sticky the full chip list — tall overlay ate clicks on panel buttons */
   .xq-chips {
