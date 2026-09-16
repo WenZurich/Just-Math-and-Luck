@@ -372,6 +372,23 @@ async function main() {
     }
   }
 
+  // —— Community chat: lobby-only + site-wide danmaku toggle ——
+  const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+  if (/data-chat-mode=["']ticker["']/.test(mainSrc) || /collectTickerChips/.test(mainSrc)) {
+    fail("chat still has per-ticker mode / ticker chips");
+  } else ok("lobby-only chat (no per-ticker mode)");
+  if (!/data-danmaku-toggle/.test(mainSrc) || !/chrome-danmaku-toggle/.test(mainSrc)) {
+    fail("site-wide danmaku toggle missing from chrome/chat");
+  } else ok("site-wide danmaku toggle present");
+  const danmakuSrc = fs.readFileSync(path.join(ROOT, "src/danmaku.js"), "utf8");
+  if (!/ss-danmaku-enabled/.test(danmakuSrc) || !/export function isDanmakuEnabled/.test(danmakuSrc)) {
+    fail("danmaku localStorage preference API missing");
+  } else ok("danmaku preference persists via localStorage");
+  const i18nSrc = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+  if (!/全頻彈幕/.test(i18nSrc) || !/Site danmaku/.test(i18nSrc)) {
+    fail("danmakuFx i18n missing 全頻彈幕 / Site danmaku");
+  } else ok("danmakuFx i18n labels");
+
   // —— CSS: tall sticky chips must stay disabled (root cause of dead panel clicks) ——
   const css = fs.readFileSync(path.join(ROOT, "src/strategies.css"), "utf8");
   if (!/Do NOT sticky the full chip list/.test(css) && !/\.xq-chips\s*\{[\s\S]*?position:\s*static\s*!important/.test(css)) {

@@ -1,11 +1,70 @@
-import { t, numberLocale } from './i18n.js';
+import { t } from './i18n.js';
 /**
  * Global 彈幕 + chat list.
  * Works when STOCK_SOCIAL_CONFIG / VITE_SUPABASE_* present;
  * otherwise shows 「討論功能尚未啟用」and keeps UI read-only.
+ *
+ * Site-wide overlay preference: localStorage key ss-danmaku-enabled ("1"|"0").
+ * Default: off (quiet).
  */
 
 const BACKEND_MSG = () => t('backendOff');
+const DANMAKU_PREF_KEY = 'ss-danmaku-enabled';
+
+export function isDanmakuEnabled() {
+  try {
+    return localStorage.getItem(DANMAKU_PREF_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function setDanmakuEnabled(on) {
+  const enabled = !!on;
+  try {
+    localStorage.setItem(DANMAKU_PREF_KEY, enabled ? '1' : '0');
+  } catch {
+    /* ignore */
+  }
+  applyDanmakuLayerState(document);
+  return enabled;
+}
+
+export function applyDanmakuLayerState(root = document) {
+  const on = isDanmakuEnabled();
+  const layer = root.querySelector('#ss-danmaku-layer');
+  if (layer) {
+    layer.classList.toggle('is-off', !on);
+    layer.setAttribute('aria-hidden', on ? 'false' : 'true');
+    if (!on) {
+      layer.querySelectorAll('.ss-danmaku-item').forEach((el) => el.remove());
+    }
+  }
+  root.querySelectorAll('[data-danmaku-toggle]').forEach((input) => {
+    if (input && input.type === 'checkbox') {
+      input.checked = on;
+    }
+  });
+  return on;
+}
+
+/** Bind all [data-danmaku-toggle] checkboxes; returns a destroy() handle. */
+export function bindDanmakuToggles(root = document) {
+  applyDanmakuLayerState(root);
+  const onChange = (ev) => {
+    const target = ev.target;
+    if (!target || target.type !== 'checkbox') return;
+    if (!target.matches || !target.matches('[data-danmaku-toggle]')) return;
+    setDanmakuEnabled(!!target.checked);
+  };
+  root.addEventListener('change', onChange);
+  return {
+    destroy() {
+      root.removeEventListener('change', onChange);
+    },
+  };
+}
+
 
 function readSupabaseConfig(cfg = globalThis.STOCK_SOCIAL_CONFIG || {}) {
   const env =
@@ -57,7 +116,7 @@ function createClient(url, key) {
 }
 
 function spawnDanmaku(layer, text, durationMs = 12000) {
-  if (!layer) return;
+  if (!layer || !isDanmakuEnabled()) return;
   const el = document.createElement('div');
   el.className = 'ss-danmaku-item';
   el.textContent = text;
@@ -93,8 +152,7 @@ export function initDanmaku(options = {}) {
   let client = null;
   let cooling = false;
 
-  const flyToggle = root.querySelector('#ss-danmaku-toggle') || document.querySelector('#ss-danmaku-toggle');
-  const flyEnabled = () => !!(flyToggle && flyToggle.checked);
+  const flyEnabled = () => isDanmakuEnabled();
 
   if (!url || !anon) {
     status.textContent = BACKEND_MSG();

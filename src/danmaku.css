@@ -8,6 +8,12 @@
   z-index: 40;
 }
 
+.ss-danmaku-layer.is-off {
+  display: none;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .ss-danmaku-item {
   position: absolute;
   white-space: nowrap;

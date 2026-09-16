@@ -1065,6 +1065,41 @@ h1 {
   margin-left: auto;
 }
 
+.chrome-danmaku-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  min-height: 36px;
+  padding: 0 0.7rem;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.chrome-danmaku-toggle:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.chrome-danmaku-toggle input {
+  accent-color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .chrome-danmaku-toggle span {
+    max-width: 4.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 .lang-switch {
   display: inline-flex;
   align-items: center;

@@ -1,8 +1,9 @@
 import { t, numberLocale } from './i18n.js';
+import { isDanmakuEnabled } from './danmaku.js';
 
 /**
  * Messenger-style chat room (LINE / Messenger / Telegram patterns).
- * Bubbles, sticky composer, market rooms, optional ticker chips.
+ * Bubbles, sticky composer, US/TW market lobby rooms.
  * Posts/reads via Supabase comments table (anon).
  */
 
@@ -127,9 +128,7 @@ export function mountChatRoom(mountEl, ticker, options = {}) {
   const emptyLine = options.emptyLine || t('noMessages');
   const layer =
     options.danmakuLayer || document.querySelector('#ss-danmaku-layer');
-  const flyToggle =
-    options.flyToggle || document.querySelector('#ss-danmaku-toggle');
-  const flyEnabled = () => !!(flyToggle && flyToggle.checked);
+  const flyEnabled = () => isDanmakuEnabled();
 
   mountEl.classList.add('chat-panel');
   mountEl.dataset.market = market;
