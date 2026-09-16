@@ -1211,10 +1211,13 @@ h1 {
   bottom: 0;
   z-index: 50;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
-  padding: 0.35rem 0.25rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
-  background: rgba(255, 255, 255, 0.96);
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  padding: 0.3rem 0.15rem calc(0.3rem + env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.98);
   border-top: 1px solid var(--border);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
   backdrop-filter: var(--chrome-blur);
@@ -1225,20 +1228,23 @@ h1 {
   appearance: none;
   border: none;
   background: transparent;
-  color: var(--text-dim);
+  color: var(--text-muted);
   font: inherit;
-  font-size: 0.68rem;
-  font-weight: 600;
-  padding: 0.25rem 0.15rem;
+  font-size: 0.62rem;
+  font-weight: 650;
+  padding: 0.2rem 0.05rem;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.15rem;
+  gap: 0.12rem;
   min-height: 48px;
+  min-width: 0;
+  width: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .nav-bottom .nav-icon {
@@ -1711,34 +1717,112 @@ h1 {
 .regime-strip {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.75rem;
   margin: 0.35rem 0 0.85rem;
 }
 .regime-chip {
-  flex: 1 1 180px;
-  min-width: 160px;
-  padding: 0.55rem 0.7rem;
-  border-radius: 10px;
-  border: 1px solid color-mix(in srgb, var(--accent, #3b82f6) 30%, transparent);
-  background: color-mix(in srgb, var(--panel-bg, #0f172a) 92%, #1e3a5f);
+  flex: 1 1 220px;
+  min-width: 180px;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-soft);
+  color: var(--text);
+}
+.regime-chip-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.55rem;
 }
 .regime-chip .label {
-  font-size: 0.72rem;
-  opacity: 0.85;
-  margin-bottom: 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  color: var(--text-muted);
+  opacity: 1;
+  margin: 0;
+  letter-spacing: 0.01em;
 }
 .regime-chip .value {
   font-weight: 700;
   font-size: 0.95rem;
+  color: var(--text);
+}
+.regime-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.regime-meta strong {
+  color: var(--text);
+  font-weight: 700;
+  margin-left: 0.25rem;
 }
 .regime-chip.incomplete {
   border-style: dashed;
-  opacity: 0.92;
+  opacity: 1;
+  background: #fafafa;
 }
 .regime-gaps {
-  margin-top: 0.25rem;
-  font-size: 0.68rem;
-  opacity: 0.75;
+  margin-top: 0.45rem;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.35;
+}
+
+/* Stance semantic badges — high contrast on light surfaces */
+.stance-badge {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-weight: 750;
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.stance-selective {
+  background: #fff4e5;
+  color: #8a5a00;
+  border-color: #f0c14b;
+}
+.stance-defensive {
+  background: #e8f3ff;
+  color: #005a9e;
+  border-color: #0078d4;
+}
+.stance-aggressive {
+  background: #e6f4ea;
+  color: #0b6a0b;
+  border-color: #107c10;
+}
+.stance-balanced {
+  background: #f3f3f3;
+  color: #2b2b2b;
+  border-color: #c8c8c8;
+}
+.stance-constructive {
+  background: #e6f7f5;
+  color: #0d5c5f;
+  border-color: #14b8a6;
+}
+.stance-stabilize-first {
+  background: #fde7e9;
+  color: #a4262c;
+  border-color: #c50f1f;
+}
+.stance-neutral {
+  background: #f5f5f5;
+  color: #666;
+  border-color: #d0d0d0;
 }
 
 /* —— Logic / methodology —— */
@@ -1752,32 +1836,59 @@ h1 {
 .logic-live {
   margin-bottom: 1rem;
 }
-.logic-regime-chip .logic-chip-meta {
+.logic-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+.logic-metric {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.75rem;
-  margin-top: 0.4rem;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  background: #f7f8fa;
+  border: 1px solid var(--border-soft);
+  min-width: 0;
 }
-.logic-field {
-  display: inline-flex;
-  gap: 0.3rem;
-  font-size: 0.72rem;
-  line-height: 1.3;
-}
-.logic-field .k {
-  color: var(--text-dim);
-}
-.logic-field .v {
+.logic-metric .k {
+  font-size: 0.7rem;
   font-weight: 650;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+.logic-metric .v {
+  font-size: 0.9rem;
+  font-weight: 750;
   color: var(--text);
-  font-family: var(--mono);
+  line-height: 1.25;
+  word-break: break-word;
 }
 .logic-impl {
-  margin: 0.45rem 0 0;
-  padding-left: 1.1rem;
-  font-size: 0.72rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.logic-impl li {
+  position: relative;
+  padding: 0.4rem 0.65rem 0.4rem 0.85rem;
+  border-left: 3px solid var(--accent);
+  background: #f5f9fc;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+.logic-mult {
+  margin-left: 0.35rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  line-height: 1.4;
+  font-weight: 650;
+  font-family: var(--mono);
 }
 .logic-pipeline {
   display: flex;
@@ -1866,10 +1977,10 @@ h1 {
 .logic-table th {
   width: 38%;
   font-weight: 650;
-  color: var(--text-muted);
-  background: #fafafa;
-  font-family: var(--mono);
-  font-size: 0.78rem;
+  color: var(--text);
+  background: #f7f8fa;
+  font-family: var(--font);
+  font-size: 0.84rem;
 }
 .logic-table tr:last-child th,
 .logic-table tr:last-child td {
@@ -1914,9 +2025,14 @@ h1 {
 
 @media (max-width: 899px) {
   .nav-bottom .nav-label {
-    font-size: 0.62rem;
+    font-size: 0.58rem;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
   .nav-bottom .nav-item {
-    padding: 0.25rem 0.15rem;
+    padding: 0.2rem 0.05rem;
   }
 }

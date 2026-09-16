@@ -4,7 +4,8 @@
  * Never invents metrics — renders whatever strategy-screener.json provides.
  */
 import { term, escapeHtml } from "./glossary.js";
-import { t, numberLocale } from "./i18n.js";
+import { t, numberLocale, enumLabel } from "./i18n.js";
+import { stanceBadgeHtml } from "./logic.js";
 
 const DATA_URL = "./data/strategy-screener.json";
 
@@ -214,9 +215,9 @@ function metricColumns(strategyId) {
         { key: "pct5d", label: "5日%", fmt: (m) => fmtPct(m.pct5d), cls: (m) => pctClass(m.pct5d) },
         { key: "pct1m", label: "1月%", fmt: (m) => fmtPct(m.pct1m), cls: (m) => pctClass(m.pct1m) },
         { key: "volRatio", label: t("volRatio"), fmt: (m) => (m.volRatio != null ? fmtNum(m.volRatio) + "×" : "—") },
-        { key: "psychologyPhase", label: t("psychologyPhase"), fmt: (m) => m.psychologyPhase || "—" },
-        { key: "cycleStance", label: t("cycleStance"), fmt: (m) => m.cycleStance || "—" },
-        { key: "liquidityBias", label: t("liquidityBias"), fmt: (m) => m.liquidityBias || "—" },
+        { key: "psychologyPhase", label: t("psychologyPhase"), fmt: (m) => (m.psychologyPhase ? enumLabel(m.psychologyPhase) : "—") },
+        { key: "cycleStance", label: t("cycleStance"), fmt: (m) => (m.cycleStance ? enumLabel(m.cycleStance) : "—") },
+        { key: "liquidityBias", label: t("liquidityBias"), fmt: (m) => (m.liquidityBias ? enumLabel(m.liquidityBias) : "—") },
         { key: "tags", label: t("regimeTags"), fmt: (m) => m.tags || "—" },
         { key: "sizeMult", label: t("sizeMult"), fmt: (m) => (m.sizeMult != null ? fmtNum(m.sizeMult, 2) + "×" : "—") },
       ];
@@ -402,19 +403,21 @@ function renderStrategyPanel(strategy, data, marketFilter = "TW") {
             .map((k) => {
               const r = strategy.regimeSnapshot[k];
               if (!r) return "";
-              const phase = r.psychologyPhase || t("dataInsufficient");
-              const stance = r.cycleStance || t("dataInsufficient");
-              const liq = r.liquidityBias || t("dataInsufficient");
+              const phase = r.psychologyPhase ? enumLabel(r.psychologyPhase) : t("dataInsufficient");
+              const stanceRaw = r.cycleStance;
+              const liq = r.liquidityBias ? enumLabel(r.liquidityBias) : t("dataInsufficient");
               const gaps =
                 Array.isArray(r.dataGaps) && r.dataGaps.length
                   ? `<div class="xq-regime-gaps">${escapeHtml(t("dataGaps"))}：${escapeHtml(r.dataGaps.join(", "))}</div>`
                   : "";
               return `<div class="xq-regime-card">
                 <div class="xq-regime-mkt">${escapeHtml(k.toUpperCase())}</div>
-                <div>${escapeHtml(t("psychologyPhase"))}：<strong>${escapeHtml(phase)}</strong></div>
-                <div>${escapeHtml(t("cycleStance"))}：<strong>${escapeHtml(stance)}</strong></div>
-                <div>${escapeHtml(t("liquidityBias"))}：<strong>${escapeHtml(liq)}</strong></div>
-                <div>${escapeHtml(t("temperatureScore"))}：${escapeHtml(r.temperatureScore == null ? t("dataInsufficient") : String(r.temperatureScore))}</div>
+                <div class="xq-regime-stance">${stanceBadgeHtml(stanceRaw)}</div>
+                <div class="xq-regime-metrics">
+                  <div><span class="k">${escapeHtml(t("psychologyPhase"))}</span><strong>${escapeHtml(phase)}</strong></div>
+                  <div><span class="k">${escapeHtml(t("liquidityBias"))}</span><strong>${escapeHtml(liq)}</strong></div>
+                  <div><span class="k">${escapeHtml(t("temperatureScore"))}</span><strong>${escapeHtml(r.temperatureScore == null ? t("dataInsufficient") : String(r.temperatureScore))}</strong></div>
+                </div>
                 ${gaps}
               </div>`;
             })

@@ -4,7 +4,7 @@
  * + bookshelf-framework-2026-09-16 (operational rules only).
  */
 import { escapeHtml } from "./glossary.js";
-import { t } from "./i18n.js";
+import { t, enumLabel, stanceTone, humanizeEnumsInText } from "./i18n.js";
 
 /** Stance → size multiplier (STANCE_SIZE_MULT) */
 export const STANCE_SIZE_MULT = {
@@ -37,8 +37,67 @@ function fmtTemp(n) {
   return `${s}${Number(n).toFixed(2)}`;
 }
 
-function chipField(label, value) {
-  return `<span class="logic-field"><span class="k">${escapeHtml(label)}</span><span class="v">${escapeHtml(String(value ?? "—"))}</span></span>`;
+export function stanceBadgeHtml(stanceRaw) {
+  if (!stanceRaw) {
+    return `<span class="stance-badge stance-neutral">${escapeHtml(t("dataInsufficient"))}</span>`;
+  }
+  const tone = stanceTone(stanceRaw);
+  const label = enumLabel(stanceRaw);
+  return `<span class="stance-badge stance-${tone}">${escapeHtml(label)}</span>`;
+}
+
+function metricChip(label, valueHtml) {
+  return `<div class="logic-metric">
+    <span class="k">${escapeHtml(label)}</span>
+    <span class="v">${valueHtml}</span>
+  </div>`;
+}
+
+/**
+ * Compact US/TW regime cards (Today + Logic + shared).
+ */
+export function renderRegimeCard(mkt, r, { detailed = false } = {}) {
+  if (!r) return "";
+  const incomplete = r.incomplete ? " incomplete" : "";
+  const phaseRaw = r.psychologyPhase;
+  const stanceRaw = r.cycleStance;
+  const liqRaw = r.liquidityBias;
+  const phase = phaseRaw ? enumLabel(phaseRaw) : t("dataInsufficient");
+  const liq = liqRaw ? enumLabel(liqRaw) : t("dataInsufficient");
+  const temp = fmtTemp(r.temperatureScore);
+  const size = fmtMult(r.sizeMult ?? STANCE_SIZE_MULT[stanceRaw]);
+  const gaps =
+    Array.isArray(r.dataGaps) && r.dataGaps.length
+      ? `<div class="regime-gaps">${escapeHtml(t("dataGaps"))}: ${escapeHtml(r.dataGaps.slice(0, 5).join(", "))}${r.dataGaps.length > 5 ? "…" : ""}</div>`
+      : "";
+  const impl =
+    detailed && Array.isArray(r.implications) && r.implications.length
+      ? `<ul class="logic-impl">${r.implications
+          .slice(0, 3)
+          .map((x) => `<li>${escapeHtml(humanizeEnumsInText(x))}</li>`)
+          .join("")}</ul>`
+      : "";
+  const metrics = detailed
+    ? `<div class="logic-metrics" role="list">
+        ${metricChip(t("psychologyPhase"), escapeHtml(phase))}
+        ${metricChip(t("liquidityBias"), escapeHtml(liq))}
+        ${metricChip(t("temperatureScore"), escapeHtml(temp))}
+        ${metricChip(t("sizeMult"), escapeHtml(size))}
+      </div>`
+    : `<div class="regime-meta">
+        <span>${escapeHtml(t("psychologyPhase"))} <strong>${escapeHtml(phase)}</strong></span>
+        <span>${escapeHtml(t("liquidityBias"))} <strong>${escapeHtml(liq)}</strong></span>
+      </div>`;
+
+  return `<div class="regime-chip${detailed ? " logic-regime-chip" : ""}${incomplete}">
+    <div class="regime-chip-top">
+      <div class="label">${escapeHtml(mkt)} · ${escapeHtml(t("marketRegime"))}</div>
+      ${stanceBadgeHtml(stanceRaw)}
+    </div>
+    ${metrics}
+    ${impl}
+    ${gaps}
+  </div>`;
 }
 
 /**
@@ -48,40 +107,18 @@ export function renderLogicRegimeLive(regime) {
   if (!regime || (!regime.us && !regime.tw)) {
     return `<p class="logic-muted">${escapeHtml(t("logicNoRegime"))}</p>`;
   }
-  const card = (mkt, r) => {
-    if (!r) return "";
-    const incomplete = r.incomplete ? " incomplete" : "";
-    const phase = r.psychologyPhase || t("dataInsufficient");
-    const stance = r.cycleStance || t("dataInsufficient");
-    const liq = r.liquidityBias || t("dataInsufficient");
-    const temp = fmtTemp(r.temperatureScore);
-    const size = fmtMult(r.sizeMult ?? STANCE_SIZE_MULT[stance]);
-    const gaps =
-      Array.isArray(r.dataGaps) && r.dataGaps.length
-        ? `<div class="regime-gaps">${escapeHtml(t("dataGaps"))}: ${escapeHtml(r.dataGaps.slice(0, 5).join(", "))}${r.dataGaps.length > 5 ? "…" : ""}</div>`
-        : "";
-    const impl = Array.isArray(r.implications) && r.implications.length
-      ? `<ul class="logic-impl">${r.implications
-          .slice(0, 3)
-          .map((x) => `<li>${escapeHtml(x)}</li>`)
-          .join("")}</ul>`
-      : "";
-    return `<div class="regime-chip logic-regime-chip${incomplete}">
-      <div class="label">${escapeHtml(mkt)} · ${escapeHtml(t("marketRegime"))}</div>
-      <div class="value">${escapeHtml(stance)}</div>
-      <div class="logic-chip-meta">
-        ${chipField(t("psychologyPhase"), phase)}
-        ${chipField(t("liquidityBias"), liq)}
-        ${chipField(t("temperatureScore"), temp)}
-        ${chipField(t("sizeMult"), size)}
-      </div>
-      ${impl}
-      ${gaps}
-    </div>`;
-  };
   return `<div class="regime-strip logic-regime-live" aria-label="${escapeHtml(t("regimeToday"))}">
-    ${card("US", regime.us)}
-    ${card("TW", regime.tw)}
+    ${renderRegimeCard("US", regime.us, { detailed: true })}
+    ${renderRegimeCard("TW", regime.tw, { detailed: true })}
+  </div>`;
+}
+
+/** Compact strip for Today view */
+export function renderRegimeStrip(regime) {
+  if (!regime || (!regime.us && !regime.tw)) return "";
+  return `<div class="regime-strip" aria-label="${escapeHtml(t("marketRegime"))}">
+    ${renderRegimeCard("US", regime.us, { detailed: false })}
+    ${renderRegimeCard("TW", regime.tw, { detailed: false })}
   </div>`;
 }
 
@@ -121,8 +158,8 @@ export function renderLogicSection(data) {
   const regime = data?.marketRegime;
 
   const phaseRows = Object.entries(PHASE_TO_STANCE).map(([phase, stance]) => [
-    phase,
-    `<code>${escapeHtml(stance)}</code> · ${fmtMult(STANCE_SIZE_MULT[stance])}`,
+    enumLabel(phase),
+    `${stanceBadgeHtml(stance)} <span class="logic-mult">${escapeHtml(fmtMult(STANCE_SIZE_MULT[stance]))}</span>`,
   ]);
 
   const screenABody = codeList([
