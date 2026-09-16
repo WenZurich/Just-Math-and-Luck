@@ -472,6 +472,7 @@ function renderApp(data, paper) {
   const tw = data.tw || [];
   const disclaimer = escapeHtml(t("disclaimer"));
   const headers = renderListHeaders();
+  const logoUrl = `${import.meta.env.BASE_URL}logo.svg`;
 
   return `
     ${renderDanmakuLayer()}
@@ -479,7 +480,7 @@ function renderApp(data, paper) {
     <header class="site-chrome">
       <div class="chrome-row">
         <div class="chrome-brand">
-          <div class="brand-mark" aria-hidden="true"></div>
+          <img class="brand-mark" src="${logoUrl}" width="32" height="32" alt="" decoding="async" />
           <div class="brand-text">
             <h1>${escapeHtml(t("siteTitle"))}</h1>
             <p class="brand-meta">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}</p>

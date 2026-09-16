@@ -1117,17 +1117,11 @@ h1 {
 .brand-mark {
   width: 2rem;
   height: 2rem;
-  border-radius: 4px;
+  border-radius: 8px;
   flex: 0 0 auto;
-  background-color: transparent;
-  background-image:
-    linear-gradient(#f25022, #f25022),
-    linear-gradient(#7fba00, #7fba00),
-    linear-gradient(#00a4ef, #00a4ef),
-    linear-gradient(#ffb900, #ffb900);
-  background-size: 46% 46%;
-  background-position: left top, right top, left bottom, right bottom;
-  background-repeat: no-repeat;
+  display: block;
+  object-fit: cover;
+  box-shadow: 0 1px 2px rgba(11, 58, 92, 0.18);
 }
 
 .brand-text h1 {
