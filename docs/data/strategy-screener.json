@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-09-16T00:25:50.790Z",
+  "asOf": "2026-09-16T00:27:16.013Z",
   "sessionDate": "2026-09-15",
   "ohlcvBarDate": "2026-09-15",
   "timezone": "Asia/Taipei",
@@ -137,27 +137,6 @@
           "ohlcvBarDate": "2026-09-15"
         },
         {
-          "ticker": "OKTA",
-          "name": "Okta",
-          "market": "US",
-          "currency": "USD",
-          "metrics": {
-            "price": 186.45,
-            "dayPct": 11.98,
-            "sma5": 172.88,
-            "sma10": 170.8,
-            "sma20": 157.04,
-            "sma60": 145.85,
-            "volRatioYday": 2.43,
-            "volToday": 6671900,
-            "volYday": 2740500,
-            "volTodayZhang": null,
-            "is5dHigh": true,
-            "pct5d": 9.29
-          },
-          "ohlcvBarDate": "2026-09-14"
-        },
-        {
           "ticker": "3045.TW",
           "name": "台灣大",
           "market": "TW",
@@ -214,18 +193,16 @@
         "dataAsOf": {
           "sessionDate": "2026-09-15",
           "ohlcvBarDates": [
-            "2026-09-14",
             "2026-09-15"
           ],
-          "generatedAt": "2026-09-16T00:25:50.778Z"
+          "generatedAt": "2026-09-16T00:27:16.001Z"
         }
       },
       "ohlcvBarDates": [
-        "2026-09-14",
         "2026-09-15"
       ],
       "notes": [
-        "技術欄位 OHLCV 最後一根日K：2026-09-14, 2026-09-15（證交所 session 2026-09-15）"
+        "技術欄位 OHLCV 最後一根日K：2026-09-15（證交所 session 2026-09-15）"
       ]
     },
     {
@@ -617,7 +594,7 @@
           "ohlcvBarDates": [
             "2026-09-15"
           ],
-          "generatedAt": "2026-09-16T00:25:50.779Z"
+          "generatedAt": "2026-09-16T00:27:16.002Z"
         }
       },
       "ohlcvBarDates": [
@@ -639,31 +616,33 @@
       "conditions": [
         {
           "text": "外資近 1 日淨買超 > 100 張",
-          "status": "pass"
+          "status": "fail"
         },
         {
           "text": "投信近 1 日淨買超 > 100 張",
-          "status": "pass"
+          "status": "fail"
         },
         {
           "text": "自營商近 1 日淨買超 > 100 張",
-          "status": "pass"
+          "status": "fail"
         },
         {
           "text": "外資近 5 日合計淨買超 > 500 張",
-          "status": "pass"
+          "status": "fail"
         },
         {
           "text": "投信近 5 日合計淨買超 > 300 張",
-          "status": "pass"
+          "status": "fail"
         },
         {
           "text": "自營商近 5 日合計淨買超 > 300 張",
-          "status": "pass"
+          "status": "fail"
         }
       ],
       "hits": [],
-      "blockers": [],
+      "blockers": [
+        "本 session 無標的同時通過 1d 各>100張 且 5d 外資>500／投信>300／自營>300（門檻已對齊 XQ，寧可空清單不放寬）"
+      ],
       "incomplete": false,
       "notes": [
         "籌碼交易日樣本：2026-09-15, 2026-09-14, 2026-09-11, 2026-09-10, 2026-09-09",
@@ -677,9 +656,15 @@
         ],
         "stillDiffers": [
           "XQ 畫面可能另含成交值／排除處置股等；此處未複製全部濾網",
-          "自營商欄位含避險與否依證交所 T86／櫃買欄位解析，可能與 XQ 自營定義略有差異"
+          "自營商欄位含避險與否依證交所 T86／櫃買欄位解析，可能與 XQ 自營定義略有差異",
+          "近5日自營合計>300張在實務上很少與三法人1日同步同時成立，故命中常為0属預期"
         ],
-        "dataAsOfHint": "sessionDate + inst day sample in notes"
+        "dataAsOfHint": "sessionDate + inst day sample in notes",
+        "dataAsOf": {
+          "sessionDate": "2026-09-15",
+          "ohlcvBarDates": null,
+          "generatedAt": "2026-09-16T00:27:16.013Z"
+        }
       }
     },
     {
@@ -4957,7 +4942,7 @@
           "ohlcvBarDates": [
             "2026-09-15"
           ],
-          "generatedAt": "2026-09-16T00:25:50.783Z"
+          "generatedAt": "2026-09-16T00:27:16.005Z"
         }
       },
       "ohlcvBarDates": [
@@ -5120,7 +5105,7 @@
           "ohlcvBarDates": [
             "2026-09-15"
           ],
-          "generatedAt": "2026-09-16T00:25:50.783Z"
+          "generatedAt": "2026-09-16T00:27:16.006Z"
         }
       },
       "ohlcvBarDates": [
@@ -5712,7 +5697,23 @@
       ],
       "notes": [
         "技術欄位 OHLCV 最後一根日K：2026-09-15（證交所 session 2026-09-15）"
-      ]
+      ],
+      "calibrationNotes": {
+        "matchedXq": [
+          "PE<15",
+          "PB<1.5",
+          "負債比<50%",
+          "價>10",
+          "5日均量>300張"
+        ],
+        "stillDiffers": [
+          "XQ 可能另含流動比率／連續盈餘年數"
+        ],
+        "dataAsOf": {
+          "sessionDate": "2026-09-15",
+          "ohlcvBarDate": "2026-09-15"
+        }
+      }
     },
     {
       "id": "warren-buffett",
@@ -6398,7 +6399,7 @@
           "ohlcvBarDates": [
             "2026-09-15"
           ],
-          "generatedAt": "2026-09-16T00:25:50.787Z"
+          "generatedAt": "2026-09-16T00:27:16.009Z"
         }
       },
       "ohlcvBarDates": [
@@ -6586,7 +6587,22 @@
       ],
       "notes": [
         "技術欄位 OHLCV 最後一根日K：2026-09-15（證交所 session 2026-09-15）"
-      ]
+      ],
+      "calibrationNotes": {
+        "matchedXq": [
+          "EPS連季>10%",
+          "PE<15",
+          "4季ROE>15%且成長",
+          "價量門檻"
+        ],
+        "stillDiffers": [
+          "條件同時要求4季EPS streak（偏嚴）"
+        ],
+        "dataAsOf": {
+          "sessionDate": "2026-09-15",
+          "ohlcvBarDate": "2026-09-15"
+        }
+      }
     },
     {
       "id": "michael-murphy",
@@ -7746,7 +7762,7 @@
           "ohlcvBarDates": [
             "2026-09-15"
           ],
-          "generatedAt": "2026-09-16T00:25:50.789Z"
+          "generatedAt": "2026-09-16T00:27:16.012Z"
         }
       },
       "ohlcvBarDates": [
@@ -7963,7 +7979,22 @@
       ],
       "notes": [
         "技術欄位 OHLCV 最後一根日K：2026-09-15（證交所 session 2026-09-15）"
-      ]
+      ],
+      "calibrationNotes": {
+        "matchedXq": [
+          "5年營收成長均>15%",
+          "5年稅前成長均>5%",
+          "負債比<30%",
+          "價量門檻"
+        ],
+        "stillDiffers": [
+          "缺年報序列則略過，不放水"
+        ],
+        "dataAsOf": {
+          "sessionDate": "2026-09-15",
+          "ohlcvBarDate": "2026-09-15"
+        }
+      }
     },
     {
       "id": "mark-minervini",
@@ -8045,7 +8076,7 @@
           "ohlcvBarDates": [
             "2026-09-15"
           ],
-          "generatedAt": "2026-09-16T00:25:50.790Z"
+          "generatedAt": "2026-09-16T00:27:16.012Z"
         }
       },
       "ohlcvBarDates": [
@@ -8113,7 +8144,22 @@
       ],
       "notes": [
         "技術欄位 OHLCV 最後一根日K：2026-09-15（證交所 session 2026-09-15）"
-      ]
+      ],
+      "calibrationNotes": {
+        "matchedXq": [
+          "PB<1",
+          "董監持股>40%",
+          "負債比<20%",
+          "價量門檻"
+        ],
+        "stillDiffers": [
+          "董監持股去重規則可能與 XQ 略異；缺欄略過"
+        ],
+        "dataAsOf": {
+          "sessionDate": "2026-09-15",
+          "ohlcvBarDate": "2026-09-15"
+        }
+      }
     }
   ],
   "glossaryHint": "名詞（本益比、營益率、毛利率、外資、投信、自營商、均線多頭、RSI、振幅、張）見站內名詞小辭典。",

@@ -114,8 +114,8 @@ function latestQuarterOm(fund) {
   return null;
 }
 
-function masterShell(id, name, description, conditions, hits, blockers = []) {
-  return {
+function masterShell(id, name, description, conditions, hits, blockers = [], calibrationNotes = null) {
+  const out = {
     id,
     name,
     category: "大師",
@@ -127,6 +127,8 @@ function masterShell(id, name, description, conditions, hits, blockers = []) {
     blockers,
     incomplete: false,
   };
+  if (calibrationNotes) out.calibrationNotes = calibrationNotes;
+  return out;
 }
 
 export function buildMichaelPrice(universe, ohlcvMap, techMetrics, bundle) {
@@ -170,11 +172,15 @@ export function buildMichaelPrice(universe, ohlcvMap, techMetrics, bundle) {
       : ["宇宙內無標的同時具備 P/B、董監持股%、負債比且符合門檻（缺欄位者不捏造、直接略過）"]
   );
   shell.xqTags = ["大師", "財務", "籌碼", "價量"];
+  shell.calibrationNotes = {
+    matchedXq: ["PB<1", "董監持股>40%", "負債比<20%", "價量門檻"],
+    stillDiffers: ["董監持股去重規則可能與 XQ 略異；缺欄略過"],
+  };
   return shell;
 }
 
 export function buildMarkMinervini(universe, ohlcvMap, techMetrics, bundle) {
-  // Shown as 馬克約克奇 / 麥克喜偉 — Minervini-style template
+  // Merged former duplicate「麥克喜偉」into one Minervini-style screen
   const conditions = [
     cond("本益比小於20倍"),
     cond("近4季合計ROE大於15%"),
@@ -210,10 +216,19 @@ export function buildMarkMinervini(universe, ohlcvMap, techMetrics, bundle) {
   hits.sort((a, b) => (b.metrics.roe4qPct ?? 0) - (a.metrics.roe4qPct ?? 0));
   return masterShell(
     "mark-minervini",
-    "馬克約克奇",
-    "Mark Minervini 風格（畫面亦見「麥克喜偉」）：成長＋合理本益比＋低負債。營收／ROE 來自 MOPS 綜合損益＋資產負債彙總表。",
+    "馬克米納維尼",
+    "Mark Minervini 風格（已合併原重複「馬克約克奇／麥克喜偉」）：成長＋合理本益比＋低負債。營收／ROE 來自 MOPS；僅台股。",
     conditions,
-    hits
+    hits,
+    [],
+    {
+      matchedXq: ["PE<20", "4季ROE合計>15%", "連3年營收成長>5%", "負債比<30%", "價>10", "5日均量>300張"],
+      stillDiffers: [
+        "XQ 可能另含相對強度／型態條件（公開資料無完整對照）",
+        "原「麥克喜偉」與本策略條件相同已合併，避免重複命中列表",
+      ],
+      units: "ROE／營益率內部為 ratio（0.15=15%），輸出 *100 為百分比",
+    }
   );
 }
 
@@ -258,9 +273,14 @@ export function buildKennethFisher(universe, ohlcvMap, techMetrics, bundle) {
   return masterShell(
     "kenneth-fisher",
     "肯尼斯費雪",
-    "Kenneth Fisher：長期營收／稅前淨利成長＋低負債。年增率由 MOPS 年度綜合損益（Q4）計算。",
+    "Kenneth Fisher：長期營收／稅前淨利成長＋低負債。年增率由 MOPS 年度綜合損益（Q4）計算。僅台股。",
     conditions,
-    hits
+    hits,
+    [],
+    {
+      matchedXq: ["5年營收成長均>15%", "5年稅前成長均>5%", "負債比<30%", "價量門檻"],
+      stillDiffers: ["缺年報序列則略過，不放水"],
+    }
   );
 }
 
@@ -305,9 +325,15 @@ export function buildMichaelMurphy(universe, ohlcvMap, techMetrics, bundle) {
   return masterShell(
     "michael-murphy",
     "麥克墨非",
-    "Michael Murphy：高營益率＋ROE＋營收成長。營益率取自綜合損益／年度報表推算。",
+    "Michael Murphy：高營益率＋ROE＋營收成長。營益率＝單季營業利益/營業收入（ratio）。僅台股。",
     conditions,
-    hits
+    hits,
+    [],
+    {
+      matchedXq: ["4季ROE>5%", "近季營益率>10%", "連3年營益率>10%", "3年營收成長均>5%", "價量門檻"],
+      stillDiffers: ["XQ 產業／型態過濾未實作"],
+      unitsNote: "opMargin/ROE 為 ratio；創見等記憶體景氣高峰季報營益率可逾70%（已對照 MOPS 營業利益÷營業收入，非錯欄）",
+    }
   );
 }
 
@@ -352,22 +378,21 @@ export function buildOShaughnessy(universe, ohlcvMap, techMetrics, bundle) {
   return masterShell(
     "james-oshaughnessy",
     "詹姆士歐沙那希",
-    "James O'Shaughnessy：EPS 連季成長＋低本益比＋高 ROE。EPS／ROE 由 MOPS 季報拆單季後計算。",
+    "James O'Shaughnessy：EPS 連季成長＋低本益比＋高 ROE。EPS／ROE 由 MOPS 季報拆單季後計算。僅台股。",
     conditions,
-    hits
+    hits,
+    [],
+    {
+      matchedXq: ["EPS連季>10%", "PE<15", "4季ROE>15%且成長", "價量門檻"],
+      stillDiffers: ["條件同時要求4季EPS streak（偏嚴）"],
+    }
   );
 }
 
 
-export function buildMichaelSivy(universe, ohlcvMap, techMetrics, bundle) {
-  const s = buildMarkMinervini(universe, ohlcvMap, techMetrics, bundle);
-  return {
-    ...s,
-    id: "michael-sivy",
-    name: "麥克喜偉",
-    description:
-      "Michael Sivy：合理本益比＋高 ROE＋連年營收成長＋低負債（與「馬克約克奇」同族公開資料近似）。",
-  };
+/** @deprecated Merged into buildMarkMinervini — kept for import safety. */
+export function buildMichaelSivy() {
+  return null;
 }
 
 export function buildBenjaminGraham(universe, ohlcvMap, techMetrics, bundle) {
@@ -403,9 +428,14 @@ export function buildBenjaminGraham(universe, ohlcvMap, techMetrics, bundle) {
   return masterShell(
     "benjamin-graham",
     "班哲明格拉罕",
-    "Benjamin Graham 近似：便宜本益比＋低股價淨值比＋可控負債。公開 BWIBBU／資產負債表。",
+    "Benjamin Graham 近似：便宜本益比＋低股價淨值比＋可控負債。公開 BWIBBU／資產負債表。僅台股。",
     conditions,
-    hits
+    hits,
+    [],
+    {
+      matchedXq: ["PE<15", "PB<1.5", "負債比<50%", "價>10", "5日均量>300張"],
+      stillDiffers: ["XQ 可能另含流動比率／連續盈餘年數"],
+    }
   );
 }
 
@@ -444,21 +474,99 @@ export function buildWarrenBuffett(universe, ohlcvMap, techMetrics, bundle) {
   return masterShell(
     "warren-buffett",
     "華倫巴菲特",
-    "Warren Buffett 近似：高 ROE＋高營益率＋低負債。ROE／營益率由 MOPS 季報推算。",
+    "Warren Buffett 近似：高 ROE＋高營益率＋低負債。ROE／營益率由 MOPS 季報推算（ratio）。僅台股。",
     conditions,
-    hits
+    hits,
+    [],
+    {
+      matchedXq: ["4季ROE合計>15%", "近季營益率>10%", "負債比<40%", "價>10", "5日均量>300張"],
+      stillDiffers: ["XQ 可能含經濟護城河／持股年數等非公開量化條件"],
+      unitsNote: "營益率、ROE 內部為 ratio（0.75=75%），非再乘一次；創見 115 季報高營益率經 MOPS 核對屬實",
+    }
   );
+}
+
+
+export function buildPeterLynch(universe, ohlcvMap, techMetrics, bundle) {
+  const conditions = [
+    cond("本益比小於20倍"),
+    cond("近2年平均營收成長大於25%（缺資料則略過該檔）"),
+    cond("近5年稅前淨利成長平均大於5%（缺資料則略過該檔）"),
+    cond("連續1季負債比小於30%"),
+    cond("5日均量大於300張"),
+    cond("股價大於10元"),
+  ];
+  const hits = [];
+  let skippedMissing = 0;
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const tech = twTechOk(u, ohlcvMap, techMetrics, 300);
+    if (!tech) continue;
+    const code = codeOfTicker(u.ticker);
+    const pe = bundle.pe.get(code);
+    const debt = bundle.debtRatio.get(code);
+    const fund = fundOf(bundle, u.ticker);
+    if (pe == null || debt == null || !fund) {
+      skippedMissing++;
+      continue;
+    }
+    const revGs = (fund.revGrowthYoY || []).slice(-2).map((x) => x.g);
+    const pretaxGs = (fund.pretaxGrowthYoY || []).slice(-5).map((x) => x.g);
+    if (revGs.length < 2 || pretaxGs.length < 5) {
+      skippedMissing++;
+      continue;
+    }
+    const revAvg2 = avg(revGs);
+    const pretaxAvg5 = avg(pretaxGs);
+    if (revAvg2 == null || pretaxAvg5 == null) {
+      skippedMissing++;
+      continue;
+    }
+    if (!(pe < 20)) continue;
+    if (!(revAvg2 > 0.25)) continue;
+    if (!(pretaxAvg5 > 0.05)) continue;
+    if (!(debt < 0.3)) continue;
+    hits.push(
+      baseHit(u, tech.chart, tech.m, {
+        pe: round(pe, 2),
+        revGrowth2yAvgPct: round(revAvg2 * 100, 1),
+        pretaxGrowth5yAvgPct: round(pretaxAvg5 * 100, 1),
+        debtRatioPct: round(debt * 100, 1),
+      })
+    );
+  }
+  hits.sort((a, b) => (a.metrics.pe ?? 99) - (b.metrics.pe ?? 99));
+  const shell = masterShell(
+    "peter-lynch",
+    "彼得林區",
+    "Peter Lynch 近似（台股公開資料）：便宜本益比＋近2年營收成長均＞25%＋近5年稅前淨利成長均＞5%＋低負債。缺任一必要欄位則略過該檔，不放水。",
+    conditions,
+    hits,
+    hits.length
+      ? []
+      : ["宇宙內無標的同時具備 PE／2年營收成長／5年稅前成長／負債比且過門檻（缺欄位者不捏造）"],
+    {
+      matchedXq: ["PE<20", "近2年營收成長均>25%", "近5年稅前淨利成長均>5%", "負債比<30%", "價>10", "5日均量>300張"],
+      stillDiffers: [
+        "XQ 可能另有 PEG／產業分類；此處用 MOPS 年增率代替",
+        "美股不納入本策略（財務大師僅台股）",
+      ],
+      skippedMissingFields: skippedMissing,
+    }
+  );
+  return shell;
 }
 
 export function buildAllMasters(universe, ohlcvMap, techMetrics, bundle) {
   return [
+    buildPeterLynch(universe, ohlcvMap, techMetrics, bundle),
     buildBenjaminGraham(universe, ohlcvMap, techMetrics, bundle),
     buildWarrenBuffett(universe, ohlcvMap, techMetrics, bundle),
     buildOShaughnessy(universe, ohlcvMap, techMetrics, bundle),
     buildMichaelMurphy(universe, ohlcvMap, techMetrics, bundle),
     buildKennethFisher(universe, ohlcvMap, techMetrics, bundle),
     buildMarkMinervini(universe, ohlcvMap, techMetrics, bundle),
-    buildMichaelSivy(universe, ohlcvMap, techMetrics, bundle),
     buildMichaelPrice(universe, ohlcvMap, techMetrics, bundle),
-  ];
+  ].filter(Boolean);
 }
+

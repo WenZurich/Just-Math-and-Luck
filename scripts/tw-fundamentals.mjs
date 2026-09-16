@@ -227,7 +227,8 @@ export function parseIncomeHtml(html) {
       "繼續營業單位本期稅後淨利（淨損）"
     );
     const iEps = headerIndex(headers, "基本每股盈餘（元）", "基本每股盈餘");
-    const iGp = headerIndex(headers, "營業毛利（毛損）", "營業毛利（毛損）淨額");
+    // Prefer 淨額 when present (avoids matching the shorter 營業毛利（毛損） column first incorrectly via includes)
+    const iGp = headerIndex(headers, "營業毛利（毛損）淨額", "營業毛利（毛損）");
     out.set(code, {
       code,
       name: iName >= 0 ? cells[iName] : code,
@@ -628,6 +629,7 @@ export async function buildTwFundamentalBundle(opts = {}) {
         q.eps = q.epsCum ?? null;
         q.revenue = q.revenueCum ?? null;
         q.operatingIncome = q.operatingIncomeCum ?? null;
+        q.grossProfit = q.grossProfitCum ?? null;
       } else {
         q.netIncome =
           q.netIncomeCum != null && sameYearPrev.netIncomeCum != null
@@ -645,13 +647,25 @@ export async function buildTwFundamentalBundle(opts = {}) {
           q.operatingIncomeCum != null && sameYearPrev.operatingIncomeCum != null
             ? q.operatingIncomeCum - sameYearPrev.operatingIncomeCum
             : null;
+        q.grossProfit =
+          q.grossProfitCum != null && sameYearPrev.grossProfitCum != null
+            ? q.grossProfitCum - sameYearPrev.grossProfitCum
+            : null;
       }
+      // Margins are ratios (0.25 = 25%). Single-quarter preferred; YTD fallback only if SQ missing.
       q.operatingMargin =
         q.operatingIncome != null && q.revenue > 0
           ? q.operatingIncome / q.revenue
           : q.operatingIncomeCum != null && q.revenueCum > 0
             ? q.operatingIncomeCum / q.revenueCum
             : null;
+      q.grossMargin =
+        q.grossProfit != null && q.revenue > 0
+          ? q.grossProfit / q.revenue
+          : q.grossProfitCum != null && q.revenueCum > 0
+            ? q.grossProfitCum / q.revenueCum
+            : null;
+      // Quarterly ROE = SQ NI / period-end equity (ratio). Sum of 4Q ≈ annual ROE proxy.
       q.roe = q.netIncome != null && q.equity > 0 ? q.netIncome / q.equity : null;
     }
 

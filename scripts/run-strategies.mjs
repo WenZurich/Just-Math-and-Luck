@@ -11,6 +11,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildTwFundamentalBundle, codeOfTicker } from "./tw-fundamentals.mjs";
 import { buildAllMasters } from "./master-strategies.mjs";
+// Peter Lynch now lives in master-strategies (TW MOPS, skip-if-missing).
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -52,6 +53,15 @@ function taipeiYmd(d = new Date()) {
     month: "2-digit",
     day: "2-digit",
   }).format(d);
+}
+
+function barYmdTaipei(tsSec) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Taipei",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(tsSec * 1000));
 }
 
 function ymdToTwse(ymd) {
@@ -472,101 +482,59 @@ function cond(text, status = "pass") {
   return { text, status };
 }
 
-function buildPeterLynch(universe, ohlcvMap, fundMap, peMap) {
-  const blockers = [];
-  const conditions = [
-    cond("本益比（PE）< 20（有公開數字才算；缺值不捏造、該檔跳過）"),
-    cond("股價 > 10（台股 TWD／美股 USD）"),
-    cond(`近 5 日平均成交量具流動性（台股 > ${TW_LIQUID_ZHANG} 張＝${TW_MIN_AVG_VOL_SHARES.toLocaleString()} 股）`),
-    cond("營收成長（Yahoo revenueGrowth 有值才強制 >0；缺則略過不捏造）", "skip"),
-    cond("負債相關代理（Yahoo debtToEquity 有才標註）", "skip"),
-  ];
-  const hits = [];
-  let growthChecked = 0;
-  let growthFailed = 0;
-  for (const u of universe) {
-    const chart = ohlcvMap.get(u.ticker);
-    if (!chart) continue;
-    const m = techMetrics(chart.bars);
-    const priceOk = m.price > 10;
-    const liqOk =
-      u.market === "TW"
-        ? m.avgVol5 != null && m.avgVol5 > TW_MIN_AVG_VOL_SHARES
-        : m.avgVol5 != null && m.avgVol5 > US_MIN_AVG_VOL;
-    const pe =
-      peMap.get(u.ticker) ??
-      fundMap.get(u.ticker)?.trailingPE ??
-      null;
-    if (pe == null) continue;
-    if (!(pe < 20)) continue;
-    if (!priceOk || !liqOk) continue;
-    const fund = fundMap.get(u.ticker) || {};
-    if (fund.revenueGrowth != null) {
-      growthChecked++;
-      if (!(fund.revenueGrowth > 0)) {
-        growthFailed++;
-        continue;
-      }
-    }
-    hits.push({
-      ticker: u.ticker,
-      name: u.name || chart.name,
-      market: u.market,
-      currency: u.market === "TW" ? "TWD" : "USD",
-      metrics: {
-        pe,
-        price: round(m.price, 2),
-        avgVol5Shares: Math.round(m.avgVol5),
-        avgVol5Zhang: u.market === "TW" ? round(sharesToZhang(m.avgVol5), 1) : null,
-        revenueGrowth: fund.revenueGrowth != null ? round(fund.revenueGrowth * 100, 1) : null,
-        earningsGrowth: fund.earningsGrowth != null ? round(fund.earningsGrowth * 100, 1) : null,
-        debtToEquity: fund.debtToEquity != null ? round(fund.debtToEquity, 2) : null,
-        dayPct: round(m.dayPct, 2),
-      },
-    });
-  }
-  hits.sort((a, b) => (a.metrics.pe ?? 99) - (b.metrics.pe ?? 99));
-  if (growthChecked) {
-    conditions[3] = cond(
-      `營收成長 >0（Yahoo 有值才檢查；本批檢查 ${growthChecked}、因成長≤0 剔除 ${growthFailed}）`,
-      growthFailed && !hits.length ? "fail" : "pass"
-    );
-  }
-  if (!fundMap.size) {
-    blockers.push("Yahoo 基本面（成長／負債）部分標的可能抓不到；本益比以證交所日報或 Yahoo trailingPE 為準");
-  }
-  return {
-    id: "peter-lynch",
-    name: "彼得林區區",
-    category: "大師",
-    categoryGroup: "大師",
-    xqTags: ["大師", "財務", "價量"],
-    description: "近似 Peter Lynch 風格：便宜本益比＋夠流動＋股價不太低；有營收成長數字時要求 >0。非 XQ 專有資料庫。",
-    conditions,
-    hits: hits.slice(0, 80),
-    blockers,
-    incomplete: false,
-  };
+function buildPeterLynch() {
+  // Moved to master-strategies.mjs (TW-only MOPS calibration).
+  return null;
 }
 
 function buildMarginGrowth(universe, fundMap, twMarginByCode) {
-  const marginFromIncome = (income, rev) => {
-    if (income == null || rev == null || !(rev > 0)) return null;
-    if (!(Math.abs(income) > 0)) return null;
-    const m = income / rev;
-    if (Math.abs(m) < 0.005) return null;
-    return m;
+  const growthOkSeries = (arr) => {
+    // QoQ fallback disabled for XQ calibration — prefer honest YoY pairing only
+    return false;
   };
 
-  const growthOkSeries = (arr) => {
-    if (!arr || arr.length < 3) return false;
-    const a = arr[arr.length - 3];
-    const b = arr[arr.length - 2];
-    const c = arr[arr.length - 1];
-    if ([a, b, c].some((x) => x == null)) return false;
-    const g1 = marginRelGrowth(b, a);
-    const g2 = marginRelGrowth(c, b);
-    return g1 != null && g2 != null && g1 > 0.1 && g2 > 0.1;
+  const consecutiveYoyOk = (series) => {
+    // Require last TWO consecutive seasons each to have YoY (same season prior year) OM or GM growth >10%
+    if (!series?.length) return null;
+    const byKey = new Map(series.map((s) => [`${s.year}-${s.season}`, s]));
+    const chron = [...series].filter((s) => s.year != null && s.season != null);
+    if (chron.length < 2) return null;
+    const last = chron[chron.length - 1];
+    const prevSeason = chron[chron.length - 2];
+    // Must be consecutive seasons (e.g. 115Q1 then 115Q2, or 114Q4 then 115Q1)
+    const consecutive =
+      (last.year === prevSeason.year && last.season === prevSeason.season + 1) ||
+      (last.year === prevSeason.year + 1 && last.season === 1 && prevSeason.season === 4);
+    if (!consecutive) return null;
+
+    const pairYoy = (s) => {
+      const yoyBase = byKey.get(`${s.year - 1}-${s.season}`);
+      if (!yoyBase) return null;
+      return {
+        label: s.label,
+        gGm: marginRelGrowth(s.gm, yoyBase.gm),
+        gOm: marginRelGrowth(s.om, yoyBase.om),
+        baseLabel: yoyBase.label,
+      };
+    };
+    const a = pairYoy(prevSeason);
+    const b = pairYoy(last);
+    if (!a || !b) return null;
+    const yoyGm =
+      a.gGm != null && b.gGm != null && a.gGm > 0.1 && b.gGm > 0.1;
+    const yoyOm =
+      a.gOm != null && b.gOm != null && a.gOm > 0.1 && b.gOm > 0.1;
+    if (!(yoyGm || yoyOm)) return null;
+    return {
+      yoyGm,
+      yoyOm,
+      gmYoy: [a.gGm, b.gGm].map((x) => (x != null ? round(x * 100, 1) : null)),
+      omYoy: [a.gOm, b.gOm].map((x) => (x != null ? round(x * 100, 1) : null)),
+      pairLabels: [
+        `${prevSeason.label} vs ${a.baseLabel}`,
+        `${last.label} vs ${b.baseLabel}`,
+      ],
+    };
   };
 
   const hits = [];
@@ -574,111 +542,50 @@ function buildMarginGrowth(universe, fundMap, twMarginByCode) {
   let twSeriesNames = 0;
 
   for (const u of universe) {
+    if (u.market !== "TW") continue; // financial master/財務：台股 only
     let series = null;
     let source = null;
 
-    if (u.market === "TW") {
-      const code = codeOfTicker(u.ticker);
-      const raw = twMarginByCode?.get(code);
-      if (raw?.length) {
-        twSeriesNames++;
-        series = raw.map((q) => ({
-          label: `${q.year}Q${q.season}`,
-          year: q.year,
-          season: q.season,
-          gm: q.grossMargin,
-          om: q.operatingMargin,
-          name: q.name,
-        }));
-        source = raw[raw.length - 1]?.source || "mops";
-      }
-    }
-
-    if (!series?.length) {
-      const f = fundMap.get(u.ticker);
-      if (f?.quarters?.length) {
-        const qs = [...f.quarters].filter((q) => q.revenue > 0).slice(0, 4);
-        if (qs.length >= 3) {
-          const ordered = [...qs].reverse();
-          series = ordered.map((q, i) => ({
-            label: q.end != null ? `YQ${i}` : `Q${i}`,
-            gm: marginFromIncome(q.grossProfit, q.revenue),
-            om: marginFromIncome(q.operatingIncome, q.revenue),
-          }));
-          source = "yahoo";
-        }
-      }
+    const code = codeOfTicker(u.ticker);
+    const raw = twMarginByCode?.get(code);
+    if (raw?.length) {
+      twSeriesNames++;
+      series = raw.map((q) => ({
+        label: `${q.year}Q${q.season}`,
+        year: q.year,
+        season: q.season,
+        gm: q.grossMargin,
+        om: q.operatingMargin,
+        name: q.name,
+      }));
+      source = raw[raw.length - 1]?.source || "mops";
     }
 
     if (!series?.length) continue;
     const gmArr = series.map((s) => s.gm);
     const omArr = series.map((s) => s.om);
-    const usableGm = gmArr.filter((x) => x != null).length >= 3;
-    const usableOm = omArr.filter((x) => x != null).length >= 3;
-
-    let yoyCapable = false;
-    if (u.market === "TW") {
-      const byKey = new Map(series.map((s) => [`${s.year}-${s.season}`, s]));
-      let yoyPts = 0;
-      for (const s of series) {
-        if (s.year == null) continue;
-        const prev = byKey.get(`${s.year - 1}-${s.season}`);
-        if (!prev) continue;
-        if ((s.gm != null && prev.gm != null) || (s.om != null && prev.om != null)) yoyPts++;
-      }
-      if (yoyPts >= 2) yoyCapable = true;
-    }
-    if (!usableGm && !usableOm && !yoyCapable) continue;
+    const usable =
+      gmArr.filter((x) => x != null).length >= 2 ||
+      omArr.filter((x) => x != null).length >= 2;
+    if (!usable) continue;
     usableSeries++;
 
-    const qoqGm = growthOkSeries(gmArr);
-    const qoqOm = growthOkSeries(omArr);
-
-    let yoyGm = false;
-    let yoyOm = false;
-    let yoyDetail = null;
-    if (u.market === "TW") {
-      const byKey = new Map(series.map((s) => [`${s.year}-${s.season}`, s]));
-      const chron = [...series].filter((s) => s.year != null);
-      const withYoy = [];
-      for (const s of chron) {
-        const prev = byKey.get(`${s.year - 1}-${s.season}`);
-        if (!prev) continue;
-        withYoy.push({
-          label: s.label,
-          gGm: marginRelGrowth(s.gm, prev.gm),
-          gOm: marginRelGrowth(s.om, prev.om),
-        });
-      }
-      if (withYoy.length >= 2) {
-        const a = withYoy[withYoy.length - 2];
-        const b = withYoy[withYoy.length - 1];
-        yoyGm = a.gGm != null && b.gGm != null && a.gGm > 0.1 && b.gGm > 0.1;
-        yoyOm = a.gOm != null && b.gOm != null && a.gOm > 0.1 && b.gOm > 0.1;
-        yoyDetail = {
-          gmYoy: [a.gGm, b.gGm].map((x) => (x != null ? round(x * 100, 1) : null)),
-          omYoy: [a.gOm, b.gOm].map((x) => (x != null ? round(x * 100, 1) : null)),
-        };
-      }
-    }
-
-    if (!(qoqGm || qoqOm || yoyGm || yoyOm)) continue;
-    const mode = [];
-    if (yoyGm || yoyOm) mode.push("YoY");
-    if (qoqGm || qoqOm) mode.push("QoQ");
+    const yoy = consecutiveYoyOk(series);
+    if (!yoy) continue;
 
     hits.push({
       ticker: u.ticker,
       name: u.name || series[series.length - 1]?.name || u.ticker,
-      market: u.market,
-      currency: u.market === "TW" ? "TWD" : "USD",
+      market: "TW",
+      currency: "TWD",
       metrics: {
         opMargins: omArr.map((x) => (x != null ? round(x * 100, 2) : null)),
         grossMargins: gmArr.map((x) => (x != null ? round(x * 100, 2) : null)),
         seasons: series.map((s) => s.label),
-        mode: mode.join("+"),
-        yoyGmPct: yoyDetail?.gmYoy ?? null,
-        yoyOmPct: yoyDetail?.omYoy ?? null,
+        mode: "YoY",
+        yoyGmPct: yoy.gmYoy,
+        yoyOmPct: yoy.omYoy,
+        yoyPairs: yoy.pairLabels,
         source,
       },
     });
@@ -697,18 +604,21 @@ function buildMarginGrowth(universe, fundMap, twMarginByCode) {
       category: "財務",
       categoryGroup: "財務",
       xqTags: ["財務"],
-      description: "目標：連續 2 季 YoY 或 QoQ 營益率／毛利率成長 >10%。今日公開資料不足。",
+      description: "目標：連續 2 季 YoY 營益率或毛利率成長 >10%。今日公開資料不足。",
       conditions: [
         cond("連續 2 季 YoY 營益率或毛利率成長 >10%", "skip"),
-        cond("或連續 2 季 QoQ 營益率或毛利率成長 >10%", "skip"),
       ],
       hits: [],
       blockers: [
-        "公開季報毛利率／營益率序列不足（MOPS 綜合損益／營益分析），無法計算連續成長。",
+        "公開季報毛利率／營益率序列不足（MOPS 綜合損益），無法計算連續 YoY 成長。",
       ],
       incomplete: true,
       incompleteLabel: "資料不足",
       dataCoverage: { twSeriesNames, usableSeries },
+      calibrationNotes: {
+        matchedXq: ["連續2季 YoY 營益率或毛利率成長>10%"],
+        stillDiffers: ["QoQ 路徑已關閉以避免誤標"],
+      },
     };
   }
 
@@ -719,32 +629,38 @@ function buildMarginGrowth(universe, fundMap, twMarginByCode) {
     categoryGroup: "財務",
     xqTags: ["財務"],
     description:
-      "連續 2 季 YoY 或 QoQ 營益率／毛利率相對成長 >10%（僅官方／Yahoo 有真實數字時；不捏造）。",
+      "僅台股。連續兩個相鄰季別，各自相對「去年同季」營益率或毛利率成長 >10%（單季毛利／營益推算；缺序列則略過）。",
     conditions: [
       cond(
-        "連續 2 季 YoY 營益率或毛利率成長 >10%",
-        hits.some((h) => (h.metrics.mode || "").includes("YoY")) ? "pass" : "fail"
-      ),
-      cond(
-        "或連續 2 季 QoQ 營益率或毛利率成長 >10%",
-        hits.some((h) => (h.metrics.mode || "").includes("QoQ")) ? "pass" : "fail"
+        "連續 2 季 YoY（對去年同季）營益率或毛利率成長 >10%",
+        hits.length ? "pass" : "fail"
       ),
     ],
     hits: hits.slice(0, 80),
     blockers: hits.length
       ? []
-      : ["有抓到可用毛利／營益序列，但宇宙內無標的滿足連續 2 季 YoY 或 QoQ 成長 >10%"],
+      : ["有抓到可用毛利／營益序列，但宇宙內無標的滿足連續 2 季 YoY 成長 >10%"],
     notes: [
-      `台股序列來源：MOPS 綜合損益彙總表推算；宇宙內 ${twSeriesNames} 檔有序列、可用 ${usableSeries}。`,
+      `台股序列來源：MOPS 綜合損益單季拆解；宇宙內 ${twSeriesNames} 檔有序列、可用 ${usableSeries}。`,
+      "創見等高營益率經 MOPS 營業利益÷營業收入核對；記憶體景氣高峰可出現極端值，非錯欄。",
     ],
     incomplete: false,
     dataCoverage: { twSeriesNames, usableSeries, hits: hits.length },
+    calibrationNotes: {
+      matchedXq: ["連續2季 YoY 營益率或毛利率相對成長>10%", "僅台股"],
+      stillDiffers: [
+        "已關閉 QoQ OR 路徑（先前易膨脹命中）",
+        "毛利率／營益率用單季金額推算，非 t163sb06 官方％表（缺該表時較穩）",
+      ],
+      yoyPairing: "last two consecutive seasons each vs same season prior year (e.g. 115Q1 vs 114Q1, 115Q2 vs 114Q2)",
+    },
   };
 }
 
 function buildMaBull(universe, ohlcvMap) {
   const hits = [];
   for (const u of universe) {
+    if (u.market !== "TW") continue; // keep TW/US hit lists unmixed; US technical would be a separate strategy
     const chart = ohlcvMap.get(u.ticker);
     if (!chart) continue;
     const m = techMetrics(chart.bars);
@@ -784,12 +700,16 @@ function buildMaBull(universe, ohlcvMap) {
     description: "SMA5>SMA10>SMA20>SMA60，創新高＋量能放大。完全由 OHLCV 計算。",
     conditions: [
       cond("SMA5 > SMA10 > SMA20 > SMA60"),
-      cond("今日創近 5 日高（最高價或收盤價 ≥ 前 5 日最高）"),
+      cond("最新K棒創近 5 日高（最高價或收盤價 ≥ 前 5 日最高；非宣稱「今日」若 bar 為前一交易日）"),
       cond("成交量 > 昨日成交量 × 2"),
     ],
     hits,
     blockers: [],
     incomplete: false,
+    calibrationNotes: {
+      matchedXq: ["SMA5>10>20>60", "近5日高", "量>昨×2"],
+      stillDiffers: ["條件用最新可用 K 棒，不宣稱今日若 bar 為前一交易日"],
+    },
   };
 }
 
@@ -823,11 +743,17 @@ function buildInstSync(instDays, universe) {
     const f1 = d1.foreign ?? 0;
     const t1 = d1.trust ?? 0;
     const dlr1 = d1.dealer ?? 0;
-    // sync long: all three net buy on 1d, and 5d total > 0
-    if (!(f1 > 0 && t1 > 0 && dlr1 > 0)) continue;
-    if (!(sum5.total > 0)) continue;
-    // meaningful size: foreign 1d > 100張 (100,000 shares) soft threshold
-    if (f1 < 100_000 && t1 < 50_000) continue;
+    // XQ-calibrated 張 thresholds (1 張 = 1,000 股). US never included.
+    const ZHANG = 1000;
+    if (!(f1 > 100 * ZHANG && t1 > 100 * ZHANG && dlr1 > 100 * ZHANG)) continue;
+    if (
+      !(
+        sum5.foreign > 500 * ZHANG &&
+        sum5.trust > 300 * ZHANG &&
+        sum5.dealer > 300 * ZHANG
+      )
+    )
+      continue;
     hits.push({
       ticker: u.ticker,
       name: u.name || d1.name,
@@ -840,6 +766,9 @@ function buildInstSync(instDays, universe) {
         trustNet1dZhang: round(sharesToZhang(t1), 1),
         dealerNet1dShares: dlr1,
         dealerNet1dZhang: round(sharesToZhang(dlr1), 1),
+        foreignNet5dZhang: round(sharesToZhang(sum5.foreign), 1),
+        trustNet5dZhang: round(sharesToZhang(sum5.trust), 1),
+        dealerNet5dZhang: round(sharesToZhang(sum5.dealer), 1),
         instNet5dShares: sum5.total,
         instNet5dZhang: round(sharesToZhang(sum5.total), 1),
         instDaysCovered: sum5.days,
@@ -854,47 +783,65 @@ function buildInstSync(instDays, universe) {
     categoryGroup: "籌碼",
     xqTags: ["籌碼"],
     description:
-      "證交所／櫃買公開三大法人：外資＋投信＋自營商同日淨買，且近 5 日法人合計淨買。非券商專有籌碼庫。",
+      "僅台股。XQ 校準：1日外資／投信／自營各＞100張；5日外資＞500、投信＞300、自營＞300。公開證交所／櫃買三大法人，非券商專有庫。",
     conditions: [
-      cond("外資近 1 日淨買超 > 0（股）"),
-      cond("投信近 1 日淨買超 > 0（股）"),
-      cond("自營商近 1 日淨買超 > 0（股）"),
-      cond("三大法人近 5 日合計淨買超 > 0"),
-      cond("外資或投信單日買超達基本門檻（過濾噪音）"),
+      cond("外資近 1 日淨買超 > 100 張", hits.length ? "pass" : "fail"),
+      cond("投信近 1 日淨買超 > 100 張", hits.length ? "pass" : "fail"),
+      cond("自營商近 1 日淨買超 > 100 張", hits.length ? "pass" : "fail"),
+      cond("外資近 5 日合計淨買超 > 500 張", hits.length ? "pass" : "fail"),
+      cond("投信近 5 日合計淨買超 > 300 張", hits.length ? "pass" : "fail"),
+      cond("自營商近 5 日合計淨買超 > 300 張", hits.length ? "pass" : "fail"),
     ],
     hits: hits.slice(0, 80),
-    blockers: [],
+    blockers: hits.length
+      ? []
+      : [
+          "本 session 無標的同時通過 1d 各>100張 且 5d 外資>500／投信>300／自營>300（門檻已對齊 XQ，寧可空清單不放寬）",
+        ],
     incomplete: false,
     notes: [
       `籌碼交易日樣本：${instDays.map((d) => d.ymd).join(", ")}`,
-      "單位標示：公開資料為「股」；1 張 = 1,000 股。",
+      "單位：公開資料為股；1 張 = 1,000 股。",
     ],
+    calibrationNotes: {
+      matchedXq: [
+        "1d 外資>100張、投信>100張、自營>100張",
+        "5d 外資>500、投信>300、自營>300",
+        "僅台股、不含美股",
+      ],
+      stillDiffers: [
+        "XQ 畫面可能另含成交值／排除處置股等；此處未複製全部濾網",
+        "自營商欄位含避險與否依證交所 T86／櫃買欄位解析，可能與 XQ 自營定義略有差異",
+        "近5日自營合計>300張在實務上很少與三法人1日同步同時成立，故命中常為0属預期",
+      ],
+      dataAsOfHint: "sessionDate + inst day sample in notes",
+    },
   };
 }
 
 function buildUltraShort(universe, ohlcvMap) {
   const hits = [];
-  const unchecked = ["融資餘額／增減（無公開穩定接口 → 未檢查）", "融券餘額／增減（無公開穩定接口 → 未檢查）"];
+  const unchecked = [
+    "融資餘額／增減（無公開穩定接口 → 未檢查，不算通過）",
+    "融券餘額／增減（無公開穩定接口 → 未檢查，不算通過）",
+  ];
   for (const u of universe) {
+    if (u.market !== "TW") continue; // XQ 超短線作多為台股籌碼／價量綜合；美股另開技術策略
     const chart = ohlcvMap.get(u.ticker);
     if (!chart) continue;
     const m = techMetrics(chart.bars);
     if (!(m.price > 10)) continue;
-    const liqOk =
-      u.market === "TW"
-        ? m.avgVol5 != null && m.avgVol5 > TW_MIN_AVG_VOL_SHARES
-        : m.avgVol5 != null && m.avgVol5 > US_MIN_AVG_VOL;
-    if (!liqOk) continue;
+    if (!(m.avgVol5 != null && m.avgVol5 > TW_MIN_AVG_VOL_SHARES)) continue;
     if (m.rsi == null || m.rsiPrev == null) continue;
-    // RSI rising cross / rising while below 50
+    // RSI rising while below 50 (golden-cross proxy)
     const rsiRisingBelow50 = m.rsi > m.rsiPrev && m.rsi < 50;
     if (!rsiRisingBelow50) continue;
     if (m.ampPct == null || !(m.ampPct > 3)) continue;
     hits.push({
       ticker: u.ticker,
       name: u.name || chart.name,
-      market: u.market,
-      currency: u.market === "TW" ? "TWD" : "USD",
+      market: "TW",
+      currency: "TWD",
       metrics: {
         price: round(m.price, 2),
         dayPct: round(m.dayPct, 2),
@@ -902,7 +849,7 @@ function buildUltraShort(universe, ohlcvMap) {
         rsiPrev: round(m.rsiPrev, 2),
         ampPct: round(m.ampPct, 2),
         avgVol5Shares: Math.round(m.avgVol5),
-        avgVol5Zhang: u.market === "TW" ? round(sharesToZhang(m.avgVol5), 1) : null,
+        avgVol5Zhang: round(sharesToZhang(m.avgVol5), 1),
         pct5d: round(m.pct5d, 2),
       },
     });
@@ -914,18 +861,28 @@ function buildUltraShort(universe, ohlcvMap) {
     category: "綜合",
     categoryGroup: "精選",
     xqTags: ["精選", "價量", "技術"],
-    description: "價＞10、流動性、RSI 在 50 下拐頭向上、當日振幅＞3%。融資融券欄位公開不足故未檢查。",
+    description:
+      "僅台股。價＞10、5日均量＞300張、RSI(14)＜50且較昨上升、振幅＞3%。融資／融券未取得公開穩定資料 → 標為未檢查（略過），不視為通過。",
     conditions: [
       cond("股價 > 10"),
-      cond(`5 日均量具流動性（台股 > ${TW_LIQUID_ZHANG} 張）`),
+      cond(`5 日均量 > ${TW_LIQUID_ZHANG} 張`),
       cond("RSI(14) 在 50 以下且較前一日上升（黃金交叉代理）"),
       cond("當日振幅（高−低）／昨收 > 3%"),
-      cond("融資／融券條件", "skip"),
+      cond("融資條件（公開資料不足）", "skip"),
+      cond("融券條件（公開資料不足）", "skip"),
     ],
     hits,
     blockers: [],
     unchecked,
     incomplete: false,
+    incompleteFilters: ["融資", "融券"],
+    calibrationNotes: {
+      matchedXq: ["價>10", "5日均量>300張", "RSI<50拐頭向上代理", "振幅>3%", "僅台股"],
+      stillDiffers: [
+        "融資／融券增減未檢查（略過／incomplete filter，非通過）",
+        "XQ RSI 黃金交叉定義可能用不同週期或交叉點，此為代理",
+      ],
+    },
   };
 }
 
@@ -1166,9 +1123,11 @@ async function main() {
   for (const [code, rec] of twFund.byCode) {
     const series = [];
     for (const q of rec.quarters || []) {
-      const gm =
-        q.grossProfitCum != null && q.revenueCum > 0
-          ? q.grossProfitCum / q.revenueCum
+      // Prefer single-quarter margins (ratio). Fall back to fields already on q.
+      const gm = q.grossMargin != null
+        ? q.grossMargin
+        : q.grossProfit != null && q.revenue > 0
+          ? q.grossProfit / q.revenue
           : null;
       const om = q.operatingMargin;
       if (gm == null && om == null) continue;
@@ -1177,9 +1136,9 @@ async function main() {
         season: q.season,
         grossMargin: gm,
         operatingMargin: om,
-        revenue: q.revenueCum,
+        revenue: q.revenue,
         name: rec.name,
-        source: "mops-income",
+        source: "mops-income-sq",
       });
     }
     if (series.length) twMarginByCode.set(code, series);
@@ -1209,30 +1168,46 @@ async function main() {
     buildMaBull(universe, ohlcvMap),
     buildUltraShort(universe, ohlcvMap),
     buildInstSync(instDays, [...twSet.values()]),
-    buildPeterLynch(universe, ohlcvMap, fundMap, peMap),
     buildMarginGrowth(universe, fundMap, twMarginByCode),
-    ...masterStrategies,
+    ...masterStrategies, // includes 彼得林區 (TW MOPS) + other masters; no US mix
   ];
 
-  // Attach latest OHLCV bar date so UI can show Yahoo lag vs TWSE session honestly
+  // Attach latest OHLCV bar date (Asia/Taipei) — never claim「今日」if bar is prior session
+  const allBarDates = [];
   for (const s of strategies) {
     const dates = [];
     for (const h of s.hits || []) {
       const ch = ohlcvMap.get(h.ticker);
       if (!ch?.bars?.length) continue;
       const last = ch.bars[ch.bars.length - 1];
-      const ymd = new Date(last.t * 1000).toISOString().slice(0, 10);
+      const ymd = barYmdTaipei(last.t);
       h.ohlcvBarDate = ymd;
       dates.push(ymd);
+      allBarDates.push(ymd);
     }
     if (dates.length) {
       const uniq = [...new Set(dates)].sort();
       s.ohlcvBarDates = uniq;
-      s.notes = [
-        ...(s.notes || []),
-        `技術欄位 OHLCV 最後一根 Yahoo 日K：${uniq.join(", ")}（可能比證交所 session ${asOfYmd} 慢一日）`,
-      ];
+      const lagNote =
+        uniq.length === 1 && uniq[0] !== asOfYmd
+          ? `技術欄位 OHLCV 最後一根日K：${uniq[0]}（證交所 session ${asOfYmd}；非「今日」若不同日）`
+          : `技術欄位 OHLCV 最後一根日K：${uniq.join(", ")}（證交所 session ${asOfYmd}）`;
+      s.notes = [...(s.notes || []), lagNote];
+      if (s.calibrationNotes && typeof s.calibrationNotes === "object") {
+        s.calibrationNotes.dataAsOf = {
+          sessionDate: asOfYmd,
+          ohlcvBarDates: uniq,
+          generatedAt: new Date().toISOString(),
+        };
+      }
     }
+  }
+  // Mode bar date across hits
+  let ohlcvBarDate = null;
+  if (allBarDates.length) {
+    const freq = new Map();
+    for (const d of allBarDates) freq.set(d, (freq.get(d) || 0) + 1);
+    ohlcvBarDate = [...freq.entries()].sort((a, b) => b[1] - a[1])[0][0];
   }
 
   // XQ-like category order for UI
@@ -1241,6 +1216,7 @@ async function main() {
   const payload = {
     asOf: new Date().toISOString(),
     sessionDate: asOfYmd,
+    ohlcvBarDate,
     timezone: "Asia/Taipei",
     disclaimer:
       "本策略選股依公開行情／證交所公開資料做邏輯篩選，不是投資建議；非 XQ／券商專有資料庫，不保證與商業軟體結果一致。",

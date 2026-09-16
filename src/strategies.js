@@ -113,11 +113,11 @@ function metricColumns(strategyId) {
     case "peter-lynch":
       return [
         { key: "pe", label: term("pe", "本益比"), fmt: (m) => fmtNum(m.pe, 2), rawLabel: true },
+        { key: "revGrowth2yAvgPct", label: "2年營收成長均%", fmt: (m) => (m.revGrowth2yAvgPct != null ? fmtNum(m.revGrowth2yAvgPct, 1) + "%" : "—") },
+        { key: "pretaxGrowth5yAvgPct", label: "5年稅前成長均%", fmt: (m) => (m.pretaxGrowth5yAvgPct != null ? fmtNum(m.pretaxGrowth5yAvgPct, 1) + "%" : "—") },
+        { key: "debtRatioPct", label: "負債比%", fmt: (m) => (m.debtRatioPct != null ? fmtNum(m.debtRatioPct, 1) + "%" : "—") },
         { key: "price", label: "價格", fmt: (m) => fmtNum(m.price) },
-        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => (m.avgVol5Zhang != null ? fmtNum(m.avgVol5Zhang, 1) : m.avgVol5Shares != null ? fmtNum(m.avgVol5Shares, 0) + "股" : "—") },
-        { key: "revenueGrowth", label: "營收成長%", fmt: (m) => (m.revenueGrowth != null ? fmtNum(m.revenueGrowth, 1) : "—") },
-        { key: "earningsGrowth", label: "獲利成長%", fmt: (m) => (m.earningsGrowth != null ? fmtNum(m.earningsGrowth, 1) : "—") },
-        { key: "debtToEquity", label: "負債權益", fmt: (m) => (m.debtToEquity != null ? fmtNum(m.debtToEquity, 2) : "—") },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => (m.avgVol5Zhang != null ? fmtNum(m.avgVol5Zhang, 1) : "—") },
         { key: "dayPct", label: "日漲跌", fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
       ];
     case "inst-sync":
@@ -125,7 +125,9 @@ function metricColumns(strategyId) {
         { key: "foreignNet1dZhang", label: term("foreignInv", "外資") + "1日(張)", fmt: (m) => fmtNum(m.foreignNet1dZhang, 1), rawLabel: true },
         { key: "trustNet1dZhang", label: term("trustInv", "投信") + "1日(張)", fmt: (m) => fmtNum(m.trustNet1dZhang, 1), rawLabel: true },
         { key: "dealerNet1dZhang", label: term("dealerInv", "自營商") + "1日(張)", fmt: (m) => fmtNum(m.dealerNet1dZhang, 1), rawLabel: true },
-        { key: "instNet5dZhang", label: "法人5日(張)", fmt: (m) => fmtNum(m.instNet5dZhang, 1) },
+        { key: "foreignNet5dZhang", label: "外資5日(張)", fmt: (m) => fmtNum(m.foreignNet5dZhang, 1) },
+        { key: "trustNet5dZhang", label: "投信5日(張)", fmt: (m) => fmtNum(m.trustNet5dZhang, 1) },
+        { key: "dealerNet5dZhang", label: "自營5日(張)", fmt: (m) => fmtNum(m.dealerNet5dZhang, 1) },
       ];
     case "ultra-short":
       return [
@@ -199,15 +201,34 @@ function metricColumns(strategyId) {
 
     case "margin-up":
       return [
-        { key: "seasons", label: "季別", fmt: (m) => (Array.isArray(m.seasons) ? m.seasons.join(" → ") : "—") },
-        { key: "opMargins", label: term("opMargin", "營益率"), fmt: (m) => (Array.isArray(m.opMargins) ? m.opMargins.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—"), rawLabel: true },
-        { key: "grossMargins", label: term("grossMargin", "毛利率"), fmt: (m) => (Array.isArray(m.grossMargins) ? m.grossMargins.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—"), rawLabel: true },
-        { key: "mode", label: "條件", fmt: (m) => m.mode || "—" },
+        { key: "yoyPairs", label: "YoY配對", fmt: (m) => (Array.isArray(m.yoyPairs) ? m.yoyPairs.join("；") : "—") },
+        { key: "yoyOmPct", label: "YoY營益成長%", fmt: (m) => (Array.isArray(m.yoyOmPct) ? m.yoyOmPct.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—") },
+        { key: "yoyGmPct", label: "YoY毛利成長%", fmt: (m) => (Array.isArray(m.yoyGmPct) ? m.yoyGmPct.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—") },
+        { key: "opMargins", label: term("opMargin", "營益率"), fmt: (m) => (Array.isArray(m.opMargins) ? m.opMargins.slice(-4).map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—"), rawLabel: true },
         { key: "source", label: "來源", fmt: (m) => m.source || "—" },
       ];
     default:
       return [{ key: "price", label: "價格", fmt: (m) => fmtNum(m.price) }];
   }
+}
+
+
+function renderCalibration(strategy) {
+  const c = strategy.calibrationNotes;
+  if (!c || typeof c !== "object") return "";
+  const matched = Array.isArray(c.matchedXq)
+    ? c.matchedXq.map((x) => escapeHtml(x)).join(" · ")
+    : "";
+  const differs = Array.isArray(c.stillDiffers)
+    ? c.stillDiffers.map((x) => escapeHtml(x)).join(" · ")
+    : "";
+  const units = c.unitsNote || c.units || "";
+  const parts = [];
+  if (matched) parts.push(`<span class="xq-cal-m">對齊 XQ：${matched}</span>`);
+  if (differs) parts.push(`<span class="xq-cal-d">仍差異：${differs}</span>`);
+  if (units) parts.push(`<span class="xq-cal-u">${escapeHtml(String(units))}</span>`);
+  if (!parts.length) return "";
+  return `<p class="xq-calibration" title="校準說明">${parts.join("<br/>")}</p>`;
 }
 
 function renderConditions(strategy) {
@@ -268,7 +289,7 @@ function renderHits(strategy, marketFilter = "TW") {
         .join("");
       return `<tr>
         <td><span class="ticker">${escapeHtml(h.ticker)}</span></td>
-        <td class="name-cell">${escapeHtml(h.name || "")}</td>
+        <td class="name-cell">${escapeHtml(h.name || "")}${h.ohlcvBarDate ? `<div class="xq-bar-date">K ${escapeHtml(h.ohlcvBarDate)}</div>` : ""}</td>
         ${tds}
       </tr>`;
     })
@@ -287,6 +308,7 @@ function renderHits(strategy, marketFilter = "TW") {
           <div>
             <div class="ticker">${escapeHtml(h.ticker)}</div>
             <div class="name">${escapeHtml(h.name || "")}</div>
+            ${h.ohlcvBarDate ? `<div class="xq-bar-date">K棒 ${escapeHtml(h.ohlcvBarDate)}</div>` : ""}
           </div>
           <span class="badge market">${escapeHtml(h.market || marketFilter)}</span>
         </div>
@@ -343,13 +365,20 @@ function renderStrategyPanel(strategy, data, marketFilter = "TW") {
       </div>
       ${strategy.description ? `<details class="fold-block"><summary>詳情 · 策略說明</summary><p class="xq-desc fold-p">${escapeHtml(strategy.description)}</p></details>` : ""}
       <div class="xq-meta-row">
-        <span>執行日 ${escapeHtml(data.sessionDate || "—")}</span>
-        <span>資料 ${fmtAsOf(data.asOf)}</span>
+        <span>證交所 session ${escapeHtml(data.sessionDate || "—")}</span>
+        <span>OHLCV K棒 ${escapeHtml(strategy.ohlcvBarDates?.[0] || data.ohlcvBarDate || "—")}</span>
+        <span>產生 ${fmtAsOf(data.asOf)}</span>
         <span>台股宇宙 ${data.universe?.tw ?? "—"}</span>
         <span>美股宇宙 ${data.universe?.us ?? "—"}</span>
       </div>
       <h4 class="xq-sub">條件</h4>
       ${renderConditions(strategy)}
+      ${renderCalibration(strategy)}
+      ${
+        strategy.incompleteFilters?.length
+          ? `<p class="xq-incomplete-filters">未檢查濾網（不算通過）：${escapeHtml(strategy.incompleteFilters.join("、"))}</p>`
+          : ""
+      }
       ${unchecked ? `<ul class="xq-unchecked-list">${unchecked}</ul>` : ""}
       ${notes ? `<ul class="xq-notes">${notes}</ul>` : ""}
       ${blockers}
@@ -361,11 +390,16 @@ function renderStrategyPanel(strategy, data, marketFilter = "TW") {
           <a class="xq-btn xq-btn-link" href="${DATA_URL}" download="strategy-screener.json">匯出 JSON</a>
         </div>
       </div>
-      <div class="xq-market-tabs" role="tablist" aria-label="命中市場">
+      ${
+        strategy.twOnly ||
+        ["inst-sync", "margin-up", "peter-lynch", "warren-buffett", "michael-murphy", "kenneth-fisher", "mark-minervini", "michael-price", "benjamin-graham", "james-oshaughnessy", "ultra-short"].includes(strategy.id)
+          ? `<div class="xq-market-tabs"><span class="xq-mkt-hint">本策略僅台股</span></div>`
+          : `<div class="xq-market-tabs" role="tablist" aria-label="命中市場">
         <button type="button" class="xq-mkt-btn${marketFilter === "TW" ? " active" : ""}" data-xq-market="TW" aria-pressed="${marketFilter === "TW"}">台股</button>
         <button type="button" class="xq-mkt-btn${marketFilter === "US" ? " active" : ""}" data-xq-market="US" aria-pressed="${marketFilter === "US"}">美股</button>
-      </div>
-      ${renderHits(strategy, marketFilter)}
+      </div>`
+      }
+      ${renderHits(strategy, ["inst-sync", "margin-up", "peter-lynch", "warren-buffett", "michael-murphy", "kenneth-fisher", "mark-minervini", "michael-price", "benjamin-graham", "james-oshaughnessy", "ultra-short"].includes(strategy.id) ? "TW" : marketFilter)}
     </div>
   `;
 }
