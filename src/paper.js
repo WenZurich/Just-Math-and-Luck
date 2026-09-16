@@ -66,7 +66,7 @@ function windowCell(w) {
 
 function tradeRows(trades, currency) {
   if (!trades.length) {
-    return `<tr><td colspan="6" class="empty-cell">今天還沒有這類成交（模擬）</td></tr>`;
+    return `<tr><td colspan="6" class="empty-cell">本日尚無此類成交（模擬）</td></tr>`;
   }
   return trades
     .map(
@@ -159,7 +159,7 @@ function renderBookCard(id, book, metrics) {
 
 function tradeCards(trades, currency) {
   if (!trades.length) {
-    return `<div class="list-card empty-card">今天還沒有這類成交（模擬）</div>`;
+    return `<div class="list-card empty-card">本日尚無此類成交（模擬）</div>`;
   }
   return trades
     .map((t) => {
@@ -287,7 +287,7 @@ export function renderPaperSection(paper) {
     return `
       <section class="section paper-section" id="paper">
         <h2 class="section-title">${term("paperTrade", "模擬")}</h2>
-        <p class="paper-missing">還沒有模擬帳本檔案。請在專案執行 <code>npm run paper</code>。</p>
+        <p class="paper-missing">尚無模擬帳本檔案。請於專案執行 <code>npm run paper</code>。</p>
       </section>`;
   }
 

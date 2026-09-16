@@ -351,10 +351,10 @@ function renderHelpPage(data) {
         <h2 class="view-title">說明</h2>
       </header>
       <ul class="help-short">
-        <li><strong>今日</strong> — 動能／RS／均線／量比篩選候選</li>
+        <li><strong>今日</strong> — 動能／相對強度／均線／量比篩選候選</li>
         <li><strong>策略</strong> — 價量／籌碼／財務／大師條件命中</li>
         <li><strong>模擬</strong> — 自 2026-09-15 累計；訊號即成交（非真實下單）</li>
-        <li><strong>社群</strong> — 站內聊天＋外部摘要，氣氛參考</li>
+        <li><strong>社群</strong> — 站內討論與外部公開摘要（僅供參考）</li>
       </ul>
       <details class="fold-block help-fold" id="help-data">
         <summary>詳情 · 資料來源</summary>
@@ -414,7 +414,7 @@ function lobbyTicker(market) {
 
 function renderTop5ByMarket(list, marketLabel) {
   if (!list.length) {
-    return `<div class="empty-state">${escapeHtml(marketLabel)} Top 尚無</div>`;
+    return `<div class="empty-state">${escapeHtml(marketLabel)} 暫無 Top 候選</div>`;
   }
   return `<div class="top5-grid">${list
     .map((s, i) => renderTopCard(s, i + 1))
@@ -522,44 +522,42 @@ function renderApp(data, paper) {
   const us = data.us || [];
   const tw = data.tw || [];
   const disclaimer = escapeHtml(
-    (data.disclaimer || "本站內容非投資建議。").replace(
-      /^本站內容為依公開行情的數學篩選候選，不是投資建議，亦不保證獲利。$/,
-      "本站只是用公開行情算出「相對有機會觀察的名單」，不會保證賺錢。"
-    )
+    "投資涉及風險，資訊僅供參考，非投資建議"
   );
 
   return `
     ${renderDanmakuLayer()}
 
     <header class="site-chrome">
-      <div class="chrome-brand">
-        <div class="brand-mark" aria-hidden="true"></div>
-        <div class="brand-text">
-          <h1>${term("screening", "每日數學選股")}</h1>
-          <p class="brand-meta">資料 ${fmtAsOf(data.asOf)}</p>
+      <div class="chrome-row">
+        <div class="chrome-brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <h1>${term("screening", "每日數學選股")}</h1>
+            <p class="brand-meta">資料 ${fmtAsOf(data.asOf)}</p>
+          </div>
         </div>
+        <nav class="nav-desktop" aria-label="主要導覽">
+          ${renderNavItems("desktop")}
+        </nav>
       </div>
-      <details class="disclaimer-fold">
-        <summary>${term("notAdvice", "非投資建議")} · 紅漲綠跌</summary>
-        <p>${disclaimer}${data.timezoneNote ? ` · ${escapeHtml(data.timezoneNote)}` : ""}</p>
-      </details>
+      <p class="disclaimer-line" role="note">${disclaimer}</p>
+      <div class="market-strip-wrap" aria-label="市場報價">
+        <span class="market-strip-label">熱門</span>
+        ${renderIndexStrip(data.indices || {})}
+      </div>
     </header>
-
-    <nav class="nav-desktop" aria-label="主要導覽">
-      ${renderNavItems("desktop")}
-    </nav>
 
     <main class="view-host">
       <div class="view" id="view-today" data-view="today" hidden>
         <span id="today" class="view-anchor" tabindex="-1"></span>
         <header class="view-header view-header-tight">
-          <h2 class="view-title">今日</h2>
+          <h2 class="view-title">今日選股</h2>
         </header>
         <div class="tabs market-tabs" role="tablist" aria-label="市場">
           <button type="button" class="tab-btn active" data-tab="us" role="tab" aria-selected="true">${term("usStock", "美股")}（${us.length}）</button>
           <button type="button" class="tab-btn" data-tab="tw" role="tab" aria-selected="false">${term("twStock", "台股")}（${tw.length}）</button>
         </div>
-        ${renderIndexStrip(data.indices || {})}
         <div class="panel active" id="panel-us" role="tabpanel">
           <section class="section">
             <h2 class="section-title">${term("usStock", "美股")} Top</h2>
@@ -644,7 +642,7 @@ function renderApp(data, paper) {
         <details class="fold-block help-fold" id="help-legal">
           <summary>詳情 · 免責</summary>
           <p class="disclaimer">${disclaimer}</p>
-          <p class="tz-note">紅漲綠跌 · 模擬非真實成交 · 社交僅供參考</p>
+          <p class="tz-note">報價採台灣慣例紅漲綠跌 · 模擬交易非真實成交 · 外部摘要僅供參考</p>
         </details>
       </div>
     </main>
@@ -653,7 +651,7 @@ function renderApp(data, paper) {
       ${renderNavItems("mobile")}
     </nav>
 
-    <p class="site-footer">紅漲綠跌 · 點藍字看解釋</p>
+    <p class="site-footer">投資涉及風險，資訊僅供參考，非投資建議 · 點選名詞可查看定義</p>
   `;
 }
 
@@ -757,7 +755,7 @@ function bindChatRoom(root, data, { config, digest } = {}) {
         config,
         market,
         title: market === "TW" ? "台股大廳" : "美股大廳",
-        emptyLine: "尚無訊息",
+        emptyLine: "目前尚無訊息",
         maxLen: 80,
       });
       return;
@@ -766,7 +764,7 @@ function bindChatRoom(root, data, { config, digest } = {}) {
     const chip =
       row?.querySelector(".chat-chip.active") || row?.querySelector(".chat-chip");
     if (!chip) {
-      mount.innerHTML = `<p class="chat-empty">此市場暫無標的</p>`;
+      mount.innerHTML = `<p class="chat-empty">此市場目前無標的可討論</p>`;
       handle = { destroy() {} };
       return;
     }
@@ -775,7 +773,7 @@ function bindChatRoom(root, data, { config, digest } = {}) {
       digest,
       market,
       title: chip.dataset.ticker,
-      emptyLine: "尚無留言",
+      emptyLine: "目前尚無留言",
     });
   };
 

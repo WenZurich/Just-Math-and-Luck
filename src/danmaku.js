@@ -1,10 +1,10 @@
 /**
  * Global 彈幕 + chat list.
  * Works when STOCK_SOCIAL_CONFIG / VITE_SUPABASE_* present;
- * otherwise shows friendly「聊天後端尚未接上」and keeps UI read-only.
+ * otherwise shows 「討論功能尚未啟用」and keeps UI read-only.
  */
 
-const BACKEND_MSG = '聊天後端尚未接上';
+const BACKEND_MSG = '討論功能尚未啟用';
 
 function readSupabaseConfig(cfg = globalThis.STOCK_SOCIAL_CONFIG || {}) {
   const env =
@@ -104,7 +104,7 @@ export function initDanmaku(options = {}) {
       });
     }
     if (list) {
-      list.innerHTML = '<li class="ss-empty">後端未接上</li>';
+      list.innerHTML = '<li class="ss-empty">討論功能尚未啟用</li>';
     }
     return { ok: false, reason: 'no-config', message: BACKEND_MSG };
   }

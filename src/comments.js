@@ -5,7 +5,7 @@
  * Local posts require Supabase anon INSERT (RLS). Giscus is site-level fallback only.
  */
 
-const BACKEND_MSG = '聊天後端尚未接上';
+const BACKEND_MSG = '討論功能尚未啟用';
 
 const US_TABS = [
   { id: 'local', label: '本站留言' },
@@ -203,7 +203,7 @@ export function mountTickerComments(mountEl, ticker, options = {}) {
           <div class="ss-thread-status"></div>
           <ul class="ss-thread-list"></ul>
           <form class="ss-thread-form ss-composer">
-            <input class="ss-nick" maxlength="24" placeholder="暱稱（可空）" autocomplete="nickname" />
+            <input class="ss-nick" maxlength="24" placeholder="暱稱（選填）" autocomplete="nickname" />
             <textarea class="ss-body" maxlength="${maxLen}" rows="2" placeholder="留言" required></textarea>
             <button type="submit">送出</button>
           </form>
@@ -351,7 +351,7 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
   const maxLen = Math.min(cfg.commentMaxLen || 500, options.maxLen || 200);
   const cooldown = cfg.postCooldownMs || 4000;
   const title = options.title || ticker;
-  const emptyLine = options.emptyLine || '尚無訊息';
+  const emptyLine = options.emptyLine || '目前尚無訊息';
   const layer = options.danmakuLayer || document.querySelector('#ss-danmaku-layer');
   const flyToggle =
     options.flyToggle ||
@@ -366,8 +366,8 @@ export function mountTickerRoom(mountEl, ticker, options = {}) {
     <div class="ss-thread-status chat-status-line" aria-live="polite"></div>
     <ul class="ss-thread-list chat-messages" aria-label="訊息"></ul>
     <form class="ss-thread-form chat-composer">
-      <input class="ss-nick" maxlength="24" placeholder="暱稱（可空）" autocomplete="nickname" />
-      <input class="ss-body" maxlength="${maxLen}" placeholder="說點什麼…" required autocomplete="off" />
+      <input class="ss-nick" maxlength="24" placeholder="暱稱（選填）" autocomplete="nickname" />
+      <input class="ss-body" maxlength="${maxLen}" placeholder="輸入留言" required autocomplete="off" />
       <button type="submit" class="chat-send">送出</button>
     </form>
   `;
@@ -510,7 +510,7 @@ export function initSiteGiscus(selector = '#ss-giscus', options = {}) {
   const g = cfg.giscus || {};
   if (!g.enabled || !g.repoId || !g.categoryId) {
     el.innerHTML =
-      '<p class="ss-chat-status is-warn">Giscus 尚未設定（需 repoId / categoryId）。請見 README。</p>';
+      '<p class="ss-chat-status is-warn">Giscus 尚未設定（需 repoId／categoryId）。請見說明文件。</p>';
     return { ok: false, reason: 'no-config' };
   }
   const host = el.querySelector('.ss-giscus-host') || el;
