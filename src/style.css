@@ -1740,3 +1740,183 @@ h1 {
   font-size: 0.68rem;
   opacity: 0.75;
 }
+
+/* —— Logic / methodology —— */
+.logic-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  max-width: 52rem;
+}
+.logic-live {
+  margin-bottom: 1rem;
+}
+.logic-regime-chip .logic-chip-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin-top: 0.4rem;
+}
+.logic-field {
+  display: inline-flex;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+.logic-field .k {
+  color: var(--text-dim);
+}
+.logic-field .v {
+  font-weight: 650;
+  color: var(--text);
+  font-family: var(--mono);
+}
+.logic-impl {
+  margin: 0.45rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.logic-pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.logic-step {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: 0.85rem 1rem 1rem;
+}
+.logic-step-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.55rem;
+}
+.logic-step-num {
+  flex: 0 0 auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-weight: 750;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.logic-step-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+.logic-lead {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin: 0 0 0.55rem;
+  line-height: 1.5;
+}
+.logic-caption {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0.55rem 0 0.35rem;
+}
+.logic-h4 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+  margin: 0.7rem 0 0.3rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+.logic-bullets {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.84rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.logic-bullets li {
+  margin: 0.2rem 0;
+}
+.logic-table-wrap {
+  overflow-x: auto;
+  margin: 0.35rem 0 0.25rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+}
+.logic-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.logic-table th,
+.logic-table td {
+  padding: 0.4rem 0.65rem;
+  border-bottom: 1px solid var(--border-soft);
+  text-align: left;
+  vertical-align: top;
+}
+.logic-table th {
+  width: 38%;
+  font-weight: 650;
+  color: var(--text-muted);
+  background: #fafafa;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+.logic-table tr:last-child th,
+.logic-table tr:last-child td {
+  border-bottom: none;
+}
+.logic-table code {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  background: var(--accent-soft);
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+}
+.logic-jump {
+  margin: 0.65rem 0 0;
+}
+.logic-link-btn {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-weight: 650;
+  font-family: var(--font);
+  font-size: 0.84rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  min-height: 36px;
+}
+.logic-link-btn:hover {
+  background: color-mix(in srgb, var(--accent) 18%, white);
+}
+.logic-footnote {
+  margin: 1.1rem 0 0.4rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+.logic-muted {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 899px) {
+  .nav-bottom .nav-label {
+    font-size: 0.62rem;
+  }
+  .nav-bottom .nav-item {
+    padding: 0.25rem 0.15rem;
+  }
+}
