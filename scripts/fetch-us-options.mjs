@@ -102,20 +102,30 @@ async function yahooSession() {
 
 async function yahooJson(session, urlPath) {
   const sep = urlPath.includes("?") ? "&" : "?";
-  const url = `https://query1.finance.yahoo.com${urlPath}${sep}crumb=${encodeURIComponent(session.crumb)}`;
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent": UA,
-      Cookie: session.cookies,
-      Accept: "application/json",
-    },
-  });
-  if (!res.ok) return { ok: false, status: res.status, data: null };
-  try {
-    return { ok: true, status: res.status, data: await res.json() };
-  } catch {
-    return { ok: false, status: res.status, data: null };
+  const hosts = ["query1.finance.yahoo.com", "query2.finance.yahoo.com"];
+  let lastStatus = 0;
+  for (const host of hosts) {
+    const url = `https://${host}${urlPath}${sep}crumb=${encodeURIComponent(session.crumb)}`;
+    try {
+      const res = await fetch(url, {
+        headers: {
+          "User-Agent": UA,
+          Cookie: session.cookies,
+          Accept: "application/json",
+        },
+      });
+      lastStatus = res.status;
+      if (!res.ok) continue;
+      try {
+        return { ok: true, status: res.status, data: await res.json(), host };
+      } catch {
+        continue;
+      }
+    } catch {
+      continue;
+    }
   }
+  return { ok: false, status: lastStatus, data: null };
 }
 
 function yoyTrend(series) {
@@ -370,10 +380,29 @@ async function fetchOptions(session, ticker, spotHint) {
 
   const atmCall = pickAtm(calls, spot);
   const atmPut = pickAtm(puts, spot);
-  const atmIvCall = sanitizeIv(atmCall?.impliedVolatility);
-  const atmIvPut = sanitizeIv(atmPut?.impliedVolatility);
+  let atmIvCall = sanitizeIv(atmCall?.impliedVolatility);
+  let atmIvPut = sanitizeIv(atmPut?.impliedVolatility);
+  // Fallback: nearest strikes with usable IV if ATM quote IV is junk/zero
+  if (atmIvCall == null && spot != null) {
+    const near = [...calls]
+      .filter((c) => sanitizeIv(c.impliedVolatility) != null)
+      .sort((a, b) => Math.abs(a.strike - spot) - Math.abs(b.strike - spot));
+    if (near[0]) atmIvCall = sanitizeIv(near[0].impliedVolatility);
+  }
+  if (atmIvPut == null && spot != null) {
+    const near = [...puts]
+      .filter((c) => sanitizeIv(c.impliedVolatility) != null)
+      .sort((a, b) => Math.abs(a.strike - spot) - Math.abs(b.strike - spot));
+    if (near[0]) atmIvPut = sanitizeIv(near[0].impliedVolatility);
+  }
   let atmIv = atmIvCall ?? atmIvPut;
   if (atmIvCall != null && atmIvPut != null) atmIv = round((atmIvCall + atmIvPut) / 2, 4);
+  // Yahoo sometimes returns near-zero junk IV (~0.03); treat <5% annualized as unusable
+  if (atmIv != null && atmIv < 0.05) {
+    atmIv = null;
+    atmIvCall = null;
+    atmIvPut = null;
+  }
 
   const callVol = calls.reduce((s, c) => s + (c.volume || 0), 0);
   const putVol = puts.reduce((s, c) => s + (c.volume || 0), 0);
@@ -383,10 +412,12 @@ async function fetchOptions(session, ticker, spotHint) {
   const missing = [];
   if (atmIv == null) missing.push("atmIv");
   if (spot == null) missing.push("spot");
+  // Keep chain usable with HV + volume even if ATM IV missing — do not brand whole card incomplete
+  const softOnly = missing.length === 1 && missing[0] === "atmIv" && (callVol > 0 || putVol > 0);
 
   return {
     ok: true,
-    blocker: missing.length ? `options fields incomplete: ${missing.join(",")}` : null,
+    blocker: missing.length && !softOnly ? `options fields incomplete: ${missing.join(",")}` : null,
     options: {
       asOfUnderlying: spot,
       expiration: new Date(chosen * 1000).toISOString().slice(0, 10),

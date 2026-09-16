@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-09-16T11:39:09.620Z",
+  "asOf": "2026-09-16T11:58:01.789Z",
   "market": "US",
   "source": "Yahoo Finance public quoteSummary + options + chart (crumb session)",
   "disclaimer": "非投資建議；選擇權風險高。Educational screen only — not personalized advice.",
@@ -41,7 +41,7 @@
       ]
     }
   },
-  "limit": 6,
+  "limit": 8,
   "refreshHint": "node scripts/fetch-us-options.mjs  （可選：daily-scan 後手動／排程）",
   "sessionOk": true,
   "sessionBlocker": null,
@@ -95,11 +95,11 @@
         "expirationUnix": 1792108800,
         "atmStrikeCall": 195,
         "atmStrikePut": 175,
-        "atmIv": 0.0469,
-        "atmIvCall": 0.0313,
-        "atmIvPut": 0.0625,
+        "atmIv": null,
+        "atmIvCall": null,
+        "atmIvPut": null,
         "historicalVol": 0.7396,
-        "ivHvRatio": 0.063,
+        "ivHvRatio": null,
         "callVolume": 173,
         "putVolume": 617,
         "putCallVolumeRatio": 3.566,
@@ -110,7 +110,9 @@
           "calls": 13,
           "puts": 9
         },
-        "missingFields": []
+        "missingFields": [
+          "atmIv"
+        ]
       },
       "blockers": [],
       "setups": [
@@ -125,9 +127,9 @@
           ],
           "plainRisk": "upside_capped",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": false,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
         },
         {
           "id": "protective-put",
@@ -140,9 +142,9 @@
           ],
           "plainRisk": "premium_cost",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "vertical-spread",
@@ -156,9 +158,9 @@
           ],
           "plainRisk": "defined_max_loss",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "calendar-diagonal",
@@ -170,9 +172,9 @@
           ],
           "plainRisk": "timing_and_iv_change",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "straddle-strangle",
@@ -183,9 +185,9 @@
           ],
           "plainRisk": "needs_large_move",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "butterfly",
@@ -196,9 +198,9 @@
           ],
           "plainRisk": "narrow_profit_zone",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": false,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         }
       ]
     },
@@ -251,11 +253,11 @@
         "expirationUnix": 1791504000,
         "atmStrikeCall": 195,
         "atmStrikePut": 177.5,
-        "atmIv": 0.0469,
-        "atmIvCall": 0.0313,
-        "atmIvPut": 0.0625,
+        "atmIv": null,
+        "atmIvCall": null,
+        "atmIvPut": null,
         "historicalVol": 1.0547,
-        "ivHvRatio": 0.044,
+        "ivHvRatio": null,
         "callVolume": 134,
         "putVolume": 418,
         "putCallVolumeRatio": 3.119,
@@ -266,7 +268,9 @@
           "calls": 31,
           "puts": 50
         },
-        "missingFields": []
+        "missingFields": [
+          "atmIv"
+        ]
       },
       "blockers": [],
       "setups": [
@@ -281,9 +285,9 @@
           ],
           "plainRisk": "upside_capped",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": false,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
         },
         {
           "id": "protective-put",
@@ -296,9 +300,9 @@
           ],
           "plainRisk": "premium_cost",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "vertical-spread",
@@ -312,9 +316,9 @@
           ],
           "plainRisk": "defined_max_loss",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "calendar-diagonal",
@@ -326,9 +330,9 @@
           ],
           "plainRisk": "timing_and_iv_change",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "straddle-strangle",
@@ -339,9 +343,9 @@
           ],
           "plainRisk": "needs_large_move",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "butterfly",
@@ -352,9 +356,9 @@
           ],
           "plainRisk": "narrow_profit_zone",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": false,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         }
       ]
     },
@@ -408,11 +412,11 @@
         "expirationUnix": 1791504000,
         "atmStrikeCall": 250,
         "atmStrikePut": 235,
-        "atmIv": 0.0313,
-        "atmIvCall": 0.0313,
-        "atmIvPut": 0.0313,
+        "atmIv": null,
+        "atmIvCall": null,
+        "atmIvPut": null,
         "historicalVol": 0.9818,
-        "ivHvRatio": 0.032,
+        "ivHvRatio": null,
         "callVolume": 3498,
         "putVolume": 1328,
         "putCallVolumeRatio": 0.38,
@@ -423,7 +427,9 @@
           "calls": 34,
           "puts": 28
         },
-        "missingFields": []
+        "missingFields": [
+          "atmIv"
+        ]
       },
       "blockers": [],
       "setups": [
@@ -438,9 +444,9 @@
           ],
           "plainRisk": "upside_capped",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": false,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
         },
         {
           "id": "protective-put",
@@ -453,9 +459,9 @@
           ],
           "plainRisk": "premium_cost",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "vertical-spread",
@@ -469,9 +475,9 @@
           ],
           "plainRisk": "defined_max_loss",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "calendar-diagonal",
@@ -483,9 +489,9 @@
           ],
           "plainRisk": "timing_and_iv_change",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "straddle-strangle",
@@ -496,9 +502,9 @@
           ],
           "plainRisk": "needs_large_move",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "butterfly",
@@ -509,9 +515,9 @@
           ],
           "plainRisk": "narrow_profit_zone",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": false,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         }
       ]
     },
@@ -565,11 +571,11 @@
         "expirationUnix": 1791504000,
         "atmStrikeCall": 200,
         "atmStrikePut": 185,
-        "atmIv": 0.0313,
-        "atmIvCall": 0.0313,
-        "atmIvPut": 0.0313,
+        "atmIv": null,
+        "atmIvCall": null,
+        "atmIvPut": null,
         "historicalVol": 0.8007,
-        "ivHvRatio": 0.039,
+        "ivHvRatio": null,
         "callVolume": 496,
         "putVolume": 164,
         "putCallVolumeRatio": 0.331,
@@ -580,7 +586,9 @@
           "calls": 34,
           "puts": 30
         },
-        "missingFields": []
+        "missingFields": [
+          "atmIv"
+        ]
       },
       "blockers": [],
       "setups": [
@@ -595,9 +603,9 @@
           ],
           "plainRisk": "upside_capped",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": false,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
         },
         {
           "id": "protective-put",
@@ -610,9 +618,9 @@
           ],
           "plainRisk": "premium_cost",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "vertical-spread",
@@ -626,9 +634,9 @@
           ],
           "plainRisk": "defined_max_loss",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "calendar-diagonal",
@@ -640,9 +648,9 @@
           ],
           "plainRisk": "timing_and_iv_change",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "straddle-strangle",
@@ -653,9 +661,9 @@
           ],
           "plainRisk": "needs_large_move",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "butterfly",
@@ -666,9 +674,9 @@
           ],
           "plainRisk": "narrow_profit_zone",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": false,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         }
       ]
     },
@@ -721,11 +729,11 @@
         "expirationUnix": 1791504000,
         "atmStrikeCall": 180,
         "atmStrikePut": 160,
-        "atmIv": 0.0469,
-        "atmIvCall": 0.0313,
-        "atmIvPut": 0.0625,
+        "atmIv": null,
+        "atmIvCall": null,
+        "atmIvPut": null,
         "historicalVol": 0.588,
-        "ivHvRatio": 0.08,
+        "ivHvRatio": null,
         "callVolume": 46,
         "putVolume": 23,
         "putCallVolumeRatio": 0.5,
@@ -736,7 +744,9 @@
           "calls": 14,
           "puts": 8
         },
-        "missingFields": []
+        "missingFields": [
+          "atmIv"
+        ]
       },
       "blockers": [],
       "setups": [
@@ -751,9 +761,9 @@
           ],
           "plainRisk": "upside_capped",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": false,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
         },
         {
           "id": "protective-put",
@@ -766,9 +776,9 @@
           ],
           "plainRisk": "premium_cost",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "vertical-spread",
@@ -782,9 +792,9 @@
           ],
           "plainRisk": "defined_max_loss",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "calendar-diagonal",
@@ -796,9 +806,9 @@
           ],
           "plainRisk": "timing_and_iv_change",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "straddle-strangle",
@@ -809,9 +819,9 @@
           ],
           "plainRisk": "needs_large_move",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "butterfly",
@@ -822,9 +832,9 @@
           ],
           "plainRisk": "narrow_profit_zone",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": false,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         }
       ]
     },
@@ -837,7 +847,7 @@
         "A"
       ],
       "fundamentals": {
-        "trailingPE": 25.07,
+        "trailingPE": 25.25,
         "forwardPE": 19.17,
         "priceToBook": 6.54,
         "roe": 0.2985,
@@ -877,11 +887,11 @@
         "expirationUnix": 1791504000,
         "atmStrikeCall": 690,
         "atmStrikePut": 650,
-        "atmIv": 0.0313,
-        "atmIvCall": 0.0313,
-        "atmIvPut": 0.0313,
+        "atmIv": null,
+        "atmIvCall": null,
+        "atmIvPut": null,
         "historicalVol": 0.3637,
-        "ivHvRatio": 0.086,
+        "ivHvRatio": null,
         "callVolume": 2149,
         "putVolume": 1482,
         "putCallVolumeRatio": 0.69,
@@ -892,7 +902,9 @@
           "calls": 110,
           "puts": 73
         },
-        "missingFields": []
+        "missingFields": [
+          "atmIv"
+        ]
       },
       "blockers": [],
       "setups": [
@@ -907,9 +919,9 @@
           ],
           "plainRisk": "upside_capped",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": false,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
         },
         {
           "id": "protective-put",
@@ -922,9 +934,9 @@
           ],
           "plainRisk": "premium_cost",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "vertical-spread",
@@ -938,9 +950,9 @@
           ],
           "plainRisk": "defined_max_loss",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": true,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
         },
         {
           "id": "calendar-diagonal",
@@ -952,9 +964,9 @@
           ],
           "plainRisk": "timing_and_iv_change",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "straddle-strangle",
@@ -965,9 +977,9 @@
           ],
           "plainRisk": "needs_large_move",
           "shown": true,
-          "volRegime": "iv_cheap",
-          "volAligned": true,
-          "ivNote": "iv_present"
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         },
         {
           "id": "butterfly",
@@ -978,9 +990,325 @@
           ],
           "plainRisk": "narrow_profit_zone",
           "shown": true,
-          "volRegime": "iv_cheap",
+          "volRegime": "unknown",
           "volAligned": false,
-          "ivNote": "iv_present"
+          "ivNote": "iv_missing"
+        }
+      ]
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "price": 375.09,
+      "dayPct": 0.33,
+      "screens": [
+        "A"
+      ],
+      "fundamentals": {
+        "trailingPE": 914.85,
+        "forwardPE": 76.88,
+        "priceToBook": 11.15,
+        "roe": 0.0174,
+        "debtToEquity": 9.34,
+        "profitMargin": 0.0267,
+        "grossMargin": 0.7038,
+        "revenueTrend": {
+          "label": "up",
+          "pct": 18.36,
+          "incomplete": false
+        },
+        "earningsTrend": {
+          "label": "down",
+          "pct": -169.74,
+          "incomplete": false
+        },
+        "quartersAvailable": 4
+      },
+      "quality": {
+        "score": 0.4,
+        "scoreRaw": 4,
+        "scoreMax": 10,
+        "gate": "watch",
+        "notes": [
+          "pe_stretched",
+          "pb_high",
+          "roe_weak",
+          "debt_low",
+          "rev_up",
+          "earn_down"
+        ],
+        "missingFields": []
+      },
+      "options": {
+        "asOfUnderlying": 375.09,
+        "expiration": "2026-10-09",
+        "expirationUnix": 1791504000,
+        "atmStrikeCall": 385,
+        "atmStrikePut": 365,
+        "atmIv": null,
+        "atmIvCall": null,
+        "atmIvPut": null,
+        "historicalVol": 0.79,
+        "ivHvRatio": null,
+        "callVolume": 1552,
+        "putVolume": 842,
+        "putCallVolumeRatio": 0.543,
+        "callOpenInterest": 3275,
+        "putOpenInterest": 3159,
+        "putCallOiRatio": 0.965,
+        "contractCounts": {
+          "calls": 61,
+          "puts": 58
+        },
+        "missingFields": [
+          "atmIv"
+        ]
+      },
+      "blockers": [],
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        }
+      ]
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "price": 504.2,
+      "dayPct": 1.99,
+      "screens": [
+        "A"
+      ],
+      "fundamentals": {
+        "trailingPE": 126.68,
+        "forwardPE": 32.38,
+        "priceToBook": 12.24,
+        "roe": 0.102,
+        "debtToEquity": 6.36,
+        "profitMargin": 0.1558,
+        "grossMargin": 0.5572,
+        "revenueTrend": {
+          "label": "up",
+          "pct": 24.77,
+          "incomplete": false
+        },
+        "earningsTrend": {
+          "label": "up",
+          "pct": 84.79,
+          "incomplete": false
+        },
+        "quartersAvailable": 4
+      },
+      "quality": {
+        "score": 0.6,
+        "scoreRaw": 6,
+        "scoreMax": 10,
+        "gate": "watch",
+        "notes": [
+          "pe_stretched",
+          "pb_high",
+          "roe_ok",
+          "debt_low",
+          "rev_up",
+          "earn_up"
+        ],
+        "missingFields": []
+      },
+      "options": {
+        "asOfUnderlying": 504.2,
+        "expiration": "2026-10-09",
+        "expirationUnix": 1791504000,
+        "atmStrikeCall": 520,
+        "atmStrikePut": 490,
+        "atmIv": null,
+        "atmIvCall": null,
+        "atmIvPut": null,
+        "historicalVol": 0.4915,
+        "ivHvRatio": null,
+        "callVolume": 2576,
+        "putVolume": 4598,
+        "putCallVolumeRatio": 1.785,
+        "callOpenInterest": 11894,
+        "putOpenInterest": 21739,
+        "putCallOiRatio": 1.828,
+        "contractCounts": {
+          "calls": 121,
+          "puts": 110
+        },
+        "missingFields": [
+          "atmIv"
+        ]
+      },
+      "blockers": [],
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
         }
       ]
     }

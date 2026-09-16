@@ -21,7 +21,7 @@ const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
 const SLEEP_MS = 350;
-const WATCHLIST_TARGET = 8;
+const WATCHLIST_TARGET = 14;
 const WINDOW_PRIMARY_DAYS = 14;
 const WINDOW_RECENT_DAYS = 7;
 const WINDOW_FALLBACK_DAYS = 45;
@@ -70,13 +70,31 @@ const MEGA_CAPS = [
   "CAT",
   "GS",
   "MS",
+  "MU",
+  "AMAT",
+  "LRCX",
+  "KLAC",
+  "SNPS",
+  "CDNS",
+  "NOW",
+  "SNOW",
+  "UBER",
+  "SHOP",
+  "PLTR",
+  "COIN",
+  "BA",
+  "NKE",
+  "SBUX",
+  "PYPL",
+  "SQ",
+  "BLOCK",
 ];
 
 const SELECTION_RULE =
   "Primary: non-Mag7 mega-caps with nextEarningsDate within next 14 calendar days, sorted by marketCap desc. " +
   "Also: Yahoo most_actives with earnings in next 14d OR reported in last 7d. " +
   "Fallback fill: nearest upcoming mega-cap earnings within 45d (tagged calendar_highlight). Cap 8. " +
-  "Sources: Yahoo Finance public quoteSummary + screener only; null → 資料不足.";
+  "Sources: Yahoo Finance public quoteSummary + screener only; null fields omitted in UI.";
 
 const MODULES = [
   "calendarEvents",
@@ -261,8 +279,8 @@ function whatToWatch(row) {
         : `獲利成長約 ${row.epsYoYPct}%（Yahoo earningsGrowth）`
     );
   }
-  if (row.pe == null) bits.push("本益比資料不足，勿硬套估值");
-  return bits.join("；") || "資料不足，僅能等待公開財報";
+  if (row.pe == null) bits.push("本益比暫缺，勿硬套估值");
+  return bits.join("；") || "等待公開財報更新";
 }
 
 async function fetchTicker(session, ticker, nameHint) {

@@ -447,7 +447,7 @@ async function main() {
   if (/Black-Scholes|\\bN\(d1\)|d1\s*=\s*\(/.test(erJs)) {
     fail("earnings.js appears to dump raw formulas");
   } else ok("earnings.js no raw formula dump");
-  if (!erJs.includes("whatItDoes") || !erJs.includes("whatToWatch") || !erJs.includes("earningsDataMissing")) {
+  if (!erJs.includes("whatItDoes") || !erJs.includes("whatToWatch") || !erJs.includes("metricBlock")) {
     fail("earnings.js missing plain-language card fields");
   } else ok("earnings.js plain cards");
   if (!mainJs.includes("view-earnings") || !mainJs.includes('"earnings"')) {

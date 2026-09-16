@@ -891,8 +891,8 @@ function buildUltraShort(universe, ohlcvMap) {
       cond(`5 日均量 > ${TW_LIQUID_ZHANG} 張`),
       cond("RSI(14) 在 50 以下且較前一日上升（黃金交叉代理）"),
       cond("當日振幅（高−低）／昨收 > 3%"),
-      cond("融資條件（公開資料不足）", "skip"),
-      cond("融券條件（公開資料不足）", "skip"),
+      cond("融資條件（未檢查）", "skip"),
+      cond("融券條件（未檢查）", "skip"),
     ],
     hits,
     blockers: [],
@@ -1215,48 +1215,284 @@ function buildLowPeSmall(universe, ohlcvMap, peMap) {
   };
 }
 
-function buildIncompleteChipPacks() {
-  return [
-    {
-      id: "chip-main-force",
-      name: "主力進出（近似）",
-      category: "籌碼",
-      categoryGroup: "籌碼",
-      xqTags: ["籌碼", "資料不足"],
-      description: "XQ 主力買賣超。公開 Yahoo／MOPS 無穩定主力分點 feed。",
-      conditions: [cond("主力買超／賣超（公開資料不足）", "skip")],
-      hits: [],
-      blockers: ["無公開穩定「主力」分點 feed，不捏造命中"],
-      incomplete: true,
-      incompleteLabel: "資料不足",
+/** TDCC 集保戶股權分散表（公開週資料）— 分級 12–15 視為大戶代理 */
+async function fetchTdccLargeHolders() {
+  const url = "https://smart.tdcc.com.tw/opendata/getOD.ashx?id=1-5";
+  try {
+    const res = await fetch(url, { headers: { "User-Agent": UA } });
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (!text.includes("證券代號") && !text.includes("持股分級")) return null;
+    const lines = text.split(/\r?\n/);
+    const byCode = new Map();
+    for (const L0 of lines.slice(1)) {
+      const L = L0.trim();
+      if (!L) continue;
+      const cols = L.split(",");
+      if (cols.length < 6) continue;
+      const ymdRaw = String(cols[0] || "").trim();
+      const code = String(cols[1] || "").trim();
+      const level = Number(cols[2]);
+      const holders = Number(String(cols[3] || "").replace(/,/g, ""));
+      const shares = Number(String(cols[4] || "").replace(/,/g, ""));
+      const pct = Number(String(cols[5] || "").replace(/,/g, ""));
+      if (!/^\d{4,6}$/.test(code)) continue;
+      if (!(level >= 1 && level <= 15)) continue;
+      const key = code.length > 4 ? code.replace(/^0+/, "").padStart(4, "0").slice(-4) : code;
+      if (!/^\d{4}$/.test(key)) continue;
+      if (!byCode.has(key)) {
+        byCode.set(key, {
+          asOf: /^\d{8}$/.test(ymdRaw)
+            ? `${ymdRaw.slice(0, 4)}-${ymdRaw.slice(4, 6)}-${ymdRaw.slice(6, 8)}`
+            : ymdRaw,
+          megaPct: 0,
+          megaHolders: 0,
+          largePct: 0,
+          largeHolders: 0,
+        });
+      }
+      const rec = byCode.get(key);
+      if (!Number.isFinite(pct)) continue;
+      if (level === 15) {
+        rec.megaPct += pct;
+        if (Number.isFinite(holders)) rec.megaHolders += holders;
+      }
+      if (level >= 12 && level <= 15) {
+        rec.largePct += pct;
+        if (Number.isFinite(holders)) rec.largeHolders += holders;
+      }
+      void shares;
+    }
+    return byCode.size ? byCode : null;
+  } catch {
+    return null;
+  }
+}
+
+/** TWSE 持股逾 10% 大股東名單（公開；僅名稱／家數，無持股％） */
+async function fetchTwseMajorShareholders() {
+  try {
+    const res = await fetch("https://openapi.twse.com.tw/v1/opendata/t187ap02_L", {
+      headers: { "User-Agent": UA, Accept: "application/json" },
+    });
+    if (!res.ok) return null;
+    const rows = await res.json();
+    if (!Array.isArray(rows)) return null;
+    const map = new Map();
+    for (const r of rows) {
+      const code = String(r["公司代號"] || "").trim();
+      if (!/^\d{4}$/.test(code)) continue;
+      const name = String(r["大股東名稱"] || "").trim();
+      if (!map.has(code)) map.set(code, { name: String(r["公司名稱"] || "").trim(), majors: [] });
+      if (name) map.get(code).majors.push(name);
+    }
+    return map.size ? map : null;
+  } catch {
+    return null;
+  }
+}
+
+function foreignBuyStreak(instDays, code) {
+  let streak = 0;
+  for (const day of instDays) {
+    const x = day.tw.get(code) || day.otc.get(code);
+    if (!x || !(x.foreign > 0)) break;
+    streak++;
+  }
+  return streak;
+}
+
+function buildChipMainForce(instDays, universe) {
+  // 公開「法人買賣超動能」— 誠實標籤，非券商主力分點
+  if (!instDays?.length) return null;
+  const ZHANG = 1000;
+  const hits = [];
+  for (const u of universe.filter((x) => x.market === "TW")) {
+    const code = u.ticker.replace(/\.TW$/, "").replace(/\.TWO$/, "");
+    const { d1, sum5 } = mergeInstDay(instDays.slice(0, 5), code);
+    if (!d1 || !sum5 || sum5.days < 3) continue;
+    const tot1 = d1.total ?? 0;
+    const tot5 = sum5.total ?? 0;
+    const f5 = sum5.foreign ?? 0;
+    // 動能：近1日合計買超 + 近5日合計買超 + 外資5日買超
+    if (!(tot1 > 300 * ZHANG && tot5 > 1500 * ZHANG && f5 > 800 * ZHANG)) continue;
+    hits.push({
+      ticker: u.ticker,
+      name: u.name || d1.name,
+      market: "TW",
+      currency: "TWD",
+      metrics: {
+        instNet1dZhang: round(sharesToZhang(tot1), 1),
+        instNet5dZhang: round(sharesToZhang(tot5), 1),
+        foreignNet5dZhang: round(sharesToZhang(f5), 1),
+        trustNet5dZhang: round(sharesToZhang(sum5.trust), 1),
+        dealerNet5dZhang: round(sharesToZhang(sum5.dealer), 1),
+        instDaysCovered: sum5.days,
+      },
+    });
+  }
+  hits.sort((a, b) => (b.metrics.instNet5dZhang ?? 0) - (a.metrics.instNet5dZhang ?? 0));
+  return {
+    id: "chip-main-force",
+    name: "法人買賣超動能",
+    category: "籌碼",
+    categoryGroup: "籌碼",
+    xqTags: ["籌碼", "法人"],
+    description:
+      "公開證交所／櫃買三大法人多日買賣超動能（非券商「主力分點」）。1日合計＞300張、5日合計＞1500張、外資5日＞800張。",
+    conditions: [
+      cond("三大法人近 1 日合計淨買超 > 300 張", hits.length ? "pass" : "fail"),
+      cond("三大法人近 5 日合計淨買超 > 1500 張", hits.length ? "pass" : "fail"),
+      cond("外資近 5 日合計淨買超 > 800 張", hits.length ? "pass" : "fail"),
+    ],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+    notes: [
+      `籌碼交易日樣本：${instDays.slice(0, 5).map((d) => d.ymd).join(", ")}`,
+      "標籤刻意用「法人買賣超」；不做假「主力分點」。",
+    ],
+    calibrationNotes: {
+      matchedXq: ["公開法人買賣超多日動能"],
+      stillDiffers: ["非 XQ／券商主力分點庫；門檻為公開代理"],
+      dataAsOfHint: "inst day sample in notes",
     },
-    {
-      id: "chip-branch",
-      name: "分點籌碼",
-      category: "籌碼",
-      categoryGroup: "籌碼",
-      xqTags: ["籌碼", "資料不足"],
-      description: "券商分點買賣超。公開資料無完整分點庫。",
-      conditions: [cond("分點買賣超條件（公開資料不足）", "skip")],
-      hits: [],
-      blockers: ["券商分點非公開穩定 API"],
-      incomplete: true,
-      incompleteLabel: "資料不足",
+  };
+}
+
+function buildChipForeignStreak(instDays, universe) {
+  // 原 chip-branch 占位 → 外資連買（非分點）
+  if (!instDays?.length) return null;
+  const ZHANG = 1000;
+  const hits = [];
+  for (const u of universe.filter((x) => x.market === "TW")) {
+    const code = u.ticker.replace(/\.TW$/, "").replace(/\.TWO$/, "");
+    const streak = foreignBuyStreak(instDays, code);
+    if (streak < 3) continue;
+    const { d1, sum5 } = mergeInstDay(instDays.slice(0, 5), code);
+    if (!sum5 || !(sum5.foreign > 500 * ZHANG)) continue;
+    hits.push({
+      ticker: u.ticker,
+      name: u.name || d1?.name,
+      market: "TW",
+      currency: "TWD",
+      metrics: {
+        foreignBuyStreakDays: streak,
+        foreignNet1dZhang: round(sharesToZhang(d1?.foreign ?? 0), 1),
+        foreignNet5dZhang: round(sharesToZhang(sum5.foreign), 1),
+        instNet5dZhang: round(sharesToZhang(sum5.total), 1),
+        instDaysCovered: sum5.days,
+      },
+    });
+  }
+  hits.sort(
+    (a, b) =>
+      (b.metrics.foreignBuyStreakDays ?? 0) - (a.metrics.foreignBuyStreakDays ?? 0) ||
+      (b.metrics.foreignNet5dZhang ?? 0) - (a.metrics.foreignNet5dZhang ?? 0)
+  );
+  return {
+    id: "chip-branch",
+    name: "外資連買",
+    category: "籌碼",
+    categoryGroup: "籌碼",
+    xqTags: ["籌碼", "外資"],
+    description:
+      "公開外資連續淨買超（非券商分點庫）。連買 ≥3 日且近 5 日外資合計＞500 張。",
+    conditions: [
+      cond("外資連續淨買超 ≥ 3 個交易日", hits.length ? "pass" : "fail"),
+      cond("外資近 5 日合計淨買超 > 500 張", hits.length ? "pass" : "fail"),
+    ],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+    notes: [
+      `連買樣本最長可回溯 ${instDays.length} 日：${instDays.map((d) => d.ymd).join(", ")}`,
+      "原「分點籌碼」占位已改為公開外資連買；不做假分點。",
+    ],
+    calibrationNotes: {
+      matchedXq: ["外資連買日數公開代理"],
+      stillDiffers: ["非券商營業員分點彙總"],
     },
-    {
-      id: "chip-large-holders",
-      name: "大戶股數／集保",
-      category: "籌碼",
-      categoryGroup: "籌碼",
-      xqTags: ["籌碼", "資料不足"],
-      description: "集保大戶持股變化。暫不捏造命中。",
-      conditions: [cond("大戶持股增減（公開資料不足）", "skip")],
-      hits: [],
-      blockers: ["集保大戶／持股分級無穩定即時公開 feed"],
-      incomplete: true,
-      incompleteLabel: "資料不足",
+  };
+}
+
+function buildChipLargeHolders(tdccMap, majorsMap, universe) {
+  if (!tdccMap?.size) return null;
+  const hits = [];
+  let asOfHint = null;
+  for (const u of universe.filter((x) => x.market === "TW")) {
+    const code = u.ticker.replace(/\.TW$/, "").replace(/\.TWO$/, "");
+    const d = tdccMap.get(code);
+    if (!d) continue;
+    asOfHint = asOfHint || d.asOf;
+    // 大戶集中：分級 12–15 合計佔比 ≥55% 且 >100 萬股級（15）≥40%
+    if (!(d.largePct >= 55 && d.megaPct >= 40)) continue;
+    const maj = majorsMap?.get(code);
+    hits.push({
+      ticker: u.ticker,
+      name: u.name || maj?.name || code,
+      market: "TW",
+      currency: "TWD",
+      metrics: {
+        tdccAsOf: d.asOf,
+        largeHolderPct: round(d.largePct, 2),
+        megaHolderPct: round(d.megaPct, 2),
+        largeHolderCount: d.largeHolders,
+        megaHolderCount: d.megaHolders,
+        major10pctCount: maj ? maj.majors.length : null,
+      },
+    });
+  }
+  hits.sort((a, b) => (b.metrics.megaHolderPct ?? 0) - (a.metrics.megaHolderPct ?? 0));
+  return {
+    id: "chip-large-holders",
+    name: "集保大戶集中",
+    category: "籌碼",
+    categoryGroup: "籌碼",
+    xqTags: ["籌碼", "集保"],
+    description:
+      "集保戶股權分散表（TDCC 公開週資料）：持股分級 12–15 合計佔比≥55%、分級15（>100萬股）≥40%。非即時「增減」；有公開週快照才入選。",
+    conditions: [
+      cond("集保分級 12–15 合計佔比 ≥ 55%", hits.length ? "pass" : "fail"),
+      cond("集保分級 15（>100 萬股）佔比 ≥ 40%", hits.length ? "pass" : "fail"),
+    ],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+    notes: [
+      asOfHint ? `TDCC 資料日期：${asOfHint}` : "TDCC 最新週快照",
+      majorsMap?.size
+        ? `另附證交所持股逾10%大股東家數（openapi t187ap02_L，僅家數非持股％）`
+        : "大股東名單本日未併入",
+      "不做假「大戶增減」；無週對週歷史時只標集中度。",
+    ],
+    calibrationNotes: {
+      matchedXq: ["集保持股分級公開集中度"],
+      stillDiffers: ["XQ 大戶增減常用週差；此處為單週集中度快照"],
     },
-  ];
+  };
+}
+
+async function buildPublicChipPacks(instDays, universe) {
+  const packs = [];
+  const main = buildChipMainForce(instDays, universe);
+  if (main) packs.push(main);
+  const foreign = buildChipForeignStreak(instDays, universe);
+  if (foreign) packs.push(foreign);
+  console.log("Fetching TDCC 集保戶股權分散表…");
+  const tdcc = await fetchTdccLargeHolders();
+  console.log("TDCC codes", tdcc?.size ?? 0);
+  let majors = null;
+  try {
+    majors = await fetchTwseMajorShareholders();
+    console.log("TWSE major-shareholder names", majors?.size ?? 0);
+  } catch {
+    majors = null;
+  }
+  const large = buildChipLargeHolders(tdcc, majors, universe);
+  if (large) packs.push(large);
+  else console.warn("chip-large-holders omitted — TDCC unavailable (no incomplete placeholder)");
+  return packs;
 }
 
 
@@ -1359,7 +1595,7 @@ async function main() {
 
   // Institutional 5d
   console.log("Fetching institutional days…");
-  const instDays = await collectInstDays(asOfYmd, 5);
+  const instDays = await collectInstDays(asOfYmd, 10);
   console.log(
     "Inst days",
     instDays.length,
@@ -1581,8 +1817,8 @@ async function main() {
     buildDayUp5(universe, ohlcvMap),
     buildPct5d10(universe, ohlcvMap),
     buildNearHigh(universe, ohlcvMap),
-    buildInstSync(instDays, [...twSet.values()]),
-    ...buildIncompleteChipPacks(),
+    buildInstSync(instDays.slice(0, 5), [...twSet.values()]),
+    ...(await buildPublicChipPacks(instDays, [...twSet.values()])),
     buildMarginGrowth(universe, fundMap, twMarginByCode),
     buildEarningsSteady(universe, twMarginByCode),
     buildLowPeSmall(universe, ohlcvMap, peMap),

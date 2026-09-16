@@ -10,7 +10,7 @@
 ## 更新資料
 
 1. 更新 `public/data/latest.json`（含 `marketRegime.us`／`marketRegime.tw`；`npm`/`node scripts/daily-scan.mjs`）
-2. 執行 `npm run strategies`（產生 `public/data/strategy-screener.json` 策略選股；均線多頭等由 OHLCV 實算，缺資料策略會標「資料不足」）
+2. 執行 `npm run strategies`（產生 `public/data/strategy-screener.json`；籌碼包用證交所／櫃買三大法人＋集保 TDCC 公開資料；無公開命中則略過，不放空占位）
 3. 執行 `npm run paper`（依最新名單套用買賣規則，寫入 `public/data/paper-portfolio.json`）
 4. 執行 `npm run fetch-social`（產生 `public/data/social-digest.json`；Reddit.com 403 時改走 arctic-shift 備援；Dcard 403 寫誠實 blocker）
 5. （可選）`npm run fetch-us-options`（美股選擇權快照）

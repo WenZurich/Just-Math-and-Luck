@@ -1,7 +1,7 @@
 /**
  * 讀財報 — Mag7 + high-attention US earnings (plain language cards).
  * Data: public/data/earnings-digest.json
- * Never invents metrics; missing → 資料不足. No formula dumps.
+ * Never invents metrics; missing fields omitted (no 資料不足 badge spam).
  */
 import { escapeHtml } from "./glossary.js";
 import { t, numberLocale } from "./i18n.js";
@@ -41,10 +41,16 @@ function fmtPct(n, d = 1) {
 }
 
 function cell(val, suffix = "") {
-  if (val == null || val === "") {
-    return `<span class="er-miss">${escapeHtml(t("earningsDataMissing"))}</span>`;
-  }
+  if (val == null || val === "") return null;
   return `<span class="er-val">${escapeHtml(String(val))}${suffix ? escapeHtml(suffix) : ""}</span>`;
+}
+
+function metricBlock(label, html) {
+  if (!html) return "";
+  return `<div class="er-metric">
+          <div class="m-l">${escapeHtml(label)}</div>
+          <div class="m-v">${html}</div>
+        </div>`;
 }
 
 function tagLabel(tag) {
@@ -90,41 +96,25 @@ function renderCard(row, { hot = false } = {}) {
       <div>
         <div class="er-label">${escapeHtml(t("earningsWhatItDoes"))}</div>
         <p class="er-does">${
-          row.whatItDoes
-            ? escapeHtml(row.whatItDoes)
-            : `<span class="er-miss">${escapeHtml(t("earningsDataMissing"))}</span>`
+          row.whatItDoes ? escapeHtml(row.whatItDoes) : ""
         }</p>
       </div>
       <div class="er-metrics">
-        <div class="er-metric">
-          <div class="m-l">${escapeHtml(t("earningsNextDate"))}</div>
-          <div class="m-v">${cell(next)}</div>
-        </div>
-        <div class="er-metric">
-          <div class="m-l">${escapeHtml(t("earningsLastEps"))}</div>
-          <div class="m-v">${cell(lastEps)}</div>
-        </div>
-        <div class="er-metric">
-          <div class="m-l">${escapeHtml(t("earningsRevYoy"))}</div>
-          <div class="m-v">${cell(fmtPct(row.revenueYoYPct))}</div>
-        </div>
-        <div class="er-metric">
-          <div class="m-l">${escapeHtml(t("earningsEpsYoy"))}</div>
-          <div class="m-v">${cell(fmtPct(row.epsYoYPct))}</div>
-        </div>
-        <div class="er-metric">
-          <div class="m-l">${escapeHtml(t("earningsPe"))}</div>
-          <div class="m-v">${cell(fmtNum(row.pe, 1))}</div>
-        </div>
-        <div class="er-metric">
-          <div class="m-l">${escapeHtml(t("earningsForwardPe"))}</div>
-          <div class="m-v">${cell(fmtNum(row.forwardPe, 1))}</div>
-        </div>
+        ${metricBlock(t("earningsNextDate"), cell(next))}
+        ${metricBlock(t("earningsLastEps"), cell(lastEps))}
+        ${metricBlock(t("earningsRevYoy"), cell(fmtPct(row.revenueYoYPct)))}
+        ${metricBlock(t("earningsEpsYoy"), cell(fmtPct(row.epsYoYPct)))}
+        ${metricBlock(t("earningsPe"), cell(fmtNum(row.pe, 1)))}
+        ${metricBlock(t("earningsForwardPe"), cell(fmtNum(row.forwardPe, 1)))}
       </div>
-      <div>
+      ${
+        row.whatToWatch
+          ? `<div>
         <div class="er-label">${escapeHtml(t("earningsWhatToWatch"))}</div>
-        <p class="er-watch">${escapeHtml(row.whatToWatch || t("earningsDataMissing"))}</p>
-      </div>
+        <p class="er-watch">${escapeHtml(row.whatToWatch)}</p>
+      </div>`
+          : ""
+      }
       ${
         Array.isArray(row.notes) && row.notes.length
           ? `<p class="er-notes er-muted">${escapeHtml(row.notes.slice(0, 3).join(" · "))}</p>`

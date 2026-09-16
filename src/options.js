@@ -2,7 +2,7 @@
  * US Options view — McMillan strategy families (plain language) + public Yahoo screens.
  * Primary book: book-mcmillan-options-handbook（《選擇權策略完全手冊》增訂第五版）
  * Data: public/data/us-options-snapshot.json
- * Never invents metrics; missing → 資料不足. No raw Greek formulas.
+ * Never invents metrics; missing fields omitted (prefer HV+volume when IV absent).
  */
 import { escapeHtml } from "./glossary.js";
 import { t, getLang, numberLocale } from "./i18n.js";
@@ -78,9 +78,7 @@ function fmtIv(n) {
 }
 
 function cell(val, suffix = "") {
-  if (val == null || val === "") {
-    return `<span class="uo-miss">${escapeHtml(t("optionsDataMissing"))}</span>`;
-  }
+  if (val == null || val === "") return "—";
   return `<span class="uo-val">${escapeHtml(String(val))}${suffix ? escapeHtml(suffix) : ""}</span>`;
 }
 
@@ -117,7 +115,7 @@ function regimeLabel(regime) {
   if (regime === "iv_cheap") return t("optionsRegimeIvCheap");
   if (regime === "iv_fair") return t("optionsRegimeIvFair");
   if (regime === "iv_only") return t("optionsRegimeIvOnly");
-  return t("optionsDataMissing");
+  return "—";
 }
 
 function primaryBook(data) {
@@ -290,7 +288,7 @@ function renderOptionsDetail(row) {
       <div class="uo-opt-metric">
         <div class="m-l">${escapeHtml(t("optionsVolRegime"))}</div>
         <div class="m-v">${escapeHtml(regimeLabel(regime))}</div>
-        <div class="uo-muted">${skew ? escapeHtml(skew) : escapeHtml(t("optionsDataMissing"))}</div>
+        <div class="uo-muted">${skew ? escapeHtml(skew) : ""}</div>
       </div>
       <div class="uo-opt-metric">
         <div class="m-l">${escapeHtml(t("optionsCallPutVol"))}</div>
@@ -299,9 +297,16 @@ function renderOptionsDetail(row) {
       </div>
     </div>
     ${
-      blockers.length
-        ? `<p class="uo-warn">${escapeHtml(t("optionsPartialBlocker"))}: ${escapeHtml(blockers.join(" · "))}</p>`
-        : ""
+      (() => {
+        const soft = blockers.filter(
+          (b) => !/atmIv|options fields incomplete/i.test(String(b)) || (o.historicalVol == null && !(o.callVolume || o.putVolume))
+        );
+        // Prefer populated HV+volume; omit IV-only incompleteness banners
+        const show = soft.length ? soft : [];
+        return show.length
+          ? `<p class="uo-warn">${escapeHtml(t("optionsPartialBlocker"))}: ${escapeHtml(show.join(" · "))}</p>`
+          : "";
+      })()
     }
     <h4 class="uo-h">${escapeHtml(t("optionsEduSetups"))}</h4>
     <p class="uo-panel-lead">${escapeHtml(t("optionsEduSetupsLead"))}</p>

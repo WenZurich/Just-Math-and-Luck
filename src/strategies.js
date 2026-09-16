@@ -150,6 +150,29 @@ function metricColumns(strategyId) {
         { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => (m.avgVol5Zhang != null ? fmtNum(m.avgVol5Zhang, 1) : "—") },
         { key: "dayPct", label: t("metricDayPct"), fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
       ];
+    case "chip-main-force":
+      return [
+        { key: "instNet1dZhang", label: "法人1日(張)", fmt: (m) => fmtNum(m.instNet1dZhang, 1) },
+        { key: "instNet5dZhang", label: "法人5日(張)", fmt: (m) => fmtNum(m.instNet5dZhang, 1) },
+        { key: "foreignNet5dZhang", label: t("foreign5d"), fmt: (m) => fmtNum(m.foreignNet5dZhang, 1) },
+        { key: "trustNet5dZhang", label: t("trust5d"), fmt: (m) => fmtNum(m.trustNet5dZhang, 1) },
+        { key: "dealerNet5dZhang", label: t("dealer5d"), fmt: (m) => fmtNum(m.dealerNet5dZhang, 1) },
+      ];
+    case "chip-branch":
+      return [
+        { key: "foreignBuyStreakDays", label: "外資連買日", fmt: (m) => (m.foreignBuyStreakDays != null ? String(m.foreignBuyStreakDays) : "—") },
+        { key: "foreignNet1dZhang", label: t("foreign1d"), fmt: (m) => fmtNum(m.foreignNet1dZhang, 1), rawLabel: true },
+        { key: "foreignNet5dZhang", label: t("foreign5d"), fmt: (m) => fmtNum(m.foreignNet5dZhang, 1) },
+        { key: "instNet5dZhang", label: "法人5日(張)", fmt: (m) => fmtNum(m.instNet5dZhang, 1) },
+      ];
+    case "chip-large-holders":
+      return [
+        { key: "megaHolderPct", label: "大戶>100萬股%", fmt: (m) => (m.megaHolderPct != null ? fmtNum(m.megaHolderPct, 1) + "%" : "—") },
+        { key: "largeHolderPct", label: "分級12–15%", fmt: (m) => (m.largeHolderPct != null ? fmtNum(m.largeHolderPct, 1) + "%" : "—") },
+        { key: "megaHolderCount", label: ">100萬股人數", fmt: (m) => (m.megaHolderCount != null ? fmtNum(m.megaHolderCount, 0) : "—") },
+        { key: "major10pctCount", label: "逾10%大股東家數", fmt: (m) => (m.major10pctCount != null ? fmtNum(m.major10pctCount, 0) : "—") },
+        { key: "tdccAsOf", label: "集保日", fmt: (m) => m.tdccAsOf || "—" },
+      ];
     case "inst-sync":
       return [
         { key: "foreignNet1dZhang", label: t("foreign1d"), fmt: (m) => fmtNum(m.foreignNet1dZhang, 1), rawLabel: true },

@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-09-16T11:45:06.798Z",
+  "asOf": "2026-09-16T11:56:33.600Z",
   "market": "US",
   "twStub": {
     "status": "planned",
@@ -7,7 +7,7 @@
   },
   "source": "Yahoo Finance public quoteSummary + most_actives screener (crumb session)",
   "disclaimer": "非投資建議。公開財報／預估摘要僅供教育參考，不構成個人化投資建議。數字來自 Yahoo，缺欄標資料不足。",
-  "selectionRule": "Primary: non-Mag7 mega-caps with nextEarningsDate within next 14 calendar days, sorted by marketCap desc. Also: Yahoo most_actives with earnings in next 14d OR reported in last 7d. Fallback fill: nearest upcoming mega-cap earnings within 45d (tagged calendar_highlight). Cap 8. Sources: Yahoo Finance public quoteSummary + screener only; null → 資料不足.",
+  "selectionRule": "Primary: non-Mag7 mega-caps with nextEarningsDate within next 14 calendar days, sorted by marketCap desc. Also: Yahoo most_actives with earnings in next 14d OR reported in last 7d. Fallback fill: nearest upcoming mega-cap earnings within 45d (tagged calendar_highlight). Cap 8. Sources: Yahoo Finance public quoteSummary + screener only; null fields omitted in UI.",
   "refreshHint": "npm run fetch-earnings  （平日與每日數學選股一併跑；daily-scan 結尾亦可呼叫）",
   "sessionOk": true,
   "sessionBlocker": null,
@@ -139,7 +139,7 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 242.3,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 20.41,
+      "pe": 20,
       "forwardPe": 23.94,
       "marketCap": 2679535828992,
       "consensusEpsNext": 1.9497,
@@ -175,7 +175,7 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 294,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.55,
+      "pe": 17.3,
       "forwardPe": 23.22,
       "marketCap": 4219083161600,
       "consensusEpsNext": 3.0075,
@@ -212,7 +212,7 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 294,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.36,
+      "pe": 17.12,
       "forwardPe": 22.98,
       "marketCap": 4175666610176,
       "consensusEpsNext": 3.0075,
@@ -249,7 +249,7 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": -13.4,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 25.07,
+      "pe": 25.25,
       "forwardPe": 19.17,
       "marketCap": 1707440472064,
       "consensusEpsNext": 6.9733,
@@ -305,6 +305,45 @@
   ],
   "watchlistHot": [
     {
+      "ticker": "MU",
+      "name": "Micron Technology, Inc.",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-09-30",
+      "nextEarningsDateIsEstimate": false,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-05-31",
+        "epsActual": 25.11,
+        "epsEstimate": 20.686,
+        "epsSurprisePct": 21.39,
+        "currency": "USD"
+      },
+      "revenueYoYPct": 345.7,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": 1368.5,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 20.96,
+      "forwardPe": 5.93,
+      "marketCap": 1047625072640,
+      "consensusEpsNext": 31.3312,
+      "consensusRevNext": 50787211780,
+      "whatItDoes": "Micron Technology, Inc. designs, develops, manufactures, and sells memory and storage products in the United States, Taiwan, Japan, Mainland China, Hong Kong, Europe, and internationally.",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      ],
+      "notes": [
+        "下次財報約 2026-09-30",
+        "最近一季（2026-05-31）：EPS 25.11",
+        "市場預估下次 EPS 約 31.3312（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-09-30 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +345.7%（Yahoo）；獲利成長約 +1368.5%（Yahoo earningsGrowth）",
+      "selectionTag": "mega_cap_earnings_next_14d",
+      "daysToEarnings": 14,
+      "pool": "mega_cap"
+    },
+    {
       "ticker": "COST",
       "name": "Costco Wholesale Corporation",
       "ok": true,
@@ -323,7 +362,7 @@
       "revenueYoYSource": "Yahoo financialData.revenueGrowth",
       "epsYoYPct": 15.2,
       "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 46.29,
+      "pe": 45.25,
       "forwardPe": 39.83,
       "marketCap": 399729623040,
       "consensusEpsNext": 6.5406,
@@ -341,6 +380,45 @@
       "whatToWatch": "關注 2026-09-24 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +11.6%（Yahoo）；獲利成長約 +15.2%（Yahoo earningsGrowth）",
       "selectionTag": "mega_cap_earnings_next_14d",
       "daysToEarnings": 8,
+      "pool": "mega_cap"
+    },
+    {
+      "ticker": "NKE",
+      "name": "Nike, Inc.",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-10-01",
+      "nextEarningsDateIsEstimate": false,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-05-31",
+        "epsActual": 0.72,
+        "epsEstimate": 0.1272,
+        "epsSurprisePct": 466.13,
+        "currency": "USD"
+      },
+      "revenueYoYPct": -1.1,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": 428,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 17.25,
+      "forwardPe": 15.83,
+      "marketCap": 53732327424,
+      "consensusEpsNext": 0.4483,
+      "consensusRevNext": 11351896210,
+      "whatItDoes": "NIKE, Inc., together with its subsidiaries, designs, develops, markets, and sells athletic footwear, apparel, equipment, accessories, and services for men, women, and kids in North America, Europe, the Middle East, Afric…",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      ],
+      "notes": [
+        "下次財報約 2026-10-01",
+        "最近一季（2026-05-31）：EPS 0.72",
+        "市場預估下次 EPS 約 0.4483（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-10-01 前後的營收與 EPS 是否達預估；近期營收 YoY 約 -1.1%（Yahoo）；獲利成長約 +428%（Yahoo earningsGrowth）",
+      "selectionTag": "calendar_highlight_within_45d",
+      "daysToEarnings": 15,
       "pool": "mega_cap"
     },
     {
@@ -615,15 +693,171 @@
       "selectionTag": "calendar_highlight_within_45d",
       "daysToEarnings": 34,
       "pool": "mega_cap"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix, Inc.",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-10-20",
+      "nextEarningsDateIsEstimate": false,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-06-30",
+        "epsActual": 0.8,
+        "epsEstimate": 0.7886,
+        "epsSurprisePct": 1.45,
+        "currency": "USD"
+      },
+      "revenueYoYPct": 13.4,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": 11.1,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 24.5,
+      "forwardPe": 20.39,
+      "marketCap": 324370890752,
+      "consensusEpsNext": 0.8225,
+      "consensusRevNext": 12880510790,
+      "whatItDoes": "Netflix, Inc. provides entertainment services worldwide. The company offers television (TV) series, documentaries, feature films, games, and live programming across various genres and languages.",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      ],
+      "notes": [
+        "下次財報約 2026-10-20",
+        "最近一季（2026-06-30）：EPS 0.8",
+        "市場預估下次 EPS 約 0.8225（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +13.4%（Yahoo）；獲利成長約 +11.1%（Yahoo earningsGrowth）",
+      "selectionTag": "calendar_highlight_within_45d",
+      "daysToEarnings": 34,
+      "pool": "mega_cap"
+    },
+    {
+      "ticker": "GE",
+      "name": "GE Aerospace",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-10-20",
+      "nextEarningsDateIsEstimate": false,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-06-30",
+        "epsActual": 2.02,
+        "epsEstimate": 1.8596,
+        "epsSurprisePct": 8.62,
+        "currency": "USD"
+      },
+      "revenueYoYPct": 21.1,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": 19.4,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 36.25,
+      "forwardPe": 33.78,
+      "marketCap": 318583537664,
+      "consensusEpsNext": 1.9872,
+      "consensusRevNext": 12826340350,
+      "whatItDoes": "General Electric Company, doing business as GE Aerospace, designs and produces commercial and defense aircraft engines, integrated engine components, electric power, and aircraft systems.",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      ],
+      "notes": [
+        "下次財報約 2026-10-20",
+        "最近一季（2026-06-30）：EPS 2.02",
+        "市場預估下次 EPS 約 1.9872（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +21.1%（Yahoo）；獲利成長約 +19.4%（Yahoo earningsGrowth）",
+      "selectionTag": "calendar_highlight_within_45d",
+      "daysToEarnings": 34,
+      "pool": "mega_cap"
+    },
+    {
+      "ticker": "LRCX",
+      "name": "Lam Research Corporation",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-10-21",
+      "nextEarningsDateIsEstimate": false,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-06-30",
+        "epsActual": 1.82,
+        "epsEstimate": 1.6836,
+        "epsSurprisePct": 8.1,
+        "currency": "USD"
+      },
+      "revenueYoYPct": 30,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": 34.8,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 47.35,
+      "forwardPe": 23.25,
+      "marketCap": 338945310720,
+      "consensusEpsNext": 2.179,
+      "consensusRevNext": 8135191260,
+      "whatItDoes": "Lam Research Corporation designs, manufactures, markets, refurbishes, and services semiconductor processing equipment used in the fabrication of integrated circuits in the United States, China, Korea, Taiwan, Japan, Sout…",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      ],
+      "notes": [
+        "下次財報約 2026-10-21",
+        "最近一季（2026-06-30）：EPS 1.82",
+        "市場預估下次 EPS 約 2.179（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +30%（Yahoo）；獲利成長約 +34.8%（Yahoo earningsGrowth）",
+      "selectionTag": "calendar_highlight_within_45d",
+      "daysToEarnings": 35,
+      "pool": "mega_cap"
+    },
+    {
+      "ticker": "TMO",
+      "name": "Thermo Fisher Scientific Inc",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-10-21",
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": {
+        "period": "-1q",
+        "quarter": "2026-06-30",
+        "epsActual": 6.03,
+        "epsEstimate": 5.7104,
+        "epsSurprisePct": 5.6,
+        "currency": "USD"
+      },
+      "revenueYoYPct": 10.5,
+      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
+      "epsYoYPct": 9.4,
+      "epsYoYSource": "Yahoo financialData.earningsGrowth",
+      "pe": 33.01,
+      "forwardPe": 23.3,
+      "marketCap": 237152223232,
+      "consensusEpsNext": 6.408,
+      "consensusRevNext": 11951225280,
+      "whatItDoes": "Thermo Fisher Scientific Inc. provides life sciences solutions, analytical instruments, specialty diagnostics, and laboratory products and biopharma services internationally.",
+      "missingFields": [],
+      "sources": [
+        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      ],
+      "notes": [
+        "下次財報約 2026-10-21（預估日）",
+        "最近一季（2026-06-30）：EPS 6.03",
+        "市場預估下次 EPS 約 6.408（Yahoo）"
+      ],
+      "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.5%（Yahoo）；獲利成長約 +9.4%（Yahoo earningsGrowth）",
+      "selectionTag": "calendar_highlight_within_45d",
+      "daysToEarnings": 35,
+      "pool": "mega_cap"
     }
   ],
   "watchlistMeta": {
-    "target": 8,
+    "target": 14,
     "primaryWindowDays": 14,
     "recentWindowDays": 7,
     "fallbackWindowDays": 45,
     "mostActivesOk": true,
     "mostActivesError": null,
-    "count": 8
+    "count": 14
   }
 }
