@@ -33,10 +33,13 @@
 
 ## 社交／聊天
 
+社群頁為 **主流聊天室 UX**（氣泡＋底部輸入列）：美股／台股分開房間，大廳或個股子房；彈幕為選用（預設關）。實作見 `src/chat.js` + `src/chat.css`。
+
 | 功能 | 狀態 | 需要什麼 |
 |------|------|----------|
 | 網友參考（美：Reddit／富途；台：PTT／Dcard／Threads） | ✅ 靜態 `social-digest.json` | `npm run fetch-social`；抓不到寫 blocker |
-| 匿名彈幕／個股「本站留言」 | UI ✅；寫入需 key | **Supabase** `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` + `supabase-schema.sql` |
+| 匿名聊天室／個股留言 | UI ✅；寫入需 key | **Supabase** `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` + `supabase-schema.sql` |
+| 彈幕效果 | 選用（預設關） | 同上；在聊天室選單開啟 |
 | 全站討論（Giscus） | ✅ 備援 | GitHub 登入（**不能**取代匿名主路徑） |
 
 個股卡片討論區依市場分頁：

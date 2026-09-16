@@ -1,6 +1,7 @@
 import "./style.css";
 import "./danmaku.css";
 import "./comments.css";
+import "./chat.css";
 import "./social-digest.css";
 import config from "./config.js";
 import { term, escapeHtml } from "./glossary.js";
@@ -17,7 +18,8 @@ import {
   bindPaperTabs,
   loadPaperPortfolio,
 } from "./paper.js";
-import { mountAllTickerComments, mountTickerRoom, initSiteGiscus } from "./comments.js";
+import { mountAllTickerComments, initSiteGiscus } from "./comments.js";
+import { mountChatRoom } from "./chat.js";
 import { initSocialDigest, loadSocialDigest } from "./social-digest.js";
 import "./strategies.css";
 import {
@@ -365,20 +367,30 @@ function renderChatRoom(data) {
         (c, i) =>
           `<button type="button" class="chat-chip${i === 0 ? " active" : ""}" data-ticker="${escapeHtml(
             c.ticker
-          )}" data-market="${market}" hidden>${escapeHtml(c.ticker)}</button>`
+          )}" data-market="${market}">${escapeHtml(c.ticker)}</button>`
       )
       .join("");
   return `
     <div class="chat-room" id="chat-room" data-market="US" data-mode="lobby">
-      <header class="chat-room-bar">
-        <div class="chat-market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
-          <button type="button" class="chat-mkt active" data-chat-market="US" role="tab" aria-selected="true">${escapeHtml(t("chatUs"))}</button>
-          <button type="button" class="chat-mkt" data-chat-market="TW" role="tab" aria-selected="false">${escapeHtml(t("chatTw"))}</button>
+      <header class="chat-header">
+        <div class="chat-header-main">
+          <h2 class="chat-header-title" id="chat-room-title">${escapeHtml(t("usLobby"))}</h2>
+          <div class="chat-market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
+            <button type="button" class="chat-mkt active" data-chat-market="US" role="tab" aria-selected="true">${escapeHtml(t("chatUs"))}</button>
+            <button type="button" class="chat-mkt" data-chat-market="TW" role="tab" aria-selected="false">${escapeHtml(t("chatTw"))}</button>
+          </div>
         </div>
-        <label class="chat-fx-toggle">
-          <input type="checkbox" id="ss-danmaku-toggle" />
-          <span>${escapeHtml(t("danmakuFx"))}</span>
-        </label>
+        <div class="chat-header-tools">
+          <details class="chat-menu">
+            <summary aria-label="${escapeHtml(t("chatMore"))}" title="${escapeHtml(t("chatMore"))}">⋮</summary>
+            <div class="chat-menu-panel">
+              <label class="chat-fx-toggle">
+                <input type="checkbox" id="ss-danmaku-toggle" />
+                <span>${escapeHtml(t("danmakuFx"))}</span>
+              </label>
+            </div>
+          </details>
+        </div>
       </header>
       <div class="chat-sub-tabs" role="tablist" aria-label="${escapeHtml(t("room"))}">
         <button type="button" class="chat-tab active" data-chat-mode="lobby" role="tab" aria-selected="true">${escapeHtml(t("lobby"))}</button>
@@ -390,7 +402,7 @@ function renderChatRoom(data) {
       <div class="chat-chip-row" data-chip-market="TW" role="tablist" aria-label="${escapeHtml(t("twTickers"))}" hidden>
         ${chipHtml(twChips, "TW") || `<span class="chat-empty">${escapeHtml(t("noTwTickers"))}</span>`}
       </div>
-      <div id="ss-chat-mount" class="chat-shell" aria-label="${escapeHtml(t("chatRoom"))}"></div>
+      <div id="ss-chat-mount" class="chat-panel" aria-label="${escapeHtml(t("chatRoom"))}"></div>
       <details class="fold-block chat-external">
         <summary>${escapeHtml(t("externalDiscuss"))}</summary>
         <div id="ss-social-digest" aria-label="${escapeHtml(t("externalDigest"))}"></div>
@@ -625,25 +637,21 @@ function bindChatRoom(root, data, { config, digest } = {}) {
   if (!room) return;
 
   const mount = room.querySelector("#ss-chat-mount");
+  const titleEl = room.querySelector("#chat-room-title");
   const mktBtns = room.querySelectorAll(".chat-mkt");
   const modeBtns = room.querySelectorAll("[data-chat-mode]");
   let handle = null;
   let market = "US";
   let mode = "lobby";
 
+  const setTitle = (label) => {
+    if (titleEl) titleEl.textContent = label;
+  };
+
   const syncChips = () => {
     room.querySelectorAll(".chat-chip-row").forEach((row) => {
       const show = mode === "ticker" && row.getAttribute("data-chip-market") === market;
       row.hidden = !show;
-      if (show) {
-        const chips = [...row.querySelectorAll(".chat-chip")];
-        chips.forEach((c) => {
-          c.hidden = false;
-        });
-        if (chips.length && !chips.some((c) => c.classList.contains("active"))) {
-          chips[0].classList.add("active");
-        }
-      }
     });
   };
 
@@ -652,10 +660,12 @@ function bindChatRoom(root, data, { config, digest } = {}) {
     if (handle?.destroy) handle.destroy();
     if (mode === "lobby") {
       const ticker = lobbyTicker(market);
-      handle = mountTickerRoom(mount, ticker, {
+      const title = market === "TW" ? t("twLobby") : t("usLobby");
+      setTitle(title);
+      handle = mountChatRoom(mount, ticker, {
         config,
         market,
-        title: market === "TW" ? t("twLobby") : t("usLobby"),
+        title,
         emptyLine: t("noMessages"),
         maxLen: 80,
       });
@@ -665,11 +675,13 @@ function bindChatRoom(root, data, { config, digest } = {}) {
     const chip =
       row?.querySelector(".chat-chip.active") || row?.querySelector(".chat-chip");
     if (!chip) {
-      mount.innerHTML = `<p class="chat-empty">${escapeHtml(t("noTickersDiscuss"))}</p>`;
+      setTitle(market === "TW" ? t("twLobby") : t("usLobby"));
+      mount.innerHTML = `<div class="chat-empty-state"><p>${escapeHtml(t("noTickersDiscuss"))}</p></div>`;
       handle = { destroy() {} };
       return;
     }
-    handle = mountTickerRoom(mount, chip.dataset.ticker, {
+    setTitle(chip.dataset.ticker);
+    handle = mountChatRoom(mount, chip.dataset.ticker, {
       config,
       digest,
       market,
@@ -716,11 +728,24 @@ function bindChatRoom(root, data, { config, digest } = {}) {
     });
   });
 
+  const onDocClick = (ev) => {
+    const menu = room.querySelector(".chat-menu");
+    if (menu && menu.open && !menu.contains(ev.target)) menu.open = false;
+  };
+  document.addEventListener("click", onDocClick);
+
   syncChips();
   openRoom();
+  return {
+    destroy() {
+      document.removeEventListener("click", onDocClick);
+      if (handle?.destroy) handle.destroy();
+    },
+  };
 }
 
 /** Cached fetch for lang re-render without reload */
+let chatRoomHandle = null;
 let cachedData = null;
 let cachedPaper = null;
 let cachedDigest = null;
@@ -752,7 +777,8 @@ async function mountUi(app) {
       digest = null;
     }
   }
-  bindChatRoom(app, data, { config, digest });
+  if (chatRoomHandle?.destroy) chatRoomHandle.destroy();
+  chatRoomHandle = bindChatRoom(app, data, { config, digest });
   mountAllTickerComments(app, { config, digest });
   initSiteGiscus("#ss-giscus", { config });
   void nav;
