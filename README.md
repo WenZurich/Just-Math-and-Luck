@@ -14,8 +14,9 @@
 3. 執行 `npm run paper`（依最新名單套用買賣規則，寫入 `public/data/paper-portfolio.json`）
 4. 執行 `npm run fetch-social`（產生 `public/data/social-digest.json`；Reddit.com 403 時改走 arctic-shift 備援；Dcard 403 寫誠實 blocker）
 5. （可選）`npm run fetch-us-options`（美股選擇權快照）
-6. 本地 `npm run build`，把 `dist/` 內容覆寫到 `docs/`
-7. 推到 `main`（目前以 `docs/` 做 GitHub Pages）
+6. （建議平日）`npm run fetch-earnings`（讀財報／Mag7＋關注財報；與每日數學選股一併跑；或 `FETCH_EARNINGS=1` 接在 daily-scan 後）
+7. 本地 `npm run build`，把 `dist/` 內容覆寫到 `docs/`
+8. 推到 `main`（目前以 `docs/` 做 GitHub Pages）
 
 來源碼在 `src/`；每日選股 bot 也可直接覆寫 `docs/data/latest.json` 後再跑 `npm run paper`。
 
@@ -85,7 +86,18 @@ McMillan《選擇權策略完全手冊》增訂第五版（`book-mcmillan-option
 - UI 不顯示原始希臘字母公式；小詞典用白話
 - 可選：`daily-scan` 寫完 `latest.json` 後手動再跑 fetch
 
+## 讀財報（`#earnings`）
+
+美股 Magnificent 7（AAPL／MSFT／NVDA／AMZN／GOOGL／GOOG／META／TSLA）＋高關注財報（mega-cap 未來 14 日／Yahoo most_actives／45 日行事曆備援）。
+
+- 資料：`npm run fetch-earnings` → `public/data/earnings-digest.json`
+- 僅公開 Yahoo；缺欄標 **資料不足**；**非投資建議**
+- 白話卡片：公司在做什麼、關鍵數字、下一步看什麼（無公式堆疊）
+- 台股財報：stub（稍後開放）
+- 平日例行：與「每日數學選股」一併 `npm run fetch-earnings`；或 `FETCH_EARNINGS=1 node scripts/daily-scan.mjs`
+
 ## 策略選股（`npm run strategies`）
+
 
 XQ 風格「策略選股（邏輯條件）」：分類切換（精選／價量／籌碼／財務／大師）、明示條件、命中數與計算欄位。
 

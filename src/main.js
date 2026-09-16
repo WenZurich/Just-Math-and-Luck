@@ -38,6 +38,11 @@ import {
   renderOptionsSection,
   initOptions,
 } from "./options.js";
+import "./earnings.css";
+import {
+  renderEarningsSection,
+  initEarnings,
+} from "./earnings.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -404,6 +409,7 @@ function getViews() {
     { id: "research", label: t("navResearch"), hash: "research" },
     { id: "strategies", label: t("navStrategies"), hash: "strategies" },
     { id: "options", label: t("navOptions"), hash: "options" },
+    { id: "earnings", label: t("navEarnings"), hash: "earnings" },
     { id: "paper", label: t("navPaper"), hash: "paper" },
     { id: "social", label: t("navSocial"), hash: "social" },
   ];
@@ -415,6 +421,7 @@ const HASH_ALIASES = {
   research: "research",
   strategies: "strategies",
   options: "options",
+  earnings: "earnings",
   paper: "paper",
   social: "social",
   help: "logic",
@@ -426,6 +433,10 @@ const HASH_ALIASES = {
   選擇權: "options",
   美股選擇權: "options",
   mcmillan: "options",
+  "讀財報": "earnings",
+  reports: "earnings",
+  "us-earnings": "earnings",
+  財報: "earnings",
 
   danmaku: "social",
   "social-digest": "social",
@@ -440,6 +451,7 @@ const NAV_ICONS = {
   research: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12h8v1.5H8V12zm0 3.5h8V17H8v-1.5zm0 3.5h5V20.5H8V19z"/></svg>`,
   strategies: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 19h16v2H4v-2zm2.5-3.5 4-4 3 3L21 6.5 19.5 5l-6 7.5-3-3L4 14.5l2.5 1z"/></svg>`,
   options: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 12a8 8 0 1 1 16 0H4zm8-6a6 6 0 0 0-5.65 4h11.3A6 6 0 0 0 12 6zm0 12a6 6 0 0 0 5.65-4H6.35A6 6 0 0 0 12 18z"/></svg>`,
+  earnings: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 4v2h10V7H7zm0 4v2h10v-2H7zm0 4v2h6v-2H7z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   social: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C7 3 3 6.6 3 11c0 2.4 1.2 4.5 3.1 6L5 21l4.3-1.4c.9.3 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z"/></svg>`,
 };
@@ -568,6 +580,11 @@ function renderApp(data, paper) {
       <div class="view" id="view-options" data-view="options" hidden>
         <span id="options" class="view-anchor" tabindex="-1"></span>
         ${renderOptionsSection()}
+      </div>
+
+      <div class="view" id="view-earnings" data-view="earnings" hidden>
+        <span id="earnings" class="view-anchor" tabindex="-1"></span>
+        ${renderEarningsSection()}
       </div>
 
       <div class="view" id="view-paper" data-view="paper" hidden>
@@ -735,6 +752,7 @@ async function mountUi(app) {
   await initStrategies("#xq-root");
   await initResearch("#rl-root");
   await initOptions("#uo-root");
+  await initEarnings("#er-root");
   void config;
   let digest = cachedDigest;
   const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);

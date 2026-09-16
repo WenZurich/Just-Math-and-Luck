@@ -782,6 +782,8 @@ async function main() {
   const latestJson = JSON.stringify(latest, null, 2);
   writeFileSync(join(pub, "latest.json"), latestJson);
   // Optional follow-up (rate limits): node scripts/fetch-us-options.mjs
+  // Weekday with 每日數學選股: npm run fetch-earnings  (讀財報 digest)
+  // try { await import('./fetch-earnings.mjs'); } — prefer separate npm run to avoid Yahoo rate limits
   writeFileSync(join(pub, "2026-09-16.json"), latestJson);
   writeFileSync(join(docs, "latest.json"), latestJson);
   writeFileSync(join(docs, "2026-09-16.json"), latestJson);
@@ -797,6 +799,21 @@ async function main() {
     twIdx,
   });
   mergeStrategyPack(pub, docs, kostolanyPack);
+
+  // Optional: FETCH_EARNINGS=1 node scripts/daily-scan.mjs  → also refresh 讀財報
+  if (process.env.FETCH_EARNINGS === "1") {
+    try {
+      const { spawnSync } = await import("node:child_process");
+      console.log("\n▶ fetch-earnings (FETCH_EARNINGS=1)…");
+      const er = spawnSync(process.execPath, [join(__dirname, "fetch-earnings.mjs")], {
+        stdio: "inherit",
+        cwd: ROOT,
+      });
+      if (er.status !== 0) console.warn("fetch-earnings exited", er.status);
+    } catch (e) {
+      console.warn("fetch-earnings skipped:", e?.message || e);
+    }
+  }
 
   console.log("\nWrote latest.json");
   console.log("Top5:", top5.map((t) => `${t.ticker} ${t.dayPct}%`).join(", "));

@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#paper", "#social"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#paper", "#social"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-paper", "view-social"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-paper", "view-social"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -405,6 +405,68 @@ async function main() {
   } catch (e) {
     fail(`McMillan library check: ${e}`);
   }
+
+
+
+  // —— 讀財報 / Earnings digest ——
+  const erSnap = path.join(ROOT, "public/data/earnings-digest.json");
+  if (!fs.existsSync(erSnap)) {
+    fail("missing public/data/earnings-digest.json (run npm run fetch-earnings)");
+  } else {
+    try {
+      const dig = JSON.parse(fs.readFileSync(erSnap, "utf8"));
+      if (dig.market !== "US") fail("earnings-digest market must be US");
+      else ok("earnings-digest market US");
+      if (!dig.asOf) fail("earnings-digest missing asOf");
+      else ok(`earnings asOf ${dig.asOf}`);
+      if (!Array.isArray(dig.mag7) || dig.mag7.length < 7) fail("earnings-digest mag7 incomplete");
+      else ok(`earnings mag7 ${dig.mag7.length}`);
+      const need = ["AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA"];
+      const have = new Set(dig.mag7.map((x) => x.ticker));
+      for (const tk of need) {
+        if (!have.has(tk)) fail(`mag7 missing ${tk}`);
+      }
+      if (!have.has("GOOG") && !have.has("GOOGL")) fail("mag7 missing GOOGL/GOOG");
+      else ok("mag7 tickers present");
+      if (!Array.isArray(dig.watchlistHot)) fail("watchlistHot missing");
+      else ok(`watchlistHot ${dig.watchlistHot.length}`);
+      if (!dig.selectionRule || !/14/.test(dig.selectionRule)) fail("selectionRule should document 14d rule");
+      else ok("selectionRule present");
+      if (!dig.twStub) fail("twStub missing");
+      else ok("twStub present");
+      const blob = JSON.stringify(dig);
+      if (!/資料不足|missingFields/.test(blob)) fail("digest should support 資料不足 / missingFields");
+      else ok("digest supports 資料不足");
+      if (!/非投資建議/.test(dig.disclaimer || "")) fail("earnings disclaimer missing 非投資建議");
+      else ok("earnings disclaimer");
+    } catch (e) {
+      fail(`earnings-digest parse: ${e}`);
+    }
+  }
+  const erJs = fs.readFileSync(path.join(ROOT, "src/earnings.js"), "utf8");
+  if (/Black-Scholes|\\bN\(d1\)|d1\s*=\s*\(/.test(erJs)) {
+    fail("earnings.js appears to dump raw formulas");
+  } else ok("earnings.js no raw formula dump");
+  if (!erJs.includes("whatItDoes") || !erJs.includes("whatToWatch") || !erJs.includes("earningsDataMissing")) {
+    fail("earnings.js missing plain-language card fields");
+  } else ok("earnings.js plain cards");
+  if (!mainJs.includes("view-earnings") || !mainJs.includes('"earnings"')) {
+    fail("main.js missing earnings view wiring");
+  } else ok("earnings view wired in main.js");
+  {
+    const i18nEr = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    if (!i18nEr.includes("navEarnings") || !i18nEr.includes("讀財報") || !i18nEr.includes("earningsDisclaimer")) {
+      fail("i18n missing earnings nav/title/disclaimer");
+    } else ok("earnings i18n present");
+    for (const langKey of ["navEarnings", "earningsTitle", "earningsDisclaimer", "earningsDataMissing"]) {
+      const n = (i18nEr.match(new RegExp(langKey + ":", "g")) || []).length;
+      if (n < 4) fail(`i18n ${langKey} expected 4 langs, got ${n}`);
+    }
+    ok("earnings i18n 4 langs");
+  }
+  if (!fs.existsSync(path.join(ROOT, "scripts/fetch-earnings.mjs"))) {
+    fail("missing scripts/fetch-earnings.mjs");
+  } else ok("fetch-earnings.mjs present");
 
 
   // —— Explicit jargon regression (live-site crash set) ——
