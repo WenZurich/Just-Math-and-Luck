@@ -17,6 +17,14 @@ import {
   stubRegimeFromLatestIndices,
   buildKostolanyStrategyPack,
 } from "./market-regime.mjs";
+import {
+  sma,
+  pctChange,
+  volumeRatio as volRatioOf,
+  avgVolume,
+  rsVsIndex,
+  baseRankingScore,
+} from "./math-core.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -96,17 +104,6 @@ function round(n, d = 2) {
   if (n == null || Number.isNaN(n)) return null;
   const p = 10 ** d;
   return Math.round(n * p) / p;
-}
-
-function sma(arr, n) {
-  if (!arr || arr.length < n) return null;
-  const slice = arr.slice(-n);
-  return slice.reduce((a, b) => a + b, 0) / n;
-}
-
-function pctChange(from, to) {
-  if (from == null || to == null || from === 0) return null;
-  return ((to - from) / from) * 100;
 }
 
 function sleep(ms) {
@@ -221,12 +218,8 @@ function computeMetrics(chart) {
   const sma50 = closes.length >= 50 ? sma(closes, 50) : null;
   const lastVol = vols[vols.length - 1];
   const prev20 = vols.slice(-21, -1);
-  const avgVol20 =
-    prev20.length >= 10
-      ? prev20.reduce((a, b) => a + b, 0) / prev20.length
-      : null;
-  const volRatio =
-    avgVol20 && avgVol20 > 0 ? lastVol / avgVol20 : null;
+  const avgVol20 = avgVolume(prev20, { minLen: 10 });
+  const volRatio = volRatioOf(lastVol, avgVol20);
   const sma200 = closes.length >= 200 ? sma(closes, 200) : null;
   const highs = bars.map((b) => b.h ?? b.c);
   const lookbackHigh = Math.min(252, highs.length);
@@ -300,18 +293,7 @@ async function fetchOne(symbol, retries = 2) {
 }
 
 function scorePick(m, indexDayPct, { preferVol = true, regime = null } = {}) {
-  if (!m || m.dayPct == null) return -1e9;
-  const rs = m.dayPct - (indexDayPct ?? 0);
-  let score = rs * 2 + (m.d5Pct ?? 0) * 0.35 + (m.d1mPct ?? 0) * 0.15;
-  if (m.above20) score += 1.5;
-  if (m.above50) score += 1;
-  if (m.above200) score += 0.5;
-  if (preferVol && m.volRatio != null) {
-    if (m.volRatio >= 1.2) score += Math.min(m.volRatio, 8) * 0.6;
-    else if (m.volRatio < 0.4) score -= 0.5;
-  }
-  // penalize extreme limit-up chase a bit but still allow in list
-  if (m.dayPct >= 9.5) score += 2; // still strong RS
+  const score = baseRankingScore(m, indexDayPct, { preferVol });
   const adj = scoreAdjust(score, m, regime, indexDayPct);
   m._regimeNote = adj.regimeNote;
   return adj.score;
@@ -348,7 +330,7 @@ function screensFor(m, indexDayPct, { forceObserve = false, regime = null } = {}
 
 function whyZh(m, indexDayPct, market, regime = null) {
   const parts = [];
-  const rs = round(m.dayPct - (indexDayPct ?? 0), 2);
+  const rs = round(rsVsIndex(m.dayPct, indexDayPct ?? 0), 2);
   if (market === "TW") {
     parts.push(`日漲跌 ${fmtPct(m.dayPct)}，相對加權約 ${rs >= 0 ? "+" : ""}${rs}pp`);
   } else {
@@ -413,7 +395,7 @@ function toPick(m, meta, indexDayPct, market, regime = null) {
     sizeMult: regime?.sizeMult ?? null,
   };
   if (market === "TW") {
-    pick.rsVsIndexPp = round(m.dayPct - (indexDayPct ?? 0), 2);
+    pick.rsVsIndexPp = round(rsVsIndex(m.dayPct, indexDayPct ?? 0), 2);
   }
   if (market === "US" && meta.priorClosePct != null) {
     pick.priorClosePct = meta.priorClosePct;

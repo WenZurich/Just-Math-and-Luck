@@ -2,7 +2,10 @@
  * Kostolany egg + Howard Marks temperature + rate regime (US/TW separate).
  * Operational rules only — see scripts/study/bookshelf-framework-2026-09-16.*
  * Never invents numbers; missing inputs → 資料不足 notes.
+ * Pure SMA / returns / volume helpers: ./math-core.mjs (guarded by math-guards).
  */
+
+import { sma, retChange as pctChange, volumeRatio, avgVolume } from "./math-core.mjs";
 
 export const PHASE_TO_STANCE = {
   euphoric: "defensive",
@@ -26,17 +29,6 @@ function round(n, d = 4) {
   if (n == null || Number.isNaN(n)) return null;
   const p = 10 ** d;
   return Math.round(n * p) / p;
-}
-
-function sma(arr, n) {
-  if (!arr || arr.length < n) return null;
-  const slice = arr.slice(-n);
-  return slice.reduce((a, b) => a + b, 0) / n;
-}
-
-function pctChange(from, to) {
-  if (from == null || to == null || from === 0) return null;
-  return (to - from) / from;
 }
 
 /** True range ATR% of close over last n bars */
@@ -105,12 +97,8 @@ export function indexFeaturesFromChart(chart) {
 
   const lastVol = vols[vols.length - 1];
   const prev20 = vols.slice(-21, -1);
-  const avgVol20 =
-    prev20.length >= 10
-      ? prev20.reduce((a, b) => a + b, 0) / prev20.length
-      : null;
-  const indexVolRatio20 =
-    avgVol20 && avgVol20 > 0 ? lastVol / avgVol20 : null;
+  const avgVol20 = avgVolume(prev20, { minLen: 10 });
+  const indexVolRatio20 = volumeRatio(lastVol, avgVol20);
   if (indexVolRatio20 == null) gaps.push("index_vol_ratio_20");
 
   const atr = atrPct20(bars);
