@@ -499,3 +499,172 @@
   color: var(--text-dim);
   font-size: 0.75rem;
 }
+
+/* —— XQ top tabs (compact sticky; chips are NOT sticky — was covering panel clicks) —— */
+.xq-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.35rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  margin-bottom: 0.65rem;
+  padding: 0.15rem 0 0.45rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+.xq-tab {
+  appearance: none;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  position: relative;
+  z-index: 1;
+}
+.xq-tab:hover { background: #f7f8fa; }
+.xq-tab.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+.xq-tab-n {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 650;
+  color: var(--text-muted);
+  background: #eef0f3;
+  border-radius: 999px;
+  padding: 0.1rem 0.4rem;
+  min-width: 1.4rem;
+  text-align: center;
+}
+.xq-tab.active .xq-tab-n {
+  background: rgba(0, 120, 212, 0.16);
+  color: var(--accent-strong);
+}
+
+@media (max-width: 859px) {
+  .xq-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    background: rgba(245, 247, 250, 0.97);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin-left: -0.15rem;
+    margin-right: -0.15rem;
+    padding-left: 0.15rem;
+    padding-right: 0.15rem;
+  }
+  /* Do NOT sticky the full chip list — tall overlay ate clicks on panel buttons */
+  .xq-chips {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+    padding: 0 0 0.5rem !important;
+    margin: 0 0 0.5rem !important;
+  }
+}
+
+.xq-chip,
+.xq-btn,
+.xq-btn-link,
+.xq-mkt-btn,
+.xq-side-item {
+  min-height: 44px;
+  touch-action: manipulation;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+.xq-chip {
+  padding: 0.55rem 0.9rem;
+}
+.xq-btn, .xq-btn-link {
+  padding: 0.55rem 0.85rem;
+}
+.xq-btn-sm {
+  min-height: 36px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.72rem;
+}
+.xq-mkt-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.85rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  min-height: 44px;
+}
+.xq-mkt-btn.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-weight: 650;
+}
+.xq-market-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0;
+  align-items: center;
+}
+.xq-hit-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+.xq-watch-inline {
+  margin-top: 0.35rem;
+}
+.xq-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--nav-h, 64px) + 1rem + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 60;
+  max-width: min(92vw, 360px);
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  background: rgba(20, 24, 32, 0.92);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  text-align: center;
+}
+.xq-toast[hidden] { display: none !important; }
+
+/* Ensure no decorative layer intercepts strategy clicks */
+.xq-section,
+.xq-root,
+.xq-main,
+.xq-panel,
+.xq-panel-host {
+  pointer-events: auto;
+}
+.xq-actions {
+  position: relative;
+  z-index: 2;
+}

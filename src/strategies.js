@@ -8,11 +8,51 @@ import { t, numberLocale, enumLabel } from "./i18n.js";
 import { stanceBadgeHtml } from "./logic.js";
 
 const DATA_URL = "./data/strategy-screener.json";
+const WATCHLIST_KEY = "jml-watchlist";
+
+const TW_ONLY_IDS = new Set([
+  "inst-sync",
+  "margin-up",
+  "earnings-steady",
+  "low-pe-small",
+  "peter-lynch",
+  "warren-buffett",
+  "michael-murphy",
+  "kenneth-fisher",
+  "mark-minervini",
+  "michael-price",
+  "benjamin-graham",
+  "james-oshaughnessy",
+  "ultra-short",
+  "ma-tangle-break",
+  "new-high-momentum",
+  "short-roc",
+  "day-up-5",
+  "pct5d-10",
+  "near-high",
+  "chip-main-force",
+  "chip-branch",
+  "chip-large-holders",
+]);
+
+
+/** XQ-style top tabs (legacy groups remapped). */
+export const XQ_TAB_ORDER = ["大師", "基本", "籌碼", "技術", "綜合", "週期"];
+
+const LEGACY_CAT_MAP = {
+  精選: "綜合",
+  價量: "技術",
+  財務: "基本",
+  技術: "技術",
+  基本: "基本",
+  籌碼: "籌碼",
+  大師: "大師",
+  週期: "週期",
+  綜合: "綜合",
+};
 
 function catLabel(cat) {
-  const key = `cat${cat}`;
-  const mapped = { 技術: "價量", 綜合: "精選" };
-  const base = mapped[cat] || cat;
+  const base = LEGACY_CAT_MAP[cat] || cat;
   return t(`cat${base}`, base);
 }
 
@@ -55,41 +95,28 @@ function fmtPct(n) {
   return `${s}${n.toFixed(2)}%`;
 }
 
-function catOf(s) {
-  const mapped = { 技術: "價量", 綜合: "精選" };
-  const raw = s.categoryGroup || s.category || "精選";
-  return mapped[raw] || raw;
+export function catOf(s) {
+  const raw = s.categoryGroup || s.category || "綜合";
+  return LEGACY_CAT_MAP[raw] || raw;
 }
 
 function linkJargon(text) {
-  let t = escapeHtml(text);
-  const pairs = [
-    [/本益比|PE/g, "pe", "本益比"],
-    [/營益率/g, "opMargin", "營益率"],
-    [/毛利率/g, "grossMargin", "毛利率"],
-    [/外資/g, "foreignInv", "外資"],
-    [/投信/g, "trustInv", "投信"],
-    [/自營商/g, "dealerInv", "自營商"],
-    [/均線多頭/g, "maBull", "均線多頭"],
-    [/RSI/g, "rsi", "RSI"],
-    [/振幅/g, "amplitude", "振幅"],
-    [/張/g, "zhang", "張"],
-    [/SMA\d+/g, "maBull", null],
-  ];
+  // IMPORTANT: do not name the string `t` — that shadows i18n `t()`.
+  let html = escapeHtml(text);
   // Apply glossary links carefully — only known whole words already escaped
-  t = t.replace(/本益比/g, () => term("pe", t("pe")));
-  t = t.replace(/營益率/g, () => term("opMargin", t("opMargin")));
-  t = t.replace(/毛利率/g, () => term("grossMargin", t("grossMargin")));
-  t = t.replace(/外資/g, () => term("foreignInv", t("foreignInv")));
-  t = t.replace(/投信/g, () => term("trustInv", t("trustInv")));
-  t = t.replace(/自營商/g, () => term("dealerInv", t("dealerInv")));
-  t = t.replace(/均線多頭/g, () => term("maBull", t("maBull")));
-  t = t.replace(/RSI/g, () => term("rsi", t("rsi")));
-  t = t.replace(/振幅/g, () => term("amplitude", t("amplitude")));
+  html = html.replace(/本益比/g, () => term("pe", t("pe")));
+  html = html.replace(/營益率/g, () => term("opMargin", t("opMargin")));
+  html = html.replace(/毛利率/g, () => term("grossMargin", t("grossMargin")));
+  html = html.replace(/外資/g, () => term("foreignInv", t("foreignInv")));
+  html = html.replace(/投信/g, () => term("trustInv", t("trustInv")));
+  html = html.replace(/自營商/g, () => term("dealerInv", t("dealerInv")));
+  html = html.replace(/均線多頭/g, () => term("maBull", t("maBull")));
+  html = html.replace(/RSI/g, () => term("rsi", t("rsi")));
+  html = html.replace(/振幅/g, () => term("amplitude", t("amplitude")));
   // 張 as unit — avoid over-linking every 張 in 條件
-  t = t.replace(/(\d+)\s*張/g, (_, n) => `${n}${term("zhang", t("zhang"))}`);
-  t = t.replace(/＞\s*(\d+)\s*張/g, (_, n) => `＞ ${n}${term("zhang", t("zhang"))}`);
-  return t;
+  html = html.replace(/(\d+)\s*張/g, (_, n) => `${n}${term("zhang", t("zhang"))}`);
+  html = html.replace(/＞\s*(\d+)\s*張/g, (_, n) => `＞ ${n}${term("zhang", t("zhang"))}`);
+  return html;
 }
 
 function statusBadge(st) {
@@ -221,8 +248,60 @@ function metricColumns(strategyId) {
         { key: "tags", label: t("regimeTags"), fmt: (m) => m.tags || "—" },
         { key: "sizeMult", label: t("sizeMult"), fmt: (m) => (m.sizeMult != null ? fmtNum(m.sizeMult, 2) + "×" : "—") },
       ];
+    case "ma-tangle-break":
+      return [
+        { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
+        { key: "dayPct", label: t("metricDayPct"), fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
+        { key: "smaSpreadPct", label: "均線糾結%", fmt: (m) => (m.smaSpreadPct != null ? fmtNum(m.smaSpreadPct, 2) + "%" : "—") },
+        { key: "volRatioYday", label: t("metricVolRatioYday"), fmt: (m) => (m.volRatioYday != null ? fmtNum(m.volRatioYday) + "×" : "—") },
+        { key: "sma5", label: "SMA5", fmt: (m) => fmtNum(m.sma5) },
+        { key: "sma20", label: "SMA20", fmt: (m) => fmtNum(m.sma20) },
+      ];
+    case "new-high-momentum":
+    case "near-high":
+      return [
+        { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
+        { key: "dayPct", label: t("metricDayPct"), fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
+        { key: "pct5d", label: "5日%", fmt: (m) => fmtPct(m.pct5d), cls: (m) => pctClass(m.pct5d) },
+        { key: "high20", label: "20日高", fmt: (m) => fmtNum(m.high20) },
+        { key: "distHigh20Pct", label: "距高%", fmt: (m) => (m.distHigh20Pct != null ? fmtNum(m.distHigh20Pct, 2) + "%" : "—") },
+        { key: "volRatioYday", label: t("metricVolRatioYday"), fmt: (m) => (m.volRatioYday != null ? fmtNum(m.volRatioYday) + "×" : "—") },
+      ];
+    case "short-roc":
+      return [
+        { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
+        { key: "dayPct", label: t("metricDayPct"), fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
+        { key: "roc10", label: "ROC10%", fmt: (m) => (m.roc10 != null ? fmtNum(m.roc10, 2) + "%" : "—"), cls: (m) => pctClass(m.roc10) },
+        { key: "pct5d", label: "5日%", fmt: (m) => fmtPct(m.pct5d), cls: (m) => pctClass(m.pct5d) },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => (m.avgVol5Zhang != null ? fmtNum(m.avgVol5Zhang, 1) : "—") },
+      ];
+    case "day-up-5":
+    case "pct5d-10":
+      return [
+        { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
+        { key: "dayPct", label: t("metricDayPct"), fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
+        { key: "pct5d", label: "5日%", fmt: (m) => fmtPct(m.pct5d), cls: (m) => pctClass(m.pct5d) },
+        { key: "volRatioYday", label: t("metricVolRatioYday"), fmt: (m) => (m.volRatioYday != null ? fmtNum(m.volRatioYday) + "×" : "—") },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => (m.avgVol5Zhang != null ? fmtNum(m.avgVol5Zhang, 1) : "—") },
+      ];
+    case "earnings-steady":
+      return [
+        { key: "yoyOmPct", label: "YoY營益成長%", fmt: (m) => (Array.isArray(m.yoyOmPct) ? m.yoyOmPct.map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—") },
+        { key: "opMargins", label: term("opMargin", t("opMargin")), fmt: (m) => (Array.isArray(m.opMargins) ? m.opMargins.slice(-4).map((x) => (x != null ? x + "%" : "—")).join(" → ") : "—"), rawLabel: true },
+        { key: "source", label: t("metricSource"), fmt: (m) => m.source || "—" },
+      ];
+    case "low-pe-small":
+      return [
+        { key: "pe", label: term("pe", t("pe")), fmt: (m) => fmtNum(m.pe, 2), rawLabel: true },
+        { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
+        { key: "marketCapHint", label: "市值代理", fmt: (m) => m.marketCapHint || "—" },
+        { key: "avgVol5Zhang", label: "5日均量(張)", fmt: (m) => (m.avgVol5Zhang != null ? fmtNum(m.avgVol5Zhang, 1) : "—") },
+      ];
     default:
-      return [{ key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) }];
+      return [
+        { key: "price", label: t("metricPrice"), fmt: (m) => fmtNum(m.price) },
+        { key: "dayPct", label: t("metricDayPct"), fmt: (m) => fmtPct(m.dayPct), cls: (m) => pctClass(m.dayPct) },
+      ];
   }
 }
 
@@ -303,7 +382,9 @@ function renderHits(strategy, marketFilter = "TW") {
         .join("");
       return `<tr>
         <td><span class="ticker">${escapeHtml(h.ticker)}</span></td>
-        <td class="name-cell">${escapeHtml(h.name || "")}${h.ohlcvBarDate ? `<div class="xq-bar-date">K ${escapeHtml(h.ohlcvBarDate)}</div>` : ""}</td>
+        <td class="name-cell">${escapeHtml(h.name || "")}${h.ohlcvBarDate ? `<div class="xq-bar-date">K ${escapeHtml(h.ohlcvBarDate)}</div>` : ""}
+          <button type="button" class="xq-btn xq-btn-sm xq-watch-inline" data-xq-watch="${escapeHtml(h.ticker)}" data-xq-watch-name="${escapeHtml(h.name || "")}">${escapeHtml(t("addWatchlist"))}</button>
+        </td>
         ${tds}
       </tr>`;
     })
@@ -324,7 +405,10 @@ function renderHits(strategy, marketFilter = "TW") {
             <div class="name">${escapeHtml(h.name || "")}</div>
             ${h.ohlcvBarDate ? `<div class="xq-bar-date">K棒 ${escapeHtml(h.ohlcvBarDate)}</div>` : ""}
           </div>
-          <span class="badge market">${escapeHtml(h.market || marketFilter)}</span>
+          <div class="xq-hit-actions">
+            <span class="badge market">${escapeHtml(h.market || marketFilter)}</span>
+            <button type="button" class="xq-btn xq-btn-sm" data-xq-watch="${escapeHtml(h.ticker)}" data-xq-watch-name="${escapeHtml(h.name || "")}">${escapeHtml(t("addWatchlist"))}</button>
+          </div>
         </div>
         <div class="xq-hit-metrics">${metrics}</div>
       </article>`;
@@ -344,7 +428,7 @@ function renderHits(strategy, marketFilter = "TW") {
     </div>`;
 }
 
-function renderStrategyPanel(strategy, data, marketFilter = "TW") {
+export function renderStrategyPanel(strategy, data, marketFilter = "TW") {
   const allHits = strategy.hits || [];
   const hits = filterHitsByMarket(allHits, marketFilter);
   const hitN = hits.length;
@@ -434,18 +518,18 @@ function renderStrategyPanel(strategy, data, marketFilter = "TW") {
           <button type="button" class="xq-btn" data-xq-copy>${escapeHtml(t("copyJson"))}</button>
           <button type="button" class="xq-btn" data-xq-csv>${escapeHtml(t("exportCsv"))}</button>
           <a class="xq-btn xq-btn-link" href="${DATA_URL}" download="strategy-screener.json">${escapeHtml(t("exportJson"))}</a>
+          <button type="button" class="xq-btn" disabled title="${escapeHtml(t("backtestHint"))}">${escapeHtml(t("backtestSoon"))}</button>
         </div>
       </div>
       ${
-        strategy.twOnly ||
-        ["inst-sync", "margin-up", "peter-lynch", "warren-buffett", "michael-murphy", "kenneth-fisher", "mark-minervini", "michael-price", "benjamin-graham", "james-oshaughnessy", "ultra-short"].includes(strategy.id)
+        strategy.twOnly || TW_ONLY_IDS.has(strategy.id)
           ? `<div class="xq-market-tabs"><span class="xq-mkt-hint">${escapeHtml(t("twOnlyHint"))}</span></div>`
           : `<div class="xq-market-tabs" role="tablist" aria-label="${escapeHtml(t("hitMarket"))}">
         <button type="button" class="xq-mkt-btn${marketFilter === "TW" ? " active" : ""}" data-xq-market="TW" aria-pressed="${marketFilter === "TW"}">${escapeHtml(t("twStock"))}</button>
         <button type="button" class="xq-mkt-btn${marketFilter === "US" ? " active" : ""}" data-xq-market="US" aria-pressed="${marketFilter === "US"}">${escapeHtml(t("usStock"))}</button>
       </div>`
       }
-      ${renderHits(strategy, ["inst-sync", "margin-up", "peter-lynch", "warren-buffett", "michael-murphy", "kenneth-fisher", "mark-minervini", "michael-price", "benjamin-graham", "james-oshaughnessy", "ultra-short"].includes(strategy.id) ? "TW" : marketFilter)}
+      ${renderHits(strategy, strategy.twOnly || TW_ONLY_IDS.has(strategy.id) ? "TW" : marketFilter)}
     </div>
   `;
 }
@@ -481,99 +565,294 @@ export function mountStrategies(selector, data) {
     return;
   }
 
-  const order = data.categoryOrder || ["精選", "價量", "籌碼", "財務", "週期", "大師"];
+  // Prefer XQ tab order; include any extra groups so nothing orphans.
+  const order = [...XQ_TAB_ORDER];
+  for (const c of data.categoryOrder || []) {
+    const mapped = LEGACY_CAT_MAP[c] || c;
+    if (!order.includes(mapped)) order.push(mapped);
+  }
   const byCat = new Map(order.map((c) => [c, []]));
+  const orphans = [];
   for (const s of data.strategies) {
     const c = catOf(s);
-    if (!byCat.has(c)) byCat.set(c, []);
+    if (!byCat.has(c)) {
+      byCat.set(c, []);
+      order.push(c);
+    }
     byCat.get(c).push(s);
   }
+  for (const [c, list] of byCat) {
+    if (!list.length && !XQ_TAB_ORDER.includes(c)) orphans.push(c);
+  }
+  void orphans;
 
-  const first = data.strategies[0];
+  // Default: first non-empty tab's first strategy
+  let activeTab = order.find((c) => (byCat.get(c) || []).length) || order[0];
+  let activeId = (byCat.get(activeTab) || [])[0]?.id || data.strategies[0].id;
   let marketFilter = "TW";
-  const chips = order
-    .map((cat) => {
-      const list = byCat.get(cat) || [];
-      if (!list.length) return "";
-      return `<div class="xq-cat-block">
-        <div class="xq-cat-label">${escapeHtml(catLabel(cat))}</div>
-        <div class="xq-chip-row">
-          ${list
-            .map((s) => {
-              const n = (s.hits || []).length;
-              const inc = s.incomplete ? " incomplete" : "";
-              const active = s.id === first.id ? " active" : "";
-              return `<button type="button" class="xq-chip${active}${inc}" data-xq-id="${escapeHtml(
-                s.id
-              )}" aria-pressed="${s.id === first.id}">
-                <span class="xq-chip-name">${escapeHtml(s.name)}</span>
-                <span class="xq-chip-n">${s.incomplete ? escapeHtml(t("incomplete")) : escapeHtml(t("hitsTotal", { n }))}</span>
-              </button>`;
-            })
-            .join("")}
+
+  const chipHtml = (list, selectedId) =>
+    list
+      .map((s) => {
+        const n = (s.hits || []).length;
+        const inc = s.incomplete ? " incomplete" : "";
+        const active = s.id === selectedId ? " active" : "";
+        return `<button type="button" class="xq-chip${active}${inc}" data-xq-id="${escapeHtml(
+          s.id
+        )}" aria-pressed="${s.id === selectedId}">
+          <span class="xq-chip-name">${escapeHtml(s.name)}</span>
+          <span class="xq-chip-n">${s.incomplete ? escapeHtml(t("incomplete")) : escapeHtml(t("hitsTotal", { n }))}</span>
+        </button>`;
+      })
+      .join("");
+
+  const tabsHtml = () =>
+    order
+      .map((cat) => {
+        const list = byCat.get(cat) || [];
+        if (!list.length) return "";
+        const on = cat === activeTab ? " active" : "";
+        return `<button type="button" class="xq-tab${on}" data-xq-tab="${escapeHtml(cat)}" aria-pressed="${cat === activeTab}">
+          <span>${escapeHtml(catLabel(cat))}</span>
+          <span class="xq-tab-n">${list.length}</span>
+        </button>`;
+      })
+      .join("");
+
+  const sideNav = () =>
+    data.strategies
+      .map((s) => {
+        const n = (s.hits || []).length;
+        const active = s.id === activeId ? " active" : "";
+        const inc = s.incomplete ? " incomplete" : "";
+        return `<button type="button" class="xq-side-item${active}${inc}" data-xq-id="${escapeHtml(
+          s.id
+        )}">
+          <span>${escapeHtml(s.name)}</span>
+          <span class="xq-side-n">${s.incomplete ? escapeHtml(t("incomplete")) : escapeHtml(t("hitsTotal", { n }))}</span>
+        </button>`;
+      })
+      .join("");
+
+  const paintShell = () => {
+    const list = byCat.get(activeTab) || [];
+    const strategy = data.strategies.find((x) => x.id === activeId) || list[0] || data.strategies[0];
+    activeId = strategy.id;
+    root.innerHTML = `
+      <div class="xq-layout">
+        <aside class="xq-sidebar" aria-label="${escapeHtml(t("strategyList"))}">
+          <div class="xq-side-title">${escapeHtml(t("navStrategies"))}</div>
+          ${sideNav()}
+        </aside>
+        <div class="xq-main">
+          <div class="xq-tabs" role="tablist" aria-label="${escapeHtml(t("strategyCat"))}">${tabsHtml()}</div>
+          <div class="xq-chips" aria-label="${escapeHtml(t("strategyList"))}">
+            <div class="xq-chip-row">${chipHtml(list, activeId)}</div>
+          </div>
+          <div class="xq-panel-host">${renderStrategyPanel(strategy, data, marketFilter)}</div>
         </div>
-      </div>`;
-    })
-    .join("");
-
-  const sideNav = data.strategies
-    .map((s) => {
-      const n = (s.hits || []).length;
-      const active = s.id === first.id ? " active" : "";
-      const inc = s.incomplete ? " incomplete" : "";
-      return `<button type="button" class="xq-side-item${active}${inc}" data-xq-id="${escapeHtml(
-        s.id
-      )}">
-        <span>${escapeHtml(s.name)}</span>
-        <span class="xq-side-n">${s.incomplete ? escapeHtml(t("incomplete")) : escapeHtml(t("hitsTotal", { n }))}</span>
-      </button>`;
-    })
-    .join("");
-
-  root.innerHTML = `
-    <div class="xq-layout">
-      <aside class="xq-sidebar" aria-label="${escapeHtml(t("strategyList"))}">
-        <div class="xq-side-title">${escapeHtml(t("navStrategies"))}</div>
-        ${sideNav}
-      </aside>
-      <div class="xq-main">
-        <div class="xq-chips" aria-label="${escapeHtml(t("strategyCat"))}">${chips}</div>
-        <div class="xq-panel-host">${renderStrategyPanel(first, data, marketFilter)}</div>
       </div>
-    </div>
-    <p class="xq-foot">${escapeHtml((data.disclaimer || "").split("。")[0] + (data.disclaimer ? "。" : ""))}</p>
-  `;
-
-  const host = root.querySelector(".xq-panel-host");
-  let activeId = first.id;
-
-  const bindPanelExtras = () => {
-    bindCopy(host, data);
-    host?.querySelectorAll("[data-xq-market]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        marketFilter = btn.getAttribute("data-xq-market") || "TW";
-        activate(activeId);
-      });
-    });
+      <p class="xq-foot">${escapeHtml((data.disclaimer || "").split("。")[0] + (data.disclaimer ? "。" : ""))}</p>
+      <div class="xq-toast" id="xq-toast" hidden role="status"></div>
+    `;
   };
 
-  const activate = (id) => {
+  const activateStrategy = (id) => {
     const s = data.strategies.find((x) => x.id === id);
-    if (!s || !host) return;
+    if (!s) return;
     activeId = id;
-    host.innerHTML = renderStrategyPanel(s, data, marketFilter);
-    root.querySelectorAll("[data-xq-id]").forEach((el) => {
-      const on = el.getAttribute("data-xq-id") === id;
-      el.classList.toggle("active", on);
-      if (el.tagName === "BUTTON") el.setAttribute("aria-pressed", on ? "true" : "false");
-    });
-    bindPanelExtras();
+    const tab = catOf(s);
+    if (tab !== activeTab) activeTab = tab;
+    paintShell();
   };
 
-  root.querySelectorAll("[data-xq-id]").forEach((btn) => {
-    btn.addEventListener("click", () => activate(btn.getAttribute("data-xq-id")));
-  });
-  bindPanelExtras();
+  const activateTab = (tab) => {
+    const list = byCat.get(tab) || [];
+    if (!list.length) return;
+    activeTab = tab;
+    if (!list.some((s) => s.id === activeId)) activeId = list[0].id;
+    paintShell();
+  };
+
+  const showToast = (msg, ms = 2200) => {
+    const el = root.querySelector("#xq-toast");
+    if (!el) return;
+    el.hidden = false;
+    el.textContent = msg;
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => {
+      el.hidden = true;
+    }, ms);
+  };
+
+  const copyTextFallback = async (text) => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch {
+      /* fall through */
+    }
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      ta.style.top = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch {
+      return false;
+    }
+  };
+
+  const downloadText = (filename, text, mime) => {
+    const blob = new Blob([text], { type: mime || "text/plain;charset=utf-8" });
+    try {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      return true;
+    } catch {
+      try {
+        const uri = `data:${mime || "text/plain"};charset=utf-8,${encodeURIComponent(text)}`;
+        const a = document.createElement("a");
+        a.href = uri;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        return true;
+      } catch {
+        return false;
+      }
+    }
+  };
+
+  const loadWatchlist = () => {
+    try {
+      const raw = localStorage.getItem(WATCHLIST_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveWatchlist = (arr) => {
+    try {
+      localStorage.setItem(WATCHLIST_KEY, JSON.stringify(arr.slice(0, 200)));
+    } catch {
+      /* ignore quota */
+    }
+  };
+
+  const addWatch = (ticker, name) => {
+    if (!ticker) return;
+    const list = loadWatchlist();
+    if (list.some((x) => x.ticker === ticker)) {
+      showToast(t("watchlistExists", { ticker }));
+      return;
+    }
+    list.unshift({ ticker, name: name || ticker, addedAt: new Date().toISOString() });
+    saveWatchlist(list);
+    showToast(t("watchlistAdded", { ticker }));
+  };
+
+  // Event delegation — survives panel re-renders; no per-button rebind needed.
+  root.onclick = async (ev) => {
+    // Prefer closest()-capable node (text nodes / cross-realm instanceof break happy-dom & some webviews)
+    const raw = ev.target;
+    const tEl =
+      raw && typeof raw.closest === "function"
+        ? raw
+        : raw && raw.parentElement && typeof raw.parentElement.closest === "function"
+          ? raw.parentElement
+          : null;
+    if (!tEl) return;
+
+    const tabBtn = tEl.closest("[data-xq-tab]");
+    if (tabBtn && root.contains(tabBtn)) {
+      ev.preventDefault();
+      activateTab(tabBtn.getAttribute("data-xq-tab"));
+      return;
+    }
+
+    const idBtn = tEl.closest("[data-xq-id]");
+    if (idBtn && root.contains(idBtn)) {
+      ev.preventDefault();
+      activateStrategy(idBtn.getAttribute("data-xq-id"));
+      return;
+    }
+
+    const mktBtn = tEl.closest("[data-xq-market]");
+    if (mktBtn && root.contains(mktBtn)) {
+      ev.preventDefault();
+      marketFilter = mktBtn.getAttribute("data-xq-market") || "TW";
+      paintShell();
+      return;
+    }
+
+    const copyBtn = tEl.closest("[data-xq-copy]");
+    if (copyBtn && root.contains(copyBtn)) {
+      ev.preventDefault();
+      const ok = await copyTextFallback(JSON.stringify(data, null, 2));
+      showToast(ok ? t("copied") : t("copyFailed"));
+      return;
+    }
+
+    const csvBtn = tEl.closest("[data-xq-csv]");
+    if (csvBtn && root.contains(csvBtn)) {
+      ev.preventDefault();
+      const id =
+        root.querySelector(".xq-panel")?.getAttribute("data-strategy-id") || activeId;
+      const s = data.strategies.find((x) => x.id === id);
+      if (!s) return;
+      const filtered = filterHitsByMarket(
+        s.hits || [],
+        s.twOnly || TW_ONLY_IDS.has(s.id) ? "TW" : marketFilter
+      );
+      const csv = hitsToCsv({ ...s, hits: filtered });
+      if (!csv) {
+        showToast(t("noHitsExport"));
+        return;
+      }
+      const body = "\uFEFF" + csv;
+      const ok = downloadText(`${s.id}-hits.csv`, body, "text/csv;charset=utf-8");
+      if (ok) showToast(t("csvDownloaded"));
+      else {
+        const uri = `data:text/csv;charset=utf-8,${encodeURIComponent(body)}`;
+        showToast(t("csvBlocked"));
+        try {
+          window.open(uri, "_blank");
+        } catch {
+          /* ignore */
+        }
+      }
+      return;
+    }
+
+    const watchBtn = tEl.closest("[data-xq-watch]");
+    if (watchBtn && root.contains(watchBtn)) {
+      ev.preventDefault();
+      addWatch(
+        watchBtn.getAttribute("data-xq-watch"),
+        watchBtn.getAttribute("data-xq-watch-name")
+      );
+    }
+  };
+
+  paintShell();
 }
 
 function hitsToCsv(strategy) {
@@ -594,7 +873,10 @@ function hitsToCsv(strategy) {
       h.name,
       h.market,
       h.ohlcvBarDate || "",
-      ...metricKeys.map((k) => m[k]),
+      ...metricKeys.map((k) => {
+        const v = m[k];
+        return Array.isArray(v) ? v.join("|") : v;
+      }),
     ]
       .map(esc)
       .join(",");
@@ -602,49 +884,31 @@ function hitsToCsv(strategy) {
   return [headers.join(","), ...rows].join("\n");
 }
 
-function downloadText(filename, text, mime) {
-  const blob = new Blob([text], { type: mime || "text/plain;charset=utf-8" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-}
-
-function bindCopy(host, data) {
-  host?.querySelector("[data-xq-copy]")?.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
-      const btn = host.querySelector("[data-xq-copy]");
-      if (btn) {
-        const old = btn.textContent;
-        btn.textContent = t("copied");
-        setTimeout(() => (btn.textContent = old), 1200);
-      }
-    } catch {
-      /* ignore */
-    }
-  });
-  host?.querySelector("[data-xq-csv]")?.addEventListener("click", () => {
-    const id = host.querySelector(".xq-panel")?.getAttribute("data-strategy-id");
-    const s = data.strategies.find((x) => x.id === id);
-    if (!s) return;
-    const csv = hitsToCsv(s);
-    if (!csv) {
-      alert(t("noHitsExport"));
-      return;
-    }
-    downloadText(`${s.id}-hits.csv`, "\uFEFF" + csv, "text/csv;charset=utf-8");
-  });
-}
-
 export async function initStrategies(selector = "#xq-root") {
+  const resolveRoot = () =>
+    typeof selector === "string" ? document.querySelector(selector) : selector;
+
   try {
+    let root = resolveRoot();
+    if (!root) {
+      // View may not be in DOM yet — wait one frame then retry once.
+      await new Promise((r) => requestAnimationFrame(r));
+      root = resolveRoot();
+    }
+    if (!root) {
+      console.warn("initStrategies: #xq-root missing");
+      return { ok: false, error: new Error("xq-root missing") };
+    }
     const data = await loadStrategyScreener();
-    mountStrategies(selector, data);
+    // Re-query after await — remount may have replaced the node.
+    root = resolveRoot();
+    if (!root) {
+      return { ok: false, error: new Error("xq-root gone after fetch") };
+    }
+    mountStrategies(root, data);
     return { ok: true, data };
   } catch (err) {
-    const root = document.querySelector(selector);
+    const root = resolveRoot();
     if (root) {
       root.innerHTML = `<div class="xq-empty"><p>${escapeHtml(
         t("strategyLoadError", { msg: err.message })

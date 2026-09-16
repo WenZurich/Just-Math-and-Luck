@@ -10,9 +10,13 @@
     "validate": "node scripts/validate-data.mjs",
     "paper": "node scripts/paper-trade.mjs",
     "fetch-social": "node scripts/fetch-social.mjs --latest public/data/latest.json --out public/data/social-digest.json",
-    "strategies": "node scripts/run-strategies.mjs"
+    "strategies": "node scripts/run-strategies.mjs",
+    "test:smoke": "node scripts/predeploy-smoke.mjs",
+    "predeploy": "npm run test:smoke && npm run build"
   },
   "devDependencies": {
+    "happy-dom": "^20.14.5",
+    "jsdom": "^25.0.1",
     "vite": "^6.2.0"
   }
 }

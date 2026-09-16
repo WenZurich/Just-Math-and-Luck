@@ -446,6 +446,22 @@ function techMetrics(bars) {
   const { prev: rsiPrev, cur: rsiCur } = rsiSeriesLast2(closes, 14);
   const pct5d =
     closes.length >= 6 ? ((last.c - closes[closes.length - 6]) / closes[closes.length - 6]) * 100 : null;
+  const high20 = highs.length >= 20 ? Math.max(...highs.slice(-20)) : null;
+  const prior20Highs = highs.length >= 21 ? Math.max(...highs.slice(-21, -1)) : null;
+  const is20dHigh = prior20Highs != null && (last.h >= prior20Highs || last.c >= prior20Highs);
+  const distHigh20Pct = high20 ? ((last.c - high20) / high20) * 100 : null;
+  const roc10 =
+    closes.length >= 11 && closes[closes.length - 11] > 0
+      ? ((last.c - closes[closes.length - 11]) / closes[closes.length - 11]) * 100
+      : null;
+  const smaVals = [s5, s10, s20].filter((x) => x != null);
+  const smaMid = smaVals.length ? smaVals.reduce((a, b) => a + b, 0) / smaVals.length : null;
+  const smaSpreadPct =
+    smaVals.length === 3 && smaMid
+      ? ((Math.max(...smaVals) - Math.min(...smaVals)) / smaMid) * 100
+      : null;
+  const aboveMaxSma =
+    smaVals.length === 3 && last.c >= Math.max(...smaVals);
   return {
     price: last.c,
     sma5: s5,
@@ -463,6 +479,12 @@ function techMetrics(bars) {
     rsiPrev,
     pct5d,
     dayPct: prev.c ? ((last.c - prev.c) / prev.c) * 100 : null,
+    high20,
+    is20dHigh,
+    distHigh20Pct,
+    roc10,
+    smaSpreadPct,
+    aboveMaxSma,
   };
 }
 
@@ -601,9 +623,9 @@ function buildMarginGrowth(universe, fundMap, twMarginByCode) {
     return {
       id: "margin-up",
       name: "公司獲利遞增",
-      category: "財務",
-      categoryGroup: "財務",
-      xqTags: ["財務"],
+      category: "基本",
+      categoryGroup: "基本",
+      xqTags: ["基本", "財務"],
       description: "目標：連續 2 季 YoY 營益率或毛利率成長 >10%。今日公開資料不足。",
       conditions: [
         cond("連續 2 季 YoY 營益率或毛利率成長 >10%", "skip"),
@@ -625,9 +647,9 @@ function buildMarginGrowth(universe, fundMap, twMarginByCode) {
   return {
     id: "margin-up",
     name: "公司獲利遞增",
-    category: "財務",
-    categoryGroup: "財務",
-    xqTags: ["財務"],
+    category: "基本",
+    categoryGroup: "基本",
+    xqTags: ["基本", "財務"],
     description:
       "僅台股。連續兩個相鄰季別，各自相對「去年同季」營益率或毛利率成長 >10%（單季毛利／營益推算；缺序列則略過）。",
     conditions: [
@@ -695,7 +717,7 @@ function buildMaBull(universe, ohlcvMap) {
     id: "ma-bull",
     name: "均線多頭排列",
     category: "技術",
-    categoryGroup: "價量",
+    categoryGroup: "技術",
     xqTags: ["技術", "價量"],
     description: "SMA5>SMA10>SMA20>SMA60，創新高＋量能放大。完全由 OHLCV 計算。",
     conditions: [
@@ -858,9 +880,9 @@ function buildUltraShort(universe, ohlcvMap) {
   return {
     id: "ultra-short",
     name: "超短線作多",
-    category: "綜合",
-    categoryGroup: "精選",
-    xqTags: ["精選", "價量", "技術"],
+    category: "技術",
+    categoryGroup: "技術",
+    xqTags: ["技術", "超短線"],
     description:
       "僅台股。價＞10、5日均量＞300張、RSI(14)＜50且較昨上升、振幅＞3%。融資／融券未取得公開穩定資料 → 標為未檢查（略過），不視為通過。",
     conditions: [
@@ -885,6 +907,357 @@ function buildUltraShort(universe, ohlcvMap) {
     },
   };
 }
+
+
+function twHitBase(u, chart, m, extra = {}) {
+  return {
+    ticker: u.ticker,
+    name: u.name || chart.name,
+    market: "TW",
+    currency: "TWD",
+    metrics: {
+      price: round(m.price, 2),
+      dayPct: round(m.dayPct, 2),
+      pct5d: round(m.pct5d, 2),
+      avgVol5Zhang: m.avgVol5 != null ? round(sharesToZhang(m.avgVol5), 1) : null,
+      volRatioYday: m.volRatioYday != null ? round(m.volRatioYday, 2) : null,
+      ...extra,
+    },
+  };
+}
+
+function buildMaTangleBreak(universe, ohlcvMap) {
+  const hits = [];
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const chart = ohlcvMap.get(u.ticker);
+    if (!chart) continue;
+    const m = techMetrics(chart.bars);
+    if (m.smaSpreadPct == null || !(m.smaSpreadPct < 1.5)) continue;
+    if (!m.aboveMaxSma) continue;
+    if (m.volRatioYday == null || !(m.volRatioYday > 1.5)) continue;
+    if (!(m.dayPct != null && m.dayPct > 0)) continue;
+    hits.push(
+      twHitBase(u, chart, m, {
+        smaSpreadPct: round(m.smaSpreadPct, 2),
+        sma5: round(m.sma5, 2),
+        sma10: round(m.sma10, 2),
+        sma20: round(m.sma20, 2),
+      })
+    );
+  }
+  hits.sort((a, b) => (b.metrics.volRatioYday ?? 0) - (a.metrics.volRatioYday ?? 0));
+  return {
+    id: "ma-tangle-break",
+    name: "帶量突破均線糾結近似",
+    category: "技術",
+    categoryGroup: "技術",
+    xqTags: ["技術", "價量"],
+    description:
+      "SMA5/10/20 糾結（最大−最小）／中價 < 1.5%，收盤站上最高均線，量>昨×1.5，日漲>0。公開 OHLCV 近似，非券商專有「糾結突破」定義。",
+    conditions: [
+      cond("SMA5／10／20 糾結幅度 < 1.5%"),
+      cond("收盤 ≥ max(SMA5,SMA10,SMA20)"),
+      cond("成交量 > 昨日 × 1.5"),
+      cond("日漲幅 > 0"),
+    ],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+    calibrationNotes: {
+      matchedXq: ["均線糾結＋帶量突破（近似）"],
+      stillDiffers: ["XQ 糾結參數／量能定義可能不同"],
+    },
+  };
+}
+
+function buildNewHighMomentum(universe, ohlcvMap) {
+  const hits = [];
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const chart = ohlcvMap.get(u.ticker);
+    if (!chart) continue;
+    const m = techMetrics(chart.bars);
+    if (!m.is20dHigh) continue;
+    if (m.pct5d == null || !(m.pct5d > 3)) continue;
+    if (m.volRatioYday == null || !(m.volRatioYday > 1.2)) continue;
+    hits.push(
+      twHitBase(u, chart, m, {
+        high20: round(m.high20, 2),
+        distHigh20Pct: round(m.distHigh20Pct, 2),
+        is20dHigh: true,
+      })
+    );
+  }
+  hits.sort((a, b) => (b.metrics.pct5d ?? 0) - (a.metrics.pct5d ?? 0));
+  return {
+    id: "new-high-momentum",
+    name: "創新高動能",
+    category: "技術",
+    categoryGroup: "技術",
+    xqTags: ["技術"],
+    description: "收盤創近20日高（含當日），5日漲幅>3%，量>昨×1.2。",
+    conditions: [
+      cond("收盤或最高價創近 20 日高"),
+      cond("5 日漲幅 > 3%"),
+      cond("成交量 > 昨日 × 1.2"),
+    ],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+  };
+}
+
+function buildShortRoc(universe, ohlcvMap) {
+  const hits = [];
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const chart = ohlcvMap.get(u.ticker);
+    if (!chart) continue;
+    const m = techMetrics(chart.bars);
+    if (!(m.price > 10)) continue;
+    if (!(m.avgVol5 != null && m.avgVol5 > TW_MIN_AVG_VOL_SHARES)) continue;
+    if (m.roc10 == null || !(m.roc10 > 8)) continue;
+    hits.push(
+      twHitBase(u, chart, m, {
+        roc10: round(m.roc10, 2),
+      })
+    );
+  }
+  hits.sort((a, b) => (b.metrics.roc10 ?? 0) - (a.metrics.roc10 ?? 0));
+  return {
+    id: "short-roc",
+    name: "短線動能（ROC）",
+    category: "技術",
+    categoryGroup: "技術",
+    xqTags: ["技術"],
+    description: "ROC(10)>8% 作 MTM／動能代理；價>10、5日均量>300張。",
+    conditions: [
+      cond("股價 > 10"),
+      cond(`5 日均量 > ${TW_LIQUID_ZHANG} 張`),
+      cond("ROC(10) > 8%（MTM 代理）"),
+    ],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+    calibrationNotes: {
+      matchedXq: ["短線動能／ROC 近似"],
+      stillDiffers: ["XQ 可能用 MTM 或不同週期"],
+    },
+  };
+}
+
+function buildDayUp5(universe, ohlcvMap) {
+  const hits = [];
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const chart = ohlcvMap.get(u.ticker);
+    if (!chart) continue;
+    const m = techMetrics(chart.bars);
+    if (m.dayPct == null || !(m.dayPct > 5)) continue;
+    if (!(m.avgVol5 != null && m.avgVol5 > TW_MIN_AVG_VOL_SHARES)) continue;
+    hits.push(twHitBase(u, chart, m));
+  }
+  hits.sort((a, b) => (b.metrics.dayPct ?? 0) - (a.metrics.dayPct ?? 0));
+  return {
+    id: "day-up-5",
+    name: "單日漲幅>5%",
+    category: "綜合",
+    categoryGroup: "綜合",
+    xqTags: ["綜合", "價量"],
+    description: "日漲幅>5% 且 5日均量>300張（台股）。",
+    conditions: [cond("日漲幅 > 5%"), cond(`5 日均量 > ${TW_LIQUID_ZHANG} 張`)],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+  };
+}
+
+function buildPct5d10(universe, ohlcvMap) {
+  const hits = [];
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const chart = ohlcvMap.get(u.ticker);
+    if (!chart) continue;
+    const m = techMetrics(chart.bars);
+    if (m.pct5d == null || !(m.pct5d > 10)) continue;
+    if (!(m.avgVol5 != null && m.avgVol5 > TW_MIN_AVG_VOL_SHARES)) continue;
+    hits.push(twHitBase(u, chart, m));
+  }
+  hits.sort((a, b) => (b.metrics.pct5d ?? 0) - (a.metrics.pct5d ?? 0));
+  return {
+    id: "pct5d-10",
+    name: "5日漲幅>10%",
+    category: "綜合",
+    categoryGroup: "綜合",
+    xqTags: ["綜合", "價量"],
+    description: "近5日漲幅>10% 且 5日均量>300張（台股）。",
+    conditions: [cond("5 日漲幅 > 10%"), cond(`5 日均量 > ${TW_LIQUID_ZHANG} 張`)],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+  };
+}
+
+function buildNearHigh(universe, ohlcvMap) {
+  const hits = [];
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const chart = ohlcvMap.get(u.ticker);
+    if (!chart) continue;
+    const m = techMetrics(chart.bars);
+    if (m.distHigh20Pct == null || !(m.distHigh20Pct >= -1 && m.distHigh20Pct <= 0.05)) continue;
+    if (!(m.dayPct != null && m.dayPct >= 0)) continue;
+    hits.push(
+      twHitBase(u, chart, m, {
+        high20: round(m.high20, 2),
+        distHigh20Pct: round(m.distHigh20Pct, 2),
+      })
+    );
+  }
+  hits.sort((a, b) => (b.metrics.dayPct ?? 0) - (a.metrics.dayPct ?? 0));
+  return {
+    id: "near-high",
+    name: "創近高",
+    category: "綜合",
+    categoryGroup: "綜合",
+    xqTags: ["綜合", "價量"],
+    description: "收盤距20日高 ≤ 1%（含略創新高），且日漲≥0。",
+    conditions: [
+      cond("收盤距 20 日高 ≤ 1%"),
+      cond("日漲幅 ≥ 0"),
+    ],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+  };
+}
+
+function buildEarningsSteady(universe, twMarginByCode) {
+  const hits = [];
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const code = u.ticker.replace(/\.TW$/, "").replace(/\.TWO$/, "");
+    const series = twMarginByCode.get(code);
+    if (!series || series.length < 2) continue;
+    const last2 = series.slice(-2);
+    const oms = last2.map((s) => s.operatingMargin);
+    if (oms.some((x) => x == null || !(x > 0.08))) continue;
+    hits.push({
+      ticker: u.ticker,
+      name: u.name || last2.at(-1)?.name || code,
+      market: "TW",
+      currency: "TWD",
+      metrics: {
+        opMargins: series.slice(-4).map((s) => (s.operatingMargin != null ? round(s.operatingMargin * 100, 2) : null)),
+        yoyOmPct: null,
+        source: last2.at(-1)?.source || "mops",
+      },
+    });
+  }
+  hits.sort((a, b) => (b.metrics.opMargins?.at(-1) ?? 0) - (a.metrics.opMargins?.at(-1) ?? 0));
+  return {
+    id: "earnings-steady",
+    name: "公司獲利穩健",
+    category: "基本",
+    categoryGroup: "基本",
+    xqTags: ["基本", "財務"],
+    description: "最近連續2季營益率皆 > 8%（公開季報）。較「獲利遞增」寬鬆的穩健篩。",
+    conditions: [cond("最近連續 2 季營益率皆 > 8%")],
+    hits: hits.slice(0, 80),
+    blockers: [],
+    incomplete: false,
+  };
+}
+
+function buildLowPeSmall(universe, ohlcvMap, peMap) {
+  const hits = [];
+  let peCovered = 0;
+  for (const u of universe) {
+    if (u.market !== "TW") continue;
+    const pe = peMap.get(u.ticker);
+    if (pe != null) peCovered++;
+    const chart = ohlcvMap.get(u.ticker);
+    if (!chart) continue;
+    const m = techMetrics(chart.bars);
+    if (pe == null || !(pe > 0 && pe < 15)) continue;
+    if (!(m.price > 0 && m.price < 50)) continue;
+    if (!(m.avgVol5 != null && m.avgVol5 > TW_MIN_AVG_VOL_SHARES)) continue;
+    hits.push(
+      twHitBase(u, chart, m, {
+        pe: round(pe, 2),
+        marketCapHint: "股價<50 代理小型（無完整市值則不宣稱市值）",
+      })
+    );
+  }
+  hits.sort((a, b) => (a.metrics.pe ?? 99) - (b.metrics.pe ?? 99));
+  const incomplete = peCovered < 50;
+  return {
+    id: "low-pe-small",
+    name: "低PE小型",
+    category: "基本",
+    categoryGroup: "基本",
+    xqTags: ["基本", "財務"],
+    description:
+      "PE<15 且股價<50（市值公開不全時以股價代理小型，條件中標示代理）。5日均量>300張。",
+    conditions: [
+      cond("本益比 PE < 15"),
+      cond("股價 < 50（小型代理，非市值）"),
+      cond(`5 日均量 > ${TW_LIQUID_ZHANG} 張`),
+    ],
+    hits: hits.slice(0, 80),
+    blockers: incomplete
+      ? ["本益比覆蓋偏低或市值缺欄；已用股價代理小型，請勿當成完整市值篩"]
+      : ["市值缺公開完整欄位 → 以股價<50 代理小型"],
+    incomplete: false,
+    notes: ["市值無穩定公開欄位時不以捏造市值篩選；股價代理已標示"],
+  };
+}
+
+function buildIncompleteChipPacks() {
+  return [
+    {
+      id: "chip-main-force",
+      name: "主力進出（近似）",
+      category: "籌碼",
+      categoryGroup: "籌碼",
+      xqTags: ["籌碼", "資料不足"],
+      description: "XQ 主力買賣超。公開 Yahoo／MOPS 無穩定主力分點 feed。",
+      conditions: [cond("主力買超／賣超（公開資料不足）", "skip")],
+      hits: [],
+      blockers: ["無公開穩定「主力」分點 feed，不捏造命中"],
+      incomplete: true,
+      incompleteLabel: "資料不足",
+    },
+    {
+      id: "chip-branch",
+      name: "分點籌碼",
+      category: "籌碼",
+      categoryGroup: "籌碼",
+      xqTags: ["籌碼", "資料不足"],
+      description: "券商分點買賣超。公開資料無完整分點庫。",
+      conditions: [cond("分點買賣超條件（公開資料不足）", "skip")],
+      hits: [],
+      blockers: ["券商分點非公開穩定 API"],
+      incomplete: true,
+      incompleteLabel: "資料不足",
+    },
+    {
+      id: "chip-large-holders",
+      name: "大戶股數／集保",
+      category: "籌碼",
+      categoryGroup: "籌碼",
+      xqTags: ["籌碼", "資料不足"],
+      description: "集保大戶持股變化。暫不捏造命中。",
+      conditions: [cond("大戶持股增減（公開資料不足）", "skip")],
+      hits: [],
+      blockers: ["集保大戶／持股分級無穩定即時公開 feed"],
+      incomplete: true,
+      incompleteLabel: "資料不足",
+    },
+  ];
+}
+
 
 function round(n, d) {
   if (n == null || Number.isNaN(n)) return null;
@@ -1167,8 +1540,17 @@ async function main() {
   const strategies = [
     buildMaBull(universe, ohlcvMap),
     buildUltraShort(universe, ohlcvMap),
+    buildMaTangleBreak(universe, ohlcvMap),
+    buildNewHighMomentum(universe, ohlcvMap),
+    buildShortRoc(universe, ohlcvMap),
+    buildDayUp5(universe, ohlcvMap),
+    buildPct5d10(universe, ohlcvMap),
+    buildNearHigh(universe, ohlcvMap),
     buildInstSync(instDays, [...twSet.values()]),
+    ...buildIncompleteChipPacks(),
     buildMarginGrowth(universe, fundMap, twMarginByCode),
+    buildEarningsSteady(universe, twMarginByCode),
+    buildLowPeSmall(universe, ohlcvMap, peMap),
     ...masterStrategies, // includes 彼得林區 (TW MOPS) + other masters; no US mix
   ];
 
@@ -1211,7 +1593,7 @@ async function main() {
   }
 
   // XQ-like category order for UI
-  const categoryOrder = ["精選", "價量", "籌碼", "財務", "大師"];
+  const categoryOrder = ["大師", "基本", "籌碼", "技術", "綜合", "週期"];
 
   const payload = {
     asOf: new Date().toISOString(),
@@ -1235,6 +1617,22 @@ async function main() {
       "名詞（本益比、營益率、毛利率、外資、投信、自營商、均線多頭、RSI、振幅、張）見站內名詞小辭典。",
     exportNote: "可複製本 JSON（strategy-screener.json）自行回測；站內不提供券商下單。",
   };
+
+  // Preserve 週期 pack if daily-scan / prior run attached kostolany
+  try {
+    if (fs.existsSync(OUT_PUBLIC)) {
+      const prev = JSON.parse(fs.readFileSync(OUT_PUBLIC, "utf8"));
+      const kosto = (prev.strategies || []).find((s) => s.id === "kostolany-cycle");
+      if (kosto && !strategies.some((s) => s.id === "kostolany-cycle")) {
+        strategies.push(kosto);
+        payload.strategies = strategies;
+        if (prev.kostolanyRegimeAsOf) payload.kostolanyRegimeAsOf = prev.kostolanyRegimeAsOf;
+        console.log("Preserved kostolany-cycle from prior screener");
+      }
+    }
+  } catch (e) {
+    console.warn("kostolany preserve skipped:", e.message);
+  }
 
   fs.mkdirSync(path.dirname(OUT_PUBLIC), { recursive: true });
   fs.writeFileSync(OUT_PUBLIC, JSON.stringify(payload, null, 2));

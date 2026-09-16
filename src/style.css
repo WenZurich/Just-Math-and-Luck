@@ -2079,7 +2079,7 @@ h1 {
   color: var(--text);
 }
 @media (max-width: 859px) {
-  .xq-chips {
+  .xq-tabs {
     background: color-mix(in srgb, var(--bg) 92%, white 8%) !important;
   }
 }
