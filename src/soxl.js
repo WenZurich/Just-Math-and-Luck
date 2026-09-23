@@ -202,10 +202,6 @@ function paint(root, data) {
       </div>
     </section>`;
 
-  const blockers = data?.sessionBlocker
-    ? `<div class="sx-blocker" role="status"><p>${escapeHtml(data.sessionBlocker)}</p><p class="sx-muted">${escapeHtml(t("soxlRefreshHow"))}</p></div>`
-    : "";
-
   const discs = Array.isArray(data?.disclaimers) ? data.disclaimers : [];
   const discHtml = discs.length
     ? `<ul class="sx-disc-list">${discs.map((d) => `<li>${escapeHtml(d)}</li>`).join("")}</ul>`
@@ -213,7 +209,6 @@ function paint(root, data) {
 
   root.innerHTML = `
     ${hero}
-    ${blockers}
     ${eventsHtml}
     ${newsHtml}
     ${holdingsHtml}
@@ -247,9 +242,8 @@ export async function initSoxl(selector = "#sx-root") {
     return { ok: true, data };
   } catch (err) {
     root.innerHTML = `
-      <div class="sx-blocker" role="alert">
+      <div class="sx-empty" role="status">
         <p>${escapeHtml(t("soxlLoadError", { msg: err.message || String(err) }))}</p>
-        <p class="sx-muted">${escapeHtml(t("soxlRefreshHow"))}</p>
       </div>`;
     return { ok: false, error: err };
   }

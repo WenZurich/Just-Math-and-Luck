@@ -528,9 +528,8 @@ async function main() {
     sourcesUsed,
     blockers,
     recentPublicCrosscheck: seed.recent_public_crosscheck || null,
-    sessionBlocker: blockers.length
-      ? `部分來源受阻：${blockers.slice(0, 3).join(" | ")}`
-      : null,
+    // Keep blockers for ops logs only — never surface raw URL/HTTP errors in the UI.
+    sessionBlocker: null,
   };
 
   const json = JSON.stringify(payload, null, 2) + "\n";

@@ -610,5 +610,5 @@
       }
     ]
   },
-  "sessionBlocker": "部分來源受阻：https://www.direxion.com/product/daily-semiconductor-bull-bear-3x-etfs?keyword=soxl: 403/Cloudflare security verification — Could not download the issuer’s daily holdings CSV directly; the official page was still used as the product reference URL. | https://query1.finance.yahoo.com/v8/finance/chart/SOXL?range=1d&interval=1m&includePrePost=true: 429 Too Many Requests — Used Yahoo’s public quote page instead for the quote snapshot. | https://www.etf.com/SOXL: Cloudflare blocked — ETF.com holdings page could not be fetched; no ETF.com weights were used."
+  "sessionBlocker": null
 }
