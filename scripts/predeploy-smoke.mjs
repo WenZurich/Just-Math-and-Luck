@@ -743,6 +743,18 @@ async function main() {
   if (!/\.nav-more-sheet/.test(cssNav) || !/\.nav-more-item/.test(cssNav)) {
     fail("nav-more-sheet styles missing");
   } else ok("nav-more-sheet styles present");
+  {
+    const gz = mainSrc.match(/godzilla:\s*`([^`]+)`/);
+    if (!gz) fail("godzilla nav icon missing");
+    else if (/l-\.?8 10/.test(gz[1])) fail("godzilla nav icon still tombstone/trash path");
+    else ok("godzilla nav icon is not tombstone");
+  }
+  if (!mainSrc.includes('id="strategies"') || !mainSrc.includes('id="paper"')) {
+    fail("strategies/paper view-anchor ids missing");
+  } else ok("strategies/paper view-anchor ids present");
+  if (!mainSrc.includes("decodeURIComponent")) {
+    fail("parseViewFromHash should decodeURIComponent for zh aliases");
+  } else ok("hash decodeURIComponent present");
 
   // —— CSS: tall sticky chips must stay disabled (root cause of dead panel clicks) ——
   const css = fs.readFileSync(path.join(ROOT, "src/strategies.css"), "utf8");

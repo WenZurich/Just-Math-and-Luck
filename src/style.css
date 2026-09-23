@@ -1291,10 +1291,13 @@ h1 {
 }
 
 
-/* Mobile 「更多」 bottom sheet */
+/* Mobile 「更多」 bottom sheet — sits above bottom nav (~390px) */
 .nav-more-sheet {
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
   z-index: 60;
   display: flex;
   align-items: flex-end;
@@ -1318,15 +1321,17 @@ h1 {
   position: relative;
   z-index: 1;
   width: min(100%, 420px);
-  max-height: min(72vh, 520px);
+  max-height: min(68vh, 480px);
   margin: 0;
-  padding: 0.75rem 0.75rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
+  padding: 0.75rem 0.75rem 0.85rem;
   background: #fff;
   border-radius: 16px 16px 0 0;
   box-shadow: 0 -8px 28px rgba(15, 23, 42, 0.14);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .nav-more-head {
   display: flex;
@@ -1815,7 +1820,6 @@ body.nav-more-open {
   .glossary-list { grid-template-columns: 1fr 1fr; }
 }
 
-/* Chat room styles: see chat.css */
 
 /* Strategy hits: separate TW / US blocks */
 .xq-market-block { margin-top: 0.85rem; }
@@ -2213,7 +2217,7 @@ body.nav-more-open {
   position: fixed;
   left: 12px;
   right: 12px;
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--nav-h) + 12px + env(safe-area-inset-bottom, 0px));
   z-index: 90;
   display: flex;
   align-items: center;

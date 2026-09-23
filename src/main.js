@@ -422,14 +422,21 @@ const NAV_ICONS = {
   options: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 12a8 8 0 1 1 16 0H4zm8-6a6 6 0 0 0-5.65 4h11.3A6 6 0 0 0 12 6zm0 12a6 6 0 0 0 5.65-4H6.35A6 6 0 0 0 12 18z"/></svg>`,
   earnings: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 4v2h10V7H7zm0 4v2h10v-2H7zm0 4v2h6v-2H7z"/></svg>`,
   soxl: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25 9.5 9l3.5 4.5L17 8l4 9.25H3zM5 19h14v2H5v-2z"/></svg>`,
-  godzilla: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a3 3 0 0 1 3 3v1h2a2 2 0 0 1 2 2v2h-2.2l-.8 10H8l-.8-10H5V8a2 2 0 0 1 2-2h2V5a3 3 0 0 1 3-3zm-1 5h2V5a1 1 0 1 0-2 0v2zm-3.5 4h9l.55 7H7l.5-7z"/></svg>`,
+  godzilla: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.25a4.25 4.25 0 1 1 0 8.5 4.25 4.25 0 0 1 0-8.5zM4.5 19.75v-.9C4.5 16.55 7.7 14.75 12 14.75s7.5 1.8 7.5 4.1v.9H4.5z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   more: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 10h4v4H5v-4zm5 0h4v4h-4v-4zm5 0h4v4h-4v-4z"/></svg>`,
 };
 
 function parseViewFromHash() {
-  const raw = (location.hash || "").replace(/^#/, "").split(/[/?]/)[0].toLowerCase();
-  return HASH_ALIASES[raw] || "today";
+  const raw = (location.hash || "").replace(/^#/, "").split(/[/?&]/)[0];
+  let decoded = raw;
+  try {
+    decoded = decodeURIComponent(raw);
+  } catch {
+    /* keep raw */
+  }
+  const key = decoded.toLowerCase();
+  return HASH_ALIASES[key] || HASH_ALIASES[decoded] || "today";
 }
 
 function renderNavButton(v, variant) {
@@ -586,7 +593,7 @@ function renderApp(data, paper) {
       </div>
 
       <div class="view" id="view-strategies" data-view="strategies" hidden>
-        <span class="view-anchor" tabindex="-1"></span>
+        <span id="strategies" class="view-anchor" tabindex="-1"></span>
         ${renderStrategiesSection()}
       </div>
 
@@ -611,7 +618,7 @@ function renderApp(data, paper) {
       </div>
 
       <div class="view" id="view-paper" data-view="paper" hidden>
-        <span class="view-anchor" tabindex="-1"></span>
+        <span id="paper" class="view-anchor" tabindex="-1"></span>
         ${renderPaperSection(paper)}
       </div>
     </main>

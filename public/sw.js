@@ -4,8 +4,8 @@
  * - Network-first for data/*.json so daily updates prefer fresh
  */
 const BASE = "/Just-Math-and-Luck/";
-const SHELL_CACHE = "jml-shell-v1";
-const DATA_CACHE = "jml-data-v1";
+const SHELL_CACHE = "jml-shell-v2";
+const DATA_CACHE = "jml-data-v2";
 
 const PRECACHE_URLS = [
   BASE,
@@ -122,7 +122,7 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
 
-  // Cross-origin (fonts, supabase, giscus): leave to network
+  // Cross-origin (fonts, CDN): leave to network
   try {
     if (new URL(request.url).origin !== self.location.origin) return;
   } catch {
@@ -137,7 +137,37 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (isSameOriginShell(request) || request.mode === "navigate") {
+  // HTML navigations: network-first so hashed asset deploys are not stuck behind SWR
+  if (request.mode === "navigate" || path === BASE || path === BASE + "index.html") {
+    event.respondWith(networkFirstNavigate(request));
+    return;
+  }
+
+  if (isSameOriginShell(request)) {
     event.respondWith(staleWhileRevalidateShell(request));
   }
 });
+
+async function networkFirstNavigate(request) {
+  const cache = await caches.open(SHELL_CACHE);
+  try {
+    const fresh = await fetch(request);
+    if (fresh && fresh.ok) {
+      cache.put(request, fresh.clone());
+      try {
+        cache.put(BASE + "index.html", fresh.clone());
+        cache.put(BASE, fresh.clone());
+      } catch {
+        /* ignore put alias failures */
+      }
+    }
+    return fresh;
+  } catch (err) {
+    const fallback =
+      (await cache.match(request)) ||
+      (await cache.match(BASE + "index.html")) ||
+      (await cache.match(BASE));
+    if (fallback) return fallback;
+    throw err;
+  }
+}

@@ -396,7 +396,6 @@ const zhHant = {
   usdtwd: "USD/TWD",
   loadError: "無法載入資料（{msg}）。請確認以靜態伺服器開啟，且 data/latest.json 存在。",
   langLabel: "語言",
-  // chat
   // paper
   paper: "模擬",
   paperMissing: "尚無模擬帳本檔案。請於專案執行 npm run paper。",
@@ -577,7 +576,6 @@ const zhHant = {
   logicPaperSell: "賣：停損 −3%；停利 +12% 半倉；破 SMA20 且日跌>2%；離名單且虧損；漲停風格隔日 −5%。",
   logicOpenPaper: "開啟模擬頁",
   logicFootnote: "框架合成僅供透明篩選說明，非投資建議。公開作者方法之可編碼代理；不重製受著作權保護之原文。",
-  // comments / social
   // glossary-ish short labels still used as chrome
   sma20: "SMA20",
   sma50: "SMA50",
