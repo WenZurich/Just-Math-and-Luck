@@ -1290,8 +1290,26 @@ h1 {
   box-shadow: none;
 }
 
+.nav-bottom .nav-more-btn[aria-expanded="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.nav-bottom .nav-more-btn[aria-expanded="true"]::before {
+  content: "";
+  position: absolute;
+  top: 0.15rem;
+  width: 1rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: none;
+}
 
-/* Mobile 「更多」 bottom sheet — sits above bottom nav (~390px) */
+
+/* Mobile 「更多」 bottom sheet — sits above bottom nav (~390px)
+   Author `display:flex` would override UA `[hidden]{display:none}` at same
+   specificity, so closed state MUST use [hidden]{display:none!important}.
+   Open/close animation is driven by `.is-open` (slide up + backdrop fade). */
 .nav-more-sheet {
   position: fixed;
   left: 0;
@@ -1303,9 +1321,16 @@ h1 {
   align-items: flex-end;
   justify-content: center;
   pointer-events: none;
+  visibility: hidden;
 }
-.nav-more-sheet:not([hidden]) {
+.nav-more-sheet[hidden] {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+.nav-more-sheet.is-open {
   pointer-events: auto;
+  visibility: visible;
 }
 .nav-more-backdrop {
   appearance: none;
@@ -1316,6 +1341,11 @@ h1 {
   inset: 0;
   background: rgba(15, 23, 42, 0.42);
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.32s ease;
+}
+.nav-more-sheet.is-open .nav-more-backdrop {
+  opacity: 1;
 }
 .nav-more-panel {
   position: relative;
@@ -1323,7 +1353,7 @@ h1 {
   width: min(100%, 420px);
   max-height: min(68vh, 480px);
   margin: 0;
-  padding: 0.75rem 0.75rem 0.85rem;
+  padding: 0.35rem 0.75rem 0.85rem;
   background: #fff;
   border-radius: 16px 16px 0 0;
   box-shadow: 0 -8px 28px rgba(15, 23, 42, 0.14);
@@ -1332,6 +1362,20 @@ h1 {
   gap: 0.5rem;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  transform: translateY(105%);
+  transition: transform 0.32s ease;
+  will-change: transform;
+}
+.nav-more-sheet.is-open .nav-more-panel {
+  transform: translateY(0);
+}
+.nav-more-grabber {
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: #d1d5db;
+  margin: 0.15rem auto 0.1rem;
+  flex-shrink: 0;
 }
 .nav-more-head {
   display: flex;
@@ -1406,6 +1450,12 @@ h1 {
 }
 body.nav-more-open {
   overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-more-backdrop,
+  .nav-more-panel {
+    transition: none;
+  }
 }
 @media (min-width: 900px) {
   .nav-more-sheet { display: none !important; }

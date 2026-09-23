@@ -494,6 +494,7 @@ function renderMobileBottomNav() {
     <div id="nav-more-sheet" class="nav-more-sheet" hidden>
       <button type="button" class="nav-more-backdrop" data-more-close aria-label="${escapeHtml(t("navMoreClose"))}"></button>
       <div class="nav-more-panel" role="dialog" aria-modal="true" aria-label="${escapeHtml(t("navMore"))}">
+        <div class="nav-more-grabber" aria-hidden="true"></div>
         <div class="nav-more-head">
           <h2 class="nav-more-title">${escapeHtml(t("navMore"))}</h2>
           <button type="button" class="nav-more-close" data-more-close aria-label="${escapeHtml(t("navMoreClose"))}">×</button>
@@ -629,13 +630,51 @@ function renderApp(data, paper) {
   `;
 }
 
+let moreSheetCloseTimer = null;
+
+function prefersReducedMotion() {
+  try {
+    return typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  } catch {
+    return false;
+  }
+}
+
 function setMoreSheetOpen(root, open) {
   const sheet = root.querySelector("#nav-more-sheet");
   const btn = root.querySelector("[data-nav-more]");
   if (!sheet || !btn) return;
-  sheet.hidden = !open;
-  btn.setAttribute("aria-expanded", open ? "true" : "false");
-  document.body.classList.toggle("nav-more-open", open);
+
+  if (moreSheetCloseTimer) {
+    clearTimeout(moreSheetCloseTimer);
+    moreSheetCloseTimer = null;
+  }
+
+  if (open) {
+    sheet.hidden = false;
+    // Two rAFs so display:flex paints before .is-open starts the slide/fade.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!sheet.hidden) sheet.classList.add("is-open");
+      });
+    });
+    btn.setAttribute("aria-expanded", "true");
+    document.body.classList.add("nav-more-open");
+    return;
+  }
+
+  const wasVisible = sheet.classList.contains("is-open") || !sheet.hidden;
+  sheet.classList.remove("is-open");
+  btn.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("nav-more-open");
+  if (!wasVisible || prefersReducedMotion()) {
+    sheet.hidden = true;
+    return;
+  }
+  moreSheetCloseTimer = setTimeout(() => {
+    sheet.hidden = true;
+    moreSheetCloseTimer = null;
+  }, 340);
 }
 
 function setNavActive(root, viewId) {
@@ -679,6 +718,7 @@ function showView(root, viewId, { updateHash = true, scrollTop = true } = {}) {
 }
 
 let navHashHandler = null;
+let navEscapeHandler = null;
 
 function bindAppNav(root) {
   const go = (viewId, opts) => showView(root, viewId, opts);
@@ -692,14 +732,19 @@ function bindAppNav(root) {
   const moreBtn = root.querySelector("[data-nav-more]");
   if (moreBtn) {
     moreBtn.addEventListener("click", () => {
-      const sheet = root.querySelector("#nav-more-sheet");
-      const open = Boolean(sheet?.hidden);
-      setMoreSheetOpen(root, open);
+      const expanded = moreBtn.getAttribute("aria-expanded") === "true";
+      setMoreSheetOpen(root, !expanded);
     });
   }
   root.querySelectorAll("[data-more-close]").forEach((el) => {
     el.addEventListener("click", () => setMoreSheetOpen(root, false));
   });
+
+  if (navEscapeHandler) window.removeEventListener("keydown", navEscapeHandler);
+  navEscapeHandler = (e) => {
+    if (e.key === "Escape") setMoreSheetOpen(root, false);
+  };
+  window.addEventListener("keydown", navEscapeHandler);
 
   if (navHashHandler) window.removeEventListener("hashchange", navHashHandler);
   navHashHandler = () => go(parseViewFromHash(), { updateHash: false });

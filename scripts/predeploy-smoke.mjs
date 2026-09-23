@@ -743,6 +743,21 @@ async function main() {
   if (!/\.nav-more-sheet/.test(cssNav) || !/\.nav-more-item/.test(cssNav)) {
     fail("nav-more-sheet styles missing");
   } else ok("nav-more-sheet styles present");
+  if (!/id="nav-more-sheet"[^>]*\bhidden\b/.test(mainSrc) && !/<div id="nav-more-sheet" class="nav-more-sheet" hidden>/.test(mainSrc)) {
+    fail("initial HTML must render #nav-more-sheet with [hidden] (closed by default)");
+  } else ok("nav-more-sheet initial [hidden] in markup");
+  if (!/\.nav-more-sheet\[hidden\]\s*\{[^}]*display:\s*none\s*!important/.test(cssNav)) {
+    fail("CSS must force .nav-more-sheet[hidden]{display:none!important} so author display:flex cannot override UA hidden");
+  } else ok("nav-more-sheet[hidden] display:none !important");
+  if (!/\.nav-more-sheet\.is-open/.test(cssNav) || !/translateY\(/.test(cssNav)) {
+    fail("More sheet needs .is-open + translateY slide animation");
+  } else ok("More sheet .is-open slide animation");
+  if (!/nav-more-grabber/.test(mainSrc) || !/\.nav-more-grabber/.test(cssNav)) {
+    fail("nav-more-grabber missing (mainstream bottom-sheet pattern)");
+  } else ok("nav-more-grabber present");
+  if (!/navEscapeHandler|key === "Escape"/.test(mainSrc)) {
+    fail("Escape should close More sheet");
+  } else ok("Escape closes More sheet");
   {
     const gz = mainSrc.match(/godzilla:\s*`([^`]+)`/);
     if (!gz) fail("godzilla nav icon missing");
