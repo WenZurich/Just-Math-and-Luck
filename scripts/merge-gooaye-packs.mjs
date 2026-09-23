@@ -17,7 +17,7 @@ const OUT_PUBLIC = path.join(ROOT, "public/data/strategy-screener.json");
 const OUT_DOCS = path.join(ROOT, "docs/data/strategy-screener.json");
 const LATEST = path.join(ROOT, "public/data/latest.json");
 const UA =
-  "Mozilla/5.0 (compatible; JustMathAndLuck/1.0; +https://github.com/WenZurich/Just-Math-and-Luck-)";
+  "Mozilla/5.0 (compatible; JustMathAndLuck/1.0; +https://github.com/WenZurich/Just-Math-and-Luck)";
 
 async function yahooChart(symbol) {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(

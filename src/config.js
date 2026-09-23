@@ -18,7 +18,7 @@ const config = {
 
   giscus: {
     enabled: true,
-    repo: 'WenZurich/Just-Math-and-Luck-',
+    repo: 'WenZurich/Just-Math-and-Luck',
     repoId: 'R_kgDOUcO78Q',
     category: 'General',
     categoryId: 'DIC_kwDOUcO78c4DFrWU',

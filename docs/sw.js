@@ -1,9 +1,9 @@
-/* Just-Math-and-Luck- PWA service worker
- * Scope: /Just-Math-and-Luck-/  (GitHub Pages project site)
+/* Just-Math-and-Luck PWA service worker
+ * Scope: /Just-Math-and-Luck/  (GitHub Pages project site)
  * - Cache shell (HTML/CSS/JS/icons) for offline open
  * - Network-first for data/*.json so daily updates prefer fresh
  */
-const BASE = "/Just-Math-and-Luck-/";
+const BASE = "/Just-Math-and-Luck/";
 const SHELL_CACHE = "jml-shell-v1";
 const DATA_CACHE = "jml-data-v1";
 

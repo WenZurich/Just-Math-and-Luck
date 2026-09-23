@@ -2,7 +2,7 @@
 
 美股＋台股依動能／相對強度／均線／量比的數學篩選儀表板，並附紙上模擬交易成績與社交參考。
 
-**網站：** https://WenZurich.github.io/Just-Math-and-Luck-/
+**網站：** https://WenZurich.github.io/Just-Math-and-Luck/
 
 > 投資涉及風險，資訊僅供參考，**非投資建議**。內容為公開行情篩選與紙上模擬，非真實券商成交。  
 > 社交摘要／站內討論僅供參考。
@@ -13,7 +13,7 @@
 本站是可安裝的 Progressive Web App（離線可開殼層；每日 `data/*.json` 仍優先抓新資料）。**尚未**上架 App Store／Play（之後可再經 Capacitor）。
 
 **iPhone / iPad（Safari）**
-1. 用 Safari 開啟 https://WenZurich.github.io/Just-Math-and-Luck-/
+1. 用 Safari 開啟 https://WenZurich.github.io/Just-Math-and-Luck/
 2. 點底部分享鈕 → **加入主畫面**
 3. 主畫面上的「每日選股」圖示即可全螢幕開啟
 

@@ -21,7 +21,7 @@ const OUT_DOCS = path.join(ROOT, "docs/data/strategy-screener.json");
 const LATEST = path.join(ROOT, "public/data/latest.json");
 
 const UA =
-  "Mozilla/5.0 (compatible; JustMathAndLuck/1.0; +https://github.com/WenZurich/Just-Math-and-Luck-)";
+  "Mozilla/5.0 (compatible; JustMathAndLuck/1.0; +https://github.com/WenZurich/Just-Math-and-Luck)";
 const TW_LIQUID_ZHANG = 300; // 張
 const TW_SHARES_PER_ZHANG = 1000;
 const TW_MIN_AVG_VOL_SHARES = TW_LIQUID_ZHANG * TW_SHARES_PER_ZHANG; // 300,000 shares

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Pre-deploy smoke gate for Just-Math-and-Luck-
+ * Pre-deploy smoke gate for Just-Math-and-Luck
  * - Renders every strategy panel (linkJargon / metrics / incomplete)
  * - Mounts #xq-root, clicks every chip + tab, asserts panel updates
  * - Asserts XQ category tabs and no orphan packs
@@ -36,7 +36,7 @@ function setupDom() {
       <div id="xq-root"></div>
     </body></html>`,
     {
-      url: "http://localhost/Just-Math-and-Luck-/",
+      url: "http://localhost/Just-Math-and-Luck/",
       pretendToBeVisual: true,
     }
   );

@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MOPS_CACHE = path.join(__dirname, ".mops-cache");
 
 const UA =
-  "Mozilla/5.0 (compatible; JustMathAndLuck/1.0; +https://github.com/WenZurich/Just-Math-and-Luck-)";
+  "Mozilla/5.0 (compatible; JustMathAndLuck/1.0; +https://github.com/WenZurich/Just-Math-and-Luck)";
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
