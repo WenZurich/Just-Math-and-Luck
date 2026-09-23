@@ -804,4 +804,77 @@ async function main() {
   }
 }
 
+
+/** PWA: register service worker (GitHub Pages base path) */
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  const base = import.meta.env.BASE_URL || "/";
+  const swUrl = `${base}sw.js`;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register(swUrl, { scope: base }).catch(() => {
+      /* quiet — SW optional */
+    });
+  });
+}
+
+/** Discreet mobile "Add to Home Screen" hint — not noisy */
+const PWA_HINT_KEY = "jml-pwa-hint-dismissed";
+function isStandaloneDisplay() {
+  try {
+    if (window.matchMedia("(display-mode: standalone)").matches) return true;
+    if (window.navigator.standalone === true) return true;
+  } catch {
+    /* ignore */
+  }
+  return false;
+}
+function isMobileLike() {
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
+}
+function maybeShowInstallHint() {
+  if (isStandaloneDisplay()) return;
+  if (!isMobileLike()) return;
+  try {
+    if (localStorage.getItem(PWA_HINT_KEY) === "1") return;
+  } catch {
+    return;
+  }
+  if (document.getElementById("pwa-install-hint")) return;
+
+  const bar = document.createElement("div");
+  bar.id = "pwa-install-hint";
+  bar.className = "pwa-install-hint";
+  bar.setAttribute("role", "status");
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+  const tip = isIOS
+    ? "可「分享 → 加入主畫面」離線開啟"
+    : "可加入主畫面，離線也能開";
+  bar.innerHTML = `<span class="pwa-install-hint__text">${tip}</span><button type="button" class="pwa-install-hint__close" aria-label="關閉">×</button>`;
+  document.body.appendChild(bar);
+  const dismiss = () => {
+    bar.remove();
+    try {
+      localStorage.setItem(PWA_HINT_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+  };
+  bar.querySelector(".pwa-install-hint__close")?.addEventListener("click", dismiss);
+  // Auto-fade after a while so it stays discreet
+  window.setTimeout(() => {
+    if (bar.isConnected) bar.classList.add("pwa-install-hint--fade");
+  }, 8000);
+  window.setTimeout(() => {
+    if (bar.isConnected) dismiss();
+  }, 12000);
+}
+
+registerServiceWorker();
 main();
+window.setTimeout(() => {
+  try {
+    maybeShowInstallHint();
+  } catch {
+    /* ignore */
+  }
+}, 2500);

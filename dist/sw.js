@@ -1,0 +1,143 @@
+/* Just-Math-and-Luck- PWA service worker
+ * Scope: /Just-Math-and-Luck-/  (GitHub Pages project site)
+ * - Cache shell (HTML/CSS/JS/icons) for offline open
+ * - Network-first for data/*.json so daily updates prefer fresh
+ */
+const BASE = "/Just-Math-and-Luck-/";
+const SHELL_CACHE = "jml-shell-v1";
+const DATA_CACHE = "jml-data-v1";
+
+const PRECACHE_URLS = [
+  BASE,
+  BASE + "index.html",
+  BASE + "manifest.webmanifest",
+  BASE + "icon-192.png",
+  BASE + "icon-512.png",
+  BASE + "apple-touch-icon.png",
+  BASE + "favicon.png",
+  BASE + "logo.png",
+];
+
+function toPathname(request) {
+  try {
+    return new URL(request.url).pathname;
+  } catch {
+    return "";
+  }
+}
+
+function isDataJson(request) {
+  const path = toPathname(request);
+  return path.startsWith(BASE + "data/") && path.endsWith(".json");
+}
+
+function isSameOriginShell(request) {
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return false;
+  const path = url.pathname;
+  if (!path.startsWith(BASE)) return false;
+  if (isDataJson(request)) return false;
+  // Skip SW itself / chrome-extension etc.
+  if (path.endsWith("/sw.js")) return false;
+  return true;
+}
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    (async () => {
+      const cache = await caches.open(SHELL_CACHE);
+      await Promise.all(
+        PRECACHE_URLS.map(async (url) => {
+          try {
+            await cache.add(url);
+          } catch {
+            /* individual asset may 404 during first deploy — ignore */
+          }
+        })
+      );
+      self.skipWaiting();
+    })()
+  );
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    (async () => {
+      const keep = new Set([SHELL_CACHE, DATA_CACHE]);
+      const keys = await caches.keys();
+      await Promise.all(
+        keys
+          .filter((k) => k.startsWith("jml-") && !keep.has(k))
+          .map((k) => caches.delete(k))
+      );
+      await self.clients.claim();
+    })()
+  );
+});
+
+async function networkFirstData(request) {
+  const cache = await caches.open(DATA_CACHE);
+  try {
+    const fresh = await fetch(request);
+    if (fresh && fresh.ok) {
+      cache.put(request, fresh.clone());
+    }
+    return fresh;
+  } catch (err) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    throw err;
+  }
+}
+
+async function staleWhileRevalidateShell(request) {
+  const cache = await caches.open(SHELL_CACHE);
+  const cached = await cache.match(request);
+  const networkPromise = fetch(request)
+    .then((res) => {
+      if (res && res.ok && (request.method === "GET" || request.method === undefined)) {
+        cache.put(request, res.clone());
+      }
+      return res;
+    })
+    .catch(() => null);
+
+  if (cached) {
+    void networkPromise;
+    return cached;
+  }
+  const fresh = await networkPromise;
+  if (fresh) return fresh;
+  // Navigation fallback to cached index for offline open
+  if (request.mode === "navigate") {
+    const fallback =
+      (await cache.match(BASE + "index.html")) ||
+      (await cache.match(BASE));
+    if (fallback) return fallback;
+  }
+  return Response.error();
+}
+
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  if (request.method !== "GET") return;
+
+  // Cross-origin (fonts, supabase, giscus): leave to network
+  try {
+    if (new URL(request.url).origin !== self.location.origin) return;
+  } catch {
+    return;
+  }
+
+  const path = toPathname(request);
+  if (!path.startsWith(BASE)) return;
+
+  if (isDataJson(request)) {
+    event.respondWith(networkFirstData(request));
+    return;
+  }
+
+  if (isSameOriginShell(request) || request.mode === "navigate") {
+    event.respondWith(staleWhileRevalidateShell(request));
+  }
+});

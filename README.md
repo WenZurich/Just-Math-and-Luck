@@ -7,6 +7,23 @@
 > 投資涉及風險，資訊僅供參考，**非投資建議**。內容為公開行情篩選與紙上模擬，非真實券商成交。  
 > 社交摘要／站內討論僅供參考。
 
+
+## 安裝成 App（PWA）
+
+本站是可安裝的 Progressive Web App（離線可開殼層；每日 `data/*.json` 仍優先抓新資料）。**尚未**上架 App Store／Play（之後可再經 Capacitor）。
+
+**iPhone / iPad（Safari）**
+1. 用 Safari 開啟 https://WenZurich.github.io/Just-Math-and-Luck-/
+2. 點底部分享鈕 → **加入主畫面**
+3. 主畫面上的「每日選股」圖示即可全螢幕開啟
+
+**Android（Chrome）**
+1. 用 Chrome 開啟同一網址
+2. 選單 ⋮ → **安裝應用程式**／**加入主畫面**（或網址列的安裝圖示）
+3. 從主畫面／應用程式匣開啟
+
+> 提示：站內偶爾會出現低調的「可加入主畫面」小提示，關閉後不會再吵。
+
 ## 更新資料
 
 1. 更新 `public/data/latest.json`（含 `marketRegime.us`／`marketRegime.tw`；`npm`/`node scripts/daily-scan.mjs`）
