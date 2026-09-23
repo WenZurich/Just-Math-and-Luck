@@ -42,9 +42,9 @@
     }
   },
   "limit": 8,
-  "refreshHint": "node scripts/fetch-us-options.mjs  （可選：daily-scan 後手動／排程）",
+  "refreshHint": null,
   "sessionOk": false,
-  "sessionBlocker": "crumb HTTP 429",
+  "sessionBlocker": null,
   "tickers": [
     {
       "ticker": "ARM",

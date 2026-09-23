@@ -123,9 +123,9 @@ const zhHant = {
   earningsTagFallback: "45 日行事曆亮點",
   earningsTagOther: "關注",
   earningsPartialBlocker: "部分資料受阻",
-  earningsRefreshHow: "重新整理：npm run fetch-earnings，再 build／部署。",
+  earningsRefreshHow: "資料會隨站點更新；若畫面異常請稍後再試。",
   earningsLoadError: "無法載入財報摘要（{msg}）",
-  earningsEmpty: "尚無 Mag7 資料——請先跑 npm run fetch-earnings",
+  earningsEmpty: "財報摘要整理中，請稍後再看。",
 
 
   navSoxl: "SOXL",
@@ -228,7 +228,7 @@ const zhHant = {
   optionsPickTicker: "請選擇上方美股代碼",
   optionsChainBlocked: "期權鏈暫時無法取得",
   optionsPartialBlocker: "部分欄位不完整",
-  optionsRefreshHow: "重新整理：在專案根目錄執行 node scripts/fetch-us-options.mjs，再 build／部署。",
+  optionsRefreshHow: "資料會隨站點更新；若畫面異常請稍後再試。",
   optionsLoadError: "無法載入選擇權快照（{msg}）",
   optionsEmpty: "尚無美股樣本——請先跑 fetch-us-options",
   optionsGlossaryTitle: "小詞典（不用公式）",
@@ -652,9 +652,9 @@ const en = {
   earningsTagFallback: "45d calendar highlight",
   earningsTagOther: "Watch",
   earningsPartialBlocker: "Partial data blocked",
-  earningsRefreshHow: "Refresh: npm run fetch-earnings, then build/deploy.",
+  earningsRefreshHow: "Data updates with the site; try again shortly if something looks off.",
   earningsLoadError: "Could not load earnings digest ({msg})",
-  earningsEmpty: "No Mag7 data yet — run npm run fetch-earnings",
+  earningsEmpty: "Earnings digest is being prepared. Check back shortly.",
 
 
   navSoxl: "SOXL",
@@ -757,7 +757,7 @@ const en = {
   optionsPickTicker: "Pick a US ticker above",
   optionsChainBlocked: "Options chain temporarily unavailable",
   optionsPartialBlocker: "Some fields incomplete",
-  optionsRefreshHow: "Refresh: run node scripts/fetch-us-options.mjs at repo root, then build/deploy.",
+  optionsRefreshHow: "Data updates with the site; try again shortly if something looks off.",
   optionsLoadError: "Could not load options snapshot ({msg})",
   optionsEmpty: "No US sample yet — run fetch-us-options first",
   optionsGlossaryTitle: "Tiny glossary (no formulas)",
@@ -1166,9 +1166,9 @@ const zhHans = {
   earningsTagFallback: "45 日行事历亮点",
   earningsTagOther: "关注",
   earningsPartialBlocker: "部分资料受阻",
-  earningsRefreshHow: "重新整理：npm run fetch-earnings，再 build／部署。",
+  earningsRefreshHow: "资料会随站点更新；若画面异常请稍后再试。",
   earningsLoadError: "无法载入财报摘要（{msg}）",
-  earningsEmpty: "尚无 Mag7 资料——请先跑 npm run fetch-earnings",
+  earningsEmpty: "财报摘要整理中，请稍后再看。",
 
 
   navSoxl: "SOXL",
@@ -1271,7 +1271,7 @@ const zhHans = {
   optionsPickTicker: "请选择上方美股代码",
   optionsChainBlocked: "期权链暂时无法取得",
   optionsPartialBlocker: "部分栏位不完整",
-  optionsRefreshHow: "重新整理：在项目根目录执行 node scripts/fetch-us-options.mjs，再 build／部署。",
+  optionsRefreshHow: "资料会随站点更新；若画面异常请稍后再试。",
   optionsLoadError: "无法载入期权快照（{msg}）",
   optionsEmpty: "尚无美股样本——请先跑 fetch-us-options",
   optionsGlossaryTitle: "小词典（不用公式）",
@@ -1678,9 +1678,9 @@ const ja = {
   earningsTagFallback: "45日カレンダー注目",
   earningsTagOther: "注目",
   earningsPartialBlocker: "一部データ取得不可",
-  earningsRefreshHow: "更新：npm run fetch-earnings のあと build／デプロイ。",
+  earningsRefreshHow: "データはサイト更新に合わせて反映されます。表示がおかしい場合はしばらくしてから再試行してください。",
   earningsLoadError: "決算ダイジェストを読めません（{msg}）",
-  earningsEmpty: "Mag7 データなし — 先に npm run fetch-earnings",
+  earningsEmpty: "決算ダイジェストを準備中です。しばらくしてからご確認ください。",
 
 
   navSoxl: "SOXL",
@@ -1783,7 +1783,7 @@ const ja = {
   optionsPickTicker: "上のティッカーを選んでください",
   optionsChainBlocked: "オプションチェーンを取得できません",
   optionsPartialBlocker: "一部フィールド不足",
-  optionsRefreshHow: "更新: ルートで node scripts/fetch-us-options.mjs を実行し build／デプロイ。",
+  optionsRefreshHow: "データはサイト更新に合わせて反映されます。表示がおかしい場合はしばらくしてから再試行してください。",
   optionsLoadError: "オプションスナップショットを読めません（{msg}）",
   optionsEmpty: "米国サンプルなし — 先に fetch-us-options",
   optionsGlossaryTitle: "小さな用語集（式なし）",

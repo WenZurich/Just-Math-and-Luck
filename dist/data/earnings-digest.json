@@ -8,9 +8,9 @@
   "source": "Nasdaq API calendar/earnings (public fallback; Yahoo crumb/session blocked)",
   "disclaimer": "非投資建議。公開財報／預估摘要僅供教育參考，不構成個人化投資建議。數字來自 Yahoo 或 Nasdaq 公開行事曆，缺欄標資料不足、不捏造。",
   "selectionRule": "Primary: non-Mag7 mega-caps with nextEarningsDate within next 14 calendar days, sorted by marketCap desc. Also: Yahoo most_actives with earnings in next 14d OR reported in last 7d. Fallback fill: nearest upcoming mega-cap earnings within 45d (tagged calendar_highlight). Cap 8. Sources: Yahoo Finance public quoteSummary + screener only; null fields omitted in UI.",
-  "refreshHint": "npm run fetch-earnings  （平日與每日數學選股一併跑；daily-scan 結尾亦可呼叫）",
+  "refreshHint": null,
   "sessionOk": false,
-  "sessionBlocker": "crumb HTTP 429",
+  "sessionBlocker": null,
   "mag7": [
     {
       "ticker": "AAPL",

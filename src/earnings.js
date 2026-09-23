@@ -131,18 +131,13 @@ function renderCard(row, { hot = false } = {}) {
 function paint(root, data) {
   const mag7 = Array.isArray(data?.mag7) ? data.mag7 : [];
   const hot = Array.isArray(data?.watchlistHot) ? data.watchlistHot : [];
-  const sessionBlock = data?.sessionBlocker
-    ? `<div class="er-blocker" role="status"><p>${escapeHtml(data.sessionBlocker)}</p><p class="er-muted">${escapeHtml(t("earningsRefreshHow"))}</p></div>`
-    : "";
-
   root.innerHTML = `
     <p class="er-meta">${escapeHtml(t("dataAsOf"))} ${escapeHtml(fmtAsOf(data?.asOf))} · ${escapeHtml(t("earningsUsFocus"))}</p>
     <p class="er-stub" role="note">${escapeHtml(data?.twStub?.note || t("earningsTwStub"))}</p>
     <div class="er-rule"><strong>${escapeHtml(t("earningsSelectionTitle"))}</strong> ${escapeHtml(
       data?.selectionRule || t("earningsSelectionFallback")
     )}</div>
-    ${sessionBlock}
-    <div class="er-panels">
+        <div class="er-panels">
       <section class="er-panel" aria-label="${escapeHtml(t("earningsMag7Title"))}">
         <h3 class="er-panel-title">${escapeHtml(t("earningsMag7Title"))}</h3>
         <p class="er-panel-lead">${escapeHtml(t("earningsMag7Lead"))}</p>
@@ -195,9 +190,8 @@ export async function initEarnings(selector = "#er-root") {
     return { ok: true, data };
   } catch (err) {
     root.innerHTML = `
-      <div class="er-blocker" role="alert">
+      <div class="er-empty" role="status">
         <p>${escapeHtml(t("earningsLoadError", { msg: err.message || String(err) }))}</p>
-        <p class="er-muted">${escapeHtml(t("earningsRefreshHow"))}</p>
       </div>`;
     return { ok: false, error: err };
   }

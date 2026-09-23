@@ -251,7 +251,6 @@ function renderOptionsDetail(row) {
       <div class="uo-blocker" role="status">
         <p><strong>${escapeHtml(t("optionsChainBlocked"))}</strong></p>
         <p>${escapeHtml(blockers.join(" · ") || t("optionsDataMissing"))}</p>
-        <p class="uo-muted">${escapeHtml(t("optionsRefreshHow"))}</p>
       </div>`;
   }
   const skew = skewLabel(o.putCallVolumeRatio);
@@ -321,15 +320,10 @@ function paint(root, data, state) {
   const selected = rows.find((r) => r.ticker === state.ticker) || rows[0] || null;
   if (selected) state.ticker = selected.ticker;
 
-  const sessionBlock = data?.sessionBlocker
-    ? `<div class="uo-blocker" role="status"><p>${escapeHtml(data.sessionBlocker)}</p><p class="uo-muted">${escapeHtml(t("optionsRefreshHow"))}</p></div>`
-    : "";
-
   root.innerHTML = `
     ${renderBookBanner(data)}
     <p class="uo-meta">${escapeHtml(t("dataAsOf"))} ${escapeHtml(fmtAsOf(data?.asOf))} · ${escapeHtml(t("optionsUsOnly"))}</p>
-    ${sessionBlock}
-    <div class="uo-panels">
+        <div class="uo-panels">
       <section class="uo-panel uo-panel-opt" aria-label="${escapeHtml(t("optionsViewTitle"))}">
         <h3 class="uo-panel-title">${escapeHtml(t("optionsViewTitle"))}</h3>
         <p class="uo-panel-lead">${escapeHtml(t("optionsViewLead"))}</p>
@@ -412,7 +406,6 @@ export async function initOptions(selector = "#uo-root") {
     root.innerHTML = `
       <div class="uo-blocker" role="alert">
         <p>${escapeHtml(t("optionsLoadError", { msg: err.message || String(err) }))}</p>
-        <p class="uo-muted">${escapeHtml(t("optionsRefreshHow"))}</p>
       </div>`;
     return { ok: false, error: err };
   }
