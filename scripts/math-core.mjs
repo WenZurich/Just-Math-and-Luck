@@ -104,3 +104,13 @@ export function avgVolume(vols, { minLen = 10 } = {}) {
   }
   return vols.reduce((a, b) => a + b, 0) / vols.length;
 }
+
+/**
+ * Project x onto [lo, hi]. Screening-safe: non-finite or lo > hi → null.
+ * Olympiad habit: closed-interval projection (Marks temperature, score caps).
+ */
+export function clamp(x, lo, hi) {
+  if (!isFiniteNumber(x) || !isFiniteNumber(lo) || !isFiniteNumber(hi)) return null;
+  if (lo > hi) return null;
+  return Math.min(hi, Math.max(lo, x));
+}

@@ -440,6 +440,106 @@ async function fetchMostActives(session) {
   };
 }
 
+
+function parseUsdMoney(s) {
+  if (s == null || s === "") return null;
+  const t = String(s).trim().replace(/[$,]/g, "");
+  if (!t || t === "N/A" || t === "--") return null;
+  const n = Number(t);
+  return Number.isFinite(n) ? n : null;
+}
+
+function parseEpsForecast(s) {
+  if (s == null || s === "") return null;
+  const t = String(s).trim();
+  if (!t || t === "N/A" || t === "--") return null;
+  const neg = t.includes("(") && t.includes(")");
+  const n = Number(t.replace(/[$,()]/g, ""));
+  if (!Number.isFinite(n)) return null;
+  return neg ? -n : n;
+}
+
+/** Nasdaq public earnings calendar (no API key). Scans [start, start+days]. */
+async function nasdaqEarningsWindow(startYmd, days = 90, symbols = null) {
+  const want = symbols ? new Set([...symbols].map((s) => String(s).toUpperCase())) : null;
+  const bySym = new Map();
+  const start = new Date(`${startYmd}T00:00:00Z`);
+  for (let i = 0; i <= days; i++) {
+    const dt = new Date(start.getTime() + i * 86400000);
+    const iso = dt.toISOString().slice(0, 10);
+    let res;
+    try {
+      res = await fetch(`https://api.nasdaq.com/api/calendar/earnings?date=${iso}`, {
+        headers: { Accept: "application/json", "User-Agent": UA },
+      });
+    } catch {
+      await sleep(120);
+      continue;
+    }
+    if (!res.ok) {
+      await sleep(120);
+      continue;
+    }
+    let j;
+    try {
+      j = await res.json();
+    } catch {
+      await sleep(120);
+      continue;
+    }
+    for (const row of j?.data?.rows || []) {
+      const sym = String(row.symbol || "").toUpperCase();
+      if (!sym) continue;
+      if (want && !want.has(sym)) continue;
+      if (bySym.has(sym)) continue; // first upcoming date wins
+      bySym.set(sym, {
+        ticker: sym,
+        name: (row.name || sym).trim(),
+        nextEarningsDate: iso,
+        nextEarningsDateIsEstimate: true,
+        consensusEpsNext: parseEpsForecast(row.epsForecast),
+        marketCap: parseUsdMoney(row.marketCap),
+        fiscalQuarterEnding: row.fiscalQuarterEnding || null,
+        lastYearEps: row.lastYearEPS || null,
+        lastYearRptDt: row.lastYearRptDt || null,
+        sources: ["Nasdaq API calendar/earnings (public)"],
+      });
+    }
+    await sleep(120);
+  }
+  return bySym;
+}
+
+function rowFromNasdaq(ns, nameHint) {
+  const missingFields = [];
+  if (!ns?.nextEarningsDate) missingFields.push("nextEarningsDate");
+  missingFields.push("revenueYoYPct", "epsYoYPct", "pe", "lastReport", "whatItDoes");
+  const row = {
+    ticker: ns.ticker,
+    name: nameHint || ns.name,
+    ok: Boolean(ns.nextEarningsDate),
+    blocker: ns.nextEarningsDate ? null : "Nasdaq calendar: no upcoming date in scan window",
+    nextEarningsDate: ns.nextEarningsDate || null,
+    nextEarningsDateIsEstimate: ns.nextEarningsDateIsEstimate ?? null,
+    lastReport: null,
+    revenueYoYPct: null,
+    epsYoYPct: null,
+    pe: null,
+    forwardPe: null,
+    marketCap: ns.marketCap ?? null,
+    consensusEpsNext: ns.consensusEpsNext ?? null,
+    consensusRevNext: null,
+    whatItDoes: null,
+    missingFields,
+    sources: ns.sources || ["Nasdaq API calendar/earnings (public)"],
+    fiscalQuarterEnding: ns.fiscalQuarterEnding || null,
+  };
+  row.notes = buildNotes(row);
+  if (ns.fiscalQuarterEnding) row.notes.push(`財季截止約 ${ns.fiscalQuarterEnding}（Nasdaq）`);
+  row.whatToWatch = whatToWatch(row);
+  return row;
+}
+
 async function main() {
   const asOf = new Date().toISOString();
   const asOfDate = new Date(asOf);
@@ -452,28 +552,48 @@ async function main() {
 
   const mag7 = [];
   const mag7Set = new Set(MAG7.map((m) => m.ticker));
+  let nasdaqMap = null;
+  let sourceLabel =
+    "Yahoo Finance public quoteSummary + most_actives screener (crumb session)";
+
+  // When Yahoo crumb/session is blocked, fill Mag7 + watchlist from Nasdaq public calendar.
+  if (!session.ok) {
+    console.log("▶ Nasdaq calendar fallback (Yahoo session unavailable)…");
+    const startYmd = asOf.slice(0, 10);
+    const pool = [...mag7Set, ...MEGA_CAPS];
+    nasdaqMap = await nasdaqEarningsWindow(startYmd, WINDOW_FALLBACK_DAYS + 45, pool);
+    console.log("Nasdaq hits", nasdaqMap.size);
+    sourceLabel =
+      "Nasdaq API calendar/earnings (public fallback; Yahoo crumb/session blocked)";
+  }
 
   for (const m of MAG7) {
     if (!session.ok) {
-      mag7.push({
-        ticker: m.ticker,
-        name: m.nameHint,
-        ok: false,
-        blocker: sessionBlocker,
-        nextEarningsDate: null,
-        nextEarningsDateIsEstimate: null,
-        lastReport: null,
-        revenueYoYPct: null,
-        epsYoYPct: null,
-        pe: null,
-        forwardPe: null,
-        marketCap: null,
-        whatItDoes: null,
-        whatToWatch: "資料不足",
-        notes: ["資料不足"],
-        missingFields: ["session"],
-        sources: ["Yahoo Finance quoteSummary"],
-      });
+      const ns = nasdaqMap?.get(m.ticker);
+      if (ns) {
+        console.log("mag7 nasdaq", m.ticker, ns.nextEarningsDate);
+        mag7.push(rowFromNasdaq(ns, m.nameHint));
+      } else {
+        mag7.push({
+          ticker: m.ticker,
+          name: m.nameHint,
+          ok: false,
+          blocker: sessionBlocker + "; Nasdaq calendar: no date in scan window",
+          nextEarningsDate: null,
+          nextEarningsDateIsEstimate: null,
+          lastReport: null,
+          revenueYoYPct: null,
+          epsYoYPct: null,
+          pe: null,
+          forwardPe: null,
+          marketCap: null,
+          whatItDoes: null,
+          whatToWatch: "財報日未出現在 Nasdaq 未來掃描窗；請核對公司 IR",
+          notes: ["下次財報日：Nasdaq 掃描窗內無資料（未捏造）"],
+          missingFields: ["session", "nextEarningsDate", "revenueYoYPct", "epsYoYPct", "pe", "lastReport", "whatItDoes"],
+          sources: ["Nasdaq API calendar/earnings (public)", "Yahoo session blocked"],
+        });
+      }
       continue;
     }
     console.log("mag7", m.ticker);
@@ -486,6 +606,46 @@ async function main() {
   const watchlistHot = [];
   const seen = new Set(mag7Set);
   let actives = { ok: false, tickers: [], error: null };
+
+  if (!session.ok && nasdaqMap) {
+    const candidates = [];
+    for (const t of MEGA_CAPS) {
+      if (mag7Set.has(t)) continue;
+      const ns = nasdaqMap.get(t);
+      if (!ns) continue;
+      const row = rowFromNasdaq(ns, ns.name);
+      row._daysToEarnings = daysFrom(asOfDate, row.nextEarningsDate);
+      row._meta = { reasonPool: "mega_cap", nasdaq: true };
+      candidates.push(row);
+    }
+    const primary = candidates
+      .filter((c) => c._daysToEarnings != null && c._daysToEarnings >= 0 && c._daysToEarnings <= WINDOW_PRIMARY_DAYS)
+      .sort((a, b) => (b.marketCap || 0) - (a.marketCap || 0));
+    const fallback = candidates
+      .filter(
+        (c) =>
+          c._daysToEarnings != null &&
+          c._daysToEarnings > WINDOW_PRIMARY_DAYS &&
+          c._daysToEarnings <= WINDOW_FALLBACK_DAYS
+      )
+      .sort((a, b) => a._daysToEarnings - b._daysToEarnings || (b.marketCap || 0) - (a.marketCap || 0));
+    const pick = (list, tag) => {
+      for (const c of list) {
+        if (watchlistHot.length >= WATCHLIST_TARGET) break;
+        if (seen.has(c.ticker)) continue;
+        seen.add(c.ticker);
+        const { _daysToEarnings, _meta, ...rest } = c;
+        watchlistHot.push({
+          ...rest,
+          selectionTag: tag,
+          daysToEarnings: _daysToEarnings,
+          pool: _meta?.reasonPool || null,
+        });
+      }
+    };
+    pick(primary, "nasdaq_mega_cap_earnings_next_14d");
+    pick(fallback, "nasdaq_calendar_highlight_within_45d");
+  }
 
   if (session.ok) {
     actives = await fetchMostActives(session);
@@ -583,9 +743,9 @@ async function main() {
       status: "planned",
       note: "台股財報稍後開放（TW stub）",
     },
-    source: "Yahoo Finance public quoteSummary + most_actives screener (crumb session)",
+    source: sourceLabel,
     disclaimer:
-      "非投資建議。公開財報／預估摘要僅供教育參考，不構成個人化投資建議。數字來自 Yahoo，缺欄標資料不足。",
+      "非投資建議。公開財報／預估摘要僅供教育參考，不構成個人化投資建議。數字來自 Yahoo 或 Nasdaq 公開行事曆，缺欄標資料不足、不捏造。",
     selectionRule: SELECTION_RULE,
     refreshHint:
       "npm run fetch-earnings  （平日與每日數學選股一併跑；daily-scan 結尾亦可呼叫）",

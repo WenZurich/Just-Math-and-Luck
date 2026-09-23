@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-09-16T11:58:01.789Z",
+  "asOf": "2026-09-23T00:19:59.275Z",
   "market": "US",
   "source": "Yahoo Finance public quoteSummary + options + chart (crumb session)",
   "disclaimer": "非投資建議；選擇權風險高。Educational screen only — not personalized advice.",
@@ -43,78 +43,28 @@
   },
   "limit": 8,
   "refreshHint": "node scripts/fetch-us-options.mjs  （可選：daily-scan 後手動／排程）",
-  "sessionOk": true,
-  "sessionBlocker": null,
+  "sessionOk": false,
+  "sessionBlocker": "crumb HTTP 429",
   "tickers": [
     {
-      "ticker": "QLYS",
-      "name": "Qualys",
-      "price": 185.37,
-      "dayPct": 7.21,
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "price": 331.95,
+      "dayPct": 2.8,
       "screens": [
         "A",
         "B"
       ],
-      "fundamentals": {
-        "trailingPE": 32.13,
-        "forwardPE": 21.99,
-        "priceToBook": 11.42,
-        "roe": 0.3859,
-        "debtToEquity": 9.5,
-        "profitMargin": 0.2938,
-        "grossMargin": 0.8342,
-        "revenueTrend": {
-          "label": "flat",
-          "pct": 7.24,
-          "incomplete": false
-        },
-        "earningsTrend": {
-          "label": "flat",
-          "pct": 4.09,
-          "incomplete": false
-        },
-        "quartersAvailable": 4
-      },
+      "fundamentals": null,
       "quality": {
-        "score": 0.6,
-        "scoreRaw": 6,
-        "scoreMax": 10,
-        "gate": "watch",
-        "notes": [
-          "pe_elevated",
-          "pb_high",
-          "roe_strong",
-          "debt_low",
-          "rev_flat"
-        ],
-        "missingFields": []
-      },
-      "options": {
-        "asOfUnderlying": 185.37,
-        "expiration": "2026-10-16",
-        "expirationUnix": 1792108800,
-        "atmStrikeCall": 195,
-        "atmStrikePut": 175,
-        "atmIv": null,
-        "atmIvCall": null,
-        "atmIvPut": null,
-        "historicalVol": 0.7396,
-        "ivHvRatio": null,
-        "callVolume": 173,
-        "putVolume": 617,
-        "putCallVolumeRatio": 3.566,
-        "callOpenInterest": 834,
-        "putOpenInterest": 689,
-        "putCallOiRatio": 0.826,
-        "contractCounts": {
-          "calls": 13,
-          "puts": 9
-        },
+        "gate": "incomplete",
+        "score": null,
         "missingFields": [
-          "atmIv"
-        ]
+          "session"
+        ],
+        "notes": []
       },
-      "blockers": [],
+      "options": null,
       "setups": [
         {
           "id": "covered-call",
@@ -202,236 +152,30 @@
           "volAligned": false,
           "ivNote": "iv_missing"
         }
-      ]
-    },
-    {
-      "ticker": "OKTA",
-      "name": "Okta",
-      "price": 190.45,
-      "dayPct": 2.37,
-      "screens": [
-        "A"
       ],
-      "fundamentals": {
-        "trailingPE": 112.03,
-        "forwardPE": 43.5,
-        "priceToBook": 4.77,
-        "roe": 0.0431,
-        "debtToEquity": 0.76,
-        "profitMargin": 0.0963,
-        "grossMargin": 0.7813,
-        "revenueTrend": {
-          "label": "up",
-          "pct": 8.49,
-          "incomplete": false
-        },
-        "earningsTrend": {
-          "label": "up",
-          "pct": 169.77,
-          "incomplete": false
-        },
-        "quartersAvailable": 4
-      },
-      "quality": {
-        "score": 0.6,
-        "scoreRaw": 6,
-        "scoreMax": 10,
-        "gate": "watch",
-        "notes": [
-          "pe_stretched",
-          "pb_ok",
-          "roe_weak",
-          "debt_low",
-          "rev_up",
-          "earn_up"
-        ],
-        "missingFields": []
-      },
-      "options": {
-        "asOfUnderlying": 190.45,
-        "expiration": "2026-10-09",
-        "expirationUnix": 1791504000,
-        "atmStrikeCall": 195,
-        "atmStrikePut": 177.5,
-        "atmIv": null,
-        "atmIvCall": null,
-        "atmIvPut": null,
-        "historicalVol": 1.0547,
-        "ivHvRatio": null,
-        "callVolume": 134,
-        "putVolume": 418,
-        "putCallVolumeRatio": 3.119,
-        "callOpenInterest": 263,
-        "putOpenInterest": 844,
-        "putCallOiRatio": 3.209,
-        "contractCounts": {
-          "calls": 31,
-          "puts": 50
-        },
-        "missingFields": [
-          "atmIv"
-        ]
-      },
-      "blockers": [],
-      "setups": [
-        {
-          "id": "covered-call",
-          "outlook": "mild_bull_or_flat",
-          "volBias": [
-            "iv_fair",
-            "iv_rich",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "upside_capped",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "protective-put",
-          "outlook": "own_shares_want_floor",
-          "volBias": [
-            "iv_fair",
-            "iv_cheap",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "premium_cost",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "vertical-spread",
-          "outlook": "directional_defined_risk",
-          "volBias": [
-            "iv_fair",
-            "iv_rich",
-            "iv_cheap",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "defined_max_loss",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "calendar-diagonal",
-          "outlook": "time_and_vol_view",
-          "volBias": [
-            "iv_cheap",
-            "iv_fair",
-            "iv_only"
-          ],
-          "plainRisk": "timing_and_iv_change",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "straddle-strangle",
-          "outlook": "big_move_either_way",
-          "volBias": [
-            "iv_cheap",
-            "iv_fair"
-          ],
-          "plainRisk": "needs_large_move",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "butterfly",
-          "outlook": "pin_near_strike",
-          "volBias": [
-            "iv_rich",
-            "iv_fair"
-          ],
-          "plainRisk": "narrow_profit_zone",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        }
+      "blockers": [
+        "crumb HTTP 429"
       ]
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike",
-      "price": 242.49,
-      "dayPct": 2.48,
+      "ticker": "INTC",
+      "name": "Intel",
+      "price": 123.98,
+      "dayPct": 1.81,
       "screens": [
         "A",
         "B"
       ],
-      "fundamentals": {
-        "trailingPE": 4849.8,
-        "forwardPE": 151,
-        "priceToBook": 48.66,
-        "roe": 0.0146,
-        "debtToEquity": 15.96,
-        "profitMargin": 0.0083,
-        "grossMargin": 0.7519,
-        "revenueTrend": {
-          "label": "up",
-          "pct": 19.17,
-          "incomplete": false
-        },
-        "earningsTrend": {
-          "label": "up",
-          "pct": 115.61,
-          "incomplete": false
-        },
-        "quartersAvailable": 4
-      },
+      "fundamentals": null,
       "quality": {
-        "score": 0.5,
-        "scoreRaw": 5,
-        "scoreMax": 10,
-        "gate": "watch",
-        "notes": [
-          "pe_stretched",
-          "pb_high",
-          "roe_weak",
-          "debt_low",
-          "rev_up",
-          "earn_up"
-        ],
-        "missingFields": []
-      },
-      "options": {
-        "asOfUnderlying": 242.49,
-        "expiration": "2026-10-09",
-        "expirationUnix": 1791504000,
-        "atmStrikeCall": 250,
-        "atmStrikePut": 235,
-        "atmIv": null,
-        "atmIvCall": null,
-        "atmIvPut": null,
-        "historicalVol": 0.9818,
-        "ivHvRatio": null,
-        "callVolume": 3498,
-        "putVolume": 1328,
-        "putCallVolumeRatio": 0.38,
-        "callOpenInterest": 5110,
-        "putOpenInterest": 3759,
-        "putCallOiRatio": 0.736,
-        "contractCounts": {
-          "calls": 34,
-          "puts": 28
-        },
+        "gate": "incomplete",
+        "score": null,
         "missingFields": [
-          "atmIv"
-        ]
+          "session"
+        ],
+        "notes": []
       },
-      "blockers": [],
+      "options": null,
       "setups": [
         {
           "id": "covered-call",
@@ -519,78 +263,30 @@
           "volAligned": false,
           "ivNote": "iv_missing"
         }
+      ],
+      "blockers": [
+        "crumb HTTP 429"
       ]
     },
     {
-      "ticker": "ZS",
-      "name": "Zscaler",
-      "price": 193.89,
-      "dayPct": 0.87,
+      "ticker": "MU",
+      "name": "Micron",
+      "price": 1094.74,
+      "dayPct": 4.86,
       "screens": [
         "A",
         "B"
       ],
-      "fundamentals": {
-        "trailingPE": null,
-        "forwardPE": 34.63,
-        "priceToBook": 12.17,
-        "roe": -0.0287,
-        "debtToEquity": 71.89,
-        "profitMargin": -0.0188,
-        "grossMargin": 0.7687,
-        "revenueTrend": {
-          "label": "up",
-          "pct": 13.97,
-          "incomplete": false
-        },
-        "earningsTrend": {
-          "label": "up",
-          "pct": 70.99,
-          "incomplete": false
-        },
-        "quartersAvailable": 4
-      },
+      "fundamentals": null,
       "quality": {
-        "score": 0.6,
-        "scoreRaw": 6,
-        "scoreMax": 10,
-        "gate": "watch",
-        "notes": [
-          "pe_elevated",
-          "pb_high",
-          "roe_weak",
-          "debt_low",
-          "rev_up",
-          "earn_up"
-        ],
-        "missingFields": []
-      },
-      "options": {
-        "asOfUnderlying": 193.89,
-        "expiration": "2026-10-09",
-        "expirationUnix": 1791504000,
-        "atmStrikeCall": 200,
-        "atmStrikePut": 185,
-        "atmIv": null,
-        "atmIvCall": null,
-        "atmIvPut": null,
-        "historicalVol": 0.8007,
-        "ivHvRatio": null,
-        "callVolume": 496,
-        "putVolume": 164,
-        "putCallVolumeRatio": 0.331,
-        "callOpenInterest": 1155,
-        "putOpenInterest": 1011,
-        "putCallOiRatio": 0.875,
-        "contractCounts": {
-          "calls": 34,
-          "puts": 30
-        },
+        "gate": "incomplete",
+        "score": null,
         "missingFields": [
-          "atmIv"
-        ]
+          "session"
+        ],
+        "notes": []
       },
-      "blockers": [],
+      "options": null,
       "setups": [
         {
           "id": "covered-call",
@@ -678,77 +374,29 @@
           "volAligned": false,
           "ivNote": "iv_missing"
         }
+      ],
+      "blockers": [
+        "crumb HTTP 429"
       ]
     },
     {
-      "ticker": "FTNT",
-      "name": "Fortinet",
-      "price": 172.37,
-      "dayPct": 1.38,
+      "ticker": "MSTR",
+      "name": "MicroStrategy",
+      "price": 168.43,
+      "dayPct": -0.04,
       "screens": [
         "A"
       ],
-      "fundamentals": {
-        "trailingPE": 60.27,
-        "forwardPE": 45.63,
-        "priceToBook": 81.54,
-        "roe": 1.1744,
-        "debtToEquity": 36.19,
-        "profitMargin": 0.2817,
-        "grossMargin": 0.802,
-        "revenueTrend": {
-          "label": "up",
-          "pct": 18.73,
-          "incomplete": false
-        },
-        "earningsTrend": {
-          "label": "up",
-          "pct": 27.94,
-          "incomplete": false
-        },
-        "quartersAvailable": 4
-      },
+      "fundamentals": null,
       "quality": {
-        "score": 0.7,
-        "scoreRaw": 7,
-        "scoreMax": 10,
-        "gate": "pass",
-        "notes": [
-          "pe_stretched",
-          "pb_high",
-          "roe_strong",
-          "debt_low",
-          "rev_up",
-          "earn_up"
-        ],
-        "missingFields": []
-      },
-      "options": {
-        "asOfUnderlying": 172.37,
-        "expiration": "2026-10-09",
-        "expirationUnix": 1791504000,
-        "atmStrikeCall": 180,
-        "atmStrikePut": 160,
-        "atmIv": null,
-        "atmIvCall": null,
-        "atmIvPut": null,
-        "historicalVol": 0.588,
-        "ivHvRatio": null,
-        "callVolume": 46,
-        "putVolume": 23,
-        "putCallVolumeRatio": 0.5,
-        "callOpenInterest": 224,
-        "putOpenInterest": 172,
-        "putCallOiRatio": 0.768,
-        "contractCounts": {
-          "calls": 14,
-          "puts": 8
-        },
+        "gate": "incomplete",
+        "score": null,
         "missingFields": [
-          "atmIv"
-        ]
+          "session"
+        ],
+        "notes": []
       },
-      "blockers": [],
+      "options": null,
       "setups": [
         {
           "id": "covered-call",
@@ -836,393 +484,30 @@
           "volAligned": false,
           "ivNote": "iv_missing"
         }
-      ]
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms",
-      "price": 670.24,
-      "dayPct": 0.5,
-      "screens": [
-        "A"
       ],
-      "fundamentals": {
-        "trailingPE": 25.25,
-        "forwardPE": 19.17,
-        "priceToBook": 6.54,
-        "roe": 0.2985,
-        "debtToEquity": 43,
-        "profitMargin": 0.2983,
-        "grossMargin": 0.8175,
-        "revenueTrend": {
-          "label": "up",
-          "pct": 18.65,
-          "incomplete": false
-        },
-        "earningsTrend": {
-          "label": "up",
-          "pct": 485.01,
-          "incomplete": false
-        },
-        "quartersAvailable": 4
-      },
-      "quality": {
-        "score": 0.8,
-        "scoreRaw": 8,
-        "scoreMax": 10,
-        "gate": "pass",
-        "notes": [
-          "pe_elevated",
-          "pb_high",
-          "roe_strong",
-          "debt_low",
-          "rev_up",
-          "earn_up"
-        ],
-        "missingFields": []
-      },
-      "options": {
-        "asOfUnderlying": 670.24,
-        "expiration": "2026-10-09",
-        "expirationUnix": 1791504000,
-        "atmStrikeCall": 690,
-        "atmStrikePut": 650,
-        "atmIv": null,
-        "atmIvCall": null,
-        "atmIvPut": null,
-        "historicalVol": 0.3637,
-        "ivHvRatio": null,
-        "callVolume": 2149,
-        "putVolume": 1482,
-        "putCallVolumeRatio": 0.69,
-        "callOpenInterest": 10250,
-        "putOpenInterest": 8516,
-        "putCallOiRatio": 0.831,
-        "contractCounts": {
-          "calls": 110,
-          "puts": 73
-        },
-        "missingFields": [
-          "atmIv"
-        ]
-      },
-      "blockers": [],
-      "setups": [
-        {
-          "id": "covered-call",
-          "outlook": "mild_bull_or_flat",
-          "volBias": [
-            "iv_fair",
-            "iv_rich",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "upside_capped",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "protective-put",
-          "outlook": "own_shares_want_floor",
-          "volBias": [
-            "iv_fair",
-            "iv_cheap",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "premium_cost",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "vertical-spread",
-          "outlook": "directional_defined_risk",
-          "volBias": [
-            "iv_fair",
-            "iv_rich",
-            "iv_cheap",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "defined_max_loss",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "calendar-diagonal",
-          "outlook": "time_and_vol_view",
-          "volBias": [
-            "iv_cheap",
-            "iv_fair",
-            "iv_only"
-          ],
-          "plainRisk": "timing_and_iv_change",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "straddle-strangle",
-          "outlook": "big_move_either_way",
-          "volBias": [
-            "iv_cheap",
-            "iv_fair"
-          ],
-          "plainRisk": "needs_large_move",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "butterfly",
-          "outlook": "pin_near_strike",
-          "volBias": [
-            "iv_rich",
-            "iv_fair"
-          ],
-          "plainRisk": "narrow_profit_zone",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        }
-      ]
-    },
-    {
-      "ticker": "PANW",
-      "name": "Palo Alto Networks",
-      "price": 375.09,
-      "dayPct": 0.33,
-      "screens": [
-        "A"
-      ],
-      "fundamentals": {
-        "trailingPE": 914.85,
-        "forwardPE": 76.88,
-        "priceToBook": 11.15,
-        "roe": 0.0174,
-        "debtToEquity": 9.34,
-        "profitMargin": 0.0267,
-        "grossMargin": 0.7038,
-        "revenueTrend": {
-          "label": "up",
-          "pct": 18.36,
-          "incomplete": false
-        },
-        "earningsTrend": {
-          "label": "down",
-          "pct": -169.74,
-          "incomplete": false
-        },
-        "quartersAvailable": 4
-      },
-      "quality": {
-        "score": 0.4,
-        "scoreRaw": 4,
-        "scoreMax": 10,
-        "gate": "watch",
-        "notes": [
-          "pe_stretched",
-          "pb_high",
-          "roe_weak",
-          "debt_low",
-          "rev_up",
-          "earn_down"
-        ],
-        "missingFields": []
-      },
-      "options": {
-        "asOfUnderlying": 375.09,
-        "expiration": "2026-10-09",
-        "expirationUnix": 1791504000,
-        "atmStrikeCall": 385,
-        "atmStrikePut": 365,
-        "atmIv": null,
-        "atmIvCall": null,
-        "atmIvPut": null,
-        "historicalVol": 0.79,
-        "ivHvRatio": null,
-        "callVolume": 1552,
-        "putVolume": 842,
-        "putCallVolumeRatio": 0.543,
-        "callOpenInterest": 3275,
-        "putOpenInterest": 3159,
-        "putCallOiRatio": 0.965,
-        "contractCounts": {
-          "calls": 61,
-          "puts": 58
-        },
-        "missingFields": [
-          "atmIv"
-        ]
-      },
-      "blockers": [],
-      "setups": [
-        {
-          "id": "covered-call",
-          "outlook": "mild_bull_or_flat",
-          "volBias": [
-            "iv_fair",
-            "iv_rich",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "upside_capped",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "protective-put",
-          "outlook": "own_shares_want_floor",
-          "volBias": [
-            "iv_fair",
-            "iv_cheap",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "premium_cost",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "vertical-spread",
-          "outlook": "directional_defined_risk",
-          "volBias": [
-            "iv_fair",
-            "iv_rich",
-            "iv_cheap",
-            "iv_only",
-            "unknown"
-          ],
-          "plainRisk": "defined_max_loss",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": true,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "calendar-diagonal",
-          "outlook": "time_and_vol_view",
-          "volBias": [
-            "iv_cheap",
-            "iv_fair",
-            "iv_only"
-          ],
-          "plainRisk": "timing_and_iv_change",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "straddle-strangle",
-          "outlook": "big_move_either_way",
-          "volBias": [
-            "iv_cheap",
-            "iv_fair"
-          ],
-          "plainRisk": "needs_large_move",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        },
-        {
-          "id": "butterfly",
-          "outlook": "pin_near_strike",
-          "volBias": [
-            "iv_rich",
-            "iv_fair"
-          ],
-          "plainRisk": "narrow_profit_zone",
-          "shown": true,
-          "volRegime": "unknown",
-          "volAligned": false,
-          "ivNote": "iv_missing"
-        }
+      "blockers": [
+        "crumb HTTP 429"
       ]
     },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
-      "price": 504.2,
-      "dayPct": 1.99,
+      "price": 622.39,
+      "dayPct": 1.12,
       "screens": [
-        "A"
+        "A",
+        "B"
       ],
-      "fundamentals": {
-        "trailingPE": 126.68,
-        "forwardPE": 32.38,
-        "priceToBook": 12.24,
-        "roe": 0.102,
-        "debtToEquity": 6.36,
-        "profitMargin": 0.1558,
-        "grossMargin": 0.5572,
-        "revenueTrend": {
-          "label": "up",
-          "pct": 24.77,
-          "incomplete": false
-        },
-        "earningsTrend": {
-          "label": "up",
-          "pct": 84.79,
-          "incomplete": false
-        },
-        "quartersAvailable": 4
-      },
+      "fundamentals": null,
       "quality": {
-        "score": 0.6,
-        "scoreRaw": 6,
-        "scoreMax": 10,
-        "gate": "watch",
-        "notes": [
-          "pe_stretched",
-          "pb_high",
-          "roe_ok",
-          "debt_low",
-          "rev_up",
-          "earn_up"
-        ],
-        "missingFields": []
-      },
-      "options": {
-        "asOfUnderlying": 504.2,
-        "expiration": "2026-10-09",
-        "expirationUnix": 1791504000,
-        "atmStrikeCall": 520,
-        "atmStrikePut": 490,
-        "atmIv": null,
-        "atmIvCall": null,
-        "atmIvPut": null,
-        "historicalVol": 0.4915,
-        "ivHvRatio": null,
-        "callVolume": 2576,
-        "putVolume": 4598,
-        "putCallVolumeRatio": 1.785,
-        "callOpenInterest": 11894,
-        "putOpenInterest": 21739,
-        "putCallOiRatio": 1.828,
-        "contractCounts": {
-          "calls": 121,
-          "puts": 110
-        },
+        "gate": "incomplete",
+        "score": null,
         "missingFields": [
-          "atmIv"
-        ]
+          "session"
+        ],
+        "notes": []
       },
-      "blockers": [],
+      "options": null,
       "setups": [
         {
           "id": "covered-call",
@@ -1310,6 +595,231 @@
           "volAligned": false,
           "ivNote": "iv_missing"
         }
+      ],
+      "blockers": [
+        "crumb HTTP 429"
+      ]
+    },
+    {
+      "ticker": "CLS",
+      "name": "Celestica",
+      "price": 355.35,
+      "dayPct": 3.18,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "fundamentals": null,
+      "quality": {
+        "gate": "incomplete",
+        "score": null,
+        "missingFields": [
+          "session"
+        ],
+        "notes": []
+      },
+      "options": null,
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        }
+      ],
+      "blockers": [
+        "crumb HTTP 429"
+      ]
+    },
+    {
+      "ticker": "TSM",
+      "name": "TSMC (ADR)",
+      "price": 449.68,
+      "dayPct": 1.02,
+      "screens": [
+        "A",
+        "B"
+      ],
+      "fundamentals": null,
+      "quality": {
+        "gate": "incomplete",
+        "score": null,
+        "missingFields": [
+          "session"
+        ],
+        "notes": []
+      },
+      "options": null,
+      "setups": [
+        {
+          "id": "covered-call",
+          "outlook": "mild_bull_or_flat",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "upside_capped",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "protective-put",
+          "outlook": "own_shares_want_floor",
+          "volBias": [
+            "iv_fair",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "premium_cost",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "vertical-spread",
+          "outlook": "directional_defined_risk",
+          "volBias": [
+            "iv_fair",
+            "iv_rich",
+            "iv_cheap",
+            "iv_only",
+            "unknown"
+          ],
+          "plainRisk": "defined_max_loss",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": true,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "calendar-diagonal",
+          "outlook": "time_and_vol_view",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair",
+            "iv_only"
+          ],
+          "plainRisk": "timing_and_iv_change",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "straddle-strangle",
+          "outlook": "big_move_either_way",
+          "volBias": [
+            "iv_cheap",
+            "iv_fair"
+          ],
+          "plainRisk": "needs_large_move",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        },
+        {
+          "id": "butterfly",
+          "outlook": "pin_near_strike",
+          "volBias": [
+            "iv_rich",
+            "iv_fair"
+          ],
+          "plainRisk": "narrow_profit_zone",
+          "shown": true,
+          "volRegime": "unknown",
+          "volAligned": false,
+          "ivNote": "iv_missing"
+        }
+      ],
+      "blockers": [
+        "crumb HTTP 429"
       ]
     }
   ]

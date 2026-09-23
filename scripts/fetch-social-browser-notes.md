@@ -1,6 +1,6 @@
 # fetch-social browser fallback notes
 
-Generated: 2026-09-15T17:59:04.324Z
+Generated: 2026-09-23T00:23:10.049Z
 
 Puppeteer/Playwright are **not** installed in this repo. Box IP hits Cloudflare 403 on Dcard and Reddit challenge/403.
 Reddit falls back to arctic-shift.photon-reddit.com (real posts, ticker-filtered). Dcard still needs user-browser IP.
@@ -11,20 +11,24 @@ Parent agent can open these URLs via computerUse / user browser and paste real t
 - TW → PTT + Dcard + Threads only
 
 ## Dcard (TW) — computerUse-friendly search URLs
-### 2468.TW
-- https://www.dcard.tw/search?query=2468
-- https://www.dcard.tw/search?query=%E8%8F%AF%E7%B6%93
-- blocker: Dcard search q=2468: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）
+### 3443.TW
+- https://www.dcard.tw/search?query=3443
+- https://www.dcard.tw/search?query=%E5%89%B5%E6%84%8F
+- blocker: Dcard search q=3443: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）
 
-### 6226.TW
-- https://www.dcard.tw/search?query=6226
-- https://www.dcard.tw/search?query=%E5%85%89%E9%BC%8E
-- blocker: Dcard search q=6226: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）
+### 3037.TW
+- https://www.dcard.tw/search?query=3037
+- https://www.dcard.tw/search?query=%E6%AC%A3%E8%88%88
+- blocker: Dcard search q=3037: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）
 
-### 2308.TW
-- https://www.dcard.tw/search?query=2308
-- https://www.dcard.tw/search?query=%E5%8F%B0%E9%81%94%E9%9B%BB
-- blocker: Dcard search q=2308: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）
+### 3035.TW
+- https://www.dcard.tw/search?query=3035
+- https://www.dcard.tw/search?query=%E6%99%BA%E5%8E%9F
+- blocker: Dcard search q=3035: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）
+
+### 5274.TWO
+- https://www.dcard.tw/search?query=5274.TWO
+- blocker: Dcard search q=5274.TWO: HTTP 403 — Cloudflare／反爬阻擋匿名 API（本環境）
 
 ## Reddit (US) — if box still blocked, open on user IP
 ## Threads

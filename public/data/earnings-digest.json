@@ -1,306 +1,295 @@
 {
-  "asOf": "2026-09-16T11:56:33.600Z",
+  "asOf": "2026-09-23T00:19:36.431Z",
   "market": "US",
   "twStub": {
     "status": "planned",
     "note": "台股財報稍後開放（TW stub）"
   },
-  "source": "Yahoo Finance public quoteSummary + most_actives screener (crumb session)",
-  "disclaimer": "非投資建議。公開財報／預估摘要僅供教育參考，不構成個人化投資建議。數字來自 Yahoo，缺欄標資料不足。",
+  "source": "Nasdaq API calendar/earnings (public fallback; Yahoo crumb/session blocked)",
+  "disclaimer": "非投資建議。公開財報／預估摘要僅供教育參考，不構成個人化投資建議。數字來自 Yahoo 或 Nasdaq 公開行事曆，缺欄標資料不足、不捏造。",
   "selectionRule": "Primary: non-Mag7 mega-caps with nextEarningsDate within next 14 calendar days, sorted by marketCap desc. Also: Yahoo most_actives with earnings in next 14d OR reported in last 7d. Fallback fill: nearest upcoming mega-cap earnings within 45d (tagged calendar_highlight). Cap 8. Sources: Yahoo Finance public quoteSummary + screener only; null fields omitted in UI.",
   "refreshHint": "npm run fetch-earnings  （平日與每日數學選股一併跑；daily-scan 結尾亦可呼叫）",
-  "sessionOk": true,
-  "sessionBlocker": null,
+  "sessionOk": false,
+  "sessionBlocker": "crumb HTTP 429",
   "mag7": [
     {
       "ticker": "AAPL",
-      "name": "Apple Inc.",
+      "name": "Apple",
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-29",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 2.02,
-        "epsEstimate": 1.8924,
-        "epsSurprisePct": 6.74,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 16.4,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 28.7,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 38.04,
-      "forwardPe": 34.58,
-      "marketCap": 4835635625984,
-      "consensusEpsNext": 1.9812,
-      "consensusRevNext": 113624521680,
-      "whatItDoes": "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide.",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 4947134900000,
+      "consensusEpsNext": 1.98,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-29",
-        "最近一季（2026-06-30）：EPS 2.02",
-        "市場預估下次 EPS 約 1.9812（Yahoo）"
+        "下次財報約 2026-10-29（預估日）",
+        "市場預估下次 EPS 約 1.98（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +16.4%（Yahoo）；獲利成長約 +28.7%（Yahoo earningsGrowth）"
+      "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值"
     },
     {
       "ticker": "MSFT",
-      "name": "Microsoft Corporation",
+      "name": "Microsoft",
       "ok": true,
       "blocker": null,
-      "nextEarningsDate": "2026-10-28",
+      "nextEarningsDate": "2026-11-04",
       "nextEarningsDateIsEstimate": true,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 4.74,
-        "epsEstimate": 4.2394,
-        "epsSurprisePct": 11.81,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 17.7,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 31.7,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 28.17,
-      "forwardPe": 21.07,
-      "marketCap": 3691387289600,
-      "consensusEpsNext": 4.7246,
-      "consensusRevNext": 90659206720,
-      "whatItDoes": "Microsoft Corporation, a technology company, develops and supports a portfolio of technology solutions for individuals and businesses worldwide.",
-      "missingFields": [],
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 3724727810000,
+      "consensusEpsNext": 4.69,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-28（預估日）",
-        "最近一季（2026-06-30）：EPS 4.74",
-        "市場預估下次 EPS 約 4.7246（Yahoo）"
+        "下次財報約 2026-11-04（預估日）",
+        "市場預估下次 EPS 約 4.69（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +17.7%（Yahoo）；獲利成長約 +31.7%（Yahoo earningsGrowth）"
+      "whatToWatch": "關注 2026-11-04 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值"
     },
     {
       "ticker": "NVDA",
-      "name": "NVIDIA Corporation",
-      "ok": true,
-      "blocker": null,
-      "nextEarningsDate": "2026-11-17",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-07-31",
-        "epsActual": 2.22,
-        "epsEstimate": 2.0911,
-        "epsSurprisePct": 6.16,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 105.9,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 127.8,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 26.65,
-      "forwardPe": 13.59,
-      "marketCap": 5123268935680,
-      "consensusEpsNext": 2.4727,
-      "consensusRevNext": 108988683310,
-      "whatItDoes": "NVIDIA Corporation operates as a data center scale AI infrastructure company in the United States, Taiwan, China, Hong Kong, Europe, and internationally. It operates through Compute & Networking, and Graphics segments.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
-      ],
+      "name": "NVIDIA",
+      "ok": false,
+      "blocker": "crumb HTTP 429; Nasdaq calendar: no date in scan window",
+      "nextEarningsDate": null,
+      "nextEarningsDateIsEstimate": null,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": null,
+      "whatItDoes": null,
+      "whatToWatch": "財報日未出現在 Nasdaq 未來掃描窗；請核對公司 IR",
       "notes": [
-        "下次財報約 2026-11-17",
-        "最近一季（2026-07-31）：EPS 2.22",
-        "市場預估下次 EPS 約 2.4727（Yahoo）"
+        "下次財報日：Nasdaq 掃描窗內無資料（未捏造）"
       ],
-      "whatToWatch": "關注 2026-11-17 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +105.9%（Yahoo）；獲利成長約 +127.8%（Yahoo earningsGrowth）"
+      "missingFields": [
+        "session",
+        "nextEarningsDate",
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
+      "sources": [
+        "Nasdaq API calendar/earnings (public)",
+        "Yahoo session blocked"
+      ]
     },
     {
       "ticker": "AMZN",
-      "name": "Amazon.com, Inc.",
+      "name": "Amazon",
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-29",
       "nextEarningsDateIsEstimate": true,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 5.75,
-        "epsEstimate": 1.8253,
-        "epsSurprisePct": 215.02,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 19.6,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 242.3,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 20,
-      "forwardPe": 23.94,
-      "marketCap": 2679535828992,
-      "consensusEpsNext": 1.9497,
-      "consensusRevNext": 202141155960,
-      "whatItDoes": "Amazon.com, Inc. engages in the retail sale of consumer products, advertising, and subscriptions service through online and physical stores in North America and internationally.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 2787722660000,
+      "consensusEpsNext": 2.01,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
       ],
+      "sources": [
+        "Nasdaq API calendar/earnings (public)"
+      ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
         "下次財報約 2026-10-29（預估日）",
-        "最近一季（2026-06-30）：EPS 5.75",
-        "市場預估下次 EPS 約 1.9497（Yahoo）"
+        "市場預估下次 EPS 約 2.01（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +19.6%（Yahoo）；獲利成長約 +242.3%（Yahoo earningsGrowth）"
+      "whatToWatch": "關注 2026-10-29 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值"
     },
     {
       "ticker": "GOOGL",
-      "name": "Alphabet Inc.",
+      "name": "Alphabet (Class A)",
       "ok": true,
       "blocker": null,
-      "nextEarningsDate": "2026-10-28",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 9.11,
-        "epsEstimate": 2.8991,
-        "epsSurprisePct": 214.23,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 24.2,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 294,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.3,
-      "forwardPe": 23.22,
-      "marketCap": 4219083161600,
-      "consensusEpsNext": 3.0075,
-      "consensusRevNext": 127227149560,
-      "whatItDoes": "Alphabet Inc. offers various products and platforms in the United States, Europe, the Middle East, Africa, the Asia-Pacific, Canada, and Latin America.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      "nextEarningsDate": "2026-11-04",
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 4341283160000,
+      "consensusEpsNext": 2.93,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
       ],
+      "sources": [
+        "Nasdaq API calendar/earnings (public)"
+      ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
         "Alphabet Class A；GOOG 為 Class C",
-        "下次財報約 2026-10-28",
-        "最近一季（2026-06-30）：EPS 9.11",
-        "市場預估下次 EPS 約 3.0075（Yahoo）"
+        "下次財報約 2026-11-04（預估日）",
+        "市場預估下次 EPS 約 2.93（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +24.2%（Yahoo）；獲利成長約 +294%（Yahoo earningsGrowth）"
+      "whatToWatch": "關注 2026-11-04 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值"
     },
     {
       "ticker": "GOOG",
-      "name": "Alphabet Inc.",
+      "name": "Alphabet (Class C)",
       "ok": true,
       "blocker": null,
-      "nextEarningsDate": "2026-10-28",
+      "nextEarningsDate": "2026-11-04",
       "nextEarningsDateIsEstimate": true,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 9.11,
-        "epsEstimate": 2.9115,
-        "epsSurprisePct": 212.9,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 24.2,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 294,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.12,
-      "forwardPe": 22.98,
-      "marketCap": 4175666610176,
-      "consensusEpsNext": 3.0075,
-      "consensusRevNext": 127227149560,
-      "whatItDoes": "Alphabet Inc. offers various products and platforms in the United States, Europe, the Middle East, Africa, the Asia-Pacific, Canada, and Latin America.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 4341283160000,
+      "consensusEpsNext": 2.93,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
       ],
+      "sources": [
+        "Nasdaq API calendar/earnings (public)"
+      ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
         "Alphabet Class C；與 GOOGL 同一公司，財報日通常一致",
-        "下次財報約 2026-10-28（預估日）",
-        "最近一季（2026-06-30）：EPS 9.11",
-        "市場預估下次 EPS 約 3.0075（Yahoo）"
+        "下次財報約 2026-11-04（預估日）",
+        "市場預估下次 EPS 約 2.93（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +24.2%（Yahoo）；獲利成長約 +294%（Yahoo earningsGrowth）"
+      "whatToWatch": "關注 2026-11-04 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值"
     },
     {
       "ticker": "META",
-      "name": "Meta Platforms, Inc.",
+      "name": "Meta Platforms",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-11-04",
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 1888326250000,
+      "consensusEpsNext": 6.39,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
+      "sources": [
+        "Nasdaq API calendar/earnings (public)"
+      ],
+      "fiscalQuarterEnding": "Sep/2026",
+      "notes": [
+        "下次財報約 2026-11-04（預估日）",
+        "市場預估下次 EPS 約 6.39（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
+      ],
+      "whatToWatch": "關注 2026-11-04 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla",
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-28",
       "nextEarningsDateIsEstimate": true,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 6.18,
-        "epsEstimate": 7.2214,
-        "epsSurprisePct": -14.42,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 28,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": -13.4,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 25.25,
-      "forwardPe": 19.17,
-      "marketCap": 1707440472064,
-      "consensusEpsNext": 6.9733,
-      "consensusRevNext": 63315198780,
-      "whatItDoes": "Meta Platforms, Inc. engages in the development of products that enable people to connect and share with friends and family through mobile devices, personal computers, virtual reality (VR) headsets, and AI glasses in the…",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 1482265200000,
+      "consensusEpsNext": 0.26,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
       ],
+      "sources": [
+        "Nasdaq API calendar/earnings (public)"
+      ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
         "下次財報約 2026-10-28（預估日）",
-        "最近一季（2026-06-30）：EPS 6.18",
-        "市場預估下次 EPS 約 6.9733（Yahoo）"
+        "市場預估下次 EPS 約 0.26（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +28%（Yahoo）；獲利成長約 -13.4%（Yahoo earningsGrowth）"
-    },
-    {
-      "ticker": "TSLA",
-      "name": "Tesla, Inc.",
-      "ok": true,
-      "blocker": null,
-      "nextEarningsDate": "2026-10-21",
-      "nextEarningsDateIsEstimate": true,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 0.33,
-        "epsEstimate": 0.5424,
-        "epsSurprisePct": -39.15,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 25.5,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": -3,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 333.25,
-      "forwardPe": 165.19,
-      "marketCap": 1408329580544,
-      "consensusEpsNext": 0.4515,
-      "consensusRevNext": 27533944910,
-      "whatItDoes": "Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems in the United States, China, and internationally.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
-      ],
-      "notes": [
-        "下次財報約 2026-10-21（預估日）",
-        "最近一季（2026-06-30）：EPS 0.33",
-        "市場預估下次 EPS 約 0.4515（Yahoo）"
-      ],
-      "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +25.5%（Yahoo）；獲利成長約 -3%（Yahoo earningsGrowth）"
+      "whatToWatch": "關注 2026-10-28 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值"
     }
   ],
   "watchlistHot": [
@@ -310,37 +299,36 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-09-30",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-05-31",
-        "epsActual": 25.11,
-        "epsEstimate": 20.686,
-        "epsSurprisePct": 21.39,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 345.7,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 1368.5,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 20.96,
-      "forwardPe": 5.93,
-      "marketCap": 1047625072640,
-      "consensusEpsNext": 31.3312,
-      "consensusRevNext": 50787211780,
-      "whatItDoes": "Micron Technology, Inc. designs, develops, manufactures, and sells memory and storage products in the United States, Taiwan, Japan, Mainland China, Hong Kong, Europe, and internationally.",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 1179041270000,
+      "consensusEpsNext": 31.24,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Aug/2026",
       "notes": [
-        "下次財報約 2026-09-30",
-        "最近一季（2026-05-31）：EPS 25.11",
-        "市場預估下次 EPS 約 31.3312（Yahoo）"
+        "下次財報約 2026-09-30（預估日）",
+        "市場預估下次 EPS 約 31.24（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Aug/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-09-30 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +345.7%（Yahoo）；獲利成長約 +1368.5%（Yahoo earningsGrowth）",
-      "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 14,
+      "whatToWatch": "關注 2026-09-30 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_mega_cap_earnings_next_14d",
+      "daysToEarnings": 7,
       "pool": "mega_cap"
     },
     {
@@ -349,37 +337,36 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-09-24",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-05-31",
-        "epsActual": 4.93,
-        "epsEstimate": 4.923,
-        "epsSurprisePct": 0.14,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 11.6,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 15.2,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 45.25,
-      "forwardPe": 39.83,
-      "marketCap": 399729623040,
-      "consensusEpsNext": 6.5406,
-      "consensusRevNext": 94876127620,
-      "whatItDoes": "Costco Wholesale Corporation, together with its subsidiaries, engages in the operation of membership warehouses in the United States, Puerto Rico, Canada, Mexico, Japan, the United Kingdom, Korea, Australia, Taiwan, Chin…",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 398456848000,
+      "consensusEpsNext": 6.48,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Aug/2026",
       "notes": [
-        "下次財報約 2026-09-24",
-        "最近一季（2026-05-31）：EPS 4.93",
-        "市場預估下次 EPS 約 6.5406（Yahoo）"
+        "下次財報約 2026-09-24（預估日）",
+        "市場預估下次 EPS 約 6.48（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Aug/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-09-24 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +11.6%（Yahoo）；獲利成長約 +15.2%（Yahoo earningsGrowth）",
-      "selectionTag": "mega_cap_earnings_next_14d",
-      "daysToEarnings": 8,
+      "whatToWatch": "關注 2026-09-24 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_mega_cap_earnings_next_14d",
+      "daysToEarnings": 1,
       "pool": "mega_cap"
     },
     {
@@ -388,37 +375,36 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-01",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-05-31",
-        "epsActual": 0.72,
-        "epsEstimate": 0.1272,
-        "epsSurprisePct": 466.13,
-        "currency": "USD"
-      },
-      "revenueYoYPct": -1.1,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 428,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.25,
-      "forwardPe": 15.83,
-      "marketCap": 53732327424,
-      "consensusEpsNext": 0.4483,
-      "consensusRevNext": 11351896210,
-      "whatItDoes": "NIKE, Inc., together with its subsidiaries, designs, develops, markets, and sells athletic footwear, apparel, equipment, accessories, and services for men, women, and kids in North America, Europe, the Middle East, Afric…",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 53554303000,
+      "consensusEpsNext": 0.44,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Aug/2026",
       "notes": [
-        "下次財報約 2026-10-01",
-        "最近一季（2026-05-31）：EPS 0.72",
-        "市場預估下次 EPS 約 0.4483（Yahoo）"
+        "下次財報約 2026-10-01（預估日）",
+        "市場預估下次 EPS 約 0.44（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Aug/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-01 前後的營收與 EPS 是否達預估；近期營收 YoY 約 -1.1%（Yahoo）；獲利成長約 +428%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 15,
+      "whatToWatch": "關注 2026-10-01 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_mega_cap_earnings_next_14d",
+      "daysToEarnings": 8,
       "pool": "mega_cap"
     },
     {
@@ -427,76 +413,74 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-08",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 2.2,
-        "epsEstimate": 2.2082,
-        "epsSurprisePct": -0.37,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 6.4,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 137,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 17.76,
-      "forwardPe": 15.1,
-      "marketCap": 185092997120,
-      "consensusEpsNext": 2.2997,
-      "consensusRevNext": 25008210030,
-      "whatItDoes": "PepsiCo, Inc. engages in the manufacture, marketing, distribution, and sale of various beverages and convenient foods worldwide.",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 176876290000,
+      "consensusEpsNext": 2.3,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-08",
-        "最近一季（2026-06-30）：EPS 2.2",
-        "市場預估下次 EPS 約 2.2997（Yahoo）"
+        "下次財報約 2026-10-08（預估日）",
+        "市場預估下次 EPS 約 2.3（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-08 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +6.4%（Yahoo）；獲利成長約 +137%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 22,
+      "whatToWatch": "關注 2026-10-08 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 15,
       "pool": "mega_cap"
     },
     {
       "ticker": "JPM",
-      "name": "JP Morgan Chase & Co.",
+      "name": "J P Morgan Chase & Co",
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-13",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 6.14,
-        "epsEstimate": 5.8,
-        "epsSurprisePct": 5.86,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 30.4,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 46.9,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 15.11,
-      "forwardPe": 14.11,
-      "marketCap": 936984051712,
-      "consensusEpsNext": 5.8901,
-      "consensusRevNext": 50670127630,
-      "whatItDoes": "JPMorgan Chase & Co. operates as a bank and financial holding company in the United States, rest of North America, Europe, the Middle East, Africa, the Asia Pacific, Latin America, and the Caribbean.",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 935787890000,
+      "consensusEpsNext": 5.84,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-13",
-        "最近一季（2026-06-30）：EPS 6.14",
-        "市場預估下次 EPS 約 5.8901（Yahoo）"
+        "下次財報約 2026-10-13（預估日）",
+        "市場預估下次 EPS 約 5.84（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-13 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +30.4%（Yahoo）；獲利成長約 +46.9%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 27,
+      "whatToWatch": "關注 2026-10-13 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 20,
       "pool": "mega_cap"
     },
     {
@@ -505,76 +489,74 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-13",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 2.9,
-        "epsEstimate": 2.8548,
-        "epsSurprisePct": 1.58,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 6.6,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": -0.9,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 30.96,
-      "forwardPe": 21.75,
-      "marketCap": 643924885504,
-      "consensusEpsNext": 2.472,
-      "consensusRevNext": 25210400000,
-      "whatItDoes": "Johnson & Johnson, together with its subsidiaries, engages in the research and development, manufacture, and sale of a range of products in the healthcare field worldwide.",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 649395370000,
+      "consensusEpsNext": 2.96,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-13",
-        "最近一季（2026-06-30）：EPS 2.9",
-        "市場預估下次 EPS 約 2.472（Yahoo）"
+        "下次財報約 2026-10-13（預估日）",
+        "市場預估下次 EPS 約 2.96（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-13 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +6.6%（Yahoo）；獲利成長約 -0.9%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 27,
+      "whatToWatch": "關注 2026-10-13 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 20,
       "pool": "mega_cap"
     },
     {
       "ticker": "GS",
-      "name": "Goldman Sachs Group, Inc. (The)",
+      "name": "The Goldman Sachs Group, Inc.",
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-13",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 20.98,
-        "epsEstimate": 14.5425,
-        "epsSurprisePct": 44.27,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 42.5,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 92.3,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 15.27,
-      "forwardPe": 13.19,
-      "marketCap": 284378365952,
-      "consensusEpsNext": 16.4124,
-      "consensusRevNext": 17738494740,
-      "whatItDoes": "The Goldman Sachs Group, Inc., a financial institution, provides a range of financial services for corporations, financial institutions, governments, and individuals in the Americas, Europe, the Middle East, Africa, and…",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 279346938000,
+      "consensusEpsNext": 15.37,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-13",
-        "最近一季（2026-06-30）：EPS 20.98",
-        "市場預估下次 EPS 約 16.4124（Yahoo）"
+        "下次財報約 2026-10-13（預估日）",
+        "市場預估下次 EPS 約 15.37（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-13 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +42.5%（Yahoo）；獲利成長約 +92.3%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 27,
+      "whatToWatch": "關注 2026-10-13 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 20,
       "pool": "mega_cap"
     },
     {
@@ -583,38 +565,37 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-14",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 1.21,
-        "epsEstimate": 1.1231,
-        "epsSurprisePct": 7.74,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 16.8,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 34.1,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 13.75,
-      "forwardPe": 11.25,
-      "marketCap": 416208388096,
-      "consensusEpsNext": 1.1838,
-      "consensusRevNext": 31236505450,
-      "whatItDoes": "Bank of America Corporation, through its subsidiaries, provides various financial products and services for individual consumers, small and middle-market businesses, institutional investors, large corporations, and gover…",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 405299692000,
+      "consensusEpsNext": 1.16,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-14",
-        "最近一季（2026-06-30）：EPS 1.21",
-        "市場預估下次 EPS 約 1.1838（Yahoo）"
+        "下次財報約 2026-10-14（預估日）",
+        "市場預估下次 EPS 約 1.16（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-14 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +16.8%（Yahoo）；獲利成長約 +34.1%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 28,
-      "pool": "mega_cap+most_actives"
+      "whatToWatch": "關注 2026-10-14 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 21,
+      "pool": "mega_cap"
     },
     {
       "ticker": "MS",
@@ -622,37 +603,36 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-14",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 3.46,
-        "epsEstimate": 2.9337,
-        "epsSurprisePct": 17.94,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 28,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 62.4,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 16.69,
-      "forwardPe": 15.12,
-      "marketCap": 323976396800,
-      "consensusEpsNext": 3.112,
-      "consensusRevNext": 20837270980,
-      "whatItDoes": "Morgan Stanley, a financial holding company, provides various financial products and services to corporations, governments, financial institutions, and individuals in the Americas, Asia, Europe, the Middle East, and Afri…",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 323725132000,
+      "consensusEpsNext": 3.06,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-14",
-        "最近一季（2026-06-30）：EPS 3.46",
-        "市場預估下次 EPS 約 3.112（Yahoo）"
+        "下次財報約 2026-10-14（預估日）",
+        "市場預估下次 EPS 約 3.06（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-14 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +28%（Yahoo）；獲利成長約 +62.4%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 28,
+      "whatToWatch": "關注 2026-10-14 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 21,
       "pool": "mega_cap"
     },
     {
@@ -661,76 +641,36 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-20",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 0.97,
-        "epsEstimate": 0.9323,
-        "epsSurprisePct": 4.05,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 6.7,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 16.9,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 26.8,
-      "forwardPe": 25.16,
-      "marketCap": 381679108096,
-      "consensusEpsNext": 0.8789,
-      "consensusRevNext": 12899310140,
-      "whatItDoes": "The Coca-Cola Company, a beverage company, manufactures and sells various nonalcoholic beverages in the United States and internationally.",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 374838100000,
+      "consensusEpsNext": 0.87,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-20",
-        "最近一季（2026-06-30）：EPS 0.97",
-        "市場預估下次 EPS 約 0.8789（Yahoo）"
+        "下次財報約 2026-10-20（預估日）",
+        "市場預估下次 EPS 約 0.87（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +6.7%（Yahoo）；獲利成長約 +16.9%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 34,
-      "pool": "mega_cap"
-    },
-    {
-      "ticker": "NFLX",
-      "name": "Netflix, Inc.",
-      "ok": true,
-      "blocker": null,
-      "nextEarningsDate": "2026-10-20",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 0.8,
-        "epsEstimate": 0.7886,
-        "epsSurprisePct": 1.45,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 13.4,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 11.1,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 24.5,
-      "forwardPe": 20.39,
-      "marketCap": 324370890752,
-      "consensusEpsNext": 0.8225,
-      "consensusRevNext": 12880510790,
-      "whatItDoes": "Netflix, Inc. provides entertainment services worldwide. The company offers television (TV) series, documentaries, feature films, games, and live programming across various genres and languages.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
-      ],
-      "notes": [
-        "下次財報約 2026-10-20",
-        "最近一季（2026-06-30）：EPS 0.8",
-        "市場預估下次 EPS 約 0.8225（Yahoo）"
-      ],
-      "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +13.4%（Yahoo）；獲利成長約 +11.1%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 34,
+      "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 27,
       "pool": "mega_cap"
     },
     {
@@ -739,115 +679,150 @@
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-20",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 2.02,
-        "epsEstimate": 1.8596,
-        "epsSurprisePct": 8.62,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 21.1,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 19.4,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 36.25,
-      "forwardPe": 33.78,
-      "marketCap": 318583537664,
-      "consensusEpsNext": 1.9872,
-      "consensusRevNext": 12826340350,
-      "whatItDoes": "General Electric Company, doing business as GE Aerospace, designs and produces commercial and defense aircraft engines, integrated engine components, electric power, and aircraft systems.",
-      "missingFields": [],
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 330992812000,
+      "consensusEpsNext": 2.01,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-20",
-        "最近一季（2026-06-30）：EPS 2.02",
-        "市場預估下次 EPS 約 1.9872（Yahoo）"
+        "下次財報約 2026-10-20（預估日）",
+        "市場預估下次 EPS 約 2.01（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +21.1%（Yahoo）；獲利成長約 +19.4%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 34,
+      "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 27,
       "pool": "mega_cap"
     },
     {
-      "ticker": "LRCX",
-      "name": "Lam Research Corporation",
+      "ticker": "NFLX",
+      "name": "Netflix, Inc.",
       "ok": true,
       "blocker": null,
-      "nextEarningsDate": "2026-10-21",
-      "nextEarningsDateIsEstimate": false,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 1.82,
-        "epsEstimate": 1.6836,
-        "epsSurprisePct": 8.1,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 30,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 34.8,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 47.35,
-      "forwardPe": 23.25,
-      "marketCap": 338945310720,
-      "consensusEpsNext": 2.179,
-      "consensusRevNext": 8135191260,
-      "whatItDoes": "Lam Research Corporation designs, manufactures, markets, refurbishes, and services semiconductor processing equipment used in the fabrication of integrated circuits in the United States, China, Korea, Taiwan, Japan, Sout…",
-      "missingFields": [],
+      "nextEarningsDate": "2026-10-20",
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 305466606000,
+      "consensusEpsNext": 0.82,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
       "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+        "Nasdaq API calendar/earnings (public)"
       ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
-        "下次財報約 2026-10-21",
-        "最近一季（2026-06-30）：EPS 1.82",
-        "市場預估下次 EPS 約 2.179（Yahoo）"
+        "下次財報約 2026-10-20（預估日）",
+        "市場預估下次 EPS 約 0.82（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +30%（Yahoo）；獲利成長約 +34.8%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 35,
+      "whatToWatch": "關注 2026-10-20 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 27,
       "pool": "mega_cap"
     },
     {
-      "ticker": "TMO",
-      "name": "Thermo Fisher Scientific Inc",
+      "ticker": "IBM",
+      "name": "International Business Machines Corporation",
       "ok": true,
       "blocker": null,
       "nextEarningsDate": "2026-10-21",
       "nextEarningsDateIsEstimate": true,
-      "lastReport": {
-        "period": "-1q",
-        "quarter": "2026-06-30",
-        "epsActual": 6.03,
-        "epsEstimate": 5.7104,
-        "epsSurprisePct": 5.6,
-        "currency": "USD"
-      },
-      "revenueYoYPct": 10.5,
-      "revenueYoYSource": "Yahoo financialData.revenueGrowth",
-      "epsYoYPct": 9.4,
-      "epsYoYSource": "Yahoo financialData.earningsGrowth",
-      "pe": 33.01,
-      "forwardPe": 23.3,
-      "marketCap": 237152223232,
-      "consensusEpsNext": 6.408,
-      "consensusRevNext": 11951225280,
-      "whatItDoes": "Thermo Fisher Scientific Inc. provides life sciences solutions, analytical instruments, specialty diagnostics, and laboratory products and biopharma services internationally.",
-      "missingFields": [],
-      "sources": [
-        "Yahoo Finance quoteSummary (calendarEvents, earningsHistory, financialData, summaryDetail, summaryProfile)"
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 218509230000,
+      "consensusEpsNext": 2.9,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
       ],
+      "sources": [
+        "Nasdaq API calendar/earnings (public)"
+      ],
+      "fiscalQuarterEnding": "Sep/2026",
       "notes": [
         "下次財報約 2026-10-21（預估日）",
-        "最近一季（2026-06-30）：EPS 6.03",
-        "市場預估下次 EPS 約 6.408（Yahoo）"
+        "市場預估下次 EPS 約 2.9（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
       ],
-      "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；近期營收 YoY 約 +10.5%（Yahoo）；獲利成長約 +9.4%（Yahoo earningsGrowth）",
-      "selectionTag": "calendar_highlight_within_45d",
-      "daysToEarnings": 35,
+      "whatToWatch": "關注 2026-10-21 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 28,
+      "pool": "mega_cap"
+    },
+    {
+      "ticker": "INTC",
+      "name": "Intel Corporation",
+      "ok": true,
+      "blocker": null,
+      "nextEarningsDate": "2026-10-22",
+      "nextEarningsDateIsEstimate": true,
+      "lastReport": null,
+      "revenueYoYPct": null,
+      "epsYoYPct": null,
+      "pe": null,
+      "forwardPe": null,
+      "marketCap": 643615750000,
+      "consensusEpsNext": 0.28,
+      "consensusRevNext": null,
+      "whatItDoes": null,
+      "missingFields": [
+        "revenueYoYPct",
+        "epsYoYPct",
+        "pe",
+        "lastReport",
+        "whatItDoes"
+      ],
+      "sources": [
+        "Nasdaq API calendar/earnings (public)"
+      ],
+      "fiscalQuarterEnding": "Sep/2026",
+      "notes": [
+        "下次財報約 2026-10-22（預估日）",
+        "市場預估下次 EPS 約 0.28（Yahoo）",
+        "缺欄：revenueYoYPct, epsYoYPct, pe, lastReport, whatItDoes",
+        "財季截止約 Sep/2026（Nasdaq）"
+      ],
+      "whatToWatch": "關注 2026-10-22 前後的營收與 EPS 是否達預估；本益比暫缺，勿硬套估值",
+      "selectionTag": "nasdaq_calendar_highlight_within_45d",
+      "daysToEarnings": 29,
       "pool": "mega_cap"
     }
   ],
@@ -856,7 +831,7 @@
     "primaryWindowDays": 14,
     "recentWindowDays": 7,
     "fallbackWindowDays": 45,
-    "mostActivesOk": true,
+    "mostActivesOk": false,
     "mostActivesError": null,
     "count": 14
   }

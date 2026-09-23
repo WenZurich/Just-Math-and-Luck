@@ -15,6 +15,7 @@ import {
   rsVsIndex,
   baseRankingScore,
   avgVolume,
+  clamp,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 
@@ -226,6 +227,34 @@ assert(rsVsIndex(Infinity, 1) === null, "rsVsIndex Infinity → null");
   const noPen = baseRankingScore(thin, 0, { preferVol: false });
   assert(noPen > withPen, `preferVol=false skips thin-vol penalty (${noPen} > ${withPen})`);
 }
+
+
+// —— clamp: closed-interval projection (inequalities → Marks/temp caps) ——
+assert(clamp(NaN, -2, 2) === null, "clamp NaN → null");
+assert(clamp(1, NaN, 2) === null, "clamp NaN lo → null");
+assert(clamp(1, -2, NaN) === null, "clamp NaN hi → null");
+assert(clamp(Infinity, -2, 2) === null, "clamp Infinity → null");
+assert(clamp(0, 2, -2) === null, "clamp lo>hi → null");
+{
+  const v = clamp(3, -2, 2);
+  assert(approx(v, 2), `clamp upper 3→[-2,2] = 2 (got ${v})`);
+}
+{
+  const v = clamp(-5, -2, 2);
+  assert(approx(v, -2), `clamp lower -5→[-2,2] = -2 (got ${v})`);
+}
+{
+  const v = clamp(0.5, -2, 2);
+  assert(approx(v, 0.5), `clamp interior preserved (got ${v})`);
+}
+{
+  const v = clamp(-2, -2, 2);
+  assert(approx(v, -2), `clamp endpoint lo preserved (got ${v})`);
+}
+assert(
+  clamp(temperatureScore({ pctFromSma200: 0.2, ddFrom252dHigh: 0, near52wHigh: true, atrBottomQuartile: true }, { d20d: -0.5 }, { breadthProxy: 0.9, hygVsLqd20d: 0.05 }).score, -2, 2) === 2,
+  "clamp agrees with temp upper bound 2"
+);
 
 console.log("——");
 if (failures.length) {

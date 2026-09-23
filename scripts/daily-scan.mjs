@@ -772,7 +772,8 @@ async function main() {
     twMetrics,
     marketRegime,
   });
-  writeFileSync(join(STUDY, "opportunity-scan-2026-09-16.md"), md);
+  const asOfDate = asOfIso.slice(0, 10); // YYYY-MM-DD from fetch time
+  writeFileSync(join(STUDY, `opportunity-scan-${asOfDate}.md`), md);
 
   // write public + docs
   const pub = join(ROOT, "public/data");
@@ -784,9 +785,9 @@ async function main() {
   // Optional follow-up (rate limits): node scripts/fetch-us-options.mjs
   // Weekday with 每日數學選股: npm run fetch-earnings  (讀財報 digest)
   // try { await import('./fetch-earnings.mjs'); } — prefer separate npm run to avoid Yahoo rate limits
-  writeFileSync(join(pub, "2026-09-16.json"), latestJson);
+  writeFileSync(join(pub, `${asOfDate}.json`), latestJson);
   writeFileSync(join(docs, "latest.json"), latestJson);
-  writeFileSync(join(docs, "2026-09-16.json"), latestJson);
+  writeFileSync(join(docs, `${asOfDate}.json`), latestJson);
 
   // Merge 科斯托拉尼／週期 into strategy-screener.json (preserve other packs)
   const kostolanyPack = buildKostolanyStrategyPack({
