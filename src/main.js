@@ -1,9 +1,4 @@
 import "./style.css";
-import "./danmaku.css";
-import "./comments.css";
-import "./chat.css";
-import "./social-digest.css";
-import config from "./config.js";
 import { term, escapeHtml } from "./glossary.js";
 import {
   t,
@@ -18,10 +13,6 @@ import {
   bindPaperTabs,
   loadPaperPortfolio,
 } from "./paper.js";
-import { mountAllTickerComments, initSiteGiscus } from "./comments.js";
-import { mountChatRoom } from "./chat.js";
-import { bindDanmakuToggles } from "./danmaku.js";
-import { initSocialDigest, loadSocialDigest } from "./social-digest.js";
 import "./strategies.css";
 import {
   renderStrategiesSection,
@@ -227,7 +218,6 @@ function renderTopCard(stock, rank) {
         ${stock.why ? `<p class="card-text"><strong>${escapeHtml(t("reason"))}</strong>　${escapeHtml(stock.why)}</p>` : ""}
         ${stock.risk ? `<p class="card-text risk"><strong>${escapeHtml(t("risk"))}</strong>　${linkRiskText(stock.risk)}</p>` : ""}
       </details>` : ""}
-      <div data-ticker-comments="${escapeHtml(stock.ticker)}" data-market="${escapeHtml(stock.market === 'TW' || String(stock.ticker).endsWith('.TW') ? 'TW' : 'US')}"></div>
     </article>
   `;
 }
@@ -297,7 +287,6 @@ function mobileCards(list) {
         <div class="flags" style="margin-bottom:0.4rem">${smaBadges(s)}${screenBadges(s.screens)}</div>
         ${s.why ? `<p class="lc-why">${escapeHtml(s.why)}</p>` : ""}
         ${s.risk && s.risk !== "—" ? `<p class="lc-why" style="color:#fbbf24">${escapeHtml(t("risk"))}：${linkRiskText(s.risk)}</p>` : ""}
-        <div data-ticker-comments="${escapeHtml(s.ticker)}" data-market="${escapeHtml(String(s.ticker).endsWith('.TW') ? 'TW' : (s.market === 'TW' ? 'TW' : 'US'))}"></div>
       </div>`;
     })
     .join("");
@@ -348,9 +337,6 @@ function renderParity(parity) {
   `;
 }
 
-function renderDanmakuLayer() {
-  return `<div id="ss-danmaku-layer" class="ss-danmaku-layer" aria-hidden="true"></div>`;
-}
 
 function stockMarket(s) {
   if (!s) return "US";
@@ -359,9 +345,6 @@ function stockMarket(s) {
 }
 
 
-function lobbyTicker(market) {
-  return market === "TW" ? "__TW__" : "__US__";
-}
 
 function renderTop5ByMarket(list, marketLabel) {
   if (!list.length) {
@@ -372,45 +355,6 @@ function renderTop5ByMarket(list, marketLabel) {
     .join("")}</div>`;
 }
 
-function renderChatRoom(data) {
-  void data;
-  return `
-    <div class="chat-room" id="chat-room" data-market="US" data-mode="lobby">
-      <header class="chat-header">
-        <div class="chat-header-main">
-          <h2 class="chat-header-title" id="chat-room-title">${escapeHtml(t("usLobby"))}</h2>
-          <div class="chat-market-tabs" role="tablist" aria-label="${escapeHtml(t("market"))}">
-            <button type="button" class="chat-mkt active" data-chat-market="US" role="tab" aria-selected="true">${escapeHtml(t("chatUs"))}</button>
-            <button type="button" class="chat-mkt" data-chat-market="TW" role="tab" aria-selected="false">${escapeHtml(t("chatTw"))}</button>
-          </div>
-        </div>
-        <div class="chat-header-tools">
-          <label class="chat-fx-toggle chat-fx-toggle--header" title="${escapeHtml(t("danmakuFx"))}">
-            <input type="checkbox" data-danmaku-toggle />
-            <span>${escapeHtml(t("danmakuFx"))}</span>
-          </label>
-          <details class="chat-menu">
-            <summary aria-label="${escapeHtml(t("chatMore"))}" title="${escapeHtml(t("chatMore"))}">⋮</summary>
-            <div class="chat-menu-panel">
-              <label class="chat-fx-toggle">
-                <input type="checkbox" data-danmaku-toggle />
-                <span>${escapeHtml(t("danmakuFx"))}</span>
-              </label>
-            </div>
-          </details>
-        </div>
-      </header>
-      <div id="ss-chat-mount" class="chat-panel" aria-label="${escapeHtml(t("chatRoom"))}"></div>
-      <details class="fold-block chat-external">
-        <summary>${escapeHtml(t("externalDiscuss"))}</summary>
-        <div id="ss-social-digest" aria-label="${escapeHtml(t("externalDigest"))}"></div>
-        <div id="ss-giscus" class="ss-giscus-section" aria-label="Giscus">
-          <div class="ss-giscus-host"></div>
-        </div>
-      </details>
-    </div>
-  `;
-}
 
 function getViews() {
   return [
@@ -423,9 +367,12 @@ function getViews() {
     { id: "soxl", label: t("navSoxl"), hash: "soxl" },
     { id: "godzilla", label: t("navGodzilla"), hash: "godzilla" },
     { id: "paper", label: t("navPaper"), hash: "paper" },
-    { id: "social", label: t("navSocial"), hash: "social" },
   ];
 }
+
+/** Primary mobile bottom tabs (≤5). Secondary live under 「更多」. */
+const MOBILE_PRIMARY = ["today", "strategies", "paper", "research"];
+const MOBILE_MORE = ["logic", "options", "earnings", "soxl", "godzilla"];
 
 const HASH_ALIASES = {
   today: "today",
@@ -437,7 +384,11 @@ const HASH_ALIASES = {
   soxl: "soxl",
   godzilla: "godzilla",
   paper: "paper",
-  social: "social",
+  // retired social → home
+  social: "today",
+  danmaku: "today",
+  "social-digest": "today",
+  giscus: "today",
   help: "logic",
   glossary: "logic",
   bookshelf: "research",
@@ -459,10 +410,6 @@ const HASH_ALIASES = {
   哥吉拉心法: "godzilla",
   "godzilla-playbook": "godzilla",
   playbook: "godzilla",
-
-  danmaku: "social",
-  "social-digest": "social",
-  giscus: "social",
   method: "logic",
   邏輯: "logic",
 };
@@ -477,7 +424,7 @@ const NAV_ICONS = {
   soxl: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25 9.5 9l3.5 4.5L17 8l4 9.25H3zM5 19h14v2H5v-2z"/></svg>`,
   godzilla: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a3 3 0 0 1 3 3v1h2a2 2 0 0 1 2 2v2h-2.2l-.8 10H8l-.8-10H5V8a2 2 0 0 1 2-2h2V5a3 3 0 0 1 3-3zm-1 5h2V5a1 1 0 1 0-2 0v2zm-3.5 4h9l.55 7H7l.5-7z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
-  social: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C7 3 3 6.6 3 11c0 2.4 1.2 4.5 3.1 6L5 21l4.3-1.4c.9.3 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z"/></svg>`,
+  more: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 10h4v4H5v-4zm5 0h4v4h-4v-4zm5 0h4v4h-4v-4z"/></svg>`,
 };
 
 function parseViewFromHash() {
@@ -485,11 +432,9 @@ function parseViewFromHash() {
   return HASH_ALIASES[raw] || "today";
 }
 
-function renderNavItems(variant) {
-  return getViews()
-    .map((v) => {
-      const icon = NAV_ICONS[v.id] || "";
-      return `
+function renderNavButton(v, variant) {
+  const icon = NAV_ICONS[v.id] || "";
+  return `
       <button type="button"
         class="nav-item"
         data-nav="${v.id}"
@@ -499,8 +444,58 @@ function renderNavItems(variant) {
         <span class="nav-icon">${icon}</span>
         <span class="nav-label">${escapeHtml(v.label)}</span>
       </button>`;
-    })
-    .join("");
+}
+
+function renderNavItems(variant) {
+  return getViews().map((v) => renderNavButton(v, variant)).join("");
+}
+
+function renderMobileBottomNav() {
+  const byId = Object.fromEntries(getViews().map((v) => [v.id, v]));
+  const primary = MOBILE_PRIMARY.map((id) => renderNavButton(byId[id], "mobile")).join("");
+  const moreBtn = `
+      <button type="button"
+        class="nav-item nav-more-btn"
+        data-nav-more
+        data-variant="mobile"
+        aria-label="${escapeHtml(t("navMore"))}"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="nav-more-sheet"
+        aria-current="false">
+        <span class="nav-icon">${NAV_ICONS.more}</span>
+        <span class="nav-label">${escapeHtml(t("navMore"))}</span>
+      </button>`;
+  const sheetItems = MOBILE_MORE.map((id) => {
+    const v = byId[id];
+    const icon = NAV_ICONS[id] || "";
+    return `
+        <button type="button"
+          class="nav-more-item"
+          data-nav="${v.id}"
+          aria-label="${escapeHtml(v.label)}"
+          aria-current="false">
+          <span class="nav-icon">${icon}</span>
+          <span class="nav-label">${escapeHtml(v.label)}</span>
+        </button>`;
+  }).join("");
+  return `
+    <nav class="nav-bottom" aria-label="${escapeHtml(t("navMain"))}">
+      ${primary}
+      ${moreBtn}
+    </nav>
+    <div id="nav-more-sheet" class="nav-more-sheet" hidden>
+      <button type="button" class="nav-more-backdrop" data-more-close aria-label="${escapeHtml(t("navMoreClose"))}"></button>
+      <div class="nav-more-panel" role="dialog" aria-modal="true" aria-label="${escapeHtml(t("navMore"))}">
+        <div class="nav-more-head">
+          <h2 class="nav-more-title">${escapeHtml(t("navMore"))}</h2>
+          <button type="button" class="nav-more-close" data-more-close aria-label="${escapeHtml(t("navMoreClose"))}">×</button>
+        </div>
+        <div class="nav-more-list">
+          ${sheetItems}
+        </div>
+      </div>
+    </div>`;
 }
 
 function renderApp(data, paper) {
@@ -512,8 +507,6 @@ function renderApp(data, paper) {
   const logoUrl = `${import.meta.env.BASE_URL}logo.png?v=3`;
 
   return `
-    ${renderDanmakuLayer()}
-
     <header class="site-chrome">
       <div class="chrome-row">
         <div class="chrome-brand">
@@ -524,10 +517,6 @@ function renderApp(data, paper) {
           </div>
         </div>
         <div class="chrome-actions">
-          <label class="chrome-danmaku-toggle" title="${escapeHtml(t("danmakuFx"))}">
-            <input type="checkbox" data-danmaku-toggle />
-            <span>${escapeHtml(t("danmakuFx"))}</span>
-          </label>
           ${renderLangSwitcher()}
           <nav class="nav-desktop" aria-label="${escapeHtml(t("navMain"))}">
             ${renderNavItems("desktop")}
@@ -625,23 +614,36 @@ function renderApp(data, paper) {
         <span class="view-anchor" tabindex="-1"></span>
         ${renderPaperSection(paper)}
       </div>
-
-      <div class="view view-social" id="view-social" data-view="social" hidden>
-        <span id="social" class="view-anchor" tabindex="-1"></span>
-        ${renderChatRoom(data)}
-      </div>
     </main>
 
-    <nav class="nav-bottom" aria-label="${escapeHtml(t("navMain"))}">
-      ${renderNavItems("mobile")}
-    </nav>
+    ${renderMobileBottomNav()}
 
     <p class="site-footer">${escapeHtml(t("footer"))}</p>
   `;
 }
 
+function setMoreSheetOpen(root, open) {
+  const sheet = root.querySelector("#nav-more-sheet");
+  const btn = root.querySelector("[data-nav-more]");
+  if (!sheet || !btn) return;
+  sheet.hidden = !open;
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+  document.body.classList.toggle("nav-more-open", open);
+}
+
 function setNavActive(root, viewId) {
-  root.querySelectorAll(".nav-item").forEach((btn) => {
+  const inMore = MOBILE_MORE.includes(viewId);
+  root.querySelectorAll(".nav-item[data-nav]").forEach((btn) => {
+    const on = btn.dataset.nav === viewId;
+    btn.classList.toggle("is-active", on);
+    btn.setAttribute("aria-current", on ? "page" : "false");
+  });
+  const moreBtn = root.querySelector("[data-nav-more]");
+  if (moreBtn) {
+    moreBtn.classList.toggle("is-active", inMore);
+    moreBtn.setAttribute("aria-current", inMore ? "true" : "false");
+  }
+  root.querySelectorAll(".nav-more-item").forEach((btn) => {
     const on = btn.dataset.nav === viewId;
     btn.classList.toggle("is-active", on);
     btn.setAttribute("aria-current", on ? "page" : "false");
@@ -656,6 +658,7 @@ function showView(root, viewId, { updateHash = true, scrollTop = true } = {}) {
     el.classList.toggle("is-active", on);
   });
   setNavActive(root, id);
+  setMoreSheetOpen(root, false);
   if (updateHash) {
     const next = `#${id}`;
     if (location.hash !== next) {
@@ -673,11 +676,22 @@ let navHashHandler = null;
 function bindAppNav(root) {
   const go = (viewId, opts) => showView(root, viewId, opts);
 
-  root.querySelectorAll(".nav-item").forEach((btn) => {
+  root.querySelectorAll(".nav-item[data-nav], .nav-more-item[data-nav]").forEach((btn) => {
     btn.addEventListener("click", () => go(btn.dataset.nav));
   });
   root.querySelectorAll("[data-jump]").forEach((btn) => {
     btn.addEventListener("click", () => go(btn.dataset.jump));
+  });
+  const moreBtn = root.querySelector("[data-nav-more]");
+  if (moreBtn) {
+    moreBtn.addEventListener("click", () => {
+      const sheet = root.querySelector("#nav-more-sheet");
+      const open = Boolean(sheet?.hidden);
+      setMoreSheetOpen(root, open);
+    });
+  }
+  root.querySelectorAll("[data-more-close]").forEach((el) => {
+    el.addEventListener("click", () => setMoreSheetOpen(root, false));
   });
 
   if (navHashHandler) window.removeEventListener("hashchange", navHashHandler);
@@ -705,71 +719,10 @@ function bindTabs(root) {
   });
 }
 
-function bindChatRoom(root, data, { config, digest } = {}) {
-  void data;
-  void digest;
-  const room = root.querySelector("#chat-room");
-  if (!room) return;
-
-  const mount = room.querySelector("#ss-chat-mount");
-  const titleEl = room.querySelector("#chat-room-title");
-  const mktBtns = room.querySelectorAll(".chat-mkt");
-  let handle = null;
-  let market = "US";
-
-  const setTitle = (label) => {
-    if (titleEl) titleEl.textContent = label;
-  };
-
-  const openRoom = () => {
-    if (!mount) return;
-    if (handle?.destroy) handle.destroy();
-    const ticker = lobbyTicker(market);
-    const title = market === "TW" ? t("twLobby") : t("usLobby");
-    setTitle(title);
-    handle = mountChatRoom(mount, ticker, {
-      config,
-      market,
-      title,
-      emptyLine: t("noMessages"),
-      maxLen: 80,
-    });
-  };
-
-  mktBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      market = btn.dataset.chatMarket;
-      room.dataset.market = market;
-      mktBtns.forEach((b) => {
-        const on = b === btn;
-        b.classList.toggle("active", on);
-        b.setAttribute("aria-selected", on ? "true" : "false");
-      });
-      openRoom();
-    });
-  });
-
-  const onDocClick = (ev) => {
-    const menu = room.querySelector(".chat-menu");
-    if (menu && menu.open && !menu.contains(ev.target)) menu.open = false;
-  };
-  document.addEventListener("click", onDocClick);
-
-  openRoom();
-  return {
-    destroy() {
-      document.removeEventListener("click", onDocClick);
-      if (handle?.destroy) handle.destroy();
-    },
-  };
-}
 
 /** Cached fetch for lang re-render without reload */
-let chatRoomHandle = null;
-let danmakuToggleHandle = null;
 let cachedData = null;
 let cachedPaper = null;
-let cachedDigest = null;
 async function mountUi(app) {
   const data = cachedData;
   const paper = cachedPaper;
@@ -789,26 +742,6 @@ async function mountUi(app) {
   await initEarnings("#er-root");
   await initSoxl("#sx-root");
   initGodzilla("#gz-root");
-  void config;
-  let digest = cachedDigest;
-  const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);
-  if (digestResult?.ok) {
-    digest = digestResult.data;
-    cachedDigest = digest;
-  } else if (!digest) {
-    try {
-      digest = await loadSocialDigest(config.socialDigestUrl);
-      cachedDigest = digest;
-    } catch {
-      digest = null;
-    }
-  }
-  if (chatRoomHandle?.destroy) chatRoomHandle.destroy();
-  chatRoomHandle = bindChatRoom(app, data, { config, digest });
-  if (danmakuToggleHandle?.destroy) danmakuToggleHandle.destroy();
-  danmakuToggleHandle = bindDanmakuToggles(app);
-  mountAllTickerComments(app, { config, digest });
-  initSiteGiscus("#ss-giscus", { config });
   void nav;
 }
 

@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#soxl", "#godzilla", "#paper", "#social"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#soxl", "#godzilla", "#paper"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-soxl", "view-godzilla", "view-paper", "view-social"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-soxl", "view-godzilla", "view-paper"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -702,22 +702,47 @@ async function main() {
     }
   }
 
-  // —— Community chat: lobby-only + site-wide danmaku toggle ——
+  // —— Social removed; mobile bottom nav ≤5 with More sheet ——
   const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
-  if (/data-chat-mode=["']ticker["']/.test(mainSrc) || /collectTickerChips/.test(mainSrc)) {
-    fail("chat still has per-ticker mode / ticker chips");
-  } else ok("lobby-only chat (no per-ticker mode)");
-  if (!/data-danmaku-toggle/.test(mainSrc) || !/chrome-danmaku-toggle/.test(mainSrc)) {
-    fail("site-wide danmaku toggle missing from chrome/chat");
-  } else ok("site-wide danmaku toggle present");
-  const danmakuSrc = fs.readFileSync(path.join(ROOT, "src/danmaku.js"), "utf8");
-  if (!/ss-danmaku-enabled/.test(danmakuSrc) || !/export function isDanmakuEnabled/.test(danmakuSrc)) {
-    fail("danmaku localStorage preference API missing");
-  } else ok("danmaku preference persists via localStorage");
+  if (/view-social|renderChatRoom|data-ticker-comments|mountChatRoom|mountAllTickerComments|initSocialDigest|bindDanmakuToggles|chrome-danmaku/.test(mainSrc)) {
+    fail("social/chat/danmaku/ticker-comments still present in main.js");
+  } else ok("social/chat/danmaku fully removed from main.js");
+  for (const gone of ["src/chat.js", "src/danmaku.js", "src/comments.js", "src/social-digest.js", "src/config.js"]) {
+    if (fs.existsSync(path.join(ROOT, gone))) fail(`${gone} should be deleted`);
+    else ok(`deleted ${gone}`);
+  }
+  if (!/MOBILE_PRIMARY/.test(mainSrc) || !/MOBILE_MORE/.test(mainSrc) || !/nav-more-sheet/.test(mainSrc) || !/data-nav-more/.test(mainSrc)) {
+    fail("mobile More sheet / MOBILE_PRIMARY|MORE missing from main.js");
+  } else ok("mobile More sheet wiring present");
+  const primaryMatch = mainSrc.match(/MOBILE_PRIMARY\s*=\s*\[([^\]]+)\]/);
+  if (!primaryMatch) fail("MOBILE_PRIMARY array not found");
+  else {
+    const ids = primaryMatch[1].split(",").map((s) => s.replace(/["'\s]/g, "")).filter(Boolean);
+    if (ids.length > 4) fail(`MOBILE_PRIMARY has ${ids.length} ids (primary tabs + More must be ≤5 total)`);
+    else ok(`MOBILE_PRIMARY has ${ids.length} tabs (+ More = ${ids.length + 1})`);
+  }
   const i18nSrc = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
-  if (!/全頻彈幕/.test(i18nSrc) || !/Site danmaku/.test(i18nSrc)) {
-    fail("danmakuFx i18n missing 全頻彈幕 / Site danmaku");
-  } else ok("danmakuFx i18n labels");
+  if (/navSocial|全頻彈幕|Site danmaku|社群聊天|usLobby/.test(i18nSrc)) {
+    fail("obsolete social i18n strings still present");
+  } else ok("obsolete social i18n cleaned");
+  for (const pair of [
+    ["navMore: \"更多\"", "zh-Hant More"],
+    ["navMore: \"More\"", "en More"],
+    ["navMore: \"更多\"", "zh-Hans More (or zh-Hant inherit)"],
+    ["navMore: \"その他\"", "ja More"],
+  ]) {
+    if (!i18nSrc.includes(pair[0])) fail(`i18n missing ${pair[1]} (${pair[0]})`);
+  }
+  if (!/navMoreClose:\s*"關閉"/.test(i18nSrc) || !/navMoreClose:\s*"Close"/.test(i18nSrc)) {
+    fail("navMoreClose i18n missing");
+  } else ok("navMore / navMoreClose i18n labels");
+  const cssNav = fs.readFileSync(path.join(ROOT, "src/style.css"), "utf8");
+  if (!/repeat\(5,\s*minmax\(0,\s*1fr\)\)/.test(cssNav)) {
+    fail("nav-bottom should use 5-column grid");
+  } else ok("nav-bottom 5-column grid");
+  if (!/\.nav-more-sheet/.test(cssNav) || !/\.nav-more-item/.test(cssNav)) {
+    fail("nav-more-sheet styles missing");
+  } else ok("nav-more-sheet styles present");
 
   // —— CSS: tall sticky chips must stay disabled (root cause of dead panel clicks) ——
   const css = fs.readFileSync(path.join(ROOT, "src/strategies.css"), "utf8");
