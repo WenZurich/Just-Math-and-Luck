@@ -1,0 +1,614 @@
+{
+  "market": "US",
+  "ticker": "SOXL",
+  "fundName": "Direxion Daily Semiconductor Bull 3X ETF",
+  "asOf": "2026-09-23T00:37:38.519Z",
+  "quote": {
+    "price": 151.64,
+    "change": -0.31,
+    "changePct": -0.2,
+    "currency": "USD",
+    "session": "overnight / extended (Yahoo)",
+    "source": "https://finance.yahoo.com/quote/SOXL/",
+    "regularClose": {
+      "price": 151.95,
+      "change": 10.11,
+      "changePct": 7.13,
+      "session": "NYSE Arca regular close (September 22 at 4:00:00 PM EDT)"
+    }
+  },
+  "holdingsAsOf": "2026-01-31",
+  "holdingsSource": {
+    "type": "SEC N-PORT-P",
+    "accession": "0001193125-26-137087",
+    "url": "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
+    "note": "Official SOXL filing for period ended 2026-01-31; weights are percentages of net assets as reported by the SEC. This is the latest SOXL N-PORT filing located in this research, not a same-day snapshot."
+  },
+  "holdingsFreshnessNote": "Holdings weights are from the latest SOXL SEC N-PORT located in research (period ended 2026-01-31), not a same-day Direxion CSV. Cash + index swaps dominate reported net assets; daily weights change.",
+  "leverageNote": "SOXL seeks ~3× the daily performance of the ICE Semiconductor Index. Contribution ≈ weight × return is an unlevered basket estimate only; ETF moves are magnified and path-dependent.",
+  "events": [
+    {
+      "type": "anomaly",
+      "severity": "high",
+      "title": "正規盤大波動 +7.13%",
+      "detail": "Yahoo 顯示 SOXL 正規收盤約 $151.95（+7.13% / +10.11）。3x 日槓桿 ETF 波動遠大於半導體指數本身。",
+      "sources": [
+        "https://finance.yahoo.com/quote/SOXL/"
+      ]
+    },
+    {
+      "type": "structure",
+      "severity": "info",
+      "title": "持倉權重日期：SEC N-PORT 2026-01-31（非當日）",
+      "detail": "下方持股權重來自最新可取得的 SOXL N-PORT（period ended 2026-01-31）。現金與指數交換常佔淨資產大宗；日權重會變動，勿當成今日即時持股。",
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "type": "rebalance",
+      "severity": "info",
+      "title": "媒體：SK Hynix ADR  reportedly 納入 SOXL",
+      "detail": "Edaily reports that SK Hynix ADRs were added to SOXL, with a reported 2.06% fund weight as of September 21, alongside broader ETF rebalancing activity.",
+      "sources": [
+        "https://en.edaily.co.kr/news/eda202609225437/"
+      ]
+    },
+    {
+      "type": "dividend",
+      "severity": "info",
+      "title": "配息公告（媒體）",
+      "detail": "DividendInvestor reports a $0.0929 per-share distribution declared September 21, with a September 29 payment date for holders of record September 22.",
+      "sources": [
+        "https://www.dividendinvestor.com/dividend-news/20260921/daily-semiconductor-bull-3x-shs-direxion-shares-exchange-traded-fund-trust-nyse-soxl-declared-a-dividend-of-$0.0929-per-share/"
+      ]
+    },
+    {
+      "type": "session",
+      "severity": "info",
+      "title": "目前顯示隔夜／延長時段報價",
+      "detail": "最新報價時段：overnight / extended (Yahoo)。正規收盤另見 hero 備註。",
+      "sources": [
+        "https://finance.yahoo.com/quote/SOXL/"
+      ]
+    }
+  ],
+  "news": [
+    {
+      "title": "SOXL Stock Jumped 12% Yesterday: Three Companies Explain the Entire Move",
+      "summary": "WEEX attributes SOXL’s sharp move to rallies in Micron, AMD, and Intel and explains how the ETF’s 3x daily reset magnifies semiconductor-index moves.",
+      "url": "https://www.weex.com/news/detail/soxl-stock-jumped-12-yesterday-three-companies-explain-the-entire-move-dmqllbso2t8pzjgltaciadyh",
+      "published": "2026-09-22"
+    },
+    {
+      "title": "SK Hanik Added to SOXL, a ‘Favorite Among Overseas Retail Investors’… U.S. ETFs Add Companies One After Another",
+      "summary": "Edaily reports that SK Hynix ADRs were added to SOXL, with a reported 2.06% fund weight as of September 21, alongside broader ETF rebalancing activity.",
+      "url": "https://en.edaily.co.kr/news/eda202609225437/",
+      "published": "2026-09-22"
+    },
+    {
+      "title": "Why Direxion Daily Semiconductor Bull 3X ETF Just Popped",
+      "summary": "The Motley Fool links SOXL’s September 21 jump to Micron’s memory-cycle outlook, AMD’s first $1 trillion market-cap milestone, and Intel strength tied to summit expectations.",
+      "url": "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/",
+      "published": "2026-09-21"
+    },
+    {
+      "title": "DIVIDEND ANNOUNCEMENT: Daily Semiconductor Bull 3X Shs/Direxion Shares ETF Trust (NYSE: SOXL) on 09/21/2026 declared a dividend of $0.0929 per share",
+      "summary": "DividendInvestor reports a $0.0929 per-share distribution declared September 21, with a September 29 payment date for holders of record September 22.",
+      "url": "https://www.dividendinvestor.com/dividend-news/20260921/daily-semiconductor-bull-3x-shs-direxion-shares-exchange-traded-fund-trust-nyse-soxl-declared-a-dividend-of-$0.0929-per-share/",
+      "published": "2026-09-21"
+    },
+    {
+      "title": "Why Direxion Daily Semiconductor Bull 3X ETF Dropped Today",
+      "summary": "What goes down fast can go back up just as quickly when sentiment recovers.",
+      "url": "https://www.fool.com/investing/2026/09/14/direxion-daily-semiconductor-bull-3x-etf-dropped/?.tsrc=rss",
+      "published": "2026-09-14"
+    },
+    {
+      "title": "Ed Yardeni Says ‘I’m Not Particularly Concerned’ About AI Slowdown Fears, Maintains 8,400 Year-End S&amp;P 500 Target",
+      "summary": "In an interview with CNBC, Yardeni stated that existing data center constraints make a significant slowdown in AI infrastructure construction unlikely.",
+      "url": "https://stocktwits.com/news-articles/markets/equity/ai-stocks-slide-slowdown-fears-ed-yardeni-not-particularly-concerned/cZtmbt4RBRZ?.tsrc=rss",
+      "published": "2026-09-14"
+    },
+    {
+      "title": "Daily ETF Flows: SOXL Inflows Total $520M",
+      "summary": "&lt;p&gt;Here are the daily ETF fund flows for August 25, 2026.&lt;/p&gt;",
+      "url": "http://www.etf.com/sections/daily-etf-flows/daily-etf-flows-soxl-inflows-total-520m?utm_source=yahoo-finance&amp;utm_medium=rss&amp;utm_campaign=yahoo-finance-rss&amp;.tsrc=rss",
+      "published": "2026-08-26"
+    },
+    {
+      "title": "SOXL IV Just Hit 123%. These 2 Options Strategies That Pay You for the Risk.",
+      "summary": "SOXL's implied volatility just hit 123%, making it one of the market's riskiest ETFs to hold outright. Here's how a bear call spread lets you collect income from that volatility instead, with defined risk.",
+      "url": "https://www.barchart.com/story/news/3947024/soxl-iv-just-hit-123-these-2-options-strategies-that-pay-you-for-the-risk?.tsrc=rss",
+      "published": "2026-08-20"
+    },
+    {
+      "title": "SOXL Turns Every 1% Nvidia Move Into 3%. Here’s What $10,000 Did in the Last 12 Months",
+      "summary": "Triple-leveraged semiconductor exposure sounds like a recipe for disaster, yet one ETF quietly turned a modest stake into something that rivals a year of aggressive trading. The math behind it challenges almost everything conventional wisdom says about managing risk.",
+      "url": "https://247wallst.com/investing/etf/2026/08/19/soxl-turns-every-1-nvidia-move-into-3-heres-what-10000-did-in-the-last-12-months/?.tsrc=rss",
+      "published": "2026-08-19"
+    },
+    {
+      "title": "The SOXL ETF Is a Popular—and Dangerous—Way to Play Chip Stocks",
+      "summary": "Investors are flocking to an ETF that enhances the daily exposure of leading chip stocks. Buyer beware.",
+      "url": "https://finance.yahoo.com/m/9030f354-1f6e-3fa3-a195-21f4081a9ba9/the-soxl-etf-is-a-popular%E2%80%94and.html?.tsrc=rss",
+      "published": "2026-08-05"
+    },
+    {
+      "title": "This 3x Semiconductor ETF Turned $10,000 Into $56,000, Then Lost a Fifth in One Month",
+      "summary": "SOXL rewarded patient semiconductor bulls with one of the most explosive yearly returns on U.S. exchanges, then erased a fifth of that gain in a single month. Understanding exactly why reveals the hidden engine that makes this fund a wealth builder and a wealth destroyer at the s",
+      "url": "https://247wallst.com/investing/etf/2026/08/04/this-3x-semiconductor-etf-turned-10000-into-56000-then-lost-a-fifth-in-one-month/?.tsrc=rss",
+      "published": "2026-08-05"
+    },
+    {
+      "title": "Why Direxion Daily Semiconductor Bull 3X ETF Jumped Today",
+      "summary": "Some of SOXL's favorite semiconductor stocks are very popular this morning.",
+      "url": "https://www.fool.com/investing/2026/08/04/why-direxion-daily-semiconductor-bull-3x-etf-jumpe/?.tsrc=rss",
+      "published": "2026-08-04"
+    },
+    {
+      "title": "Why Direxion Daily Semiconductor Bull 3X ETF Just Popped",
+      "summary": "Here are 3 great reasons why the SOXL is running with the bulls today.",
+      "url": "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/?.tsrc=rss",
+      "published": "2026-09-21"
+    },
+    {
+      "title": "Roger Altman Says AI Is ‘The Greatest Threat Facing The World’ Amid Calls For Stronger Guardrails",
+      "summary": "In an interview with CNBC, Evercore founder Roger Altman backed calls from Elon Musk, Sam Altman and Dario Amodei for slower AI development and stronger safeguards.",
+      "url": "https://stocktwits.com/news-articles/markets/equity/roger-altman-says-ai-is-the-greatest-threat-facing-the-world/cZtm5XBRBRp?.tsrc=rss",
+      "published": "2026-09-14"
+    },
+    {
+      "title": "BlackRock's IBIT And GLD Rejoin Top 10 Most-Traded ETFs As 'Debasement Trade' Challenges ‘AI Mania’",
+      "summary": "BlackRock cut the minimum size for a Bitcoin-to-ETF swap to $1 million in July, from $25 million when the process first became available.",
+      "url": "https://stocktwits.com/news-articles/markets/equity/black-rock-s-ibit-and-gld-rejoin-top-10-most-traded-et-fs-as-debasement-trade-challenges-ai-mania/cZYNYn8RJYB?.tsrc=rss",
+      "published": "2026-08-26"
+    },
+    {
+      "title": "Why The Direxion Daily Semiconductor Bull 3X ETF Plunged Nearly 20% Today",
+      "summary": "It was a bad day for chip stocks.",
+      "url": "https://www.fool.com/investing/2026/08/18/why-the-direxion-daily-semiconductor-bull-3x-etf-p/?.tsrc=rss",
+      "published": "2026-08-18"
+    }
+  ],
+  "holdings": [
+    {
+      "ticker": null,
+      "name": "Dreyfus Government Cash Management Institutional Shares",
+      "weightPct": 14.3698,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "cash_equivalent",
+      "reasons": [
+        "現金／國庫約當現金部位：槓桿 ETF 常保留大量現金／附買回等以配合交換保證金與日結算；本身通常不是「漲跌主因」。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": null,
+      "name": "Dreyfus Treasury Securities Cash Management Institutional Shares",
+      "weightPct": 13.5771,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "cash_equivalent",
+      "reasons": [
+        "現金／國庫約當現金部位：槓桿 ETF 常保留大量現金／附買回等以配合交換保證金與日結算；本身通常不是「漲跌主因」。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": null,
+      "name": "J.P. Morgan 100 US Treasury Capital 3163",
+      "weightPct": 9.4698,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "cash_equivalent",
+      "reasons": [
+        "現金／國庫約當現金部位：槓桿 ETF 常保留大量現金／附買回等以配合交換保證金與日結算；本身通常不是「漲跌主因」。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": null,
+      "name": "ICE Semiconductor Index Swap (Barclays Bank PLC)",
+      "weightPct": 8.3837,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "swap",
+      "reasons": [
+        "此列為 ICE Semiconductor Index 交換合約（swap）部位：SOXL 用交換取得約 3 倍日曝險，權重來自 SEC N-PORT，非個股直接持股。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "MU",
+      "name": "Micron Technology, Inc.",
+      "weightPct": 6.1659,
+      "price": null,
+      "changePct": 5,
+      "changePctAsOf": "2026-09-22",
+      "contributionPct": 0.3083,
+      "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
+      "instrumentType": "equity",
+      "reasons": [
+        "近期報導把 SOXL 急漲連結到記憶體循環展望與美光股價走強（3x 日槓桿會放大半導體指數波動）。"
+      ],
+      "sources": [
+        "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/",
+        "https://www.weex.com/news/detail/soxl-stock-jumped-12-yesterday-three-companies-explain-the-entire-move-dmqllbso2t8pzjgltaciadyh"
+      ]
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices, Inc.",
+      "weightPct": 5.1931,
+      "price": null,
+      "changePct": 1.34,
+      "changePctAsOf": "2026-09-22",
+      "contributionPct": 0.0696,
+      "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
+      "instrumentType": "equity",
+      "reasons": [
+        "公開報導提到 AMD 市值里程碑與半導體族群同步上漲，被視為支撐 SOXL 的成分動能之一。"
+      ],
+      "sources": [
+        "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/",
+        "https://www.weex.com/news/detail/soxl-stock-jumped-12-yesterday-three-companies-explain-the-entire-move-dmqllbso2t8pzjgltaciadyh"
+      ]
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corporation",
+      "weightPct": 5.1528,
+      "price": null,
+      "changePct": 0.66,
+      "changePctAsOf": "2026-09-22",
+      "contributionPct": 0.034,
+      "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
+      "instrumentType": "equity",
+      "reasons": [
+        "NVIDIA 為半導體／AI 硬體權值之一；SOXL 透過 ICE Semiconductor 指數（含股票部位與指數交換）放大族群日報酬。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
+        "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/"
+      ]
+    },
+    {
+      "ticker": null,
+      "name": "ICE Semiconductor Index Swap (UBS AG)",
+      "weightPct": 4.9059,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "swap",
+      "reasons": [
+        "此列為 ICE Semiconductor Index 交換合約（swap）部位：SOXL 用交換取得約 3 倍日曝險，權重來自 SEC N-PORT，非個股直接持股。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "AMAT",
+      "name": "Applied Materials, Inc.",
+      "weightPct": 4.49,
+      "price": null,
+      "changePct": 1.77,
+      "changePctAsOf": "2026-09-22",
+      "contributionPct": 0.0795,
+      "contributionNote": "estimate = weightPct × changePct / 100 (basket pts; SOXL is ~3× daily — not equal to ETF pts)",
+      "instrumentType": "equity",
+      "reasons": [
+        "應用材料屬半導體設備鏈；設備股隨資本支出與製程需求預期波動，會進入指數／交換部位的日報酬。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": null,
+      "name": "ICE Semiconductor Index Swap (Citibank National Association)",
+      "weightPct": 4.3079,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "swap",
+      "reasons": [
+        "此列為 ICE Semiconductor Index 交換合約（swap）部位：SOXL 用交換取得約 3 倍日曝險，權重來自 SEC N-PORT，非個股直接持股。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": null,
+      "name": "Goldman Financial Square Treasury Instruments Fund Institutional Shares",
+      "weightPct": 3.803,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "cash_equivalent",
+      "reasons": [
+        "現金／國庫約當現金部位：槓桿 ETF 常保留大量現金／附買回等以配合交換保證金與日結算；本身通常不是「漲跌主因」。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "LRCX",
+      "name": "Lam Research Corporation",
+      "weightPct": 3.5704,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "equity",
+      "reasons": [
+        "公開報導未單獨點名此成分近期走勢；權重來自 SEC N-PORT（非當日），貢獻僅在有日報酬時估算出。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": null,
+      "name": "ICE Semiconductor Index Swap (Bank of America N.A.)",
+      "weightPct": 3.0935,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "swap",
+      "reasons": [
+        "此列為 ICE Semiconductor Index 交換合約（swap）部位：SOXL 用交換取得約 3 倍日曝險，權重來自 SEC N-PORT，非個股直接持股。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "TXN",
+      "name": "Texas Instruments Incorporated",
+      "weightPct": 3.0552,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "equity",
+      "reasons": [
+        "公開報導未單獨點名此成分近期走勢；權重來自 SEC N-PORT（非當日），貢獻僅在有日報酬時估算出。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": null,
+      "name": "ICE Semiconductor Index Swap (Goldman Sachs & Co. LLC)",
+      "weightPct": 2.9089,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "swap",
+      "reasons": [
+        "此列為 ICE Semiconductor Index 交換合約（swap）部位：SOXL 用交換取得約 3 倍日曝險，權重來自 SEC N-PORT，非個股直接持股。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "KLAC",
+      "name": "KLA Corporation",
+      "weightPct": 2.8992,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "equity",
+      "reasons": [
+        "公開報導未單獨點名此成分近期走勢；權重來自 SEC N-PORT（非當日），貢獻僅在有日報酬時估算出。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "MPWR",
+      "name": "Monolithic Power Systems, Inc.",
+      "weightPct": 2.8914,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "equity",
+      "reasons": [
+        "公開報導未單獨點名此成分近期走勢；權重來自 SEC N-PORT（非當日），貢獻僅在有日報酬時估算出。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "ADI",
+      "name": "Analog Devices, Inc.",
+      "weightPct": 2.7953,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "equity",
+      "reasons": [
+        "公開報導未單獨點名此成分近期走勢；權重來自 SEC N-PORT（非當日），貢獻僅在有日報酬時估算出。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "NXPI",
+      "name": "NXP Semiconductors N.V.",
+      "weightPct": 2.7682,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "equity",
+      "reasons": [
+        "公開報導未單獨點名此成分近期走勢；權重來自 SEC N-PORT（非當日），貢獻僅在有日報酬時估算出。"
+      ],
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt"
+      ]
+    },
+    {
+      "ticker": "INTC",
+      "name": "Intel Corporation",
+      "weightPct": 2.7336,
+      "price": null,
+      "changePct": null,
+      "changePctAsOf": null,
+      "contributionPct": null,
+      "contributionNote": null,
+      "instrumentType": "equity",
+      "reasons": [
+        "報導指出英特爾走勢與市場對產業／政策預期有關，並被列為解釋 SOXL 近期波動的成分之一。"
+      ],
+      "sources": [
+        "https://www.fool.com/investing/2026/09/21/why-direxion-daily-semiconductor-bull-3x-etf-just/",
+        "https://www.weex.com/news/detail/soxl-stock-jumped-12-yesterday-three-companies-explain-the-entire-move-dmqllbso2t8pzjgltaciadyh"
+      ]
+    }
+  ],
+  "overallUpReasons": [
+    "半導體指數成分（如美光、AMD、英特爾等）同步上漲時，SOXL 以約 3 倍日槓桿放大指數日報酬（見 Motley Fool／WEEX 對近期急漲的整理）。",
+    "基金透過 ICE Semiconductor Index 交換合約取得槓桿曝險；指數上漲日，交換部位損益會主導 ETF 淨值方向（SEC N-PORT 可見交換權重）。",
+    "N-PORT 權益部位中，目前有日報酬資料且為正的包括：MU（權重估 6.1659%）、AMD（權重估 5.1931%）、NVDA（權重估 5.1528%）、AMAT（權重估 4.49%）（貢獻＝權重×報酬，僅估算）。"
+  ],
+  "overallDownReasons": [
+    "反向亦然：指數單日下跌時，3x 日重置會放大虧損；連續下跌日還有複利／路徑依賴，報酬不會等於「3 × 區間漲跌」。",
+    "高波動、隔夜與延長時段報價、以及現金／保證金結構變動，都可能讓 SOXL 偏離「單純加總個股權重×漲跌」的直覺估算。"
+  ],
+  "disclaimers": [
+    "非投資建議。SOXL 為 3 倍日槓桿 ETF，波動與虧損風險極高，不適合長期持有假設。",
+    "持股權重來自 SEC N-PORT（截至 2026-01-31），不是今日即時持股；貢獻度為估算（權重×報酬），未直接等於 ETF 點數。",
+    "報價來自公開 Yahoo Finance 頁面；缺欄不捏造。"
+  ],
+  "sourcesUsed": [
+    "Research seed: /workspace/soxl-research/soxl-holdings-raw.json",
+    "SEC N-PORT: https://www.sec.gov/Archives/edgar/data/1424958/000119312526137087/0001193125-26-137087.txt",
+    "Yahoo quote page: https://finance.yahoo.com/quote/SOXL/",
+    "Yahoo quote HTML refresh @ 2026-09-23T00:37:38.519Z",
+    "https://feeds.finance.yahoo.com/rss/2.0/headline?s=SOXL&region=US&lang=en-US"
+  ],
+  "blockers": [
+    "https://www.direxion.com/product/daily-semiconductor-bull-bear-3x-etfs?keyword=soxl: 403/Cloudflare security verification — Could not download the issuer’s daily holdings CSV directly; the official page was still used as the product reference URL.",
+    "https://query1.finance.yahoo.com/v8/finance/chart/SOXL?range=1d&interval=1m&includePrePost=true: 429 Too Many Requests — Used Yahoo’s public quote page instead for the quote snapshot.",
+    "https://www.etf.com/SOXL: Cloudflare blocked — ETF.com holdings page could not be fetched; no ETF.com weights were used."
+  ],
+  "recentPublicCrosscheck": {
+    "asof": "2026-09-20",
+    "source": "StockAnalysis/Finnhub snapshot https://stockanalysis.com/etf/soxl/holdings/",
+    "note": "Supplemental recent public snapshot; not substituted for the official SEC array above. The daily file shows swaps and cash dominating reported positions, so daily weights can differ substantially from the January N-PORT report.",
+    "top_10": [
+      {
+        "rank": 1,
+        "ticker": null,
+        "name": "Icesemi Swap Asset Leg",
+        "weight_pct": 16.36
+      },
+      {
+        "rank": 2,
+        "ticker": null,
+        "name": "Icesemi Swap Asset Leg",
+        "weight_pct": 14.58
+      },
+      {
+        "rank": 3,
+        "ticker": null,
+        "name": "Icesemi Swap Asset Leg",
+        "weight_pct": 11.48
+      },
+      {
+        "rank": 4,
+        "ticker": null,
+        "name": "Icesemi Swap Asset Leg",
+        "weight_pct": 10.38
+      },
+      {
+        "rank": 5,
+        "ticker": null,
+        "name": "Icesemi Swap Asset Leg",
+        "weight_pct": 5.36
+      },
+      {
+        "rank": 6,
+        "ticker": null,
+        "name": "Icesemi Swap Asset Leg",
+        "weight_pct": 4.7
+      },
+      {
+        "rank": 7,
+        "ticker": null,
+        "name": "Icesemi Swap Asset Leg",
+        "weight_pct": 4.58
+      },
+      {
+        "rank": 8,
+        "ticker": "AMD",
+        "name": "Advanced Micro Devices, Inc.",
+        "weight_pct": 1.84
+      },
+      {
+        "rank": 9,
+        "ticker": "NVDA",
+        "name": "NVIDIA Corporation",
+        "weight_pct": 1.78
+      },
+      {
+        "rank": 10,
+        "ticker": "MU",
+        "name": "Micron Technology, Inc.",
+        "weight_pct": 1.77
+      }
+    ]
+  },
+  "sessionBlocker": "部分來源受阻：https://www.direxion.com/product/daily-semiconductor-bull-bear-3x-etfs?keyword=soxl: 403/Cloudflare security verification — Could not download the issuer’s daily holdings CSV directly; the official page was still used as the product reference URL. | https://query1.finance.yahoo.com/v8/finance/chart/SOXL?range=1d&interval=1m&includePrePost=true: 429 Too Many Requests — Used Yahoo’s public quote page instead for the quote snapshot. | https://www.etf.com/SOXL: Cloudflare blocked — ETF.com holdings page could not be fetched; no ETF.com weights were used."
+}

@@ -43,6 +43,11 @@ import {
   renderEarningsSection,
   initEarnings,
 } from "./earnings.js";
+import "./soxl.css";
+import {
+  renderSoxlSection,
+  initSoxl,
+} from "./soxl.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -410,6 +415,7 @@ function getViews() {
     { id: "strategies", label: t("navStrategies"), hash: "strategies" },
     { id: "options", label: t("navOptions"), hash: "options" },
     { id: "earnings", label: t("navEarnings"), hash: "earnings" },
+    { id: "soxl", label: t("navSoxl"), hash: "soxl" },
     { id: "paper", label: t("navPaper"), hash: "paper" },
     { id: "social", label: t("navSocial"), hash: "social" },
   ];
@@ -422,6 +428,7 @@ const HASH_ALIASES = {
   strategies: "strategies",
   options: "options",
   earnings: "earnings",
+  soxl: "soxl",
   paper: "paper",
   social: "social",
   help: "logic",
@@ -437,6 +444,10 @@ const HASH_ALIASES = {
   reports: "earnings",
   "us-earnings": "earnings",
   財報: "earnings",
+  "soxl-desk": "soxl",
+  semiconductor: "soxl",
+  半導體: "soxl",
+  三倍半導體: "soxl",
 
   danmaku: "social",
   "social-digest": "social",
@@ -452,6 +463,7 @@ const NAV_ICONS = {
   strategies: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 19h16v2H4v-2zm2.5-3.5 4-4 3 3L21 6.5 19.5 5l-6 7.5-3-3L4 14.5l2.5 1z"/></svg>`,
   options: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 12a8 8 0 1 1 16 0H4zm8-6a6 6 0 0 0-5.65 4h11.3A6 6 0 0 0 12 6zm0 12a6 6 0 0 0 5.65-4H6.35A6 6 0 0 0 12 18z"/></svg>`,
   earnings: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 4v2h10V7H7zm0 4v2h10v-2H7zm0 4v2h6v-2H7z"/></svg>`,
+  soxl: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25 9.5 9l3.5 4.5L17 8l4 9.25H3zM5 19h14v2H5v-2z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   social: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C7 3 3 6.6 3 11c0 2.4 1.2 4.5 3.1 6L5 21l4.3-1.4c.9.3 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z"/></svg>`,
 };
@@ -585,6 +597,11 @@ function renderApp(data, paper) {
       <div class="view" id="view-earnings" data-view="earnings" hidden>
         <span id="earnings" class="view-anchor" tabindex="-1"></span>
         ${renderEarningsSection()}
+      </div>
+
+      <div class="view" id="view-soxl" data-view="soxl" hidden>
+        <span id="soxl" class="view-anchor" tabindex="-1"></span>
+        ${renderSoxlSection()}
       </div>
 
       <div class="view" id="view-paper" data-view="paper" hidden>
@@ -753,6 +770,7 @@ async function mountUi(app) {
   await initResearch("#rl-root");
   await initOptions("#uo-root");
   await initEarnings("#er-root");
+  await initSoxl("#sx-root");
   void config;
   let digest = cachedDigest;
   const digestResult = await initSocialDigest("#ss-social-digest", config.socialDigestUrl);

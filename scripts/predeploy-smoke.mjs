@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#paper", "#social"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#soxl", "#paper", "#social"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-paper", "view-social"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-soxl", "view-paper", "view-social"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -467,6 +467,75 @@ async function main() {
   if (!fs.existsSync(path.join(ROOT, "scripts/fetch-earnings.mjs"))) {
     fail("missing scripts/fetch-earnings.mjs");
   } else ok("fetch-earnings.mjs present");
+
+
+  // —— SOXL desk ——
+  const sxSnap = path.join(ROOT, "public/data/soxl-desk.json");
+  if (!fs.existsSync(sxSnap)) {
+    fail("missing public/data/soxl-desk.json (run npm run fetch-soxl)");
+  } else {
+    try {
+      const desk = JSON.parse(fs.readFileSync(sxSnap, "utf8"));
+      if (desk.market !== "US") fail("soxl-desk market must be US");
+      else ok("soxl-desk market US");
+      if (desk.ticker !== "SOXL") fail("soxl-desk ticker must be SOXL");
+      else ok("soxl-desk ticker SOXL");
+      if (!desk.asOf) fail("soxl-desk missing asOf");
+      else ok(`soxl asOf ${desk.asOf}`);
+      if (!desk.quote || desk.quote.price == null) fail("soxl-desk missing quote.price");
+      else ok(`soxl quote ${desk.quote.price} (${desk.quote.changePct}%)`);
+      if (!desk.holdingsAsOf) fail("soxl-desk missing holdingsAsOf (N-PORT date)");
+      else ok(`soxl holdingsAsOf ${desk.holdingsAsOf}`);
+      if (!Array.isArray(desk.holdings) || desk.holdings.length < 5) fail("soxl-desk holdings incomplete");
+      else ok(`soxl holdings ${desk.holdings.length}`);
+      const hasWeight = desk.holdings.every((h) => h.weightPct != null);
+      if (!hasWeight) fail("soxl holdings missing weightPct");
+      else ok("soxl holdings have weightPct");
+      if (!Array.isArray(desk.news)) fail("soxl news missing");
+      else ok(`soxl news ${desk.news.length}`);
+      if (!Array.isArray(desk.overallUpReasons) || !Array.isArray(desk.overallDownReasons)) {
+        fail("soxl overall up/down reasons missing");
+      } else ok("soxl overall reasons");
+      const disc = (desk.disclaimers || []).join(" ") + (desk.leverageNote || "");
+      if (!/3|槓桿|杠杆|leverage|3×|3x/i.test(disc)) fail("soxl should mention 3x leverage in disclaimers/notes");
+      else ok("soxl 3x leverage noted");
+      if (!/非投資建議|Not investment advice|投資助言ではない|非投资建议/.test((desk.disclaimers || []).join(" "))) {
+        fail("soxl disclaimers missing 非投資建議-class text");
+      } else ok("soxl disclaimer");
+      if (!Array.isArray(desk.sourcesUsed) || !desk.sourcesUsed.length) fail("soxl sourcesUsed missing");
+      else ok(`soxl sourcesUsed ${desk.sourcesUsed.length}`);
+    } catch (e) {
+      fail(`soxl-desk parse: ${e}`);
+    }
+  }
+  const sxJs = fs.readFileSync(path.join(ROOT, "src/soxl.js"), "utf8");
+  if (/Black-Scholes|\\bN\(d1\)|d1\s*=\s*\(/.test(sxJs)) {
+    fail("soxl.js appears to dump raw formulas");
+  } else ok("soxl.js no raw formula dump");
+  if (!sxJs.includes("contributionPct") || !sxJs.includes("renderSoxlSection") || !sxJs.includes("sx-hero")) {
+    fail("soxl.js missing hero/contribution wiring");
+  } else ok("soxl.js hero + contribution");
+  if (!mainJs.includes("view-soxl") || !mainJs.includes('"soxl"')) {
+    fail("main.js missing soxl view wiring");
+  } else ok("soxl view wired in main.js");
+  {
+    const i18nSx = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    if (!i18nSx.includes("navSoxl") || !i18nSx.includes("soxlDisclaimer") || !i18nSx.includes("soxlTitle")) {
+      fail("i18n missing soxl nav/title/disclaimer");
+    } else ok("soxl i18n present");
+    for (const langKey of ["navSoxl", "soxlTitle", "soxlDisclaimer", "soxlContributionHint"]) {
+      const n = (i18nSx.match(new RegExp(langKey + ":", "g")) || []).length;
+      if (n < 4) fail(`i18n ${langKey} expected 4 langs, got ${n}`);
+    }
+    ok("soxl i18n 4 langs");
+  }
+  if (!fs.existsSync(path.join(ROOT, "scripts/fetch-soxl.mjs"))) {
+    fail("missing scripts/fetch-soxl.mjs");
+  } else ok("fetch-soxl.mjs present");
+  if (!fs.existsSync(path.join(ROOT, "src/soxl.css"))) {
+    fail("missing src/soxl.css");
+  } else ok("soxl.css present");
+
 
 
   // —— Explicit jargon regression (live-site crash set) ——
