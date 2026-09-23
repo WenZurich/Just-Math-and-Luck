@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#soxl", "#paper", "#social"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#soxl", "#godzilla", "#paper", "#social"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-soxl", "view-paper", "view-social"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-soxl", "view-godzilla", "view-paper", "view-social"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -536,6 +536,42 @@ async function main() {
     fail("missing src/soxl.css");
   } else ok("soxl.css present");
 
+  // —— Godzilla playbook (candidate / watch only) ——
+  const gzJsPath = path.join(ROOT, "src/godzilla.js");
+  if (!fs.existsSync(gzJsPath)) fail("missing src/godzilla.js");
+  else ok("godzilla.js present");
+  if (!fs.existsSync(path.join(ROOT, "src/godzilla.css"))) fail("missing src/godzilla.css");
+  else ok("godzilla.css present");
+  const gzJs = fs.readFileSync(gzJsPath, "utf8");
+  if (!gzJs.includes("renderGodzillaSection") || !gzJs.includes("initGodzilla") || !gzJs.includes("gz-hero")) {
+    fail("godzilla.js missing hero / export wiring");
+  } else ok("godzilla.js hero + exports");
+  if (!gzJs.includes("godzillaSelfReport") || !gzJs.includes("7n-e5pe6z4U")) {
+    fail("godzilla.js missing YouTube source or self-report label key");
+  } else ok("godzilla source + self-report");
+  if (/\bfetch\s*\(/.test(gzJs) || /strategy-screener|paper-trade\.mjs/.test(gzJs)) {
+    fail("godzilla.js must stay static (no live fetch / screener wiring)");
+  } else ok("godzilla static (no fetch)");
+  if (!mainJs.includes("view-godzilla") || !mainJs.includes('"godzilla"') || !mainJs.includes("initGodzilla")) {
+    fail("main.js missing godzilla view wiring");
+  } else ok("godzilla view wired in main.js");
+  {
+    const i18nGz = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    if (!i18nGz.includes("navGodzilla") || !i18nGz.includes("哥吉拉心法") || !i18nGz.includes("godzillaDisclaimer")) {
+      fail("i18n missing godzilla nav/title/disclaimer");
+    } else ok("godzilla i18n present");
+    for (const langKey of ["navGodzilla", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle"]) {
+      const n = (i18nGz.match(new RegExp(langKey + ":", "g")) || []).length;
+      if (n < 4) fail(`i18n ${langKey} expected 4 langs, got ${n}`);
+    }
+    ok("godzilla i18n 4 langs");
+    if (!/尚未寫進正式篩選|Not in the formal screener/.test(i18nGz)) {
+      fail("godzilla gate note missing");
+    } else ok("godzilla gate note");
+    if (!/strategyCandidate=watch|strategyCandidate=watch/.test(i18nGz) && !i18nGz.includes("strategyCandidate=watch")) {
+      fail("godzilla status watch note missing");
+    } else ok("godzilla watch status noted");
+  }
 
 
   // —— Explicit jargon regression (live-site crash set) ——

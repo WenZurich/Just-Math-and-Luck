@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-16T19:43:08+08:00",
+    "updated": "2026-09-23T09:21:58+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-09-23)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -6537,6 +6537,232 @@
           "パートナー思想の様子見"
         ]
       }
+    },
+    {
+      "id": "paper-chatgpt-momentum-llm-2025",
+      "market": "US",
+      "type": "paper",
+      "title": "ChatGPT in Systematic Investing: Enhancing Risk-Adjusted Returns with LLMs",
+      "authors": [
+        "Nikolas Anic",
+        "Andrea Barbon",
+        "Ralf Seiz",
+        "Carlo Zarattini"
+      ],
+      "year": 2025,
+      "summary": "Tests whether prompt-engineered ChatGPT scores on firm-specific news can improve a long-only cross-sectional momentum portfolio of S&P 500 stocks. LLM scores condition both selection and weights versus a classic past-return momentum baseline. Authors report higher Sharpe/Sortino in-sample and after the model pre-training cut-off, with gains strongest in concentrated high-conviction books and monthly rebalancing; turnover rises but results are shown net of assumed transaction costs. Site takeaway: news-conditioned momentum is a research candidate only — needs public reproducible news feeds, cost controls, and math-gate verification before any live screen.",
+      "formulas": [
+        "baseline_mom ← rank(past_12m_return excluding latest_1m) within SPX universe",
+        "llm_score ← ChatGPT(prompt | recent_firm_news) then normalize to weight tilt",
+        "enhanced_w ← reweight(baseline_w, llm_score) with turnover and cost checks",
+        "gate: keep status=candidate until math gate + public data path exist"
+      ],
+      "plainTakeaways": [
+        "新聞條件式動能是研究候選，不是現成上線訊號",
+        "集中、月調倉時較易顯現差異；週調倉與成本更敏感",
+        "需可重現的公開新聞與費用控管，通過數學閘門前不採用"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "新聞條件式動能是研究候選，不是現成上線訊號",
+          "集中、月調倉時較易顯現差異；週調倉與成本更敏感",
+          "需可重現的公開新聞與費用控管，通過數學閘門前不採用"
+        ],
+        "en": [
+          "News-conditioned momentum is a research candidate, not a live screen",
+          "Gains look stronger in concentrated, monthly books; weekly + costs matter",
+          "Need reproducible public news + cost controls; no adoption before math gate"
+        ],
+        "zh-Hans": [
+          "新闻条件式动能是研究候选，不是现成上线信号",
+          "集中、月调仓时较易显现差异；周调仓与成本更敏感",
+          "需可重现的公开新闻与费用管控，通过数学闸门前不采用"
+        ],
+        "ja": [
+          "ニュース条件付きモメンタムは研究候補であり本番シグナルではない",
+          "集中・月次リバランスで差が出やすく、週次とコストに敏感",
+          "再現可能な公開ニュースと費用管理が必要；数学ゲート前は不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — news+LLM momentum stays candidate/watch; do not adopt into live screener math.",
+      "sources": [
+        "https://arxiv.org/abs/2510.26228",
+        "https://doi.org/10.48550/arXiv.2510.26228"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "ChatGPT 用於系統化投資：以 LLM 提升風險調整後報酬",
+        "en": "ChatGPT in Systematic Investing: Enhancing Risk-Adjusted Returns with LLMs",
+        "zh-Hans": "ChatGPT 用于系统化投资：以 LLM 提升风险调整后报酬",
+        "ja": "ChatGPTによるシステマティック投資：LLMでリスク調整後リターン向上"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "檢驗以提示工程驅動的 ChatGPT，能否用公司新聞分數強化標普 500 多頭橫斷面動能組合。LLM 分數同時影響選股與權重，對照經典過去報酬動能基準。作者報告樣本內與模型預訓練截止日後的夏普／索提諾較高，且在集中、月調倉時較明顯；週轉率上升，結果以假設交易成本後淨值呈現。本站取捨：僅作研究候選——需可重現公開新聞流、成本控管與數學閘門驗證後，才可能進入實盤篩選。",
+        "en": "Tests whether prompt-engineered ChatGPT scores on firm-specific news can improve a long-only cross-sectional momentum portfolio of S&P 500 stocks. LLM scores condition both selection and weights versus a classic past-return momentum baseline. Authors report higher Sharpe/Sortino in-sample and after the model pre-training cut-off, with gains strongest in concentrated high-conviction books and monthly rebalancing; turnover rises but results are shown net of assumed transaction costs. Site takeaway: news-conditioned momentum is a research candidate only — needs public reproducible news feeds, cost controls, and math-gate verification before any live screen.",
+        "zh-Hans": "检验以提示工程驱动的 ChatGPT，能否用公司新闻分数强化标普 500 多头横截面动能组合。LLM 分数同时影响选股与权重，对照经典过去报酬动能基准。作者报告样本内与模型预训练截止日后的夏普／索提诺较高，且在集中、月调仓时较明显；周转率上升，结果以假设交易成本后净值呈现。本站取舍：仅作研究候选——需可重现公开新闻流、成本管控与数学闸门验证后，才可能进入实盘筛选。",
+        "ja": "プロンプト設計したChatGPTの企業ニュース評点が、S&P500のロングのみクロスセクション・モメンタムを改善できるかを検証。LLM評点は銘柄選択とウェイトの双方に作用し、古典的な過去リターン基準と比較。著者はサンプル内および事前学習カットオフ後でSharpe/Sortinoが高いと報告し、集中・月次リバランスで差が強め；ターンオーバーは増えるが想定取引コスト控除後の結果。当サイトの結論：研究候補に留め、再現可能な公開ニュースと費用管理、数学ゲート通過前は本番スクリーナーに入れない。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "momentum",
+        "llm",
+        "news",
+        "us",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-tw-sentiment-amihud-liquidity-2025",
+      "market": "TW",
+      "type": "paper",
+      "title": "Does Optimistic Investor Sentiment Accelerate Taiwan Stock Market Liquidity?",
+      "authors": [
+        "Wan-Ru Yang",
+        "Ming-Che Chuang"
+      ],
+      "year": 2025,
+      "summary": "Studies whether bullish retail and institutional sentiment improve Taiwan equity liquidity measured by the Amihud illiquidity index. Finding: optimistic retail sentiment is linked to higher liquidity risk (and can worsen illiquidity for already high-liquidity-risk names), while institutional sentiment effects are insignificant; irrational retail sentiment matters more for TW liquidity than institutional tone. Site takeaway: treat retail-sentiment overlays as a TW microstructure watch item — separate from US screens — and do not promote sentiment chasing into live picks while the math gate is closed.",
+      "formulas": [
+        "amihud_illiq ← mean(|ret| / dollar_volume) over window (public OHLC+volume proxy)",
+        "sentiment_overlay ← retail_bullishness vs institutional_tone (TW-specific sources only)",
+        "watch: high_retail_optimism ∧ high_amihud → raise liquidity_risk flag (candidate only)",
+        "market_tag: TW only — never merge into undifferentiated US+TW lists"
+      ],
+      "plainTakeaways": [
+        "台股：散戶樂觀情緒與流動性風險上升較相關",
+        "法人情緒對流動性影響不顯著；勿混用美股情緒框架",
+        "僅作台股微結構觀察候選，數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股：散戶樂觀情緒與流動性風險上升較相關",
+          "法人情緒對流動性影響不顯著；勿混用美股情緒框架",
+          "僅作台股微結構觀察候選，數學閘門通過前不上線"
+        ],
+        "en": [
+          "TW: bullish retail sentiment ties more to rising liquidity risk",
+          "Institutional sentiment effects look weak; do not reuse US sentiment frames",
+          "TW microstructure watch only — no live adoption before math gate"
+        ],
+        "zh-Hans": [
+          "台股：散户乐观情绪与流动性风险上升较相关",
+          "法人情绪对流动性影响不显著；勿混用美股情绪框架",
+          "仅作台股微观结构观察候选，数学闸门通过前不上线"
+        ],
+        "ja": [
+          "台湾株：個人の強気センチメントは流動性リスク上昇と結びつきやすい",
+          "機関センチメントの影響は弱い；米国枠を流用しない",
+          "台湾ミクロ構造の監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW retail-sentiment / Amihud overlay stays candidate/watch; never status=adopted.",
+      "sources": [
+        "https://ideas.repec.org/a/kap/apfinm/v32y2025i3d10.1007_s10690-024-09476-5.html",
+        "https://doi.org/10.1007/s10690-024-09476-5"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "樂觀投資人情緒會加速台股流動性嗎？",
+        "en": "Does Optimistic Investor Sentiment Accelerate Taiwan Stock Market Liquidity?",
+        "zh-Hans": "乐观投资人情绪会加速台股流动性吗？",
+        "ja": "楽観的投資家センチメントは台湾株の流動性を加速するか？"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "探討散戶與法人樂觀情緒是否改善以 Amihud 非流動性指標衡量的台股流動性。結果：散戶樂觀與流動性風險上升較相關（高流動性風險標的可能更不流動），法人情緒影響不顯著；非理性散戶情緒對台股流動性更關鍵。本站取捨：將散戶情緒疊加視為台股微結構觀察項——與美股篩選嚴格分流——並在數學閘門關閉期間不把情緒追價納入實盤選股。",
+        "en": "Studies whether bullish retail and institutional sentiment improve Taiwan equity liquidity measured by the Amihud illiquidity index. Finding: optimistic retail sentiment is linked to higher liquidity risk (and can worsen illiquidity for already high-liquidity-risk names), while institutional sentiment effects are insignificant; irrational retail sentiment matters more for TW liquidity than institutional tone. Site takeaway: treat retail-sentiment overlays as a TW microstructure watch item — separate from US screens — and do not promote sentiment chasing into live picks while the math gate is closed.",
+        "zh-Hans": "探讨散户与法人乐观情绪是否改善以 Amihud 非流动性指标衡量的台股流动性。结果：散户乐观与流动性风险上升较相关（高流动性风险标的可能更不流动），法人情绪影响不显著；非理性散户情绪对台股流动性更关键。本站取舍：将散户情绪叠加视为台股微观结构观察项——与美股筛选严格分流——并在数学闸门关闭期间不把情绪追价纳入实盘选股。",
+        "ja": "個人・機関の強気センチメントがAmihud非流動性で測る台湾株流動性を改善するかを検証。結果：個人の楽観は流動性リスク上昇と結びつきやすく（既に高リスク銘柄はさらに非流動化しうる）、機関センチメントの影響は有意でない。当サイトの結論：個人センチメント重ね合わせは台湾ミクロ構造の監視項目とし、米国スクリーナーと分離し、数学ゲート閉鎖中はセンチメント追従を本番選別に入れない。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "taiwan",
+        "liquidity",
+        "sentiment",
+        "amihud",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-nber-deposit-flightiness-2025",
+      "market": "US",
+      "type": "paper",
+      "title": "The Dynamics of Deposit Flightiness and its Impact on Financial Stability",
+      "authors": [
+        "Kristian Blickle",
+        "Jian Li",
+        "Xu Lu",
+        "Yiming Ma"
+      ],
+      "year": 2025,
+      "summary": "NBER working paper documenting that bank deposit flightiness varies over time and peaked after Covid, often alongside QE and low policy rates. Heterogeneous depositor convenience demand implies that after large deposit inflows the marginal depositor is less convenience-seeking, raising panic-run risk; rate hikes are then more destabilizing when they follow QE. Site takeaway: reinforces Marks/Kostolany-style regime awareness — treat post-QE tightening as a liquidity-stress watch regime for US rate literacy screens, not as an automatic short signal, and keep status candidate while math gate is closed.",
+      "formulas": [
+        "flightiness_proxy ← sensitivity of deposits to rate/relative_yield shocks (public banking aggregates)",
+        "regime_flag ← (recent_QE_inflows) ∧ (policy_rate_hiking) → elevate funding_stress_watch",
+        "link_to_equity: funding_stress_watch → tighten risk overlays (candidate only)",
+        "gate: regime labels educational until olympiad math gate passes"
+      ],
+      "plainTakeaways": [
+        "QE 後存款「易飛」上升，升息更容易衝擊穩定",
+        "利率體制要連動流動性／資金壓力觀察，而非單看股價動能",
+        "僅作美股利率識字候選；數學閘門通過前不納入正式策略"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "QE 後存款「易飛」上升，升息更容易衝擊穩定",
+          "利率體制要連動流動性／資金壓力觀察，而非單看股價動能",
+          "僅作美股利率識字候選；數學閘門通過前不納入正式策略"
+        ],
+        "en": [
+          "Deposit flightiness rises after QE; hikes can be more destabilizing",
+          "Rate regimes should link to funding-stress watches, not price momentum alone",
+          "US rates-literacy candidate only — no formal adoption before math gate"
+        ],
+        "zh-Hans": [
+          "QE 后存款「易飞」上升，升息更容易冲击稳定",
+          "利率体制要连动流动性／资金压力观察，而非单看股价动能",
+          "仅作美股利率识字候选；数学闸门通过前不纳入正式策略"
+        ],
+        "ja": [
+          "QE後に預金の逃げやすさが高まり、利上げがより不安定化しうる",
+          "金利レジームは資金ストレス監視と連動させ、価格モメンタム単独にしない",
+          "米国金利リテラシー候補のみ；数学ゲート前は正式採用しない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — deposit-flightiness / post-QE hike regime stays candidate/watch; never status=adopted.",
+      "sources": [
+        "https://www.nber.org/papers/w34128",
+        "https://doi.org/10.3386/w34128"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "存款「易飛」動態及其對金融穩定的影響",
+        "en": "The Dynamics of Deposit Flightiness and its Impact on Financial Stability",
+        "zh-Hans": "存款「易飞」动态及其对金融稳定的影响",
+        "ja": "預金の逃げやすさの動態と金融安定への影響"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "NBER 工作論文指出銀行存款「易飛」程度隨時間變化，疫情後偏高，並常與 QE、低政策利率並存。存款人對便利性偏好異質：大量資金流入後，邊際存款人較不重視便利性，擠兌風險上升；若先有 QE 再升息，穩定衝擊更大。本站取捨：強化 Marks／科斯托拉尼式體制意識——把 QE 後緊縮視為美股利率識字的流動性壓力觀察區間，而非自動放空訊號，並在數學閘門關閉期間維持候選。",
+        "en": "NBER working paper documenting that bank deposit flightiness varies over time and peaked after Covid, often alongside QE and low policy rates. Heterogeneous depositor convenience demand implies that after large deposit inflows the marginal depositor is less convenience-seeking, raising panic-run risk; rate hikes are then more destabilizing when they follow QE. Site takeaway: reinforces Marks/Kostolany-style regime awareness — treat post-QE tightening as a liquidity-stress watch regime for US rate literacy screens, not as an automatic short signal, and keep status candidate while math gate is closed.",
+        "zh-Hans": "NBER 工作论文指出银行存款「易飞」程度随时间变化，疫情后偏高，并常与 QE、低政策利率并存。存款人对便利性偏好异质：大量资金流入后，边际存款人较不重视便利性，挤兑风险上升；若先有 QE 再升息，稳定冲击更大。本站取舍：强化 Marks／科斯托拉尼式体制意识——把 QE 后紧缩视为美股利率识字的流动性压力观察区间，而非自动放空信号，并在数学闸门关闭期间维持候选。",
+        "ja": "NBERワーキングペーパーは、銀行預金の逃げやすさが時間とともに変化し、コロナ後に高まり、QEと低政策金利と並存しやすいと示す。預金者の利便性選好の異質性により、大規模流入後の限界預金者は利便性を相対的に重視せず取り付けリスクが高まり、QE後の利上げはより不安定化しやすい。当サイトの結論：Marks/Kostolany的レジーム意識を強化し、QE後引き締めを米国金利リテラシーの資金ストレス監視区間として扱い、自動ショート信号にはせず、数学ゲート閉鎖中は候補に留める。"
+      },
+      "shelf": "econ_analysis",
+      "tags": [
+        "rates",
+        "liquidity",
+        "qe",
+        "banking",
+        "candidate"
+      ]
     }
   ]
 }
