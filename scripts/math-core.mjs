@@ -114,3 +114,14 @@ export function clamp(x, lo, hi) {
   if (lo > hi) return null;
   return Math.min(hi, Math.max(lo, x));
 }
+
+/**
+ * Fractional distance from an SMA: price/sma − 1.
+ * Matches market-regime pctFromSma200 units (not percentage points).
+ * sma ≤ 0 or non-finite → null (no Infinity / sign-flip garbage).
+ */
+export function pctFromSma(price, smaVal) {
+  if (!isFiniteNumber(price) || !isFiniteNumber(smaVal)) return null;
+  if (!(smaVal > 0)) return null;
+  return price / smaVal - 1;
+}

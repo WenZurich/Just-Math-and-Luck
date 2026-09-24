@@ -10,6 +10,7 @@ Continuous olympiad-level math improvement means **zero tolerance for silent ari
 | Window / denominator invariants | SMA requires `len ≥ n`; volume ratio requires `avgVol > 0` |
 | Monotonicity of scoring functionals | Synthetic fixtures assert higher RS / trend / constructive volume raise `baseRankingScore` |
 | Clamp and additive checklist arithmetic | Marks `temperatureScore` stays in \[−2, +2\] and composes proxies additively |
+| Percent from SMA | `pctFromSma(price,sma)=price/sma−1`; reject `sma≤0` / non-finite (regime units) |
 
 **Run:** `npm run test:math` (also chained from `test:smoke` / `predeploy` so bad math cannot ship).
 

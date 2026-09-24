@@ -16,6 +16,7 @@ import {
   baseRankingScore,
   avgVolume,
   clamp,
+  pctFromSma,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 
@@ -228,6 +229,31 @@ assert(rsVsIndex(Infinity, 1) === null, "rsVsIndex Infinity → null");
   assert(noPen > withPen, `preferVol=false skips thin-vol penalty (${noPen} > ${withPen})`);
 }
 
+
+
+// —— pct from SMA: fractional price/sma−1; sma>0 ——
+assert(pctFromSma(110, 0) === null, "pctFromSma sma=0 → null");
+assert(pctFromSma(110, -50) === null, "pctFromSma sma≤0 → null");
+assert(pctFromSma(NaN, 100) === null, "pctFromSma NaN price → null");
+assert(pctFromSma(110, NaN) === null, "pctFromSma NaN sma → null");
+assert(pctFromSma(Infinity, 100) === null, "pctFromSma Infinity price → null");
+assert(pctFromSma(100, Infinity) === null, "pctFromSma Infinity sma → null");
+{
+  const v = pctFromSma(110, 100);
+  assert(approx(v, 0.1), `pctFromSma 110/100−1 = 0.1 (got ${v})`);
+}
+{
+  const v = pctFromSma(85, 100);
+  assert(approx(v, -0.15), `pctFromSma 85/100−1 = -0.15 (got ${v})`);
+}
+{
+  const v = pctFromSma(100, 100);
+  assert(approx(v, 0), `pctFromSma flat = 0 (got ${v})`);
+}
+assert(
+  approx(pctFromSma(112, 100), retChange(100, 112)),
+  "pctFromSma ≡ retChange(sma, price)"
+);
 
 // —— clamp: closed-interval projection (inequalities → Marks/temp caps) ——
 assert(clamp(NaN, -2, 2) === null, "clamp NaN → null");
