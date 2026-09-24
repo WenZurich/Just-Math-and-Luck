@@ -828,6 +828,50 @@ async function main() {
     else ok("normalizeSymbol rejects invalid");
   }
 
+
+  // Official filings deep-links (US SEC / TW MOPS) — pure, no network
+  {
+    const lookupSrc = fs.readFileSync(path.join(ROOT, "src/lookup.js"), "utf8");
+    if (!/buildOfficialLinks/.test(lookupSrc) || !/fetchOfficialFilings/.test(lookupSrc)) {
+      fail("lookup.js missing buildOfficialLinks / fetchOfficialFilings");
+    } else ok("lookup official filings API present");
+    if (!/data\.sec\.gov\/submissions|company_tickers\.json/.test(lookupSrc)) {
+      fail("lookup.js should reference SEC submissions / ticker map");
+    } else ok("lookup SEC endpoints referenced");
+    if (!/mops\.twse\.com\.tw/.test(lookupSrc)) {
+      fail("lookup.js should deep-link MOPS for TW filings");
+    } else ok("lookup MOPS deep-links present");
+    if (!/paintOfficialFilings|lk-ofil/.test(lookupSrc)) {
+      fail("lookup.js should render official filings section");
+    } else ok("lookup official filings UI present");
+    if (!/lookupOfficialFilings/.test(i18nSrc)) fail("i18n missing lookupOfficialFilings");
+    else ok("i18n lookupOfficialFilings present");
+    const mod = await import(pathToFileURL(path.join(ROOT, "src/lookup.js")).href);
+    const { buildOfficialLinks, padCik, edgarDocumentUrl } = mod;
+    if (typeof buildOfficialLinks !== "function") fail("buildOfficialLinks not exported");
+    const us = buildOfficialLinks({ market: "US", symbol: "AAPL", display: "AAPL", cik: "0000320193" });
+    if (!us.links?.some((l) => /sec\.gov/i.test(l.href))) fail("US official links missing SEC");
+    else ok("US official SEC links built");
+    if (!us.links?.some((l) => /CIK=320193|CIK=0000320193/i.test(l.href))) fail("US CIK browse link missing");
+    else ok("US SEC CIK browse link present");
+    const tw = buildOfficialLinks({ market: "TW", symbol: "2330.TW", display: "2330" });
+    if (!tw.links?.some((l) => /mops\.twse\.com\.tw/i.test(l.href) && /2330/.test(l.href))) {
+      fail("TW MOPS code deep-link missing");
+    } else ok("TW MOPS deep-links include stock code");
+    if (!tw.links?.some((l) => l.kind === "quote")) fail("TW should keep Yahoo as quote (non-official) link");
+    else ok("TW Yahoo quote labeled separately");
+    if (padCik(320193) !== "0000320193") fail(`padCik failed: ${padCik(320193)}`);
+    else ok("padCik pads to 10 digits");
+    const doc = edgarDocumentUrl("0000320193", "0000320193-25-000079", "aapl-20250927.htm");
+    if (!/Archives\/edgar\/data\/320193\/000032019325000079\/aapl-20250927\.htm/.test(doc || "")) {
+      fail(`edgarDocumentUrl unexpected: ${doc}`);
+    } else ok("edgarDocumentUrl builds archive path");
+    const cssLookup = fs.readFileSync(path.join(ROOT, "src/lookup.css"), "utf8");
+    if (!/\.lk-ofil/.test(cssLookup) || !/lk-src-official/.test(cssLookup)) {
+      fail("lookup.css missing official filings styles");
+    } else ok("lookup.css official filings styles present");
+  }
+
   // —— Mobile 「熱門」 market-index marquee/ticker ——
   if (!/index-strip--marquee/.test(mainSrc) || !/index-marquee-track/.test(mainSrc)) {
     fail("renderIndexStrip should emit index-strip--marquee + index-marquee-track");

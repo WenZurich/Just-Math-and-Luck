@@ -1,6 +1,7 @@
 /**
  * 查股／個股 — MSN Finance–like stock lookup (US + TW).
  * Live fields from public Yahoo Finance (chart / search / quoteSummary when reachable).
+ * Official filings: US → SEC EDGAR; TW → MOPS (公開資訊觀測站) deep-links + optional parsed list.
  * Never invents numbers; missing fields omitted. Local earnings-digest used only as fill-in.
  */
 import { escapeHtml } from "./glossary.js";
@@ -12,6 +13,11 @@ const YAHOO_HOSTS = [
   "https://query1.finance.yahoo.com",
 ];
 const JINA = "https://r.jina.ai/";
+const SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json";
+const SEC_SUBMISSIONS = (cik10) => `https://data.sec.gov/submissions/CIK${cik10}.json`;
+const SEC_FORM_KEEP = /^(10-K|10-Q|8-K)(\/A)?$/i;
+const OFFICIAL_FILING_LIMIT = 8;
+
 const QS_MODULES = [
   "price",
   "summaryProfile",
@@ -24,6 +30,9 @@ const QS_MODULES = [
 
 let digestCache = null;
 let digestPromise = null;
+let cikMapCache = null;
+let cikMapPromise = null;
+
 
 function raw(v) {
   if (v == null) return null;
@@ -460,6 +469,283 @@ function digestMatch(symbol) {
   return rows.find((r) => String(r.ticker || "").toUpperCase() === ticker) || null;
 }
 
+/** Zero-pad CIK to 10 digits for data.sec.gov. */
+export function padCik(cik) {
+  const n = String(cik ?? "").replace(/\D/g, "");
+  if (!n) return null;
+  return n.padStart(10, "0").slice(-10);
+}
+
+/** Build SEC Archives document URL from CIK + accession + primary doc. */
+export function edgarDocumentUrl(cik, accessionNumber, primaryDocument) {
+  const bare = String(cik ?? "").replace(/^0+/, "") || String(cik ?? "").replace(/\D/g, "");
+  const acc = String(accessionNumber || "").replace(/-/g, "");
+  const doc = String(primaryDocument || "").trim();
+  if (!bare || !acc || !doc) return null;
+  return `https://www.sec.gov/Archives/edgar/data/${bare}/${acc}/${doc}`;
+}
+
+/** Pure official deep-links (no network). Used by UI + smoke tests. */
+export function buildOfficialLinks({ market, symbol, display, website, cik } = {}) {
+  const m = market === "TW" ? "TW" : "US";
+  const sym = String(symbol || "").toUpperCase();
+  const code = String(display || sym.replace(/\.(TW|TWO)$/i, "")).replace(/\D/g, "").slice(0, 6);
+  const links = [];
+  const now = new Date();
+  const rocYear = now.getFullYear() - 1911;
+
+  if (m === "US") {
+    const ticker = sym.replace(/-/, "."); // BRK-B display form for entity search
+    const cik10 = padCik(cik);
+    const cikBare = cik10 ? String(Number(cik10)) : null;
+    links.push({
+      kind: "official",
+      id: "sec-edgar-search",
+      labelKey: "lookupSecEdgarSearch",
+      href: `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(ticker)}&type=&dateb=&owner=include&count=40`,
+    });
+    if (cikBare) {
+      links.push({
+        kind: "official",
+        id: "sec-edgar-browse",
+        labelKey: "lookupSecEdgarBrowse",
+        href: `https://www.sec.gov/edgar/browse/?CIK=${encodeURIComponent(cikBare)}`,
+      });
+    }
+    links.push({
+      kind: "official",
+      id: "sec-forms-filter",
+      labelKey: "lookupSecFormsFilter",
+      href: `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(cik10 || ticker)}&type=10-&dateb=&owner=include&count=40`,
+    });
+  } else {
+    // TW — MOPS official portals (code deep-links when possible)
+    if (code) {
+      links.push({
+        kind: "official",
+        id: "mops-financial-book",
+        labelKey: "lookupMopsFinancialBook",
+        href: `https://mops.twse.com.tw/server-java/t57sb01?step=1&colorchg=1&co_id=${encodeURIComponent(code)}&year=${rocYear}&season=&mtype=A`,
+      });
+      links.push({
+        kind: "official",
+        id: "mops-financial-query",
+        labelKey: "lookupMopsFinancialQuery",
+        href: `https://mops.twse.com.tw/mops/web/t57sb01_q1`,
+      });
+      links.push({
+        kind: "official",
+        id: "mops-company",
+        labelKey: "lookupMopsCompany",
+        href: `https://mops.twse.com.tw/mops/web/t05st01?co_id=${encodeURIComponent(code)}`,
+      });
+      links.push({
+        kind: "official",
+        id: "mops-material",
+        labelKey: "lookupMopsMaterial",
+        href: `https://mops.twse.com.tw/mops/web/t05st02?co_id=${encodeURIComponent(code)}`,
+      });
+      // ISIN / TWSE basic search (official TWSE ecosystem)
+      links.push({
+        kind: "official",
+        id: "twse-isin",
+        labelKey: "lookupTwseIsin",
+        href: `https://isin.twse.com.tw/isin/basic_search.jsp?code=${encodeURIComponent(code)}`,
+      });
+      if (/\.TWO$/i.test(sym)) {
+        links.push({
+          kind: "official",
+          id: "tpex-company",
+          labelKey: "lookupTpexCompany",
+          href: `https://www.tpex.org.tw/zh-tw/mainboard/listed/company-detail.html?stkno=${encodeURIComponent(code)}`,
+        });
+      }
+    } else {
+      links.push({
+        kind: "official",
+        id: "mops-home",
+        labelKey: "lookupMopsFinancialQuery",
+        href: "https://mops.twse.com.tw/mops/web/t57sb01_q1",
+      });
+    }
+    // Secondary quote source — clearly not official filings
+    if (sym) {
+      links.push({
+        kind: "quote",
+        id: "yahoo-tw",
+        labelKey: "lookupYahooTwQuote",
+        href: `https://tw.stock.yahoo.com/quote/${encodeURIComponent(sym)}`,
+      });
+    }
+  }
+
+  if (website && /^https?:\/\//i.test(String(website))) {
+    links.push({
+      kind: "company",
+      id: "company-website",
+      labelKey: "lookupCompanyWebsite",
+      href: String(website).trim(),
+    });
+  }
+
+  return { market: m, links, code: code || null, cik: padCik(cik) };
+}
+
+async function fetchPublicJson(url, { timeoutMs = 18000 } = {}) {
+  // Prefer jina for SEC (browser CORS + UA blocks on data.sec.gov)
+  const errors = [];
+  for (const tryUrl of [`${JINA}${url}`, url]) {
+    try {
+      const text = await fetchText(tryUrl, { timeoutMs });
+      const data = extractJson(text);
+      if (data) return { ok: true, data, via: tryUrl.startsWith(JINA) ? "jina" : "direct" };
+      errors.push(`${tryUrl.startsWith(JINA) ? "jina" : "direct"}: non-json`);
+    } catch (e) {
+      errors.push(`${tryUrl.startsWith(JINA) ? "jina" : "direct"}: ${e.message || e}`);
+    }
+  }
+  return { ok: false, data: null, via: null, error: errors.slice(0, 3).join(" · ") };
+}
+
+async function loadCikMap() {
+  if (cikMapCache) return cikMapCache;
+  if (cikMapPromise) return cikMapPromise;
+  cikMapPromise = (async () => {
+    const res = await fetchPublicJson(SEC_TICKERS_URL, { timeoutMs: 22000 });
+    const map = new Map();
+    if (res.ok && res.data && typeof res.data === "object") {
+      for (const row of Object.values(res.data)) {
+        const t = String(row?.ticker || "").toUpperCase();
+        const cik = padCik(row?.cik_str);
+        if (t && cik) map.set(t, cik);
+      }
+    }
+    cikMapCache = { map, via: res.via, ok: res.ok, error: res.error || null };
+    return cikMapCache;
+  })();
+  return cikMapPromise;
+}
+
+export async function resolveCik(ticker) {
+  const key = String(ticker || "")
+    .toUpperCase()
+    .replace(/\./g, "-");
+  if (!key) return { ok: false, cik: null };
+  const pack = await loadCikMap();
+  const cik = pack.map.get(key) || null;
+  return { ok: Boolean(cik), cik, via: pack.via, error: cik ? null : pack.error || "cik_not_found" };
+}
+
+function pickRecentSecFilings(submissions, { limit = OFFICIAL_FILING_LIMIT } = {}) {
+  const recent = submissions?.filings?.recent;
+  if (!recent || !Array.isArray(recent.form)) return [];
+  const cik = padCik(submissions.cik);
+  const out = [];
+  for (let i = 0; i < recent.form.length && out.length < limit; i++) {
+    const form = String(recent.form[i] || "");
+    if (!SEC_FORM_KEEP.test(form)) continue;
+    const accessionNumber = recent.accessionNumber?.[i] || null;
+    const primaryDocument = recent.primaryDocument?.[i] || null;
+    const filingDate = recent.filingDate?.[i] || null;
+    const description =
+      recent.primaryDocDescription?.[i] ||
+      recent.items?.[i] ||
+      form;
+    const href = edgarDocumentUrl(cik, accessionNumber, primaryDocument);
+    if (!href) continue;
+    out.push({
+      form,
+      filingDate,
+      description: String(description || form).slice(0, 160),
+      accessionNumber,
+      href,
+    });
+  }
+  return out;
+}
+
+async function fetchSecRecentFilings(cik10) {
+  const padded = padCik(cik10);
+  if (!padded) return { ok: false, filings: [], companyName: null, investorWebsite: null, error: "no_cik" };
+  const res = await fetchPublicJson(SEC_SUBMISSIONS(padded), { timeoutMs: 22000 });
+  if (!res.ok) return { ok: false, filings: [], companyName: null, investorWebsite: null, error: res.error };
+  const filings = pickRecentSecFilings(res.data);
+  const investorWebsite =
+    res.data?.investorWebsite && /^https?:\/\//i.test(res.data.investorWebsite)
+      ? res.data.investorWebsite
+      : null;
+  return {
+    ok: true,
+    filings,
+    companyName: res.data?.name || null,
+    investorWebsite,
+    via: res.via,
+  };
+}
+
+/**
+ * Attach official filings bundle for US (SEC) or TW (MOPS links).
+ * Always returns working official deep-links; recent list only when publicly fetchable.
+ */
+export async function fetchOfficialFilings({ market, symbol, display, website } = {}) {
+  const base = buildOfficialLinks({ market, symbol, display, website, cik: null });
+  const out = {
+    market: base.market,
+    links: base.links,
+    recent: [],
+    cik: null,
+    status: "links_only",
+    noteKey: null,
+    sources: [],
+  };
+
+  if (base.market === "TW") {
+    out.status = "links_ready";
+    out.noteKey = "lookupFilingsTwNote";
+    out.sources.push("MOPS");
+    return out;
+  }
+
+  // US — resolve CIK + recent 10-K / 10-Q / 8-K when public JSON reachable
+  const ticker = String(symbol || "").toUpperCase();
+  try {
+    const cikRes = await resolveCik(ticker);
+    if (cikRes.ok) {
+      out.cik = cikRes.cik;
+      out.links = buildOfficialLinks({ market: "US", symbol, display, website, cik: cikRes.cik }).links;
+      if (cikRes.via) out.sources.push(`SEC ticker map (${cikRes.via})`);
+      const sub = await fetchSecRecentFilings(cikRes.cik);
+      if (sub.ok) {
+        out.recent = sub.filings;
+        out.status = sub.filings.length ? "filings_ok" : "filings_empty";
+        out.noteKey = sub.filings.length ? null : "lookupFilingsListEmpty";
+        if (sub.via) out.sources.push(`SEC submissions (${sub.via})`);
+        if (sub.investorWebsite) {
+          const already = out.links.some((l) => l.href === sub.investorWebsite);
+          if (!already) {
+            out.links.push({
+              kind: "company",
+              id: "sec-investor-site",
+              labelKey: "lookupInvestorRelations",
+              href: sub.investorWebsite,
+            });
+          }
+        }
+      } else {
+        out.status = "filings_unavailable";
+        out.noteKey = "lookupFilingsListUnavailable";
+      }
+    } else {
+      out.status = "cik_unavailable";
+      out.noteKey = "lookupFilingsCikUnavailable";
+    }
+  } catch (e) {
+    out.status = "filings_unavailable";
+    out.noteKey = "lookupFilingsListUnavailable";
+  }
+  return out;
+}
+
 function mergeSnapshot({ market, symbol, chart, search, summary, digest }) {
   const currency =
     summary?.currency || chart?.currency || (market === "TW" ? "TWD" : "USD");
@@ -514,7 +800,9 @@ function mergeSnapshot({ market, symbol, chart, search, summary, digest }) {
     lastEpsSurprisePct:
       summary?.lastEpsSurprisePct ?? digest?.lastReport?.epsSurprisePct ?? null,
     lastEpsQuarter: summary?.lastEpsQuarter ?? digest?.lastReport?.quarter ?? null,
+    website: summary?.website || null,
     sources: [],
+    filings: null,
   };
   return out;
 }
@@ -586,6 +874,17 @@ export async function lookupStock(input, marketHint = "US") {
   if (searchRes.ok) sources.push(`Yahoo search (${searchRes.via})`);
   if (qs.ok) sources.push(`Yahoo quoteSummary (${qs.via})`);
   if (digest) sources.push("site earnings-digest");
+
+  const filings = await fetchOfficialFilings({
+    market: norm.market,
+    symbol: usedSymbol,
+    display: norm.display,
+    website: snapshot.website,
+  });
+  snapshot.filings = filings;
+  if (Array.isArray(filings?.sources)) {
+    for (const s of filings.sources) sources.push(s);
+  }
   snapshot.sources = sources;
 
   return {
@@ -608,6 +907,77 @@ function metric(label, valueHtml) {
 function val(text) {
   if (text == null || text === "") return null;
   return `<span class="lk-mono">${escapeHtml(String(text))}</span>`;
+}
+
+function kindBadge(kind) {
+  if (kind === "official") return `<span class="lk-src-badge lk-src-official">${escapeHtml(t("lookupSourceOfficial"))}</span>`;
+  if (kind === "quote") return `<span class="lk-src-badge lk-src-quote">${escapeHtml(t("lookupSourceQuote"))}</span>`;
+  if (kind === "company") return `<span class="lk-src-badge lk-src-company">${escapeHtml(t("lookupSourceCompany"))}</span>`;
+  return "";
+}
+
+function paintOfficialFilings(filings) {
+  if (!filings || !Array.isArray(filings.links) || !filings.links.length) return "";
+  const linkItems = filings.links
+    .map((L) => {
+      if (!L?.href) return "";
+      const label = t(L.labelKey || "lookupOfficialFilings");
+      return `<li class="lk-ofil-item">
+        ${kindBadge(L.kind)}
+        <a class="lk-ofil-link" href="${escapeHtml(L.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>
+      </li>`;
+    })
+    .filter(Boolean)
+    .join("");
+
+  let recentHtml = "";
+  if (filings.market === "US") {
+    if (Array.isArray(filings.recent) && filings.recent.length) {
+      const rows = filings.recent
+        .map((f) => {
+          const title = f.description || f.form || "";
+          return `<tr>
+            <td class="lk-ofil-form"><span class="lk-mono">${escapeHtml(f.form || "")}</span></td>
+            <td class="lk-ofil-date">${escapeHtml(f.filingDate || "—")}</td>
+            <td class="lk-ofil-title"><a href="${escapeHtml(f.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a></td>
+          </tr>`;
+        })
+        .join("");
+      recentHtml = `
+        <h5 class="lk-h5">${escapeHtml(t("lookupRecentFilings"))}</h5>
+        <div class="lk-ofil-table-wrap">
+          <table class="lk-ofil-table">
+            <thead><tr>
+              <th>${escapeHtml(t("lookupFilingForm"))}</th>
+              <th>${escapeHtml(t("lookupFilingDate"))}</th>
+              <th>${escapeHtml(t("lookupFilingDoc"))}</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    } else {
+      const note = filings.noteKey ? t(filings.noteKey) : t("lookupFilingsListUnavailable");
+      recentHtml = `<p class="lk-ofil-note">${escapeHtml(note)}</p>
+        <p class="lk-ofil-note">${escapeHtml(t("lookupFilingsLinksStillWork"))}</p>`;
+    }
+  } else if (filings.market === "TW") {
+    const note = filings.noteKey ? t(filings.noteKey) : t("lookupFilingsTwNote");
+    recentHtml = `<p class="lk-ofil-note">${escapeHtml(note)}</p>`;
+  }
+
+  const cikLine =
+    filings.cik
+      ? `<p class="lk-ofil-meta">${escapeHtml(t("lookupCikLabel"))}: <span class="lk-mono">${escapeHtml(filings.cik)}</span></p>`
+      : "";
+
+  return `
+    <section class="lk-block lk-ofil" aria-label="${escapeHtml(t("lookupOfficialFilings"))}">
+      <h4 class="lk-h4">${escapeHtml(t("lookupOfficialFilings"))}</h4>
+      <p class="lk-ofil-lead">${escapeHtml(t("lookupOfficialFilingsLead"))}</p>
+      ${cikLine}
+      <ul class="lk-ofil-links">${linkItems}</ul>
+      ${recentHtml}
+    </section>`;
 }
 
 function paintResult(root, result) {
@@ -709,6 +1079,8 @@ function paintResult(root, result) {
           ${metric(t("lookupEpsSurprise"), val(fmtPct(s.lastEpsSurprisePct, 1)))}
         </div>
       </section>
+
+      ${paintOfficialFilings(s.filings)}
 
       <p class="lk-sources">${escapeHtml(t("lookupSources"))}: ${escapeHtml((s.sources || []).join(" · ") || "Yahoo Finance")}</p>
       ${result.partial ? `<p class="lk-partial">${escapeHtml(t("lookupPartial"))}</p>` : ""}

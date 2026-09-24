@@ -203,3 +203,110 @@
   .lk-chg { justify-content: flex-start; }
   .lk-price { font-size: 1.55rem; }
 }
+
+/* Official filings */
+.lk-ofil {
+  margin-top: 0.15rem;
+  padding-top: 0.15rem;
+}
+.lk-ofil-lead {
+  margin: 0 0 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+.lk-ofil-meta {
+  margin: 0 0 0.45rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.lk-ofil-links {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.lk-ofil-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+.lk-ofil-link {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #1d4ed8;
+  text-decoration: none;
+  word-break: break-word;
+}
+.lk-ofil-link:hover { text-decoration: underline; }
+.lk-src-badge {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  line-height: 1.2;
+}
+.lk-src-official { background: #ecfdf5; color: #047857; }
+.lk-src-quote { background: #eff6ff; color: #1d4ed8; }
+.lk-src-company { background: #f5f3ff; color: #6d28d9; }
+.lk-h5 {
+  margin: 0.35rem 0 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.lk-ofil-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+.lk-ofil-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  min-width: 280px;
+}
+.lk-ofil-table th,
+.lk-ofil-table td {
+  padding: 0.45rem 0.55rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.lk-ofil-table th {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  background: #f8fafc;
+}
+.lk-ofil-table tr:last-child td { border-bottom: 0; }
+.lk-ofil-form { white-space: nowrap; }
+.lk-ofil-date { white-space: nowrap; color: var(--text-muted); }
+.lk-ofil-title a {
+  color: #1d4ed8;
+  font-weight: 650;
+  text-decoration: none;
+}
+.lk-ofil-title a:hover { text-decoration: underline; }
+.lk-ofil-note {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+@media (max-width: 640px) {
+  .lk-ofil-item { align-items: flex-start; }
+}
