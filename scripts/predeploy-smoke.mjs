@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#soxl", "#godzilla", "#paper"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#lookup", "#soxl", "#godzilla", "#paper"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-soxl", "view-godzilla", "view-paper"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-lookup", "view-soxl", "view-godzilla", "view-paper"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -770,6 +770,63 @@ async function main() {
   if (!mainSrc.includes("decodeURIComponent")) {
     fail("parseViewFromHash should decodeURIComponent for zh aliases");
   } else ok("hash decodeURIComponent present");
+
+  // —— Stock lookup (#lookup / #quote) ——
+  if (!/from "\.\/lookup\.js"/.test(mainSrc) && !/from '\.\/lookup\.js'/.test(mainSrc)) {
+    fail("main.js should import lookup.js");
+  } else ok("lookup.js imported in main.js");
+  if (!fs.existsSync(path.join(ROOT, "src/lookup.js")) || !fs.existsSync(path.join(ROOT, "src/lookup.css"))) {
+    fail("src/lookup.js or lookup.css missing");
+  } else ok("lookup.js + lookup.css present");
+  if (!/view-lookup/.test(mainSrc) || !/renderLookupSection/.test(mainSrc) || !/initLookup/.test(mainSrc)) {
+    fail("lookup view shell / render / init missing in main.js");
+  } else ok("lookup view wired in main.js");
+  if (!/MOBILE_MORE\s*=\s*\[[^\]]*lookup/.test(mainSrc)) {
+    fail("lookup should be under MOBILE_MORE (not a 6th primary tab)");
+  } else ok("lookup listed in MOBILE_MORE");
+  if (!/navLookup/.test(i18nSrc) || !/lookupTitle/.test(i18nSrc) || !/lookupLead/.test(i18nSrc)) {
+    fail("lookup i18n keys missing");
+  } else ok("lookup i18n keys present");
+  for (const pair of [
+    ['navLookup: "查股"', "zh-Hant navLookup"],
+    ['navLookup: "Lookup"', "en navLookup"],
+    ['navLookup: "查股"', "zh-Hans navLookup"],
+    ['navLookup: "銘柄検索"', "ja navLookup"],
+  ]) {
+    if (!i18nSrc.includes(pair[0])) fail(`i18n missing ${pair[1]}`);
+  }
+  ok("lookup nav labels in 4 locales");
+  {
+    const lookupSrc = fs.readFileSync(path.join(ROOT, "src/lookup.js"), "utf8");
+    if (!/normalizeSymbol/.test(lookupSrc) || !/lookupStock/.test(lookupSrc)) {
+      fail("lookup.js missing normalizeSymbol / lookupStock");
+    } else ok("lookup.js exports core API symbols in source");
+    if (!/query2\.finance\.yahoo\.com|query1\.finance\.yahoo\.com/.test(lookupSrc)) {
+      fail("lookup.js should fetch public Yahoo Finance hosts");
+    } else ok("lookup.js targets Yahoo Finance public hosts");
+    if (!/Never invents numbers/.test(lookupSrc)) fail("lookup.js should document never-invent rule");
+    else ok("lookup never-invent documented");
+    if (!/r\.jina\.ai/.test(lookupSrc)) {
+      fail("lookup.js should include CORS-friendly Yahoo fetch fallback");
+    } else ok("lookup CORS/Yahoo fallback present");
+  }
+  // normalizeSymbol unit checks (no network)
+  {
+    const mod = await import(pathToFileURL(path.join(ROOT, "src/lookup.js")).href);
+    const { normalizeSymbol } = mod;
+    const us = normalizeSymbol("aapl", "US");
+    if (!us.ok || us.symbol !== "AAPL" || us.market !== "US") fail(`normalizeSymbol AAPL => ${JSON.stringify(us)}`);
+    else ok("normalizeSymbol AAPL");
+    const tw = normalizeSymbol("2330", "TW");
+    if (!tw.ok || tw.symbol !== "2330.TW" || tw.market !== "TW") fail(`normalizeSymbol 2330 => ${JSON.stringify(tw)}`);
+    else ok("normalizeSymbol 2330 → 2330.TW");
+    const tw2 = normalizeSymbol("2330.TW", "US");
+    if (!tw2.ok || tw2.market !== "TW") fail("2330.TW should force TW market");
+    else ok("normalizeSymbol 2330.TW market TW");
+    const bad = normalizeSymbol("%%%", "US");
+    if (bad.ok) fail("normalizeSymbol should reject garbage");
+    else ok("normalizeSymbol rejects invalid");
+  }
 
   // —— Mobile 「熱門」 market-index marquee/ticker ——
   if (!/index-strip--marquee/.test(mainSrc) || !/index-marquee-track/.test(mainSrc)) {
