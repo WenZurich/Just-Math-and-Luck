@@ -771,6 +771,20 @@ async function main() {
     fail("parseViewFromHash should decodeURIComponent for zh aliases");
   } else ok("hash decodeURIComponent present");
 
+  // —— Mobile 「熱門」 market-index marquee/ticker ——
+  if (!/index-strip--marquee/.test(mainSrc) || !/index-marquee-track/.test(mainSrc)) {
+    fail("renderIndexStrip should emit index-strip--marquee + index-marquee-track");
+  } else ok("market index marquee markup in main.js");
+  if (!/bindMarketMarquee/.test(mainSrc) || !/is-paused/.test(mainSrc)) {
+    fail("bindMarketMarquee / is-paused touch pause missing");
+  } else ok("market marquee pause binding present");
+  if (!/index-marquee-scroll/.test(cssNav) || !/animation-play-state:\s*paused/.test(cssNav)) {
+    fail("style.css missing index-marquee-scroll / animation-play-state:paused");
+  } else ok("market marquee CSS animation + pause");
+  if (!/@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?index-marquee-track[\s\S]*?animation:\s*none/.test(cssNav)) {
+    fail("prefers-reduced-motion should disable index-marquee-track animation");
+  } else ok("market marquee respects prefers-reduced-motion");
+
   // —— CSS: tall sticky chips must stay disabled (root cause of dead panel clicks) ——
   const css = fs.readFileSync(path.join(ROOT, "src/strategies.css"), "utf8");
   if (!/Do NOT sticky the full chip list/.test(css) && !/\.xq-chips\s*\{[\s\S]*?position:\s*static\s*!important/.test(css)) {

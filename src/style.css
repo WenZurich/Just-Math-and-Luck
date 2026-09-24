@@ -138,7 +138,7 @@ h1 {
   color: var(--text-dim);
 }
 
-/* —— Index strip (MSN-like compact quote chips) —— */
+/* —— Index strip (MSN-like compact quote chips + mobile ticker) —— */
 .market-strip-wrap {
   display: flex;
   align-items: stretch;
@@ -146,9 +146,8 @@ h1 {
   margin: 0.35rem 0 0;
   padding: 0.45rem 0 0.15rem;
   border-top: 1px solid var(--border-soft);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
+  overflow: hidden; /* keep pills inside white chrome border */
+  min-width: 0;
 }
 
 .market-strip-label {
@@ -159,6 +158,7 @@ h1 {
   color: var(--text-muted);
   padding: 0 0.25rem 0 0;
   white-space: nowrap;
+  z-index: 1;
 }
 
 .index-strip {
@@ -168,6 +168,104 @@ h1 {
   margin-bottom: 0;
   flex: 1 1 auto;
   min-width: 0;
+}
+
+/* Marquee viewport (mobile ticker; desktop falls back to calm wrap) */
+.index-strip--marquee {
+  overflow: hidden;
+  position: relative;
+}
+
+.index-marquee {
+  overflow: hidden;
+  width: 100%;
+  min-width: 0;
+  outline: none;
+  touch-action: pan-y;
+  cursor: default;
+}
+
+.index-marquee-track {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: max-content;
+  /* no gap on track — padding on each group keeps -50% seamless */
+}
+
+.index-marquee-group {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+  padding-right: 0.45rem;
+}
+
+/* Clone only used for seamless loop on mobile */
+.index-marquee-group--clone {
+  display: none;
+}
+
+@keyframes index-marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Phone / bottom-nav widths: horizontal finance ticker */
+@media (max-width: 899px) {
+  .index-marquee-group--clone {
+    display: flex;
+  }
+
+  .index-marquee-track {
+    animation: index-marquee-scroll 38s linear infinite;
+    will-change: transform;
+  }
+
+  .index-marquee:hover .index-marquee-track,
+  .index-marquee:focus-within .index-marquee-track,
+  .index-marquee:active .index-marquee-track,
+  .index-marquee.is-paused .index-marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Desktop: calm wrap, no auto-scroll */
+@media (min-width: 900px) {
+  .index-strip--marquee {
+    overflow: visible;
+  }
+  .index-marquee {
+    overflow: visible;
+  }
+  .index-marquee-track {
+    flex-wrap: wrap;
+    width: auto;
+    animation: none;
+    transform: none;
+  }
+  .index-marquee-group {
+    flex-wrap: wrap;
+    padding-right: 0;
+  }
+  .index-marquee-group--clone {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index-marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .index-marquee-group--clone {
+    display: none !important;
+  }
+  .index-marquee-track {
+    flex-wrap: wrap;
+    width: auto;
+  }
 }
 
 .index-chip {
@@ -980,10 +1078,11 @@ h1 {
   align-items: flex-start;
 }
 .index-strip {
-  /* flex chips; keep horizontal scroll on narrow screens */
+  /* flex chips; mobile marquee handled via .index-strip--marquee */
 }
-@media (min-width: 640px) {
-  .index-strip {
+@media (min-width: 640px) and (max-width: 899px) {
+  /* Mid widths still use ticker; wrap only on true desktop (≥900) */
+  .index-strip:not(.index-strip--marquee) {
     flex-wrap: wrap;
   }
 }

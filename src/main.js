@@ -172,7 +172,21 @@ function renderIndexStrip(indices) {
     `);
   }
 
-  return `<div class="index-strip">${chips.join("")}</div>`;
+  if (!chips.length) {
+    return `<div class="index-strip index-strip--marquee"></div>`;
+  }
+
+  const group = `<div class="index-marquee-group">${chips.join("")}</div>`;
+  // Duplicate track for seamless mobile ticker; desktop CSS hides the clone.
+  return `
+    <div class="index-strip index-strip--marquee">
+      <div class="index-marquee" tabindex="0">
+        <div class="index-marquee-track">
+          ${group}
+          <div class="index-marquee-group index-marquee-group--clone" aria-hidden="true">${chips.join("")}</div>
+        </div>
+      </div>
+    </div>`;
 }
 
 function renderTopCard(stock, rank) {
@@ -754,6 +768,23 @@ function bindAppNav(root) {
   return { go };
 }
 
+
+/** Pause/resume mobile 「熱門」 ticker on press (CSS :hover / :active cover desktop pointer). */
+function bindMarketMarquee(root) {
+  const el = root.querySelector(".index-marquee");
+  if (!el || el.dataset.marqueeBound === "1") return;
+  el.dataset.marqueeBound = "1";
+  const pause = () => el.classList.add("is-paused");
+  const resume = () => el.classList.remove("is-paused");
+  el.addEventListener("pointerdown", pause);
+  el.addEventListener("pointerup", resume);
+  el.addEventListener("pointercancel", resume);
+  el.addEventListener("pointerleave", resume);
+  el.addEventListener("touchstart", pause, { passive: true });
+  el.addEventListener("touchend", resume, { passive: true });
+  el.addEventListener("touchcancel", resume, { passive: true });
+}
+
 function bindTabs(root) {
   const buttons = root.querySelectorAll(".tab-btn");
   buttons.forEach((btn) => {
@@ -786,6 +817,7 @@ async function mountUi(app) {
   const nav = bindAppNav(app);
   showView(app, viewBefore, { updateHash: true, scrollTop: false });
   bindTabs(app);
+  bindMarketMarquee(app);
   bindPaperTabs(app);
   bindLangSwitcher(app);
   await initStrategies("#xq-root");
