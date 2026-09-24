@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-23T09:21:58+08:00",
+    "updated": "2026-09-24T09:36:01+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-09-23)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-09-24)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -6761,6 +6761,156 @@
         "liquidity",
         "qe",
         "banking",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-tw-ts-cs-momentum-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "The Performance Comparison Between Time-Series and Cross-Sectional Momentum Strategies in Taiwan Stock Market",
+      "authors": [
+        "Hung-Hsi Huang",
+        "Yi-Ru Pan",
+        "Ching-Ping Wang"
+      ],
+      "year": 2026,
+      "summary": "Compares time-series (TS) versus cross-sectional (CS) momentum on Taiwan equities (1993–2025, 1,169 listed and delisted names). Builds five TS and five CS designs across lookbacks and holdings (80+80 specs) and scores them with excess returns, certainty-equivalent returns, CAPM and Fama–French three-factor alphas. Main result: volatility-scaled momentum beats unscaled, and TS on average outperforms CS; profits are mostly from the long leg, with shorts mattering more in crashes. Site takeaway: prefer volatility-managed TS-style relative strength for TW screens as a research candidate only — keep US/TW markets separate and do not adopt into live math while the olympiad gate is closed.",
+      "formulas": [
+        "ts_signal ← sign(past_J_return) × (optional) / realized_vol_scale",
+        "cs_signal ← rank(past_J_return) within TW universe then long top / short bottom",
+        "score ← AER | CER | CAPM_alpha | FF3_alpha over hold_K",
+        "gate: TW-only candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股：波動率縮放後的時間序列動能，整體優於截面動能",
+        "獲利主要來自多方；空方在崩盤期才較重要",
+        "僅作台股研究候選，與美股列表嚴格分開；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股：波動率縮放後的時間序列動能，整體優於截面動能",
+          "獲利主要來自多方；空方在崩盤期才較重要",
+          "僅作台股研究候選，與美股列表嚴格分開；數學閘門通過前不上線"
+        ],
+        "en": [
+          "TW: volatility-scaled time-series momentum generally beats cross-sectional",
+          "Profits are mainly from the long leg; shorts matter more in crashes",
+          "TW research candidate only — keep US/TW separate; no live adoption before math gate"
+        ],
+        "zh-Hans": [
+          "台股：波动率缩放后的时间序列动能，整体优于截面动能",
+          "获利主要来自多方；空方在崩盘期才较重要",
+          "仅作台股研究候选，与美股列表严格分开；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "台湾株：ボラ調整した時系列モメンタムは概ね断面より優勢",
+          "利益は主にロング側；ショートは暴落期により重要",
+          "台湾研究候補のみ；米台を混ぜず、数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW TS vs CS / vol-scaled momentum stays candidate/watch; never status=adopted.",
+      "sources": [
+        "https://doi.org/10.3390/jrfm19070462",
+        "https://www.mdpi.com/1911-8074/19/7/462"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "台股時間序列與截面動能策略績效比較",
+        "en": "Time-Series vs Cross-Sectional Momentum in the Taiwan Stock Market",
+        "zh-Hans": "台股时间序列与截面动能策略绩效比较",
+        "ja": "台湾株における時系列モメンタムと断面モメンタムの比較"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "比較台股 1993–2025 時間序列與截面動能（含波動率縮放）。波動率縮放後 TS 平均優於 CS；獲利多來自多方。僅作台股候選，閘門通過前不上線。",
+        "en": "Compares TW TS vs CS momentum (1993–2025), including volatility scaling. Vol-scaled TS generally beats CS; longs drive profits. TW candidate only until the math gate passes.",
+        "zh-Hans": "比较台股 1993–2025 时间序列与截面动能（含波动率缩放）。波动率缩放后 TS 平均优于 CS；获利多来自多方。仅作台股候选，闸门通过前不上线。",
+        "ja": "台湾株1993–2025の時系列／断面モメンタム（ボラ調整含む）を比較。調整後TSが概ね優勢で利益は主にロング。数学ゲート前は候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "taiwan",
+        "momentum",
+        "time-series",
+        "cross-sectional",
+        "volatility-scaling",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-kyle-lambda-liquidity-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Liquidity Premium and Investment Horizons",
+      "authors": [
+        "Irene Aldridge"
+      ],
+      "year": 2026,
+      "summary": "Estimates Kyle (1985) price-impact λ from daily CRSP equity order flow (2020–2025) via within-month regressions and an Amihud-style ratio, then tests cross-sectional return forecasts. Signed order flow predicts contemporaneous and one-month-ahead returns; volume volatility predicts lower subsequent returns. Fama–MacBeth slopes are significant after Newey–West adjustment. Authors frame the illiquidity premium as adverse-selection / temporary mispricing (λ widens when order flow is low, then narrows) rather than pure risk compensation. Site takeaway: signed-flow / Kyle-λ overlays are a US microstructure watch candidate — public OHLC proxies only, not CRSP-locked for live screens — and stay candidate while the math gate is closed.",
+      "formulas": [
+        "signed_flow_day ← volume × sign(Δprice) ; signed_flow_month ← sum(signed_flow_day)",
+        "kyle_lambda_reg ← OLS_slope(Δprice on signed_flow_day) within month",
+        "kyle_lambda_amihud ← mean(|ret| / dollar_volume) within month",
+        "watch: low_signed_flow → wide_lambda → liquidity_stress_flag (US candidate only)"
+      ],
+      "plainTakeaways": [
+        "美股：帶方向的成交量（signed order flow）比單純總量更能預測短期報酬",
+        "成交量波動升高時，後續報酬偏弱；與 Kyle λ／逆向選擇敘事一致",
+        "僅作美股微結構觀察候選；公開 OHLC 代理可研究，數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "美股：帶方向的成交量（signed order flow）比單純總量更能預測短期報酬",
+          "成交量波動升高時，後續報酬偏弱；與 Kyle λ／逆向選擇敘事一致",
+          "僅作美股微結構觀察候選；公開 OHLC 代理可研究，數學閘門通過前不上線"
+        ],
+        "en": [
+          "US: signed order flow predicts short-horizon returns better than raw volume",
+          "Higher volume volatility ties to weaker subsequent returns (Kyle-λ / adverse-selection story)",
+          "US microstructure watch only — public OHLC proxies OK to study; no live adoption before math gate"
+        ],
+        "zh-Hans": [
+          "美股：带方向的成交量（signed order flow）比单纯总量更能预测短期报酬",
+          "成交量波动升高时，后续报酬偏弱；与 Kyle λ／逆向选择叙事一致",
+          "仅作美股微观结构观察候选；公开 OHLC 代理可研究，数学闸门通过前不上线"
+        ],
+        "ja": [
+          "米国株：符号付きオーダーフローは生の出来高より短期リターン予測に有用",
+          "出来高ボラ上昇は後続リターン低下と結びつきやすい（Kyle λ／逆選択）",
+          "米国ミクロ構造の監視候補のみ；公開OHLC代理は研究可、数学ゲート前は不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — Kyle λ / signed-flow liquidity overlay stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://arxiv.org/abs/2607.01377",
+        "https://doi.org/10.48550/arXiv.2607.01377"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "流動性溢價與投資期間",
+        "en": "Liquidity Premium and Investment Horizons",
+        "zh-Hans": "流动性溢价与投资期间",
+        "ja": "流動性プレミアムと投資ホライズン"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "以 CRSP 日頻估算 Kyle λ 與 signed order flow，檢驗美股截面報酬預測。方向性成交量具預測力；流動性溢價可解讀為逆向選擇／暫時定價偏離。僅候選。",
+        "en": "Estimates Kyle λ and signed order flow from CRSP daily data to forecast US cross-sectional returns. Directional volume predicts; illiquidity premium cast as adverse-selection mispricing. Candidate only.",
+        "zh-Hans": "以 CRSP 日频估算 Kyle λ 与 signed order flow，检验美股截面报酬预测。方向性成交量具预测力；流动性溢价可解读为逆向选择／暂时定价偏离。仅候选。",
+        "ja": "CRSP日次からKyle λと符号付きフローを推定し米国リターン予測を検証。方向付き出来高に予測力；流動性プレミアムは逆選択の一時的ミスプライシングとして解釈。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "us",
+        "liquidity",
+        "kyle-lambda",
+        "order-flow",
+        "amihud",
         "candidate"
       ]
     }
