@@ -51,6 +51,10 @@ import {
   renderUsMacroStripSlot,
   initUsMacroStrip,
 } from "./us-macro.js";
+import {
+  renderTwMacroStripSlot,
+  initTwMacroStrip,
+} from "./tw-macro.js";
 import "./godzilla.css";
 import "./jensen.css";
 import "./podcasts.css";
@@ -653,7 +657,7 @@ function renderApp(data, paper) {
           <img class="brand-mark" src="${logoUrl}" width="40" height="40" alt="每日數學選股" decoding="async" />
           <div class="brand-text">
             <h1>${escapeHtml(t("siteTitle"))}</h1>
-            <p class="brand-meta">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}</p>
+            <p class="brand-meta"><span id="brand-asof">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}</span><span id="lq-live-suffix" class="lq-live-suffix" hidden aria-live="polite"></span></p>
           </div>
         </div>
         <div class="chrome-actions">
@@ -667,9 +671,9 @@ function renderApp(data, paper) {
       <div class="market-strip-wrap" aria-label="${escapeHtml(t("marketQuotes"))}">
         <span class="market-strip-label">${escapeHtml(t("hot"))}</span>
         ${renderIndexStrip(data.indices || {})}
-        <span id="lq-status" class="lq-status" hidden aria-live="polite"></span>
       </div>
       ${renderUsMacroStripSlot()}
+      ${renderTwMacroStripSlot()}
     </header>
 
     <main class="view-host">
@@ -967,6 +971,7 @@ async function mountUi(app) {
   bindTabs(app);
   bindMarketMarquee(app);
   await initUsMacroStrip("#us-macro-strip");
+  await initTwMacroStrip("#tw-macro-strip");
   bindPaperTabs(app);
   bindLangSwitcher(app);
   await initStrategies("#xq-root");

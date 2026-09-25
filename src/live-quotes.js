@@ -636,24 +636,33 @@ function resolveQuote(map, ticker) {
 }
 
 function paintStatus(root, { ok, stale }) {
-  const el = root.querySelector("#lq-status");
+  // Live clock lives in .brand-meta as a suffix — never on the 熱門 strip
+  const el = root.querySelector("#lq-live-suffix");
   if (!el) return;
   const clock = lastSuccessAt ? fmtClockTaipei(lastSuccessAt) : "";
-  if (ok && !stale) {
+  if (ok && !stale && clock) {
     el.hidden = false;
     el.dataset.state = "live";
     el.removeAttribute("title");
-    el.innerHTML = `<span class="lq-dot" aria-hidden="true"></span>${escapeHtml(t("liveQuotesLive"))} · <span class="lq-clock">${escapeHtml(clock)}</span>`;
+    el.textContent = ` · ${t("liveQuotesLive")} ${clock}`;
   } else if (lastSuccessAt) {
     el.hidden = false;
     el.dataset.state = "stale";
     el.title = t("liveQuotesStale");
-    el.innerHTML = `<span class="lq-dot" aria-hidden="true"></span>${escapeHtml(t("liveQuotesStaleShort"))} · <span class="lq-clock">${escapeHtml(clock)}</span>`;
-  } else {
+    el.textContent = clock
+      ? ` · ${t("liveQuotesStaleShort")} ${clock}`
+      : ` · ${t("liveQuotesStaleShort")}`;
+  } else if (!ok) {
     el.hidden = false;
+    el.dataset.state = "stale";
+    el.title = t("liveQuotesStale");
+    el.textContent = ` · ${t("liveQuotesStaleShort")}`;
+  } else {
+    // pending first paint — keep brand-meta clean until a poll finishes
+    el.hidden = true;
     el.dataset.state = "pending";
     el.removeAttribute("title");
-    el.textContent = t("liveQuotesPending");
+    el.textContent = "";
   }
 }
 

@@ -832,7 +832,23 @@ async function main() {
     }
   }
 
-  console.log("\nWrote latest.json");
+  
+  // Optional: FETCH_TW_MACRO=1 → also refresh TW market-moving calendar
+  if (process.env.FETCH_TW_MACRO === "1") {
+    try {
+      const { spawnSync } = await import("node:child_process");
+      console.log("\n▶ fetch-tw-macro (FETCH_TW_MACRO=1)…");
+      const tr = spawnSync(process.execPath, [join(__dirname, "fetch-tw-macro-calendar.mjs")], {
+        stdio: "inherit",
+        cwd: ROOT,
+      });
+      if (tr.status !== 0) console.warn("fetch-tw-macro exited", tr.status);
+    } catch (e) {
+      console.warn("fetch-tw-macro skipped:", e?.message || e);
+    }
+  }
+
+console.log("\nWrote latest.json");
   console.log("Top5:", top5.map((t) => `${t.ticker} ${t.dayPct}%`).join(", "));
   console.log("US", usPicks.length, "TW", twPicks.length);
   console.log("asOf", asOfIso);

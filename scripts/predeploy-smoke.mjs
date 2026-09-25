@@ -1069,28 +1069,26 @@ async function main() {
     if (!/fmtClockTaipei/.test(lq)) fail("live-quotes should show Taipei poll clock HH:MM:SS");
     else ok("live-quotes Taipei poll clock");
     if (/liveQuotesClock/.test(lq) && /paintStatus[\s\S]{0,400}liveQuotesClock/.test(lq)) {
-      fail("lq-status text must stay short (即時 · HH:MM:SS) — do not prefix 報價/Quotes");
-    } else ok("lq-status short clock (no 報價 prefix)");
+      fail("live suffix must stay short (即時 HH:MM:SS) — do not prefix 報價/Quotes");
+    } else ok("live suffix short clock (no 報價 prefix)");
     if (!/startLiveQuotes/.test(mainSrc)) fail("main.js should startLiveQuotes after mount");
     else ok("main.js starts live quotes");
     if (!/data-lq-key/.test(mainSrc) || !/data-lq-sym/.test(mainSrc)) fail("main.js should mark live quote DOM hooks");
     else ok("main.js live quote DOM hooks");
-    if (!/lq-status/.test(mainSrc) || !/\.lq-status/.test(cssNav)) fail("live status pill markup/CSS missing");
-    else ok("live status pill + CSS");
-    // Brand / chrome rows must stay clean — pill overlays market strip, never in flow
-    if (/chrome-brand[\s\S]{0,500}lq-status/.test(mainSrc) || /brand-meta[\s\S]{0,120}lq-status/.test(mainSrc)) {
-      fail("lq-status must not sit inside chrome-brand / brand-meta (breaks header)");
-    } else ok("lq-status not in brand row");
-    if (/chrome-row[\s\S]{0,800}id=\"lq-status\"/.test(mainSrc)) fail("lq-status must not sit inside chrome-row");
-    else ok("lq-status not in chrome-row");
-    if (!/market-strip-wrap[\s\S]{0,400}id=\"lq-status\"/.test(mainSrc)) fail("lq-status should sit on market strip");
-    else ok("lq-status on market strip");
-    if (!/\.market-strip-wrap\s*\{[^}]*position:\s*relative/.test(cssNav)) fail("market-strip-wrap must be position:relative for overlay");
-    else ok("market-strip-wrap position:relative");
-    if (!/\.lq-status\s*\{[^}]*position:\s*absolute/.test(cssNav)) fail("lq-status must be position:absolute (out of flow)");
-    else ok("lq-status position:absolute overlay");
-    if (!/padding-right:\s*7\.5rem/.test(cssNav)) fail("marquee needs constant padding-right 7.5rem so chips clear badge");
-    else ok("constant marquee padding-right 7.5rem");
+    // Live clock is a brand-meta suffix — never on 熱門 strip (mobile must see full ticker)
+    if (!/id=\"lq-live-suffix\"/.test(mainSrc) || !/id=\"brand-asof\"/.test(mainSrc)) {
+      fail("brand-meta must host brand-asof + lq-live-suffix");
+    } else ok("live clock suffix on brand-meta");
+    if (!/lq-live-suffix/.test(lq) || !/\.lq-live-suffix/.test(cssNav)) fail("live suffix paint/CSS missing");
+    else ok("live suffix paint + CSS");
+    if (/id=\"lq-status\"/.test(mainSrc) || /\.lq-status\b/.test(cssNav)) {
+      fail("lq-status pill must be removed from 熱門 strip");
+    } else ok("lq-status pill removed from hot strip");
+    if (/market-strip-wrap[\s\S]{0,500}lq-live-suffix/.test(mainSrc) || /market-strip-wrap[\s\S]{0,500}lq-status/.test(mainSrc)) {
+      fail("live clock must not sit on market-strip-wrap");
+    } else ok("hot strip free of live clock overlay");
+    if (/padding-right:\s*7\.5rem/.test(cssNav)) fail("hot marquee must not reserve 7.5rem for removed pill");
+    else ok("no reserved padding for live pill on hot strip");
     if (!/controllerchange/.test(mainSrc) || !/sessionStorage/.test(mainSrc) || !/jml-sw-controller-reload/.test(mainSrc)) {
       fail("main.js should one-time reload on SW controllerchange (sessionStorage guard)");
     } else ok("SW controllerchange one-time reload");
@@ -1133,6 +1131,45 @@ async function main() {
   if (!/OFFICIAL_URLS/.test(fetchMacro) || !/officialUrlFor/.test(fetchMacro)) {
     fail("fetch-us-macro-calendar.mjs must map OFFICIAL_URLS → officialUrl");
   } else ok("fetch-us-macro maps official agency URLs");
+
+  // —— TW 「台股大事」 macro marquee under 美股大事 ——
+  const twMacroSrc = fs.readFileSync(path.join(ROOT, "src/tw-macro.js"), "utf8");
+  if (!/index-marquee-track/.test(twMacroSrc) || !/index-marquee-group--clone/.test(twMacroSrc)) {
+    fail("tw-macro.js should emit index-marquee-track + clone group like 美股大事");
+  } else ok("TW macro strip uses index-marquee markup");
+  if (!/bindMacroMarquee/.test(twMacroSrc) || !/is-paused/.test(twMacroSrc)) {
+    fail("tw-macro.js missing bindMacroMarquee / is-paused pause");
+  } else ok("TW macro marquee pause binding present");
+  if (!/target="_blank"/.test(twMacroSrc) || !/rel="noopener noreferrer"/.test(twMacroSrc) || !/officialUrl/.test(twMacroSrc)) {
+    fail("tw-macro chips must link officialUrl with target=_blank rel=noopener noreferrer");
+  } else ok("TW macro chips open officialUrl in new tab");
+  if (!/tw-macro-strip-host/.test(cssNav)) fail("style.css missing .tw-macro-strip-host");
+  else ok("TW macro host CSS present");
+  if (!/renderTwMacroStripSlot/.test(mainSrc) || !/initTwMacroStrip/.test(mainSrc)) {
+    fail("main.js should mount TW macro strip under US macro");
+  } else ok("main.js mounts TW macro strip");
+  const twMacroJsonPath = path.join(ROOT, "public/data/tw-macro-calendar.json");
+  if (!fs.existsSync(twMacroJsonPath)) {
+    fail("public/data/tw-macro-calendar.json missing");
+  } else {
+    const twMacroJson = JSON.parse(fs.readFileSync(twMacroJsonPath, "utf8"));
+    const twEvs = Array.isArray(twMacroJson.events) ? twMacroJson.events : [];
+    if (!twEvs.length) fail("tw-macro-calendar.json has no events");
+    else {
+      const bad = twEvs.filter((e) => !e.officialUrl || !/^https:\/\//i.test(e.officialUrl));
+      if (bad.length) fail(`TW events missing https officialUrl: ${bad.map((e) => e.eventKey).join(",")}`);
+      else ok(`TW macro calendar has officialUrl on ${twEvs.length} events`);
+      if (twMacroJson.timezone !== "Asia/Taipei") fail("tw-macro-calendar timezone must be Asia/Taipei");
+      else ok("TW macro calendar Taipei timezone");
+    }
+  }
+  const fetchTwMacro = fs.readFileSync(path.join(ROOT, "scripts/fetch-tw-macro-calendar.mjs"), "utf8");
+  if (!/OFFICIAL_URLS/.test(fetchTwMacro) || !/News_NoticeCalendar/.test(fetchTwMacro)) {
+    fail("fetch-tw-macro-calendar.mjs must use DGBAS calendar + OFFICIAL_URLS");
+  } else ok("fetch-tw-macro maps official TW publisher URLs");
+  if (!/FETCH_TW_MACRO/.test(fs.readFileSync(path.join(ROOT, "scripts/daily-scan.mjs"), "utf8"))) {
+    fail("daily-scan should optionally run FETCH_TW_MACRO=1");
+  } else ok("daily-scan FETCH_TW_MACRO hook");
 
   // —— CSS: tall sticky chips must stay disabled (root cause of dead panel clicks) ——
   const css = fs.readFileSync(path.join(ROOT, "src/strategies.css"), "utf8");
