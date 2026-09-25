@@ -139,27 +139,30 @@ h1 {
 }
 
 
-/* —— Live quote status (far end of market strip — never in brand title row) —— */
+/* —— Live quote status: absolute overlay on market strip (never flex — never moves layout) —— */
 .lq-status {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
   gap: 0.28rem;
-  flex: 0 0 auto;
-  align-self: center;
-  margin-left: 0.15rem;
+  margin: 0;
   padding: 0.12rem 0.5rem;
   border-radius: 999px;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   white-space: nowrap;
-  max-width: min(11.5rem, 38vw);
+  max-width: min(7.25rem, 42vw);
   overflow: hidden;
   text-overflow: ellipsis;
   background: color-mix(in srgb, var(--accent, #2563eb) 12%, transparent);
   color: var(--text-muted, #64748b);
   border: 1px solid color-mix(in srgb, var(--accent, #2563eb) 22%, transparent);
-  z-index: 1;
+  z-index: 2;
+  pointer-events: none;
 }
 .lq-status[data-state="live"] {
   color: #047857;
@@ -203,6 +206,7 @@ h1 {
 
 /* —— Index strip (MSN-like compact quote chips + mobile ticker) —— */
 .market-strip-wrap {
+  position: relative;
   display: flex;
   align-items: stretch;
   gap: 0.65rem;
@@ -211,6 +215,12 @@ h1 {
   border-top: 1px solid var(--border-soft);
   overflow: hidden; /* keep pills inside white chrome border */
   min-width: 0;
+}
+
+/* Constant right pad so ticker never runs under #lq-status; does not change when badge shows/hides */
+.market-strip-wrap > .index-strip {
+  padding-right: 7.5rem;
+  box-sizing: border-box;
 }
 
 .market-strip-label {

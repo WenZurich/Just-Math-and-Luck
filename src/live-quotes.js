@@ -638,9 +638,7 @@ function resolveQuote(map, ticker) {
 function paintStatus(root, { ok, stale }) {
   const el = root.querySelector("#lq-status");
   if (!el) return;
-  const clock = lastSuccessAt
-    ? `${t("liveQuotesClock")} ${fmtClockTaipei(lastSuccessAt)}`
-    : "";
+  const clock = lastSuccessAt ? fmtClockTaipei(lastSuccessAt) : "";
   if (ok && !stale) {
     el.hidden = false;
     el.dataset.state = "live";

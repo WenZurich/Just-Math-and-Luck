@@ -1066,19 +1066,31 @@ async function main() {
     else ok("live-quotes Fri US spill into Sat Taipei");
     if (!/lq-flash|flashEl/.test(lq) || !/\.lq-flash/.test(cssNav)) fail("live-quotes should flash changed prices (JS+CSS)");
     else ok("live-quotes flash on price change");
-    if (!/fmtClockTaipei|liveQuotesClock/.test(lq)) fail("live-quotes should show Taipei poll clock");
+    if (!/fmtClockTaipei/.test(lq)) fail("live-quotes should show Taipei poll clock HH:MM:SS");
     else ok("live-quotes Taipei poll clock");
+    if (/liveQuotesClock/.test(lq) && /paintStatus[\s\S]{0,400}liveQuotesClock/.test(lq)) {
+      fail("lq-status text must stay short (即時 · HH:MM:SS) — do not prefix 報價/Quotes");
+    } else ok("lq-status short clock (no 報價 prefix)");
     if (!/startLiveQuotes/.test(mainSrc)) fail("main.js should startLiveQuotes after mount");
     else ok("main.js starts live quotes");
     if (!/data-lq-key/.test(mainSrc) || !/data-lq-sym/.test(mainSrc)) fail("main.js should mark live quote DOM hooks");
     else ok("main.js live quote DOM hooks");
     if (!/lq-status/.test(mainSrc) || !/\.lq-status/.test(cssNav)) fail("live status pill markup/CSS missing");
     else ok("live status pill + CSS");
-    // Brand row must stay clean — pill lives on market strip, not brand-meta
-    if (/brand-meta[\s\S]{0,120}lq-status/.test(mainSrc)) fail("lq-status must not sit inside brand-meta (breaks header)");
-    else ok("lq-status not in brand-meta");
+    // Brand / chrome rows must stay clean — pill overlays market strip, never in flow
+    if (/chrome-brand[\s\S]{0,500}lq-status/.test(mainSrc) || /brand-meta[\s\S]{0,120}lq-status/.test(mainSrc)) {
+      fail("lq-status must not sit inside chrome-brand / brand-meta (breaks header)");
+    } else ok("lq-status not in brand row");
+    if (/chrome-row[\s\S]{0,800}id=\"lq-status\"/.test(mainSrc)) fail("lq-status must not sit inside chrome-row");
+    else ok("lq-status not in chrome-row");
     if (!/market-strip-wrap[\s\S]{0,400}id=\"lq-status\"/.test(mainSrc)) fail("lq-status should sit on market strip");
     else ok("lq-status on market strip");
+    if (!/\.market-strip-wrap\s*\{[^}]*position:\s*relative/.test(cssNav)) fail("market-strip-wrap must be position:relative for overlay");
+    else ok("market-strip-wrap position:relative");
+    if (!/\.lq-status\s*\{[^}]*position:\s*absolute/.test(cssNav)) fail("lq-status must be position:absolute (out of flow)");
+    else ok("lq-status position:absolute overlay");
+    if (!/padding-right:\s*7\.5rem/.test(cssNav)) fail("marquee needs constant padding-right 7.5rem so chips clear badge");
+    else ok("constant marquee padding-right 7.5rem");
     if (!/controllerchange/.test(mainSrc) || !/sessionStorage/.test(mainSrc) || !/jml-sw-controller-reload/.test(mainSrc)) {
       fail("main.js should one-time reload on SW controllerchange (sessionStorage guard)");
     } else ok("SW controllerchange one-time reload");
