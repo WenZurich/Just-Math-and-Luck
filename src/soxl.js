@@ -67,10 +67,10 @@ function paint(root, data) {
           <span class="sx-badge">3×</span>
           <span class="sx-fund">${escapeHtml(data?.fundName || t("soxlFundFallback"))}</span>
         </div>
-        <div class="sx-price-row ${dir}">
-          <span class="sx-price">$${escapeHtml(fmtNum(q.price, 2) || "—")}</span>
+        <div class="sx-price-row ${dir}" data-lq="soxl" data-lq-sym="SOXL">
+          <span class="sx-price" data-lq-field="price">$${escapeHtml(fmtNum(q.price, 2) || "—")}</span>
           <span class="sx-chg">${escapeHtml(fmtMoney(chg, 2) || "—")}</span>
-          <span class="sx-chgp">${escapeHtml(fmtPct(chgPct, 2) || "—")}</span>
+          <span class="sx-chgp" data-lq-field="dayPct">${escapeHtml(fmtPct(chgPct, 2) || "—")}</span>
         </div>
         <p class="sx-session">${escapeHtml(q.session || "")} · ${escapeHtml(t("dataAsOf"))} ${escapeHtml(fmtAsOf(data?.asOf))}</p>
         ${

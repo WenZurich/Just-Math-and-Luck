@@ -46,6 +46,7 @@ import {
   renderSoxlSection,
   initSoxl,
 } from "./soxl.js";
+import { startLiveQuotes, stopLiveQuotes } from "./live-quotes.js";
 import {
   renderUsMacroStripSlot,
   initUsMacroStrip,
@@ -163,7 +164,7 @@ function renderIndexStrip(indices) {
           : "—";
     const pct =
       item.dayPct != null
-        ? `<div class="pct ${pctClass(item.dayPct)}">${fmtPct(item.dayPct)}</div>`
+        ? `<div data-lq-field="dayPct" class="pct ${pctClass(item.dayPct)}">${fmtPct(item.dayPct)}</div>`
         : "";
     const session =
       item.session === "intraday"
@@ -173,16 +174,16 @@ function renderIndexStrip(indices) {
     const title = href ? `title="${escapeHtml((item.name || key) + " · official ↗")}"` : "";
     const inner = `
         <div class="label">${labelHtml}${session}</div>
-        <div class="value">${val}</div>
+        <div class="value" data-lq-field="value">${val}</div>
         ${pct}`;
     if (href) {
       chips.push(`
-      <a class="index-chip ${incomplete ? "incomplete" : ""}" href="${escapeHtml(href)}"
+      <a class="index-chip ${incomplete ? "incomplete" : ""}" data-lq="index" data-lq-key="${escapeHtml(key)}" href="${escapeHtml(href)}"
          target="_blank" rel="noopener noreferrer" ${title}>${inner}
       </a>`);
     } else {
       chips.push(`
-      <div class="index-chip ${incomplete ? "incomplete" : ""}">${inner}
+      <div class="index-chip ${incomplete ? "incomplete" : ""}" data-lq="index" data-lq-key="${escapeHtml(key)}">${inner}
       </div>`);
     }
   };
@@ -206,11 +207,13 @@ function renderIndexStrip(indices) {
       .filter(Boolean)
       .join(" · ");
     chips.push(`
-      <a class="index-chip" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"
+      <a class="index-chip" data-lq="index" data-lq-key="usdTwd"
+         data-lq-taipei-close="${fx.taipeiClose != null ? escapeHtml(String(fx.taipeiClose)) : ""}"
+         href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"
          title="${escapeHtml(tip)}">
         <div class="label">${term("usdtwd", t("usdtwd"))}</div>
-        <div class="value">${fmtNum(show, 3)}</div>
-        <div class="pct flat" style="font-size:0.7rem">
+        <div class="value" data-lq-field="value">${fmtNum(show, 3)}</div>
+        <div class="pct flat" data-lq-field="dayPct" style="font-size:0.7rem">
           ${escapeHtml(t("taipeiClose"))} ${fx.taipeiClose != null ? fmtNum(fx.taipeiClose, 3) : "—"}
           · Yahoo ${fx.yahoo != null ? fmtNum(fx.yahoo, 3) : "—"}
         </div>
@@ -250,7 +253,7 @@ function renderTopCard(stock, rank) {
         : `<div class="metric"><div class="m-label">${term("rs", "RS")}</div><div class="m-val">—</div></div>`;
 
   return `
-    <article class="pick-card">
+    <article class="pick-card" data-lq="pick" data-lq-sym="${escapeHtml(stock.ticker)}">
       <div class="rank">TOP ${rank}</div>
       <div class="head">
         <div class="ticker-block">
@@ -258,8 +261,8 @@ function renderTopCard(stock, rank) {
           <div class="name">${escapeHtml(stock.name || "")}</div>
         </div>
         <div class="price-block">
-          <div class="price">${fmtPrice(stock.price, stock.currency)}</div>
-          <div class="day-pct ${pctClass(stock.dayPct)}">${fmtPct(stock.dayPct)}</div>
+          <div class="price" data-lq-field="price">${fmtPrice(stock.price, stock.currency)}</div>
+          <div class="day-pct ${pctClass(stock.dayPct)}" data-lq-field="dayPct">${fmtPct(stock.dayPct)}</div>
         </div>
       </div>
       <div class="flags">
@@ -300,11 +303,11 @@ function tableRows(list) {
             ? fmtPct(s.priorClosePct)
             : "—";
       return `
-      <tr>
+      <tr data-lq="pick" data-lq-sym="${escapeHtml(s.ticker)}">
         <td><span class="ticker">${escapeHtml(s.ticker)}</span></td>
         <td class="name-cell">${escapeHtml(s.name || "")}</td>
-        <td class="num">${fmtPrice(s.price, s.currency)}</td>
-        <td class="num ${pctClass(s.dayPct)}">${fmtPct(s.dayPct)}</td>
+        <td class="num" data-lq-field="price">${fmtPrice(s.price, s.currency)}</td>
+        <td class="num ${pctClass(s.dayPct)}" data-lq-field="dayPct">${fmtPct(s.dayPct)}</td>
         <td class="num ${pctClass(rsVal)}">${rsLabel}</td>
         <td class="num ${pctClass(s.pct5d)}">${fmtPct(s.pct5d)}</td>
         <td class="num ${pctClass(s.pct1m)}">${fmtPct(s.pct1m)}</td>
@@ -327,15 +330,15 @@ function mobileCards(list) {
             ? `<span class="${pctClass(s.priorClosePct)}">${term("priorClose", t("priorClose"))} ${fmtPct(s.priorClosePct)}</span>`
             : "";
       return `
-      <div class="list-card">
+      <div class="list-card" data-lq="pick" data-lq-sym="${escapeHtml(s.ticker)}">
         <div class="lc-head">
           <div>
             <span class="ticker" style="font-family:var(--mono);font-weight:600">${escapeHtml(s.ticker)}</span>
             <span style="color:var(--text-muted);font-size:0.85rem;margin-left:0.35rem">${escapeHtml(s.name || "")}</span>
           </div>
           <div style="text-align:right">
-            <div style="font-family:var(--mono)">${fmtPrice(s.price, s.currency)}</div>
-            <div class="${pctClass(s.dayPct)}" style="font-family:var(--mono);font-weight:600">${fmtPct(s.dayPct)}</div>
+            <div style="font-family:var(--mono)" data-lq-field="price">${fmtPrice(s.price, s.currency)}</div>
+            <div class="${pctClass(s.dayPct)}" data-lq-field="dayPct" style="font-family:var(--mono);font-weight:600">${fmtPct(s.dayPct)}</div>
           </div>
         </div>
         <div class="lc-metrics">
@@ -376,20 +379,20 @@ function renderParity(parity) {
     <section class="section">
       <h2 class="section-title">${term("adr", "ADR")} ${term("parity", t("parity"))}｜TSM vs 2330</h2>
       <div class="parity-block">
-        <div class="parity-side">
+        <div class="parity-side" data-lq="pick" data-lq-sym="TSM">
           <div class="p-label">${term("usStock", t("usStock"))} ${term("adr", "ADR")}</div>
           <div class="p-ticker">TSM</div>
-          <div class="p-price">${fmtPrice(parity.tsm, "USD")}</div>
+          <div class="p-price" data-lq-field="price" data-lq-parity="TSM">${fmtPrice(parity.tsm, "USD")}</div>
         </div>
         <div class="parity-mid">
           <div class="row"><span>${term("adsRatio", t("adsRatio"))}</span>　<strong>${escapeHtml(parity.adsRatio || "—")}</strong></div>
           <div class="row"><span>${term("parity", t("implied"))}</span>　<strong>${parity.impliedUsdTaipeiFx != null ? fmtNum(parity.impliedUsdTaipeiFx, 2) : "—"}</strong></div>
           <div class="row"><span>${term("premium", t("premium"))}</span>　<strong class="${pctClass(prem)}">${fmtPct(prem)}</strong></div>
         </div>
-        <div class="parity-side">
+        <div class="parity-side" data-lq="pick" data-lq-sym="2330.TW">
           <div class="p-label">${term("twStock", t("twStock"))}</div>
           <div class="p-ticker">2330.TW</div>
-          <div class="p-price">${fmtPrice(parity.tw2330, "TWD")}</div>
+          <div class="p-price" data-lq-field="price" data-lq-parity="2330.TW">${fmtPrice(parity.tw2330, "TWD")}</div>
         </div>
         ${parity.note ? `<p class="parity-note">${escapeHtml(parity.note)}</p>` : ""}
       </div>
@@ -650,7 +653,9 @@ function renderApp(data, paper) {
           <img class="brand-mark" src="${logoUrl}" width="40" height="40" alt="每日數學選股" decoding="async" />
           <div class="brand-text">
             <h1>${escapeHtml(t("siteTitle"))}</h1>
-            <p class="brand-meta">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}</p>
+            <p class="brand-meta">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}
+              <span id="lq-status" class="lq-status" hidden></span>
+            </p>
           </div>
         </div>
         <div class="chrome-actions">
@@ -981,11 +986,13 @@ async function mountUi(app) {
     syncUrl: false,
   });
   void nav;
+  void startLiveQuotes(app);
 }
 
 async function remount() {
   const app = document.getElementById("app");
   if (!app || !cachedData) return;
+  stopLiveQuotes();
   await mountUi(app);
 }
 

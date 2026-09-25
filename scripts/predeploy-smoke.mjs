@@ -1043,6 +1043,39 @@ async function main() {
     fail("prefers-reduced-motion should disable index-marquee-track animation");
   } else ok("market marquee respects prefers-reduced-motion");
 
+  // —— Client live quotes overlay (near-real-time while tab open) ——
+  {
+    const lqPath = path.join(ROOT, "src/live-quotes.js");
+    if (!fs.existsSync(lqPath)) fail("src/live-quotes.js missing");
+    else ok("live-quotes.js present");
+    const lq = fs.readFileSync(lqPath, "utf8");
+    if (!/startLiveQuotes/.test(lq) || !/stopLiveQuotes/.test(lq)) fail("live-quotes missing start/stop exports");
+    else ok("live-quotes start/stop exports");
+    if (!/visibilitychange/.test(lq) || !/visibilityState/.test(lq)) fail("live-quotes should use Page Visibility API");
+    else ok("live-quotes Page Visibility pause");
+    if (!/v7\/finance\/spark/.test(lq)) fail("live-quotes should batch Yahoo spark");
+    else ok("live-quotes Yahoo spark batch");
+    if (!/mis\.twse\.com\.tw/.test(lq)) fail("live-quotes should use TWSE MIS for TW");
+    else ok("live-quotes TWSE MIS");
+    if (!/r\.jina\.ai/.test(lq)) fail("live-quotes should keep jina CORS fallback");
+    else ok("live-quotes jina CORS fallback");
+    if (!/OPEN_MS|45_000|45000/.test(lq) || !/CLOSED_MS|10 \* 60_000|600000/.test(lq)) {
+      fail("live-quotes should define open vs closed refresh intervals");
+    } else ok("live-quotes open/closed refresh intervals");
+    if (!/startLiveQuotes/.test(mainSrc)) fail("main.js should startLiveQuotes after mount");
+    else ok("main.js starts live quotes");
+    if (!/data-lq-key/.test(mainSrc) || !/data-lq-sym/.test(mainSrc)) fail("main.js should mark live quote DOM hooks");
+    else ok("main.js live quote DOM hooks");
+    if (!/lq-status/.test(mainSrc) || !/\.lq-status/.test(cssNav)) fail("live status pill markup/CSS missing");
+    else ok("live status pill + CSS");
+    const paperSrc = fs.readFileSync(path.join(ROOT, "src/paper.js"), "utf8");
+    if (!/data-lq="pos"/.test(paperSrc) || !/data-lq-book/.test(paperSrc)) fail("paper.js should expose live mark hooks");
+    else ok("paper.js live mark hooks");
+    const soxlSrcLive = fs.readFileSync(path.join(ROOT, "src/soxl.js"), "utf8");
+    if (!/data-lq-sym="SOXL"/.test(soxlSrcLive)) fail("soxl.js should mark SOXL for live overlay");
+    else ok("soxl.js SOXL live hook");
+  }
+
   // —— US 「美股大事」 macro marquee under 熱門 ——
   const macroSrc = fs.readFileSync(path.join(ROOT, "src/us-macro.js"), "utf8");
   if (!/index-marquee-track/.test(macroSrc) || !/index-marquee-group--clone/.test(macroSrc)) {

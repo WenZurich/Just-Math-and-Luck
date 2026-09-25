@@ -106,16 +106,20 @@ function positionRows(positions, currency, positionsValue) {
       const weight = bookMv > 0 ? (mv / bookMv) * 100 : null;
       const name = p.name ? escapeHtml(p.name) : "";
       return `
-      <tr class="pos-row" data-ticker="${escapeHtml(p.ticker)}" tabindex="0">
+      <tr class="pos-row" data-lq="pos" data-lq-sym="${escapeHtml(p.ticker)}"
+          data-ticker="${escapeHtml(p.ticker)}"
+          data-lq-qty="${p.qty ?? ""}" data-lq-avg="${p.avgCost ?? ""}" data-lq-ccy="${escapeHtml(currency)}"
+          data-lq-mark="${p.mark ?? ""}" data-lq-daypct="${p.dayPct ?? ""}"
+          tabindex="0">
         <td class="pos-sym">
           <span class="ticker">${escapeHtml(p.ticker)}</span>
           ${name ? `<span class="pos-name">${name}</span>` : ""}
         </td>
         <td class="num">${p.qty?.toLocaleString(numberLocale())}</td>
-        <td class="num">${fmtPrice(p.mark, currency)}</td>
+        <td class="num" data-lq-field="price">${fmtPrice(p.mark, currency)}</td>
         <td class="num">${fmtMoney(mv, currency)}</td>
         <td class="num ${pctClass(dayPnl)}">${dayPnl == null ? "—" : fmtMoney(dayPnl, currency)}</td>
-        <td class="num ${pctClass(p.dayPct)}">${fmtPct(p.dayPct)}</td>
+        <td class="num ${pctClass(p.dayPct)}" data-lq-field="dayPct">${fmtPct(p.dayPct)}</td>
         <td class="num ${pctClass(u)}">${fmtMoney(u, currency)}</td>
         <td class="num ${pctClass(r)}">${fmtPct(r)}</td>
         <td class="num">${fmtMoney(cost, currency)}</td>
@@ -141,19 +145,19 @@ function renderBookCard(id, book, metrics) {
       <div class="paper-kpis">
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("cash"))}</div>
-          <div class="k-val">${fmtMoney(book.cash, currency)}</div>
+          <div class="k-val" data-lq-kpi="cash">${fmtMoney(book.cash, currency)}</div>
         </div>
         <div class="paper-kpi">
           <div class="k-label">${term("position", t("equity"))}</div>
-          <div class="k-val">${fmtMoney(book.equity, currency)}</div>
+          <div class="k-val" data-lq-kpi="equity">${fmtMoney(book.equity, currency)}</div>
         </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("totalPnl"))}</div>
-          <div class="k-val ${pctClass(pnl)}">${fmtMoney(pnl, currency)}</div>
+          <div class="k-val ${pctClass(pnl)}" data-lq-kpi="pnl">${fmtMoney(pnl, currency)}</div>
         </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("totalPnlPct"))}</div>
-          <div class="k-val ${pctClass(pnlPct)}">${fmtPct(pnlPct)}</div>
+          <div class="k-val ${pctClass(pnlPct)}" data-lq-kpi="pnlPct">${fmtPct(pnlPct)}</div>
         </div>
       </div>
       <div class="paper-windows">
@@ -270,7 +274,9 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate) {
   const recent = all.slice(0, 40);
   const inception = startDate || book.startDate || "2026-09-15";
   return `
-    <div class="paper-panel ${active ? "active" : ""}" id="paper-panel-${id}" role="tabpanel">
+    <div class="paper-panel ${active ? "active" : ""}" id="paper-panel-${id}" role="tabpanel"
+         data-lq-book="${escapeHtml(id)}" data-lq-cash="${book.cash ?? ""}"
+         data-lq-start="${book.startCash ?? ""}" data-lq-ccy="${escapeHtml(currency)}">
       ${renderBookCard(id, book, metrics)}
       <p class="paper-session-note">${escapeHtml(t("paperSession", { date: asOfDate || "—", inception }))}</p>
       ${renderTradeTable(`${t("buy")} ${asOfDate || ""}`, todayBuys, currency)}
