@@ -2,12 +2,20 @@
  * Jensen Huang (黃仁勳) — Stanford ETL talk entry inside 名人podcast hub.
  * Source: Stanford Online / STVP Entrepreneurial Thought Leaders (~2009; YT 2011).
  * Math gate CLOSED — candidate/watch; not live screener.
+ * YouTube owner blocks embeds → link-out card (embedAllowed: false).
  */
 import { escapeHtml } from "./glossary.js";
 import { t } from "./i18n.js";
 
-const YT_URL = "https://www.youtube.com/watch?v=Xn1EsFe7snQ";
-const YT_EMBED = "https://www.youtube.com/embed/Xn1EsFe7snQ";
+const VIDEO = {
+  id: "Xn1EsFe7snQ",
+  watchUrl: "https://www.youtube.com/watch?v=Xn1EsFe7snQ",
+  embedUrl: "https://www.youtube.com/embed/Xn1EsFe7snQ",
+  thumbUrl: "https://i.ytimg.com/vi/Xn1EsFe7snQ/hqdefault.jpg",
+  /** Stanford Online disables site embeds; keep false → professional link-out. */
+  embedAllowed: false,
+};
+
 const ECORNER = "https://ecorner.stanford.edu";
 
 const HIGHLIGHT_IDS = [1, 2, 3, 4, 5];
@@ -37,6 +45,59 @@ function highlightCards() {
   }).join("");
 }
 
+/** Professional link-out when owner blocks embeds (or embedAllowed is false). */
+function youtubeLinkOutCard() {
+  const title = t("jensenEmbedTitle");
+  return `
+    <div class="jh-yt-card" data-yt-id="${escapeHtml(VIDEO.id)}" data-embed-allowed="false">
+      <a class="jh-yt-card-media" href="${VIDEO.watchUrl}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+        <img
+          class="jh-yt-card-thumb"
+          src="${VIDEO.thumbUrl}"
+          alt=""
+          width="480"
+          height="360"
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="jh-yt-card-play" aria-hidden="true"></span>
+      </a>
+      <div class="jh-yt-card-body">
+        <p class="jh-yt-card-kicker">${escapeHtml(t("jensenYoutube"))}</p>
+        <h4 class="jh-yt-card-title">${escapeHtml(title)}</h4>
+        <p class="jh-yt-card-note">${escapeHtml(t("jensenEmbedBlockedNote"))}</p>
+        <a
+          class="jh-yt-card-cta"
+          href="${VIDEO.watchUrl}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >${escapeHtml(t("jensenWatchCta"))}</a>
+      </div>
+    </div>`;
+}
+
+/** Optional iframe path for entries that allow embedding. */
+function youtubeEmbed() {
+  return `
+    <div class="jh-embed-wrap" data-embed-allowed="true">
+      <div class="jh-embed">
+        <iframe
+          src="${VIDEO.embedUrl}"
+          title="${escapeHtml(t("jensenEmbedTitle"))}"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+      <a class="jh-open-yt" href="${VIDEO.watchUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("jensenOpenYoutube"))}</a>
+    </div>`;
+}
+
+function videoBlock() {
+  return VIDEO.embedAllowed ? youtubeEmbed() : youtubeLinkOutCard();
+}
+
 function paint(root) {
   root.innerHTML = `
     <section class="jh-hero" aria-label="${escapeHtml(t("jensenHeroLabel"))}">
@@ -47,7 +108,7 @@ function paint(root) {
         <p class="jh-meta">${escapeHtml(t("jensenMeta"))}</p>
         <p class="jh-source">
           <span class="jh-source-label">${escapeHtml(t("godzillaSourceLabel"))}</span>
-          <a class="jh-yt" href="${YT_URL}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("jensenYoutube"))}</a>
+          <a class="jh-yt" href="${VIDEO.watchUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("jensenYoutube"))}</a>
           <span class="jh-source-cite">· ${escapeHtml(t("jensenSourceCite"))}</span>
         </p>
         <p class="jh-source jh-source-alt">
@@ -56,19 +117,7 @@ function paint(root) {
       </div>
     </section>
 
-    <div class="jh-embed-wrap">
-      <div class="jh-embed">
-        <iframe
-          src="${YT_EMBED}"
-          title="${escapeHtml(t("jensenEmbedTitle"))}"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin"
-        ></iframe>
-      </div>
-      <a class="jh-open-yt" href="${YT_URL}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("jensenOpenYoutube"))}</a>
-    </div>
+    ${videoBlock()}
 
     <section class="jh-panel" aria-label="${escapeHtml(t("jensenHighlightsTitle"))}">
       <h3 class="jh-h3">${escapeHtml(t("jensenHighlightsTitle"))}</h3>

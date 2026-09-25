@@ -590,6 +590,12 @@ async function main() {
   if (!jhJs.includes("initJensen") || !jhJs.includes("jh-hero") || !jhJs.includes("Xn1EsFe7snQ")) {
     fail("jensen.js missing hero / YouTube wiring");
   } else ok("jensen.js hero + YouTube");
+  if (!jhJs.includes("embedAllowed") || !jhJs.includes("jh-yt-card") || !jhJs.includes("jensenWatchCta")) {
+    fail("jensen.js missing embedAllowed / YouTube link-out card");
+  } else ok("jensen embedAllowed + link-out card");
+  if (!/embedAllowed:\s*false/.test(jhJs)) {
+    fail("jensen.js should flag Stanford talk embedAllowed: false");
+  } else ok("jensen embedAllowed false for blocked Stanford talk");
   if (/\bfetch\s*\(/.test(jhJs) || /strategy-screener|paper-trade\.mjs/.test(jhJs)) {
     fail("jensen.js must stay static (no live fetch / screener wiring)");
   } else ok("jensen static (no fetch)");
@@ -628,7 +634,7 @@ async function main() {
     if (!i18nGz.includes("navPodcasts") || !i18nGz.includes("名人podcast") || !i18nGz.includes("godzillaDisclaimer")) {
       fail("i18n missing podcasts nav/title or godzilla disclaimer");
     } else ok("podcasts + godzilla i18n present");
-    for (const langKey of ["navPodcasts", "podcastsTitle", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle", "podcastsGooayeTitle", "jensenTitle", "jensenDisclaimer", "jensenGateNote", "jensenH1Title", "jensenYoutube"]) {
+    for (const langKey of ["navPodcasts", "podcastsTitle", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle", "podcastsGooayeTitle", "jensenTitle", "jensenDisclaimer", "jensenGateNote", "jensenH1Title", "jensenYoutube", "jensenWatchCta", "jensenEmbedBlockedNote"]) {
       const n = (i18nGz.match(new RegExp(langKey + ":", "g")) || []).length;
       if (n < 4) fail(`i18n ${langKey} expected 4 langs, got ${n}`);
     }

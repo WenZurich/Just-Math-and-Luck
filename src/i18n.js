@@ -347,6 +347,8 @@ const zhHant = {
   jensenTwBody: "NVDA 作為美股半導體／運算平台公司，供應鏈與台灣晶圓製造、封測生態高度相關——此處僅作產業脈絡註記，不列台股清單，也不寫進正式篩選。",
   jensenGateNote: "尚未寫進正式篩選",
   jensenGateDetail: "狀態：候選／strategyCandidate=watch。數學閘門關閉——未接入即時篩選器或模擬交易；僅供閱讀與對照。",
+  jensenWatchCta: "在 YouTube 觀看",
+  jensenEmbedBlockedNote: "此演講由擁有者設定為僅能在 YouTube 觀看（無法於本站內嵌播放）。",
 
 
   optionsTitle: "美股選擇權",
@@ -1018,6 +1020,8 @@ const en = {
   jensenTwBody: "NVDA as a US semiconductor / compute platform sits in a supply chain tightly linked to Taiwan foundry and OSAT ecosystems — industry context only; no TW ticker list and not wired into the screener.",
   jensenGateNote: "Not in the formal screener",
   jensenGateDetail: "Status: candidate / strategyCandidate=watch. Math gate CLOSED — not wired into the live screener or paper trading; read-only.",
+  jensenWatchCta: "Watch on YouTube",
+  jensenEmbedBlockedNote: "This talk opens on YouTube — the owner has disabled embedding on other sites.",
 
 
   optionsTitle: "US Options",
@@ -1676,6 +1680,8 @@ const zhHans = {
   jensenTwBody: "NVDA 作为美股半导体／运算平台公司，供应链与台湾晶圆制造、封测生态高度相关——此处仅作产业脉络注记，不列台股清单，也不写进正式筛选。",
   jensenGateNote: "尚未写进正式筛选",
   jensenGateDetail: "状态：候选／strategyCandidate=watch。数学闸门关闭——未接入即时筛选器或模拟交易；仅供阅读与对照。",
+  jensenWatchCta: "在 YouTube 观看",
+  jensenEmbedBlockedNote: "此演讲由拥有者设定为仅能在 YouTube 观看（无法于本站内嵌播放）。",
 
 
   optionsTitle: "美股期权",
@@ -2332,6 +2338,8 @@ const ja = {
   jensenTwBody: "米半導体／計算プラットフォームとしての NVDA は、台湾のファウンドリと OSAT 生態系と強く結ばれる——産業文脈の注記のみ。台湾銘柄リストなし、正式スクリーナー未接続。",
   jensenGateNote: "正式スクリーナー未収録",
   jensenGateDetail: "状態：候補／strategyCandidate=watch。数学ゲート閉鎖——ライブスクリーナーやペーパー取引には未接続。閲覧用。",
+  jensenWatchCta: "YouTube で視聴",
+  jensenEmbedBlockedNote: "この講演は所有者の設定により YouTube でのみ視聴できます（他サイトへの埋め込みは無効）。",
 
 
   optionsTitle: "米国オプション",
