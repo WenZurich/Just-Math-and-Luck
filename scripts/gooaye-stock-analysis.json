@@ -1,7 +1,7 @@
 {
   "id": "gooaye-stock-analysis-pack",
   "transcriptModel": "faster-whisper small int8 (zh)",
-  "updatedAt": "2026-09-26T03:16:13+08:00",
+  "updatedAt": "2026-09-26T04:59:56+08:00",
   "disclaimer": "Host views only; candidate/watch; not investment advice. Written after reading STT transcripts of public SoundOn audio.",
   "episodes": {
     "699": {
@@ -485,6 +485,304 @@
         "【軟體分化】Software 類股有人在新高、有人在右下角，市場已做強弱分流；Hour／人力相關亦非全面在右上——能 harness AI 工具者較不被淘汰敘事打中。",
         "【聽友｜工程師焦慮】AI agent 讓軟體工作從創作變校對、非頂尖工程師壓力大——主持人偏向組織重整與工具賦能視角，而非全面取代（細節偏職涯，非股評）。",
         "【標的紀律】本集具名偏少；族群／概念：AI 伺服器、台積電產能限制、軟體強弱分流。候選／觀察，非投資建議。"
+      ]
+    },
+    "671": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【澄清｜仿冒推標】新聽眾多，社群／群組常有人冒充「夢工／股癌推某標的」或自稱認識主持人拿標的；強調以現有規模點一下就可能漲停、不需找人抬轎，並否認影響台積電／鴻海／廣達這類標的。傳言≠聽寫分析。",
+        "【被動元件】參與者變多、部位短期拉大後變「熙」；仍覺後段有肉，但自己已偏滿倉被動、錯過其他是相對值。籌碼湧入後傾向找「新窟」而非追高。",
+        "【台積電｜萬劍歸宗】預期內規／監管調整後可提高台積電比重；想像資金最終回流台積但比預期慢——題材百花齊放時台積橫盤，主流族群修正時台積常尾盤拉。想加碼卻因「外面太熱鬧」暫緩；風向不對時把台積當避難所。",
+        "【離散／功率】成本轉嫁型漲價（光端等相關價格上升），故事近似缺貨漲價但未必斷貨；安世半導體制裁＋中國功率／半導體遇歐盟制裁、供應鏈 Nachina 佈局。AI 伺服器與 NVIDIA Vera Rubin（轉寫 VR Rubin）量產被視為趕蝦魚需求。Driver＋MOS 因板面積珍貴而整合；台廠有機會吃部分。",
+        "【記憶體 vs 被動／光通敘事】市場最噴之一是被動（可能斷貨）；記憶體亦超缺。Semi Analysis 等提光通遞延時，相關中資半導體外資持股大減——產業朋友對誇張數字常覺太早／預期過高。",
+        "【聽友｜石英／導線架】台股石英（光通）不熟；美系交易所時脈／石英概念較有注意，感覺市場在做缺貨漲價故事。導線架漲價：Tier1 如記憶體、被動；被動休息後資金或流向二三四五階，最終也可能回流台積。",
+        "【標的紀律】具名台積電、鴻海、廣達（否認影響）、NVIDIA；記憶體／被動／離散功率／光通石英／導線架為族群層級。候選／觀察，非投資建議。"
+      ]
+    },
+    "670": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【盤勢｜修正到位？】認為本波台股修正某個程度上「跌完了」，除非新事件；大跌摸跌停日訊息不多，CPI 與川普「奪島／又不打」威脅影響淡化——壞消息一次倒完後若不破底，修正可能到此。自己持續推進籌碼、不願乾等季線（覺得這波拉太遠後回季線偏美差）。",
+        "【衛星／SpaceX】關注能否再帶衛星／火箭相關；美股首日像趁機出貨，下週觀察台股——衛星或再當主選，也可能題材結束（相關自一月已反應很久，報紙熱搜時常見出貨）。",
+        "【被動漲價】對大型 ODM／EMS 已見漲價成功；券商報告增多、目標價上修潮（轉述發科／台積等數字僅市場語境，勿當目標價建議）。漲價速度超預期：原估需 6–7 次才到 terminal，依現速約兩次可能達標、仍有上修空間。漲價從 AI 核心料號蔓延到週邊／中小尺寸；韓日系外台系亦開始當「漲價領頭羊」。大型廠尚無大擴產，類比記憶體但週期可能更長；日系開始配貨後可檢驗真假需求／overbooking（類比 NVIDIA 透過 ODM／OEM 釐清終端、禁出中國）。產業角度價格仍在上漲過程。",
+        "【Anthropic／監管】Claude（轉寫）海外受美出口管制；笑稱 Dario 等「速組恐懼」易吃監管鐵拳，可能影響觸及度、成日後修正故事。OpenAI／Anthropic 產品好用但討人厭敘事。",
+        "【聽友｜800V HVDC】Semi Analysis 提 800V HVDC 延後、AI 電源族群跌；聽友指台廠主力多 400V、延後或延長受益。主持人：若邏輯成立 400V／pluggable 應相對強，但同步被殺＝情緒通殺；修正期勿過度執著單篇報告理由。",
+        "【標的紀律】具名 SpaceX（衛星敘事）、NVIDIA、Anthropic／OpenAI；被動／衛星火箭／AI 電源 400V vs 800V；貿聯 KY＋data.com 為聽友提問、未展開個股建議。候選／觀察，非投資建議。"
+      ]
+    },
+    "669": {
+      "listenedAt": "2026-09-26T04:59:56+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【盤勢｜洗碼】反彈兇但若再破前低、大量資券殺出後能立刻反彈走出去的族群才值得追蹤。週三盤中：被動仍強、光通轉弱、台積電與發哥偏弱；避風港／防禦股亦未拉出——尚無法識別下一波資金方向，等「沿線為平」再說。",
+        "【台積｜營收／漲價】月營收不錯；CFO／報導語境台積可能漲價但不會「幾倍式」暴力漲——魏哲家強調與客戶長期共榮；對照記憶體廠毛利可拉到七八十%。合理漲價有機會推升實質數字與 P 評價。",
+        "【Semi Analysis 敘事】CPU＋800VDC、Vera Rubin 記憶體用量等說法在回檔時被放大成「大空頭」；主持人提醒偏空發言在修正期易被針對（對照先前 AYZ 與中國光通股事件）。CPU 遞延多半是投資圈把量／時點喊太前的 overshoot；Computex 網通／光通主管訪談否認 delay／延宕劇本。研發與量產兩條線：技術未成熟可下一代再端，非「設計大改＝死」。美股 pluggable 與理論受惠標的同步被殺＝整體回調＋鬼故事，非單一路線停擺；800VDC 慢幾個 Q 仍往該方向走。",
+        "【資金偏好】量化朋友觀察：殺下去後攤平再殺，資金更重視流動性；猜想後續偏向大型、流動性好、數字能較快開出來的標的當避風港／領頭，等指數再創新高才回頭衝夢想股（含不少「泛光」難算數字者）。機器人題材會議討論多，但數字可能三五年後。處置股多、加碼困難——自己這幾天幾乎不動。",
+        "【Apple WWDC】無明顯新亮點；折衷路線（自研伺服器精品級＋與 Google 合作模型，非純過路費）。看好螢幕感知／Agentic 自動化加深手機綁定；記憶體大漲價下仍期待蘋果量能與用戶 base。長期看好但資金未回消費性前興趣有限（PIMIC 試探後被恰）。",
+        "【標的紀律】具名台積電、發哥、NVIDIA Vera Rubin、Apple、Google、Semi Analysis；被動／光通／800V／pluggable／機器人／衛星 AI data center 為族群。候選／觀察，非投資建議。"
+      ]
+    },
+    "668": {
+      "listenedAt": "2026-09-26T04:59:56+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【Computex／NVIDIA 展】LPU 估量級約 1–1.5 萬 rack／年（新路線、併購後），元件細節展出有限。CPU rack／HOREC 用於 Agentic workflow——有空頭說法稱用量高因模型「撞牆」，優化後會少用 CPU；主持人引 Satya 邏輯：降成本會帶來更多用戶／應用，整體 CPU 用量仍可更大，可持續關注。Vera Rubin／Grace Blackwell 對老聽眾已是老梗，提醒勿因聽膩錯過後續漲幅（類比台積從一兩百到上千）。",
+        "【Kyber】工藝複雜、可能地緣／技術折衷延後；關注交換機結構、背板、midplane、QB（亦用於 LPU）等熱門題材——延後時資金會淡出，但認為有朝一日會回來。",
+        "【產業信心 vs 盤面】電腦展產業端未見大問題、對長多有信心；過程跌幅也可能較深。融資／股息槓桿已在殺，後續或仍有風雨；週五美股已承受、週一台股心理準備。",
+        "【標的紀律】具名 NVIDIA（LPU／CPU rack／Rubin／Grace Blackwell／Kyber）、台積電（比喻）；OEM／ODM／EMS／代工為語境。候選／觀察，非投資建議。"
+      ]
+    },
+    "667": {
+      "listenedAt": "2026-09-26T04:59:56+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【Computex｜老黃點名】最大震撼：黃仁勳稱 Marvell（轉寫馬蕾爾／馬繞）可能是下一個「造園企業」後股價直噴——DSP 不錯、SX 仍在發展路上，不如聯發科／Broadcom（轉寫）明確；老黃點石成金效應強。Marvell 演講強調 rack／伺服器資料共通到 data center 互聯，「光」為必行；NVIDIA 仍強調銅線能用則用，但光成長速率共識變強，資金或再回流光。主持人多次挑戰 Marvell 前幾次失敗、這次因 Jensen 加持成功拉出，認為某種程度已反應。",
+        "【NVIDIA｜Rubin／DGX／AIPC】Vera Rubin 熟悉無新；較特別是 DGX／N1X 類產品（約一年前談過）：高階筆電／初階筆電／車用同晶片三 spec——從賣 GPU 到整機 laptop solution，像 AIPC 第二次挑戰。Snowflake 員工分享：開源模型落後閉源約半年，地端／AIPC 或可省 token；非零和——data center 高階 agentic 用量仍可倍增，同時部分落地端。AIPC 用料升級（被動等）；若銷量較前代增速，或 offset 傳統筆電疲弱（ASP／用料較高）。概念股語境：NVIDIA、聯發科；筆電 OEM 能否實質帶動仍觀察。",
+        "【盤勢】估值推升 > 新上修動能；熱門題材開始修正（被動橫盤）視為好事——免過度處置、避免結束時殺傷太重。NVDA／TSMC 像大龍頭常被當「最後一棒」，資金先衝小標／光通；比特幣類比「會跑就買」。",
+        "【聽友｜功率／補漲】功率元件／半導體基本面顯著改善，可能成下一波匯聚，但缺貨全面性不如 CPU／被動、漲價光芒較弱；ON／ADI（PMIC）等聽友點名語境。TSMC 形態轉強＋金管會大門後投信改公發書一兩月內或推升；MediaTek 亦突破往上。",
+        "【部位】手上大量 CPU＋被動；回檔未破十日線不願出、成本角度可凹到月線；過往大盤長黑會調，現在長黑未必調，但碰月線數日站不回或減碼。玻璃載板／TGV／TSV 數月前已聊、相關已噴過。",
+        "【標的紀律】具名 Marvell、NVIDIA、聯發科、Broadcom（語境）、TSMC、Snowflake；被動／光通／功率／AIPC／玻璃載板為族群。候選／觀察，非投資建議。"
+      ]
+    },
+    "666": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【處置股困局】約九成資金鎖在處置股（許多 20 分鐘處置）——崩盤跑不掉、想追也買不到；券商不限用途借款額度控管約一個月，部位被「老天封控」。擔心後面超大回檔時一路加碼會吐更多。",
+        "【被動｜成本→需求】日本被動「做壞掉」仍強；公司一兩月前多講成本驅動、不太看好 Q3 後續漲，現已改口偏需求驅動——市場派有時走在公司派前面（假方／下單端資訊）。MLCC 仍是討論核心；鋁電／疊層 SPCAP／OSCON／牛角電容；江海 memo 轉述全球缺口約二十幾%、產能加總不夠，後續發酵漲價。公司派初期不信甚至出清持股被嘆可惜。",
+        "【軟體／AI 論述】老 AI 復甦＋軟體股大爆射。Dario（Anthropic）／Sam Altman 論述鬆動；站黃仁勳派：AI 改善效率、更多 hiring，非末日取代。末日行銷易招政治監管反噬（Google 高層校園演講被噓）。Salesforce 創紀錄 buyback、ServiceNow 老闆駁斥外部 AI 論述、Okta／Snowflake 成績好——證明 AI 是軟體加分非扣分；同硬體／晶圓代工：不是每家都好。",
+        "【輪動｜老 AI／ODM】成熟製程因 TSMC 釋出 legacy 需求、GPU／ASIC 外 CPU 再被重炒；鴻海及廣達曾縮漲停、首富市值賽跑趣味。資金大幅測出 ODM／EMS、推光通後光通休息；2025 最火硬體偏光通，老 ODM／OEM／EMS 等營收獲利開出大坡後數字跳出去才再被看見。",
+        "【聽友】被動為何還噴：成本→需求轉換；美光擴產（消費級 vs 伺服器等級）；台系鋁電容缺貨＝料最多者受益類比。券商預估發哥 TP 未計 OpenAI／相關題材已很高（轉述非建議）。",
+        "【標的紀律】具名江海（memo）、Salesforce、ServiceNow、Okta、Snowflake、Anthropic／OpenAI、鴻海、廣達、美光、發哥、TSMC（legacy）；MLCC／鋁電／光通／ODM／EMS／CPU／處置股。候選／觀察，非投資建議。"
+      ]
+    },
+    "665": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【盤勢｜被動整組壞掉】特定族群如被動「整組做壞掉」——本望橫盤休息卻假摔再噴，已噴到看不懂。某國際業者對外說明：BP／稼動特規品約拉到 90%、標準品亦上幾個百分點，數字更好。對照 Vishay、VPG、中國江海（電容）、日系——全球同向＝真缺非純炒短缺；類比 2018 毛利摸 60% 多（春田等）用學習曲線估明年 EPS／合理價。",
+        "【台積分紅】討論分紅案顯得「小氣」、越賺比例越少——公司說法長期絕對額會增；主持人勸成熟看待，台灣難有更好替代、配已很好，偏技術性修正。身邊台積員工狂幹；聯發科曾軟掉後因 AI 再出去＝扛住才吃到後面果實。",
+        "【SpaceX IPO】無論估值都會先上車卡位（像過去某些上市先買再說），保守可先兩成、自己傾向先半倉再視況加、不太會減；並可能降低部分 Tesla 持股——押的是馬斯克故事，而 Tesla 敘事已從車量轉向能源／Optimus／自駕。長期持有＝每次檢視都在決定續抱。",
+        "【軌道 AI／Neocloud】招股／路演強調 Starlink 印鈔機；Anthropic 租其 data center 後馬斯克更強調衛星上放伺服器（無限太陽能、散熱可解）。SpaceX 或成新型 Neocloud（算力銷售／出租）高機率。軌道 AI 伺服器若成，散熱片／太陽能板體量巨大（曾看 Hawthorne 總部折疊衛星）；台股散熱近況不佳但通過驗證者若上軌道片超級大。打上去是 SpaceX 強項。Direct-to-cell 仍是近動能，估值想像更在太空算力。OpenAI／Anthropic 對照：算力不夠模型變笨更快。",
+        "【機器人／衛星題材】台股機器人狂噴／處置多，營收帳比難近；若信機器人遠景，衛星 AI 運算也不遠——與純設衛星／PCBA 組裝敘事不同。功率缺貨可漲但 MLCC／鋁電等更難替代。",
+        "【標的紀律】具名江海、Vishay／VPG（對照）、台積電、聯發科、SpaceX、Tesla、NVIDIA（歷史類比）、OpenAI／Anthropic；被動／散熱／機器人／衛星 AI。候選／觀察，非投資建議。"
+      ]
+    },
+    "664": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【Anthropic 獲利】最值得關注：Anthropic 轉出獲利數字（或為上市美化，但全球盯著難包太久）——打臉 AI 毀滅／泡沫論；理論上最燒錢模型商都能轉正 → 硬體投資不會到此為止、反而可能更大。",
+        "【Colossus／出租算力】SpaceX／Tesla／xAI Grok 發展不順後出租算力；Colossus-1 投資回本估約 1–2 年——與 Anthropic 獲利同為硬體強心針：自用賺或租出印鈔，需求可持續直到特殊情況。",
+        "【Google×Blackstone TPU Cloud】直面 NVIDIA／AMD／Intel／其他 ASIC；第三方 Neocloud 形式降低「資料給 Google」疑慮，利模型廠把開發放上 TPU。Lifecycle 自用:外銷約 3:1（去年中外銷 Anthropic 當時被嘲、現成共識）；成長超預期。利 Google supply chain；可能壓抑偏 NVIDIA 的 Neocloud／部分晶片估值（營收未必差、估值被壓）。下一步比誰搶到更多產能／加價包產線——Gavin Baker：TSMC 若產能全開瘋狂擴，NVDA 營收更好但 AI 泡泡可能更早破；代工是限制器。紙包不住火：競爭者準備拉量，晶圓代工壓力↑，或願包產線／找 TSM。",
+        "【戰略物質蔓延】NVIDIA 包雷射產能（用量未必吃完＝卡對手）；基板／代工已是戰略物質，光通開始包廠搶產，或蔓延 OSAT／電零組件。",
+        "【被動全面噴】高壓 MLCC 某台廠法說稱目前沒漲價、不排除跟領頭羊——誠實說法隔天照樣漲停。MLCC／鋁電／電感／先前不看好的電阻／通路商全線漲停。大噴時看勢；回檔後第二三波鎖定真 bottleneck：47µ／22µ（春田／三共等語境）、高壓 MLCC（data center 功耗↑→Power rack／功率元件／功率半導體變好，Vera Rubin 換代＋Google 等功耗↑）。隔壁 Power 櫃題材市場未必盯透。鋁電／snap-in 牛角日商需求龐大、產能加總不夠、故事難懂但股已噴。回檔後聚焦高壓 AI MLCC、鋁電、SPCAP、牛角；雜魚會跟漲（類比 DDR legacy 毛利曾跑贏 HBM）。擴產紀律＝下檔防守；消費級或僅恐慌備貨。",
+        "【標的紀律】具名 Anthropic、SpaceX／Tesla／xAI、Google、Blackstone、NVIDIA／AMD／Intel、TSMC；被動（MLCC／鋁電／電阻／電感）、功率、光通雷射、OSAT。候選／觀察，非投資建議。"
+      ]
+    },
+    "663": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【盤勢體感】指數連日修正但體感幾乎無感（選股幸運）；僅週二稍感回檔。被動（MLCC／鋁電）持續貢獻報酬。",
+        "【Panasonic 漲價信】先前估不會見信、今日已流出——非對所有客戶、部分客戶；判斷漲價會延續。大廠掃現貨被骂炒股——主持人：台廠本就買日系貼牌出貨，供需失衡＋預見漲價時掃便宜料像水果商；通路表示高階料斷供／不報價／交期拉長。上升循環非一次性；採購端各種漲價、不敢砍單怕料被搶。Panasonic：可棄低階補稼動鳥料、產能轉高階 AI、價格要漲就漲。領頭漲 30% 則 Tier2 替代料或跟 25–28%。2018 式競標（價高者得）可能重現。弱點＝AI 投資停或大廠齊擴產；記憶體擴產紀律強，被動僅部分高壓 MLCC 擴、其餘無大動作＝下檔觀察點。電容／電感／電阻漲價持續；cloud 端漲幅尚可、偏 AI 端上很快。",
+        "【Broadcom／魚世代】Semi Analysis 驗證數月前觀察：Broadcom 少一代 fish（V7–V9 MediaTek＋Broadcom 各一邊，某代缺魚）；報導稱 V10 icefish 提前。主持人另見：Sunfish 後或有更大顆 Sunfish（雙晶片載板拼，類 Apple Ultra），非 CoWoS 直連。老 AI／載板故事未死；現進場稍險因資金輪動，但 roadmap 推進／毛利低估或短暫。AP Memory（iPU）曾被棄、Google TPU 紅後因埋入式被動再起——軟的有機會復活。",
+        "【聽友｜台積論壇×光通】三層蛋糕／光通被 Q 到後光通仍落＝有人喊利多出盡或台積自做打光通；主持人否認零和／鴻海式獨占，長多必有回檔，舉 Astera Labs 高檔掉落再創新高經驗——看遠方產業 cage，短期敘事多雜訊。",
+        "【標的紀律】具名 Panasonic、Semi Analysis／Broadcom／MediaTek、Apple Ultra（類比）、AP Memory、Google TPU、台積電論壇、Astera Labs（經驗）；被動全線／載板／光通。候選／觀察，非投資建議。"
+      ]
+    },
+    "662": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【修正不會太久？】斜率太陡，疊殺洗不穩籌碼後應不會拖太久；散戶把 1–2% 當「疊死」、把發哥小回當「大逃殺」＝歷練不足、天罰洗人。勿因短線改看法導致什麼都沒抱到。",
+        "【老 AI 毛利】老 AI 摔重，基本面派指毛利不如預期——主持人：下一代迭代／研發／學習曲線致短期毛利壓制，非長期故事（類漢唐毛利疑慮後 Surprise）。但不急介入：籌碼面考量。",
+        "【金管會×台積上限】放寬台積電持股上限持續發酵；投信大力買，但上線者需改公發書約 2–3 月（快則約一個月更多投信增持）。市場內資金有限→勢必從其他標的提款；修正後無法再創高且投信持比重者或停利轉買 TSMC。老 AI 毛利過度擔憂或可爬回，資金面仍慎。",
+        "【汰弱留強】修正是市場幫你挑下一波老大——週五仍有漲停者、被動等強勢族群誰先站回。美股軟體／自然資源表現不錯。過往 ODM／OEM vs New AI 光通硬體：美股已做某種分流。",
+        "【被動再提】記憶體之後輪到被動；漲價信持續，連不看好的電阻也漲——電阻若跟、更缺電容／電感（MLCC／鋁電）更有戲。Panasonic 擬 6 月初漲、幅大；有信＝宣布後給緩衝（類記憶體），無信但業界見漲＝現貨競價模式、近 2018 被動之亂。擴產「超簡單」論vs需求暴增；美系大廠持續漲價，羅姆（Rohm）漲價信或很快出。",
+        "【標的紀律】具名台積電、發哥（語境）、Panasonic、Rohm；老 AI／被動／電阻電容電感／光通／ODM。候選／觀察，非投資建議。"
+      ]
+    },
+    "661": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【被動主角】台股被動「整組做壞掉」、成盤面主角（類記憶體先外後內）。最缺 MLCC 如 47µF；排擠效應類 HBM——台系 MLCC 大廠後續仍看漲價。鋁電：日系廠（含 Panasonic 擬退 OSCON／固態等語境）已發漲價；台灣電容相對沒跟上世界曲線。Vera Rubin 換代帶被動拉貨；被動不如先進製程／記憶體難擴、供需易緊。高階日／韓 vs 次階：legacy 毛利曾跑贏 HBM 劇本也可能發生在被動。CPU 持續 follow。",
+        "【部位節奏】無部位者等像樣回檔再新開；小拉回加大、真大盤大回再談。蘋果供應鏈因零組件漲價敘事仍在；Rohm 等亦可能跟漲→功率／美系功率半導體成本驅動漲價（轉嫁護毛利）。",
+        "【None-TSMC／漢唐】做 TSMC 供應鏈毛利常被壓；漢唐 Q1 毛利數字好（語境）。修正前兆觀察；多數人遇回檔不調部位。",
+        "【聽友】光通／先進製程設備仍看好；CPU socket（加捷等）屬 CPU 外圍題材，曾接 Google／微軟；自己部位亦放到台積＋發哥、被動。投信搞台積有機會。美股光通創新高 vs 台股光通軟＝台股或再醒。ASIC／聯發科／custom 光通晶片語境。",
+        "【標的紀律】具名 Panasonic、漢唐、台積電、發哥、Google／微軟（socket 語境）、聯發科；MLCC／鋁電／功率／CPU 外圍／光通。候選／觀察，非投資建議。"
+      ]
+    },
+    "660": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【NVIDIA 散熱改料】市場傳 NVIDIA 晶片散熱／材料調整、曾 CoWoS 停線但已復工；相關台股供應鏈劇烈反應且消息晚 2–3 天才反映。NVIDIA 本體骨架看起來還好、供應鏈相對弱；X 帳號傳訊快。高位拒絕點評個股／補刀——台股已高，回檔理由隨便都有（例：某美股裁員＋guidance 被殺，主持人覺得沒大問題）。大逃殺仍會檢查部位因整體位階高。",
+        "【消費／車用／成熟製程轉強】非純消費復甦（手機／筆電出貨展望不佳），較像記憶體＋代工漲價＋關稅→下游恐慌提前拉貨→代工稼動與 IC 設計 Q2 營收跳、股價先行；終端需求仍弱，26H2 拉貨動能掉時或再去化。世界先進新建產能賣光、海外客願付 premium 包產卻拒簽長約＝看好行情；聯電、GlobalFoundries、矽晶圓相關、瑞昱／義隆開燈——先當補貨／結構性而非需求大爆發；Tier1（光通回檔、台系記憶體沒力）軟後才移 Tier2，否則當盤好找低估拉抬。",
+        "【券商額度／處置】融資額度見底、抵押利率上調；對大戶像被迫降槓（想借到 1.5–1.6× 借不到）非人人加槓。大型票因 NVIDIA 改料連跌停進處置、聯發科連漲停進處置——外資／大買方罵處置抽大票流動性（怕他日台積也被抽）；討論市值門檻豁免。關稅戰時熱門股槓桿斷頭連鎖為殷鑑。",
+        "【被動／CPU】CPU 比例 1:8→1:4→1:2 外溢 socket／記憶體；被動全面噴發後少吹——除 MLCC／鉭電外注意日系 Nichicon／Nippon Chemi-Con、美股 Vishay／VPG；鋁電／電感／電阻可關注。供需缺為真但時點早於原估 26H2–27，或像記憶體先小波再真波。世界先進拿 TSMC 技術移轉語境。",
+        "【標的紀律】具名 NVIDIA、聯發科、世界先進、聯電、GlobalFoundries、瑞昱／義隆、Nichicon／Chemi-Con、Vishay／VPG、台積（流動性討論）；散熱供應鏈不點名。候選／觀察，非投資建議。"
+      ]
+    },
+    "659": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【被動表態】長期預告缺貨時點難抓；國巨陳泰銘（轉寫）AI 事實大會後國巨走強、被動全體轉強。新商店出貨交期拉長通知（非漲價信）仍漲停——交期拉長暗示後續漲價可能。基本面對了時間到會反應。鉭／鋁／MLCC 供需緊、高階尤甚；高階交韓三星電機／日春田，台廠部分進高階 AI 伺服器、更多吃訂單排擠（類 2017–18 敘事但不保證同爆）。",
+        "【CPU 當紅】美股崩時美 CPU 股仍強→確認 Agentic workflow 吃 CPU。AMD 法說上修 Server CPU（轉述估至某年 120B、年增>35%）、有信心拿下 server CPU >50% 市占；AI data center 營收能見度至 2027 tens of billions。呼應 Intel：Agentic／推理結構性推升 CPU。台股 ASIC 動：GUC（3443）綁 Google 早動；世芯-KY（3661）漲停綁 Amazon Trainium；M1 相關 ASIC 也好。資金灌 server／CPU／ASIC，GPU 本體（NV）橫、零組件發揮。",
+        "【聯發科意外】今年最大意外＝多根漲停；反映到三千多像 NVDA 上升段把預期打滿——之後或橫盤驗證；分析師寫 main chip 等，節目側寫仍偏 IO／memory buffer，市場預估偏滿。不加大部位，放著觀察瘋狂程度。",
+        "【槓桿／紀律】部位拉出後放大量／槓；風吹草動微調、尾盤拉起或類輪動訊號。不急第一根降槓，寧吃回檔搭到大盤長黑／吞噬再調；故事在 CPU／ASIC／被動 fundamental 就跟著搭。",
+        "【標的紀律】具名國巨、AMD、Intel、GUC 3443、世芯-KY 3661、聯發科、NVIDIA（橫盤語境）、三星電機／春田；被動高階／台廠排擠。候選／觀察，非投資建議。"
+      ]
+    },
+    "658": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【軟體敘事回擺】本波以 CPU 帶硬體估上去，下一輪動或回頭看被殺慘的軟體（例：某軟體老闆喊沒那麼慘、交財報打臉）。Palantir Alex Karp、Cloudflare 等在 Anthropic 發表後反駁取代論——工具非取代。Mandolin 類觀點曾勸空手 Google／微軟因模型取代軟體；Google 轉強後論述翻轉。巨頭財報顯示 AI 在賺錢，非雙輸。",
+        "【台積大將→聯發科】先進封裝研發大將榮退加入聯發科：可能只是生招牌，也可能聯發科要更多 CoWoS／封裝產能。TPU：V8／V9（轉寫 5921 等）前後段皆台積；Humufish 後代共識前段台積、後段或 Intel EMIB——故關注 EMIB 良率。市場謠傳 MediaTek 雙線：後段 EMIB vs 留 CoWoS／CoPoS，應為 Google 授意防 Intel 出包。Intel 後段意外能做＋地緣，股價噴到看不懂；MediaTek／Google 本有台積 backup，門神加入提高轉回台積機率但仍太早定論（5921 未大放量）。",
+        "【GPU vs ASIC】老題：互不殺掉；晶片供不應求，比誰短期搶更多市占。Google／Amazon 自研仍是輝達大客戶；雲上交叉使用 GPGPU＋自研 CPU／類 GPU（TPU）。鴻海式獨占劇本現在討論無意義。",
+        "【記憶體】模組法說缺貨到 2027、2026 訂單滿；庫存目標上修＋私募備貨（聽友）。美光等海外強、台系記憶體／被動語境；蘋果調校會議再確認記憶體成本走升。",
+        "【標的紀律】具名聯發科、台積電、Intel EMIB、Google TPU、Amazon、NVIDIA、Anthropic／Palantir／Cloudflare（敘事）；記憶體模組。候選／觀察，非投資建議。"
+      ]
+    },
+    "657": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【台積×投信 vs 外資】上週觀察投信買盤已進場，但外資單日賣約 1.8–2 萬張、不想讓台積再衝。本望動能噴成聯發科式大牛，籌碼卡在外資賣壓；目標價語境（Gavin 喊聯發／台積數字）上限不在眼前，先看賣壓何時盡。",
+        "【垃圾盤輪動】台積強→中小殺、光通跌停；台積橫→中小復活——規模吸金。台積未成功一波走出去被外資打亂，難判資金在台積或中小。",
+        "【記憶體／被動表態】軟很久的記憶體集體表態；旺宏法說老闆轉超多（MLC NAND／NOR 漲價漂亮）——敢講好或已反應需觀察。台股被動週二跳出去，仍 underperform 海外（日系名廠、韓三星電機已射）；基本面漲價信狂出，台股或後跟上。",
+        "【Intel EMIB 良率】多方考察後段 assembly 良率已到約 90%（比台積仍差但超預期）；載板廠 For Intel 埋電容 IPD 可驗證。先前「做不出來→轉回台積」劇本需修正；若 EMIB 真成，MTK／Google／Intel EMIB 相關標的邏輯變。高層態度積極；前段仍 TSM、後段 Intel。",
+        "【CPU 鏈】仍火熱，Meta CPU 部署激進；台系 CPU supply chain＋消費級 CPU 鏈也動（類記憶體：HBM 香但 D3／D4／NOR／MLC NAND 消費級漲更猛）。Intel 電話會議亦提伺服器為主。買 CPU 本體看 Intel／ARM／AMD，更多人往 CPU related 元件／AMD 長期夥伴。",
+        "【標的紀律】具名台積電、聯發科、旺宏、Intel、Meta、三星電機；記憶體／被動／光通／CPU 鏈。候選／觀察，非投資建議。"
+      ]
+    },
+    "656": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【壓力測試後】台股壓力測試後有部位調節；CPU 類股因 Intel 數字不錯＋後續要漲價而全面噴。討論過熱：有人想把 CPU:GPU／ASIC 喊到 1:1——主持人認為趨勢在但數量別喊太恐怖。",
+        "【TPU】TPU 8T／8i 發表後討論增；聯發科等語境。",
+        "【投信解封台積】金管會／產品條件為台積設計——解開台積「封印」，投信為放大 exposure 買含台積 ETF／直接加碼。可能買到 25% 上限→十萬張級買盤；績效不能脫鉤大盤，基金經理必須先買滿台積。AI peer 裡台積像 AI factory、又大又流動，有機會推指數（語境上四萬點）。中小／光通賺很多者亦可能回頭補台積部位。",
+        "【相對交易】做多台積空「非台積」＝被迫集中；熱點過後或散。Intel 封裝出包風險仍掛在部分交易上。外資 Google 配置隨台股市值變大再平衡。",
+        "【標的紀律】具名 Intel、台積電、聯發科／TPU；CPU 過熱敘事、投信強制買盤。候選／觀察，非投資建議。"
+      ]
+    },
+    "655": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【海外被動／記憶體 vs 台股】台灣記憶體已看出端倪；海外被動在歷史新高，台股被動也在高位但「動態慢就不要」——長頭可留、動能部位另論。勿整天拆大盤。",
+        "【TPU／Intel 封裝】討論 TPU inference accelerator；Google Homufish 決定用 Intel 先進封裝——若 Intel 出包，Google／MTK 評價與備援台積路徑再評估。馬牌／CPU 等先前強勢可等修正再看。",
+        "【聽友｜光通】看好光通；美股財報波動大於台股，問如何降波動。長期部位與美股光通少動語境。台／美輪動常見。",
+        "【台積信仰】過去喊台積好會被罵；自己是長期股東，大盤狂奔時不必追著拆。",
+        "【標的紀律】具名 Google、Intel、聯發科、台積電；記憶體／被動／光通／TPU。候選／觀察，非投資建議。"
+      ]
+    },
+    "654": {
+      "listenedAt": "2026-09-26T04:59:28+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "hostViewsOnly": true,
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "stockAnalysis": [
+        "【盤勢】美股一根針往上、台股亦強；台股＝台積形狀，訂單不砍則可映射指數破四萬心理準備。強勁多頭下拉回＝買點，勿因「長太多」恐慌丟——拉太快沒上車者掉下來會想進。",
+        "【台積 capex】資本支出給到上緣但未上修數字＝信心表態；仍覺後續某時點可能上修。Surprise：未上修時常務／價值股反表態（漢唐等），但動能股通常跑贏算出數字的價值股；Q 布／SMT 新單財務尚未反映仍被資金追。",
+        "【被動全球噴】日系 no-brainer、Vishay／VPG、Eaton 等美系噴；國巨法說對 CPU 催化保守、MLCC 供需符預期但語氣神聖——解釋國際強台股慢。國巨還原權息已新高、爬得較慢。電阻漲價信出現（原以為電容／電感才缺）＝成本金屬漲 or 提前反映供需，看稼動；類記憶體稼動 90→100 瞬間跳。漲價信連發；台系記憶體走勢弱於美股＝資金已上、需更大 catalyst（類金居基本面好但盤久）。光通轉弱資金或找下一缺貨漲價（ABF／材料／Q 布／被動）。",
+        "【CPU 比記憶體更缺？】DigiTimes 等報導 CPU 或缺到買不到（記憶體尚可以高價買到）；Intel／AMD 本體漲幅或仍有限，真缺則數字上修、漲價或落通路。General purpose／AI server 若大放 CPU，socket／板上元件為市場未充分估到的大象；Vera Rubin BOM 剛出、尚未大備貨但許多稼動已 90%+ 滿載——開始拉貨或很恐怖。Agentic 吃 CPU 影響可能被低估。",
+        "【Token Maxing】Uber 開年數月 AI token 額度用光被當 bullish，主持人要看有無對應業績／result——NVIDIA 笑稱 token 太少像沒上班，但空燒 token fee 無產出＝生產力通膨。論述應從「用了多少 token」轉「result base」；改名 AI／空喊者或成泡沫。OpenAI 營收認列爭議語境。Meta／Apple 狂吃 token 亦要審視價值。Supply chain 仔＝備料思維連到 CPU／被動／材料搶料。",
+        "【標的紀律】具名台積電、國巨、Vishay／VPG／Eaton、漢唐、Intel／AMD、NVIDIA／Uber（token）、OpenAI；被動電阻電容、記憶體、光通輪動、CPU socket／元件、Vera Rubin 備貨。候選／觀察，非投資建議。"
       ]
     }
   }
