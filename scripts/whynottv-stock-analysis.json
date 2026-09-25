@@ -1,0 +1,7 @@
+{
+  "id": "whynottv-stock-analysis",
+  "show": "WhynotTV",
+  "transcriptModel": "faster-whisper small int8 (zh)",
+  "disclaimer": "Host views only; candidate/watch; math gate closed. Bullets must come from actual transcript text. No invented tickers, prices, dates, or guest quotes.",
+  "episodes": {}
+}

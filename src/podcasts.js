@@ -7,6 +7,8 @@ import { t } from "./i18n.js";
 import { initGodzilla } from "./godzilla.js";
 import { initJensen } from "./jensen.js";
 import { gooayeDetailHtml, initGooaye } from "./gooaye.js";
+import { xiaojunDetailHtml, initXiaojun } from "./xiaojun.js";
+import { whynottvDetailHtml, initWhynottv } from "./whynottv.js";
 
 /** Host/show categories from current content only. */
 export const PODCAST_CATEGORIES = [
@@ -37,6 +39,24 @@ export const PODCAST_CATEGORIES = [
     market: "TW",
     featured: false,
   },
+  {
+    id: "xiaojun",
+    titleKey: "podcastsXiaojunTitle",
+    handleKey: "podcastsXiaojunHandle",
+    blurbKey: "podcastsXiaojunLead",
+    marketKey: "podcastsXiaojunMarket",
+    market: "CN",
+    featured: false,
+  },
+  {
+    id: "whynottv",
+    titleKey: "podcastsWhynottvTitle",
+    handleKey: "podcastsWhynottvHandle",
+    blurbKey: "podcastsWhynottvLead",
+    marketKey: "podcastsWhynottvMarket",
+    market: "CN",
+    featured: false,
+  },
 ];
 
 const CAT_ALIASES = {
@@ -55,6 +75,12 @@ const CAT_ALIASES = {
   "黄仁勋": "jensen",
   gooaye: "gooaye",
   "股癌": "gooaye",
+  xiaojun: "xiaojun",
+  "張小珺": "xiaojun",
+  "张小珺": "xiaojun",
+  whynottv: "whynottv",
+  whynot: "whynottv",
+  "WhynotTV": "whynottv",
   menu: "menu",
   all: "menu",
   index: "menu",
@@ -119,11 +145,11 @@ function featuredJensenCard() {
 
 function categoryMenuCards() {
   return PODCAST_CATEGORIES.map((c) => {
-    const mktClass = c.market === "TW" ? "pc-badge-tw" : "pc-badge-us";
+    const mktClass = c.market === "TW" ? "pc-badge-tw" : c.market === "CN" ? "pc-badge-cn" : "pc-badge-us";
     const feat = c.featured
       ? `<span class="pc-card-badge pc-badge-featured">${escapeHtml(t("podcastsFeatured"))}</span>`
-      : c.id === "gooaye"
-        ? `<span class="pc-card-badge pc-badge-library">${escapeHtml(t("gooayeLibraryBadge"))}</span>`
+      : c.id === "gooaye" || c.id === "xiaojun" || c.id === "whynottv"
+        ? `<span class="pc-card-badge pc-badge-library">${escapeHtml(t(c.id === "gooaye" ? "gooayeLibraryBadge" : c.id === "xiaojun" ? "xiaojunLibraryBadge" : "whynottvLibraryBadge"))}</span>`
         : `<span class="pc-card-badge pc-badge-stub">${escapeHtml(t("podcastsStubBadge"))}</span>`;
     const handle = c.handleKey
       ? `<p class="pc-menu-handle">${escapeHtml(t(c.handleKey))}</p>`
@@ -160,6 +186,8 @@ function detailHtml(catId) {
   if (catId === "godzilla") return featuredGodzillaCard();
   if (catId === "jensen") return featuredJensenCard();
   if (catId === "gooaye") return gooayeDetailHtml();
+  if (catId === "xiaojun") return xiaojunDetailHtml();
+  if (catId === "whynottv") return whynottvDetailHtml();
   return `
     <div class="pc-menu" role="list" aria-label="${escapeHtml(t("podcastsCatMenu"))}">
       <p class="pc-menu-lead">${escapeHtml(t("podcastsMenuLead"))}</p>
@@ -203,6 +231,8 @@ function paintPodcasts(root, catId, { syncUrl = true } = {}) {
   if (cat === "godzilla") initGodzilla("#gz-root");
   if (cat === "jensen") initJensen("#jh-root");
   if (cat === "gooaye") initGooaye("#gy-root");
+  if (cat === "xiaojun") initXiaojun("#xj-root");
+  if (cat === "whynottv") initWhynottv("#wn-root");
 }
 
 export function renderPodcastsSection() {

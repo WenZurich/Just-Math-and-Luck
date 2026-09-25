@@ -1,0 +1,7 @@
+{
+  "id": "xiaojun-stock-analysis",
+  "show": "張小珺",
+  "transcriptModel": "faster-whisper small int8 (zh)",
+  "disclaimer": "Host views only; candidate/watch; math gate closed. Bullets must come from actual transcript text. No invented tickers, prices, dates, or guest quotes.",
+  "episodes": {}
+}

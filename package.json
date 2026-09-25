@@ -19,7 +19,11 @@
     "fetch-us-macro": "node scripts/fetch-us-macro-calendar.mjs",
     "fetch-tw-macro": "node scripts/fetch-tw-macro-calendar.mjs",
     "fetch-gooaye": "node scripts/fetch-gooaye-episodes.mjs",
-    "listen-gooaye": "node scripts/listen-gooaye-episodes.mjs"
+    "listen-gooaye": "node scripts/listen-gooaye-episodes.mjs",
+    "fetch-xiaojun": "node scripts/fetch-xiaojun-episodes.mjs",
+    "fetch-whynottv": "node scripts/fetch-whynottv-episodes.mjs",
+    "listen-xiaojun": "node scripts/listen-xiaojun-episodes.mjs",
+    "listen-whynottv": "node scripts/listen-whynottv-episodes.mjs"
   },
   "devDependencies": {
     "happy-dom": "^20.14.5",
