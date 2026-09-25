@@ -23,6 +23,8 @@ import "./research.css";
 import {
   renderResearchSection,
   initResearch,
+  setResearchCategory,
+  normalizeResearchCategory,
 } from "./research.js";
 import "./options.css";
 import {
@@ -50,6 +52,8 @@ import "./podcasts.css";
 import {
   renderPodcastsSection,
   initPodcasts,
+  setPodcastCategory,
+  normalizePodcastCategory,
 } from "./podcasts.js";
 
 const DATA_URL = "./data/latest.json";
@@ -469,16 +473,64 @@ const NAV_ICONS = {
   more: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 10h4v4H5v-4zm5 0h4v4h-4v-4zm5 0h4v4h-4v-4z"/></svg>`,
 };
 
-function parseViewFromHash() {
-  const raw = (location.hash || "").replace(/^#/, "").split(/[/?&]/)[0];
-  let decoded = raw;
-  try {
-    decoded = decodeURIComponent(raw);
-  } catch {
-    /* keep raw */
+const PODCAST_DIRECT_SUB = {
+  godzilla: "godzilla",
+  "godzilla-playbook": "godzilla",
+  playbook: "godzilla",
+  "哥吉拉": "godzilla",
+  "哥吉拉心法": "godzilla",
+  jensen: "jensen",
+  huang: "jensen",
+  "jensen-huang": "jensen",
+  nvidia: "jensen",
+  "jen-hsun": "jensen",
+  etl: "jensen",
+  "黃仁勳": "jensen",
+  "黄仁勋": "jensen",
+  gooaye: "gooaye",
+  "股癌": "gooaye",
+};
+
+/** Parse #view or #view/sub/... plus direct aliases like #godzilla → podcasts/godzilla. */
+function parseHashRoute() {
+  const raw = (location.hash || "").replace(/^#/, "");
+  const segments = raw.split(/[/?&]/).filter(Boolean);
+  const decoded = segments.map((s) => {
+    try {
+      return decodeURIComponent(s);
+    } catch {
+      return s;
+    }
+  });
+  const first = decoded[0] || "";
+  const key = first.toLowerCase();
+
+  if (PODCAST_DIRECT_SUB[key] || PODCAST_DIRECT_SUB[first]) {
+    return {
+      view: "podcasts",
+      sub: PODCAST_DIRECT_SUB[key] || PODCAST_DIRECT_SUB[first],
+      parts: decoded.slice(1),
+    };
   }
-  const key = decoded.toLowerCase();
-  return HASH_ALIASES[key] || HASH_ALIASES[decoded] || "today";
+
+  const view = HASH_ALIASES[key] || HASH_ALIASES[first] || "today";
+  const parts = decoded.slice(1);
+  let sub = parts[0] || null;
+  if (view === "podcasts" && sub) {
+    sub = normalizePodcastCategory(sub);
+  }
+  if (view === "research" && sub) {
+    // shelf deep-link: #research/shelf/<id>
+    if (sub.toLowerCase() === "shelf" && parts[1]) {
+      return { view, sub: "menu", shelf: parts[1], parts };
+    }
+    sub = normalizeResearchCategory(sub);
+  }
+  return { view, sub, parts, shelf: null };
+}
+
+function parseViewFromHash() {
+  return parseHashRoute().view;
 }
 
 function renderNavButton(v, variant) {
@@ -797,11 +849,31 @@ function bindAppNav(root) {
   window.addEventListener("keydown", navEscapeHandler);
 
   if (navHashHandler) window.removeEventListener("hashchange", navHashHandler);
-  navHashHandler = () => go(parseViewFromHash(), { updateHash: false });
+  navHashHandler = () => {
+    const route = parseHashRoute();
+    go(route.view, { updateHash: false });
+    applyCategoryRoute(route);
+  };
   window.addEventListener("hashchange", navHashHandler);
 
-  go(parseViewFromHash(), { updateHash: true, scrollTop: false });
+  const initial = parseHashRoute();
+  const nested = Boolean(initial.sub || initial.shelf);
+  go(initial.view, { updateHash: !nested, scrollTop: false });
+  // Category apply happens after section inits in mountUi.
   return { go };
+}
+
+function applyCategoryRoute(route) {
+  if (!route) return;
+  if (route.view === "podcasts") {
+    setPodcastCategory(route.sub || "menu", { syncUrl: false });
+  }
+  if (route.view === "research") {
+    setResearchCategory(route.sub || "menu", {
+      syncUrl: false,
+      shelf: route.shelf || null,
+    });
+  }
 }
 
 
@@ -857,12 +929,20 @@ async function mountUi(app) {
   bindPaperTabs(app);
   bindLangSwitcher(app);
   await initStrategies("#xq-root");
-  await initResearch("#rl-root");
+  const routeAtMount = parseHashRoute();
+  await initResearch("#rl-root", undefined, {
+    category: routeAtMount.view === "research" ? routeAtMount.sub || "menu" : "menu",
+    shelf: routeAtMount.view === "research" ? routeAtMount.shelf : null,
+    syncUrl: false,
+  });
   await initOptions("#uo-root");
   await initEarnings("#er-root");
   initLookup("#lk-root");
   await initSoxl("#sx-root");
-  initPodcasts("#gz-root");
+  initPodcasts("#pc-root", {
+    category: routeAtMount.view === "podcasts" ? routeAtMount.sub || "menu" : "menu",
+    syncUrl: false,
+  });
   void nav;
 }
 

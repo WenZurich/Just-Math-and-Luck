@@ -536,7 +536,36 @@ async function main() {
     fail("missing src/soxl.css");
   } else ok("soxl.css present");
 
-  // —— Celebrity podcasts hub (Godzilla featured; candidate / watch) ——
+  
+  // —— Category menus for podcasts + research ——
+  {
+    const pc = fs.readFileSync(path.join(ROOT, "src/podcasts.js"), "utf8");
+    if (!pc.includes("pc-tabs") || !pc.includes("pc-menu") || !pc.includes("normalizePodcastCategory")) {
+      fail("podcasts.js missing category menu / tabs wiring");
+    } else ok("podcasts category menu + tabs");
+    if (!pc.includes("PODCAST_CATEGORIES") && !pc.includes("podcastCategories") && !/godzilla[\s\S]*jensen[\s\S]*gooaye/i.test(pc)) {
+      fail("podcasts.js missing host category taxonomy");
+    } else ok("podcasts host taxonomy present");
+    const rl = fs.readFileSync(path.join(ROOT, "src/research.js"), "utf8");
+    if (!rl.includes("rl-tabs") || !rl.includes("rl-menu") || !rl.includes("normalizeResearchCategory")) {
+      fail("research.js missing category menu / tabs wiring");
+    } else ok("research category menu + tabs");
+    if (!rl.includes("RESEARCH_MENU") && !rl.includes("researchCatBooks")) {
+      fail("research.js missing research menu taxonomy");
+    } else ok("research menu taxonomy present");
+    const main = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf8");
+    if (!/parseHashRoute|parseHashRoute/.test(main) || !main.includes("setPodcastCategory") || !main.includes("setResearchCategory")) {
+      fail("main.js missing nested hash / category route wiring");
+    } else ok("main nested hash category routes");
+    const i18n = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    for (const k of ["podcastsCatMenu", "podcastsOpenCategory", "researchCatMenu", "researchOpenCategory", "researchCatBooks"]) {
+      const n = (i18n.match(new RegExp(k + ":", "g")) || []).length;
+      if (n < 4) fail(`i18n ${k} expected 4 langs, got ${n}`);
+    }
+    ok("category menu i18n 4 langs");
+  }
+
+// —— Celebrity podcasts hub (Godzilla featured; candidate / watch) ——
   const pcJsPath = path.join(ROOT, "src/podcasts.js");
   if (!fs.existsSync(pcJsPath)) fail("missing src/podcasts.js");
   else ok("podcasts.js present");
