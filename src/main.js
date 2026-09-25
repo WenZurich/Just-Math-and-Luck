@@ -653,9 +653,7 @@ function renderApp(data, paper) {
           <img class="brand-mark" src="${logoUrl}" width="40" height="40" alt="每日數學選股" decoding="async" />
           <div class="brand-text">
             <h1>${escapeHtml(t("siteTitle"))}</h1>
-            <p class="brand-meta">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}
-              <span id="lq-status" class="lq-status" hidden></span>
-            </p>
+            <p class="brand-meta">${escapeHtml(t("dataAsOf"))} ${fmtAsOf(data.asOf)}</p>
           </div>
         </div>
         <div class="chrome-actions">
@@ -669,6 +667,7 @@ function renderApp(data, paper) {
       <div class="market-strip-wrap" aria-label="${escapeHtml(t("marketQuotes"))}">
         <span class="market-strip-label">${escapeHtml(t("hot"))}</span>
         ${renderIndexStrip(data.indices || {})}
+        <span id="lq-status" class="lq-status" hidden aria-live="polite"></span>
       </div>
       ${renderUsMacroStripSlot()}
     </header>
@@ -1024,6 +1023,21 @@ function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   const base = import.meta.env.BASE_URL || "/";
   const swUrl = `${base}sw.js`;
+  const SW_RELOAD_KEY = "jml-sw-controller-reload";
+  // One-time reload when a new SW takes control so open tabs pick up hashed bundles.
+  // sessionStorage guard prevents a reload loop; cleared after the post-reload load.
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    try {
+      if (sessionStorage.getItem(SW_RELOAD_KEY) === "1") {
+        sessionStorage.removeItem(SW_RELOAD_KEY);
+        return;
+      }
+      sessionStorage.setItem(SW_RELOAD_KEY, "1");
+    } catch {
+      /* private mode — still attempt a single reload */
+    }
+    window.location.reload();
+  });
   window.addEventListener("load", () => {
     navigator.serviceWorker.register(swUrl, { scope: base }).catch(() => {
       /* quiet — SW optional */

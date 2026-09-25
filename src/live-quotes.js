@@ -9,9 +9,13 @@
  *  - On fetch failure: keep last-good values and show an honest stale/asOf — never invent prices.
  *
  * Intervals (Asia/Taipei clock):
- *  - TW or US cash session open → ~45s
- *  - Off-hours / weekend → ~10 min
+ *  - TW or US cash session open → ~20s
+ *    (incl. Fri US session spill into Sat early morning Taipei,
+ *     and Sun evening Taipei for US open)
+ *  - Off-hours / weekend → ~5 min
  *  Page Visibility API pauses the timer when the document is hidden.
+ *  When a price/pct actually changes, flash the number (CSS .lq-flash).
+ *  Status pill shows Taipei clock 「報價 HH:MM:SS」 on each successful poll.
  */
 import { escapeHtml } from "./glossary.js";
 import { t, numberLocale } from "./i18n.js";
@@ -39,8 +43,8 @@ const INDEX_MIS = {
 };
 
 const SPARK_CHUNK = 14;
-const OPEN_MS = 45_000;
-const CLOSED_MS = 10 * 60_000;
+const OPEN_MS = 20_000;
+const CLOSED_MS = 5 * 60_000;
 
 let timer = null;
 let visibilityBound = false;
@@ -204,12 +208,18 @@ export function marketSessions(now = new Date()) {
   const weekday = isWeekdayTaipei(p);
   // TW: 09:00–13:35
   const twOpen = weekday && mins >= 9 * 60 && mins <= 13 * 60 + 35;
-  // US regular ≈ 21:30–04:00 Taipei (EDT) / 22:30–05:00 (EST) — use wide window 21:00–05:15
-  const usOpen =
-    weekday && (mins >= 21 * 60 || mins <= 5 * 60 + 15);
-  // US Sunday evening open in Taipei (Sun ≥ 21:00)
+  // US regular ≈ 21:30–04:00 Taipei (EDT) / 22:30–05:00 (EST) — wide window 21:00–05:15
+  // Weekday evening/night covers Mon–Fri US cash; Fri session spills into Sat ≤05:15 Taipei.
+  const usWeeknight = weekday && (mins >= 21 * 60 || mins <= 5 * 60 + 15);
+  const usFriSpillSat = p.weekday === "Sat" && mins <= 5 * 60 + 15;
+  // US Sunday evening open in Taipei (Sun ≥ 21:00) — futures / cash open
   const usSunEve = p.weekday === "Sun" && mins >= 21 * 60;
-  return { twOpen, usOpen: usOpen || usSunEve, weekday, parts: p };
+  return {
+    twOpen,
+    usOpen: usWeeknight || usFriSpillSat || usSunEve,
+    weekday,
+    parts: p,
+  };
 }
 
 function refreshIntervalMs() {
@@ -395,9 +405,38 @@ function setTone(el, n) {
   el.classList.add(cls);
 }
 
-function patchText(el, text) {
+function flashEl(el) {
   if (!el) return;
-  if (el.textContent !== text) el.textContent = text;
+  el.classList.remove("lq-flash");
+  // retrigger CSS animation when the same element updates again
+  void el.offsetWidth;
+  el.classList.add("lq-flash");
+  window.setTimeout(() => {
+    el.classList.remove("lq-flash");
+  }, 700);
+}
+
+/** Patch text; briefly flash when the visible number actually changes. */
+function patchText(el, text, { flash = false } = {}) {
+  if (!el) return;
+  if (el.textContent !== text) {
+    el.textContent = text;
+    if (flash) flashEl(el);
+  }
+}
+
+function fmtClockTaipei(ms = Date.now()) {
+  try {
+    return new Date(ms).toLocaleTimeString("en-GB", {
+      timeZone: "Asia/Taipei",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+  } catch {
+    return "—";
+  }
 }
 
 function applyIndexChip(root, key, quote, fxExtra) {
@@ -407,7 +446,7 @@ function applyIndexChip(root, key, quote, fxExtra) {
   nodes.forEach((chip) => {
     chip.classList.remove("incomplete");
     const valEl = chip.querySelector("[data-lq-field='value'], .value");
-    patchText(valEl, fmtNum(quote.price, digits));
+    patchText(valEl, fmtNum(quote.price, digits), { flash: true });
     let pctEl = chip.querySelector("[data-lq-field='dayPct'], .pct");
     if (key === "usdTwd") {
       // Keep CBC taipeiClose line; refresh Yahoo leg when known
@@ -427,7 +466,7 @@ function applyIndexChip(root, key, quote, fxExtra) {
       }
       pctEl.className = `pct ${pctClass(quote.changePct)}`;
       pctEl.setAttribute("data-lq-field", "dayPct");
-      patchText(pctEl, fmtPct(quote.changePct));
+      patchText(pctEl, fmtPct(quote.changePct), { flash: true });
     }
   });
 }
@@ -448,20 +487,20 @@ function applyTickerNodes(root, sym, quote) {
     const priceEls = el.querySelectorAll("[data-lq-field='price']");
     const pctEls = el.querySelectorAll("[data-lq-field='dayPct']");
     if (priceEls.length || pctEls.length) {
-      priceEls.forEach((p) => patchText(p, fmtPrice(quote.price, currency)));
+      priceEls.forEach((p) => patchText(p, fmtPrice(quote.price, currency), { flash: true }));
       pctEls.forEach((p) => {
         setTone(p, quote.changePct);
-        patchText(p, fmtPct(quote.changePct));
+        patchText(p, fmtPct(quote.changePct), { flash: true });
       });
       return;
     }
     // Fallback: pick-card / mobile card heuristics
     const price = el.querySelector(".price");
     const dayPct = el.querySelector(".day-pct");
-    if (price) patchText(price, fmtPrice(quote.price, currency));
+    if (price) patchText(price, fmtPrice(quote.price, currency), { flash: true });
     if (dayPct) {
       setTone(dayPct, quote.changePct);
-      patchText(dayPct, fmtPct(quote.changePct));
+      patchText(dayPct, fmtPct(quote.changePct), { flash: true });
     }
   });
 }
@@ -475,7 +514,7 @@ function applyPaperRow(row, quote, currency) {
   const cells = row.querySelectorAll("td");
   // columns: sym, qty, mark, mv, dayPnl$, dayPct, u$, u%, cost, avg, weight
   if (cells.length < 10) return;
-  patchText(cells[2], fmtPricePaper(mark, ccy));
+  patchText(cells[2], fmtPricePaper(mark, ccy), { flash: true });
   if (Number.isFinite(qty)) {
     const mv = mark * qty;
     patchText(cells[3], fmtMoneyPaper(mv, ccy));
@@ -493,7 +532,7 @@ function applyPaperRow(row, quote, currency) {
     }
   }
   cells[5].className = `num ${pctClass(dayPct)}`;
-  patchText(cells[5], fmtPct(dayPct));
+  patchText(cells[5], fmtPct(dayPct), { flash: true });
   row.setAttribute("data-lq-mark", String(mark));
   if (dayPct != null) row.setAttribute("data-lq-daypct", String(dayPct));
 }
@@ -548,7 +587,7 @@ function applySoxl(root, quote) {
   const chgpEl = root.querySelector("#sx-root .sx-chgp");
   const row = root.querySelector("#sx-root .sx-price-row");
   const session = root.querySelector("#sx-root .sx-session");
-  if (priceEl) patchText(priceEl, `$${fmtNum(quote.price, 2)}`);
+  if (priceEl) patchText(priceEl, `$${fmtNum(quote.price, 2)}`, { flash: true });
   if (chgEl) {
     if (quote.change == null || Number.isNaN(quote.change)) patchText(chgEl, "—");
     else {
@@ -556,7 +595,7 @@ function applySoxl(root, quote) {
       patchText(chgEl, `${sign}${fmtNum(quote.change, 2)}`);
     }
   }
-  if (chgpEl) patchText(chgpEl, fmtPct(quote.changePct));
+  if (chgpEl) patchText(chgpEl, fmtPct(quote.changePct), { flash: true });
   if (row) {
     row.classList.remove("sx-up", "sx-down", "sx-flat");
     const d = pctClass(quote.changePct ?? quote.change);
@@ -574,8 +613,8 @@ function applyParity(root, map) {
   const fx = map.get("USDTWD=X");
   const tsmEl = root.querySelector("[data-lq-parity='TSM']");
   const twEl = root.querySelector("[data-lq-parity='2330.TW']");
-  if (tsm?.price != null && tsmEl) patchText(tsmEl, fmtPrice(tsm.price, "USD"));
-  if (tw?.price != null && twEl) patchText(twEl, fmtPrice(tw.price, "TWD"));
+  if (tsm?.price != null && tsmEl) patchText(tsmEl, fmtPrice(tsm.price, "USD"), { flash: true });
+  if (tw?.price != null && twEl) patchText(twEl, fmtPrice(tw.price, "TWD"), { flash: true });
   // Premium vs implied: ADR shares / ADS ratio 1:5 historically — keep snapshot note;
   // only refresh prices here (ratio/premium math stays overnight baseline unless both+fx live).
   void fx;
@@ -599,18 +638,23 @@ function resolveQuote(map, ticker) {
 function paintStatus(root, { ok, stale }) {
   const el = root.querySelector("#lq-status");
   if (!el) return;
-  const when = lastSuccessAt ? fmtAsOfShort(lastSuccessAt) : "—";
+  const clock = lastSuccessAt
+    ? `${t("liveQuotesClock")} ${fmtClockTaipei(lastSuccessAt)}`
+    : "";
   if (ok && !stale) {
     el.hidden = false;
     el.dataset.state = "live";
-    el.innerHTML = `<span class="lq-dot" aria-hidden="true"></span>${escapeHtml(t("liveQuotesLive"))} · ${escapeHtml(when)}`;
+    el.removeAttribute("title");
+    el.innerHTML = `<span class="lq-dot" aria-hidden="true"></span>${escapeHtml(t("liveQuotesLive"))} · <span class="lq-clock">${escapeHtml(clock)}</span>`;
   } else if (lastSuccessAt) {
     el.hidden = false;
     el.dataset.state = "stale";
-    el.innerHTML = `<span class="lq-dot" aria-hidden="true"></span>${escapeHtml(t("liveQuotesStale"))} · ${escapeHtml(when)}`;
+    el.title = t("liveQuotesStale");
+    el.innerHTML = `<span class="lq-dot" aria-hidden="true"></span>${escapeHtml(t("liveQuotesStaleShort"))} · <span class="lq-clock">${escapeHtml(clock)}</span>`;
   } else {
     el.hidden = false;
     el.dataset.state = "pending";
+    el.removeAttribute("title");
     el.textContent = t("liveQuotesPending");
   }
 }
@@ -756,4 +800,7 @@ export const _test = {
   marketSessions,
   refreshIntervalMs,
   chunks,
+  OPEN_MS,
+  CLOSED_MS,
+  fmtClockTaipei,
 };

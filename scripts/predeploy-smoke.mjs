@@ -1059,15 +1059,29 @@ async function main() {
     else ok("live-quotes TWSE MIS");
     if (!/r\.jina\.ai/.test(lq)) fail("live-quotes should keep jina CORS fallback");
     else ok("live-quotes jina CORS fallback");
-    if (!/OPEN_MS|45_000|45000/.test(lq) || !/CLOSED_MS|10 \* 60_000|600000/.test(lq)) {
-      fail("live-quotes should define open vs closed refresh intervals");
-    } else ok("live-quotes open/closed refresh intervals");
+    if (!/OPEN_MS\s*=\s*20_000|OPEN_MS\s*=\s*20000/.test(lq) || !/CLOSED_MS\s*=\s*5\s*\*\s*60_000|CLOSED_MS\s*=\s*300000/.test(lq)) {
+      fail("live-quotes should use ~20s open / ~5min closed refresh intervals");
+    } else ok("live-quotes open/closed refresh intervals (~20s / ~5min)");
+    if (!/usFriSpillSat|Fri session spills/.test(lq)) fail("live-quotes should treat Sat early Taipei as US open spill");
+    else ok("live-quotes Fri US spill into Sat Taipei");
+    if (!/lq-flash|flashEl/.test(lq) || !/\.lq-flash/.test(cssNav)) fail("live-quotes should flash changed prices (JS+CSS)");
+    else ok("live-quotes flash on price change");
+    if (!/fmtClockTaipei|liveQuotesClock/.test(lq)) fail("live-quotes should show Taipei poll clock");
+    else ok("live-quotes Taipei poll clock");
     if (!/startLiveQuotes/.test(mainSrc)) fail("main.js should startLiveQuotes after mount");
     else ok("main.js starts live quotes");
     if (!/data-lq-key/.test(mainSrc) || !/data-lq-sym/.test(mainSrc)) fail("main.js should mark live quote DOM hooks");
     else ok("main.js live quote DOM hooks");
     if (!/lq-status/.test(mainSrc) || !/\.lq-status/.test(cssNav)) fail("live status pill markup/CSS missing");
     else ok("live status pill + CSS");
+    // Brand row must stay clean — pill lives on market strip, not brand-meta
+    if (/brand-meta[\s\S]{0,120}lq-status/.test(mainSrc)) fail("lq-status must not sit inside brand-meta (breaks header)");
+    else ok("lq-status not in brand-meta");
+    if (!/market-strip-wrap[\s\S]{0,400}id=\"lq-status\"/.test(mainSrc)) fail("lq-status should sit on market strip");
+    else ok("lq-status on market strip");
+    if (!/controllerchange/.test(mainSrc) || !/sessionStorage/.test(mainSrc) || !/jml-sw-controller-reload/.test(mainSrc)) {
+      fail("main.js should one-time reload on SW controllerchange (sessionStorage guard)");
+    } else ok("SW controllerchange one-time reload");
     const paperSrc = fs.readFileSync(path.join(ROOT, "src/paper.js"), "utf8");
     if (!/data-lq="pos"/.test(paperSrc) || !/data-lq-book/.test(paperSrc)) fail("paper.js should expose live mark hooks");
     else ok("paper.js live mark hooks");
