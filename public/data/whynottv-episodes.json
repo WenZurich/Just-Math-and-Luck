@@ -1,6 +1,6 @@
 {
   "id": "whynottv-episodes",
-  "asOf": "2026-09-26T03:11:33+08:00",
+  "asOf": "2026-09-26T03:49:09+08:00",
   "timezone": "Asia/Taipei",
   "status": "candidate",
   "mathGate": "closed",
@@ -31,14 +31,14 @@
     "notesTeaser": 0,
     "notesTitleOnly": 0,
     "notesEmpty": 0,
-    "listened": 0,
-    "rssOnly": 5
+    "listened": 5,
+    "rssOnly": 0
   },
   "listenPipeline": {
     "script": "scripts/listen-whynottv-episodes.mjs",
     "analysisPack": "scripts/whynottv-stock-analysis.json",
     "transcriptModel": "faster-whisper small int8 (zh)",
-    "updatedAt": "2026-09-26T03:11:33+08:00"
+    "updatedAt": "2026-09-26T03:49:09+08:00"
   },
   "episodes": [
     {
@@ -60,8 +60,29 @@
         "Danfei 一直把自己定义成一个 roboticist，机器人学家，不是只在屏幕上训练模型的人，而是那个愿意坐在机器人旁边，看它动、看它坏、再把它修好的人。",
         "从早年折腾单片机小车，到斯坦福几乎从零搭建 robot learning 系统；从不被看好的 behavior cloning，到今天思考 human data 如何成为机器人学习的底层燃料，他的技术主线始终不是单点算法，而是一个完整全栈问题。"
       ],
-      "notesQuality": "rich",
-      "source": "anchor-rss"
+      "notesQuality": "listened",
+      "source": "anchor-rss",
+      "rssTeaser": [
+        "如果说大语言模型的跃迁，来自互联网沉淀下来的海量人类语言数据；那么在机器人世界里，是否也存在一种同样关键的数据？",
+        "不是文字，不是图片，而是人拿起杯子、打开抽屉、穿过房间、和另一个人互动时，身体在物理世界里留下的痕迹。",
+        "这个问题，正是我们这期节目最重要的关键词： human data ， 人类数据 。",
+        "本期嘉宾 Danfei Xu :",
+        "Danfei 一直把自己定义成一个 roboticist，机器人学家，不是只在屏幕上训练模型的人，而是那个愿意坐在机器人旁边，看它动、看它坏、再把它修好的人。",
+        "从早年折腾单片机小车，到斯坦福几乎从零搭建 robot learning 系统；从不被看好的 behavior cloning，到今天思考 human data 如何成为机器人学习的底层燃料，他的技术主线始终不是单点算法，而是一个完整全栈问题。"
+      ],
+      "stockAnalysis": [
+        "【主題｜人類數據／行為克隆】嘉賓 Danfei Xu（斯坦福相關；標題）。主持人把機器人關鍵類比成 LLM 的互聯網語料：不是文字圖片，而是人在物理世界拿杯子、開門、互動留下的痕跡（Human Data）。",
+        "【賽道情緒】開場比喻：前方幾個 Lab 狂奔，後方資本往車廂「加油加產」（STT）；呈現具身／機器人研究的資本熱。",
+        "【方法路線】討論 sensor 掛滿人身可近似「把人變成機器人」、behavior cloning；並對比某些團隊 flagship 押強化學習、因而壓抑 behavior cloning 路線的組織張力（嘉賓口述經歷）。",
+        "【數據品質】遙操作數據亦非完美；追問人與機器人之間差距是否被高估。偏研究／數據策略，少可交易 ticker。",
+        "【注意】約 40 分鐘開頭；公司名／Lab 名 STT 易糊。candidate only，不進挑股清單。"
+      ],
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "markets": [
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "c8818195-541a-4631-b790-c86ec9483f22",
@@ -82,8 +103,30 @@
         "在这期节目里，我们会从翁家翌的童年经历聊起，走到他在清华与 CMU 的求学与成长，再到他在 2022 年加入 OpenAI 后的亲历：站在 AI 风暴中心的人，到底看见了什么？",
         "这里是 WhynotTV Podcast。"
       ],
-      "notesQuality": "rich",
-      "source": "anchor-rss"
+      "notesQuality": "listened",
+      "source": "anchor-rss",
+      "rssTeaser": [
+        "本期嘉宾翁家翌。",
+        "他在 2022 年加入 OpenAI，并且是 OpenAI 一系列核心模型背后的核心贡献者之一——从 GPT-3.5、GPT-4、再到 GPT-5，你能看到的那些关键跃迁里，都有他的身影；而他最主要的贡献，你可以先记住三个词：强化学习、post-training、infra。",
+        "但对我来说，翁家翌不只是“把模型做得更强的人”。",
+        "在成为 OpenAI 研究员之前，他就已经用开源和产品影响过无数人：把知识与资料公开、试图打破信息差；把做工具称作一种“慈善”——在他的价值观里，开源不是履历装饰，而是一种对世界的投入方式：追求的不是掌声，而是 impact。",
+        "在这期节目里，我们会从翁家翌的童年经历聊起，走到他在清华与 CMU 的求学与成长，再到他在 2022 年加入 OpenAI 后的亲历：站在 AI 风暴中心的人，到底看见了什么？",
+        "这里是 WhynotTV Podcast。"
+      ],
+      "stockAnalysis": [
+        "【標的脈絡｜OpenAI】嘉賓翁家翌：主持人稱 2022 年加入，貢獻橫跨多個模型 release；核心詞為強化學習、post-training、infra。STT 常把 OpenAI 念成 OPPOIN／opni——依標題與語境還原，勿另造公司。",
+        "【Post-training infra】嘉賓自述在內部搭建整條 post-training／RL infra，故許多 model release 掛名；並稱「誰修的 infra bug 越多，模型往往訓得越好」。",
+        "【開源／信息差】加入前以開源作業資料、開源強化學習框架「天授」等打破信息差；對發 paper 興趣低、更重工程。片段提及有人拉 AR Lab、後續與 DeepSeek 敘事相關（STT／轉述，需自證）。",
+        "【產業含義】候選人觀察：前沿實驗室競爭硬體在 post-training／RL infra 與工程修 bug 能力，不只預訓練參數宣傳。無持股指引。",
+        "【注意】Clip≈40min；具體模型版號以官宣為準。"
+      ],
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "markets": [
+        "US",
+        "CN"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "d715dfdd-fcac-4e3b-a106-81977f34e76d",
@@ -104,8 +147,29 @@
         "从最早的把树模型系统推到极致的XGBoost，到最早的深度学习框架之一 MXNet，再到开创深度学习编译领域的TVM，和今天希望把大模型跑上所有设备的MLC LLM。",
         "陈天奇在机器学习系统这条路上已经走了快 20 年——从陈天奇的视角看这 20 年的激荡会是什么样的风景？"
       ],
-      "notesQuality": "rich",
-      "source": "anchor-rss"
+      "notesQuality": "listened",
+      "source": "anchor-rss",
+      "rssTeaser": [
+        "当我问陈天奇，你会对十年前二十年前的陈天奇说些什么时，他沉默了近20秒说——",
+        "“可能要反过来，我需要过去的我对现在的我，现在的我对未来的我说，记住自己对自己的承诺，坚持自己的理想，往下走下去”",
+        "那一刻我被真正感动了——因为我真正看到一个真正的理想主义者，过去二十年机器学习的历史， XGBoost、MXNet、TVM、MLC都是不可磨灭的精彩印迹，而在这几个项目名背后，有一个共同的名字，他就是本期播客嘉宾陈天奇。",
+        "过去 15 年，陈天奇把让机器学习模型更轻、更快、更易部署做成了一条清晰的技术主线。",
+        "从最早的把树模型系统推到极致的XGBoost，到最早的深度学习框架之一 MXNet，再到开创深度学习编译领域的TVM，和今天希望把大模型跑上所有设备的MLC LLM。",
+        "陈天奇在机器学习系统这条路上已经走了快 20 年——从陈天奇的视角看这 20 年的激荡会是什么样的风景？"
+      ],
+      "stockAnalysis": [
+        "【人物｜陳天奇】主線串起 XGBoost、MXNet、TVM、MLC LLM 等（主持人開場）；強調讓機器學習模型更輕、更快、更好部署的長期技術線。",
+        "【開源 vs 巨頭】回憶做 MXNet 時「完全不擔心」被 TensorFlow（STT：Tenseflow）擠出空間的心態；同時談 startup 後必須 reinvent、若死抱舊技術路線（如只優化 ResNet）會輸得很慘。",
+        "【現實感】失敗可接受、難的是保持初心；片段偏創業／研究哲學，OctoML 等商業化細節在所聽開頭著墨不多（標題有列，勿臆造營收）。",
+        "【硬體回憶】早期消費級 GPU（GTX 380／390 類 STT）年代幾乎沒把 GPU 當一等公民——對照今日 AI 算力敘事。",
+        "【注意】candidate／人物產業史；未寫入挑股清單。"
+      ],
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "markets": [
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "adb38364-523a-4e16-9b19-10910a40de08",
@@ -126,8 +190,30 @@
         "00:00:00 - 引言",
         "00:01:31 - 童年，游戏，与模拟世界"
       ],
-      "notesQuality": "rich",
-      "source": "anchor-rss"
+      "notesQuality": "listened",
+      "source": "anchor-rss",
+      "rssTeaser": [
+        "今年四月我读了一篇非常打动我的Meshy AI CEO胡渊鸣写的知乎文章《当CEO重读PhD：论勇气与智慧》，当时的我就在憧憬要是能和胡渊鸣畅谈一个下午会是多么难忘的体验……没想到四个月后真的实现了！",
+        "我非常非常非常享受和胡渊鸣做这期播客，3小时40分钟的素材，我剪辑过程中反复把素材过了很多遍，每一遍听都有更新和更深的收获，我很激动也很感谢渊鸣——我们录制出了一期这么精彩的内容！",
+        "我们以渊鸣的的人生经历为引子——童年时期开始写物理模拟器和游戏，清华姚班和MIT的求学经历，太极项目的前世今生和太极2.0，Meshy的艰难商业转型到现在用户超400万，年营收增长超10倍，所有经历本质都是在反射渊鸣对科技、商业、世界、人生的本质思考，强烈推荐！",
+        "千言万语一句话——这个世界需要更多胡渊鸣！",
+        "00:00:00 - 引言",
+        "00:01:31 - 童年，游戏，与模拟世界"
+      ],
+      "stockAnalysis": [
+        "【標的脈絡｜Meshy／太極】嘉賓胡淵鳴：先創「太極圖形」做仿真／圖形；約 18 個月商業化探索後轉向 3D 生成式 AI 平台 Meshy（STT 常作 Mashi／Mashie）。主持人轉述：線上用戶超約 400 萬、年營收增長「超 10 倍」——屬開場宣傳口徑，需自證。",
+        "【開源策略】「開源不賺錢，但好專案能吸引最好人才」；相對把自己關在辦公室短線產出更高、五年後卻可能迷失方向。",
+        "【CEO 修養】每三到六個月要把過去的自己「開除」一次；對公司利益負責而非討好所有人。提到若去 NVIDIA 寫太極可能更舒適，但仍選創業。",
+        "【產品定位】認為純仿真場景相對小眾；若更早把框架對準優化 Transformer 類工作負載，或許會在不同位置（STT 類比含糊，不臆造競品 ticker）。想做太極 2.0。",
+        "【注意】Meshy／太極未當作已上市標的寫入清單；數字來自主持人轉述＋STT。"
+      ],
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "markets": [
+        "US",
+        "CN"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "b803bef7-a220-456e-8f01-26464850194c",
@@ -147,8 +233,29 @@
         "过去十年，他在知乎的账号分享了大量机器人技术见解与一线科研生活，至今仍鼓励着今天年轻一辈的机器人学生继续前进。",
         "杨硕是我们这个时代最杰出的机器人学家和机器人工程师之一，这里是WhynotTV Podcast，现在，请进入我和杨硕的对话"
       ],
-      "notesQuality": "rich",
-      "source": "anchor-rss"
+      "notesQuality": "listened",
+      "source": "anchor-rss",
+      "rssTeaser": [
+        "以下内容是我和杨硕的对话。",
+        "杨硕本科和硕士毕业于香港科技大学，在港科大以及毕业后的5年期间，杨硕参与并主导了了大疆飞控系统的研发。",
+        "大疆之后，杨硕于2018年前往CMU攻读机器人博士，专注足式机器人的状态估计与控制算法，杨硕于2023年博士毕业后加入了特斯拉Optimus人形机器人团队，一年半，杨硕离职特斯拉，宣布创立妙动科技，目标设计研发消费级机器人产品。",
+        "过去十年，他在知乎的账号分享了大量机器人技术见解与一线科研生活，至今仍鼓励着今天年轻一辈的机器人学生继续前进。",
+        "杨硕是我们这个时代最杰出的机器人学家和机器人工程师之一，这里是WhynotTV Podcast，现在，请进入我和杨硕的对话"
+      ],
+      "stockAnalysis": [
+        "【人物路徑｜大疆→特斯拉 Optimus→妙動】楊碩：港科大時期與畢業後約五年參與大疆飛控；2018 赴 CMU；2023 後加入特斯拉 Optimus，約一年半後離職創「妙動科技」做消費級機器人。雙辦公室（深圳＋矽谷）被主持人點出。",
+        "【市場想像】嘉賓：技術突破後人形／通用機器人可以是「千億、萬億」級市場；但是否必須人形——「不一定」。十年後不意外看到室外工作的人形機器人。",
+        "【大疆觀察】回顧 2016 年前後飛控重構、內部曾有「要和波音比肩」類會議敘事（口述）；主持人問是否越來越像影像／相機公司，嘉賓因離開較久不做戰略定論，但仍認為大疆持續從用戶需求組合技術做體驗。",
+        "【特斯拉／創業】對比大疆與特斯拉都有行業使命感與高商業價值；創業公司相對缺乏整車／機器人級完善流程，更需擔心用戶到手後故障／返修體驗。",
+        "【注意】大疆（私）、特斯拉（TSLA）僅作經歷與產業對照；妙動為新創。未進挑股清單。Clip≈40min。"
+      ],
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "markets": [
+        "CN",
+        "US"
+      ],
+      "hostViewsOnly": true
     }
   ]
 }

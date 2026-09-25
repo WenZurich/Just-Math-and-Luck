@@ -2,6 +2,73 @@
   "id": "whynottv-stock-analysis",
   "show": "WhynotTV",
   "transcriptModel": "faster-whisper small int8 (zh)",
-  "disclaimer": "Host views only; candidate/watch; math gate closed. Bullets must come from actual transcript text. No invented tickers, prices, dates, or guest quotes.",
-  "episodes": {}
+  "disclaimer": "Host/guest views only; candidate/watch; math gate closed. Bullets from ~40min public-audio clips + STT. Whisper mangles names—no invented tickers/prices. Clip ≠ full episode.",
+  "updatedAt": "2026-09-26T03:49:08+08:00",
+  "episodes": {
+    "5": {
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US"],
+      "stockAnalysis": [
+        "【主題｜人類數據／行為克隆】嘉賓 Danfei Xu（斯坦福相關；標題）。主持人把機器人關鍵類比成 LLM 的互聯網語料：不是文字圖片，而是人在物理世界拿杯子、開門、互動留下的痕跡（Human Data）。",
+        "【賽道情緒】開場比喻：前方幾個 Lab 狂奔，後方資本往車廂「加油加產」（STT）；呈現具身／機器人研究的資本熱。",
+        "【方法路線】討論 sensor 掛滿人身可近似「把人變成機器人」、behavior cloning；並對比某些團隊 flagship 押強化學習、因而壓抑 behavior cloning 路線的組織張力（嘉賓口述經歷）。",
+        "【數據品質】遙操作數據亦非完美；追問人與機器人之間差距是否被高估。偏研究／數據策略，少可交易 ticker。",
+        "【注意】約 40 分鐘開頭；公司名／Lab 名 STT 易糊。candidate only，不進挑股清單。"
+      ]
+    },
+    "4": {
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US", "CN"],
+      "stockAnalysis": [
+        "【標的脈絡｜OpenAI】嘉賓翁家翌：主持人稱 2022 年加入，貢獻橫跨多個模型 release；核心詞為強化學習、post-training、infra。STT 常把 OpenAI 念成 OPPOIN／opni——依標題與語境還原，勿另造公司。",
+        "【Post-training infra】嘉賓自述在內部搭建整條 post-training／RL infra，故許多 model release 掛名；並稱「誰修的 infra bug 越多，模型往往訓得越好」。",
+        "【開源／信息差】加入前以開源作業資料、開源強化學習框架「天授」等打破信息差；對發 paper 興趣低、更重工程。片段提及有人拉 AR Lab、後續與 DeepSeek 敘事相關（STT／轉述，需自證）。",
+        "【產業含義】候選人觀察：前沿實驗室競爭硬體在 post-training／RL infra 與工程修 bug 能力，不只預訓練參數宣傳。無持股指引。",
+        "【注意】Clip≈40min；具體模型版號以官宣為準。"
+      ]
+    },
+    "3": {
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US"],
+      "stockAnalysis": [
+        "【人物｜陳天奇】主線串起 XGBoost、MXNet、TVM、MLC LLM 等（主持人開場）；強調讓機器學習模型更輕、更快、更好部署的長期技術線。",
+        "【開源 vs 巨頭】回憶做 MXNet 時「完全不擔心」被 TensorFlow（STT：Tenseflow）擠出空間的心態；同時談 startup 後必須 reinvent、若死抱舊技術路線（如只優化 ResNet）會輸得很慘。",
+        "【現實感】失敗可接受、難的是保持初心；片段偏創業／研究哲學，OctoML 等商業化細節在所聽開頭著墨不多（標題有列，勿臆造營收）。",
+        "【硬體回憶】早期消費級 GPU（GTX 380／390 類 STT）年代幾乎沒把 GPU 當一等公民——對照今日 AI 算力敘事。",
+        "【注意】candidate／人物產業史；未寫入挑股清單。"
+      ]
+    },
+    "2": {
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US", "CN"],
+      "stockAnalysis": [
+        "【標的脈絡｜Meshy／太極】嘉賓胡淵鳴：先創「太極圖形」做仿真／圖形；約 18 個月商業化探索後轉向 3D 生成式 AI 平台 Meshy（STT 常作 Mashi／Mashie）。主持人轉述：線上用戶超約 400 萬、年營收增長「超 10 倍」——屬開場宣傳口徑，需自證。",
+        "【開源策略】「開源不賺錢，但好專案能吸引最好人才」；相對把自己關在辦公室短線產出更高、五年後卻可能迷失方向。",
+        "【CEO 修養】每三到六個月要把過去的自己「開除」一次；對公司利益負責而非討好所有人。提到若去 NVIDIA 寫太極可能更舒適，但仍選創業。",
+        "【產品定位】認為純仿真場景相對小眾；若更早把框架對準優化 Transformer 類工作負載，或許會在不同位置（STT 類比含糊，不臆造競品 ticker）。想做太極 2.0。",
+        "【注意】Meshy／太極未當作已上市標的寫入清單；數字來自主持人轉述＋STT。"
+      ]
+    },
+    "1": {
+      "listenedAt": "2026-09-26T03:49:08+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["CN", "US"],
+      "stockAnalysis": [
+        "【人物路徑｜大疆→特斯拉 Optimus→妙動】楊碩：港科大時期與畢業後約五年參與大疆飛控；2018 赴 CMU；2023 後加入特斯拉 Optimus，約一年半後離職創「妙動科技」做消費級機器人。雙辦公室（深圳＋矽谷）被主持人點出。",
+        "【市場想像】嘉賓：技術突破後人形／通用機器人可以是「千億、萬億」級市場；但是否必須人形——「不一定」。十年後不意外看到室外工作的人形機器人。",
+        "【大疆觀察】回顧 2016 年前後飛控重構、內部曾有「要和波音比肩」類會議敘事（口述）；主持人問是否越來越像影像／相機公司，嘉賓因離開較久不做戰略定論，但仍認為大疆持續從用戶需求組合技術做體驗。",
+        "【特斯拉／創業】對比大疆與特斯拉都有行業使命感與高商業價值；創業公司相對缺乏整車／機器人級完善流程，更需擔心用戶到手後故障／返修體驗。",
+        "【注意】大疆（私）、特斯拉（TSLA）僅作經歷與產業對照；妙動為新創。未進挑股清單。Clip≈40min。"
+      ]
+    }
+  }
 }

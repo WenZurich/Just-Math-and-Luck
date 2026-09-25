@@ -2,6 +2,115 @@
   "id": "xiaojun-stock-analysis",
   "show": "張小珺",
   "transcriptModel": "faster-whisper small int8 (zh)",
-  "disclaimer": "Host views only; candidate/watch; math gate closed. Bullets must come from actual transcript text. No invented tickers, prices, dates, or guest quotes.",
-  "episodes": {}
+  "disclaimer": "Host/guest views only; candidate/watch; math gate closed. Bullets from ~40min public-audio clips + STT. Whisper mangles names/tickers—treat as host-view candidates. No invented prices, dates, tickers, or unsupported quotes. Clip ≠ full episode.",
+  "updatedAt": "2026-09-26T03:33:40+08:00",
+  "episodes": {
+    "153": {
+      "listenedAt": "2026-09-26T03:33:40+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["CN", "US"],
+      "stockAnalysis": [
+        "【產業史觀｜三階段】嘉賓曾鳴（阿里前總參謀長；STT）以通用技術顛覆史劃分：①社會接受基礎設施 → ②應用大爆發／過渡 → ③原生應用。移動互聯網以黑莓早期市佔、iPhone／App Store 後原生應用、再至抖音／字節為例；今日頭條等探索推薦算法後才與短視頻結合出國民級原生應用。",
+        "【AI 週期定位】嘉賓傾向：2026 可作第一階段大致完成的標誌，接著進入智能體／新應用爆發的第二階段；強調無法跳過第二階段積累直接到原生時代終局。",
+        "【阿里戰略案例】親歷視角：前十五年最重要決定是創立淘寶、支付寶、阿里雲（當年內外部爭議大）；次一級如淘寶從商品平台走向電商生態、All-in 無線等。阿里雲落地還有服務場景／開源閉源／自研資料庫與「去 IOE」等二級決策鏈。",
+        "【模型公司＝未來 AI 雲？】主持人點名 OpenAI、Anthropic、Kimi、DeepSeek 等（STT 嚴重變形）；嘉賓直說可視為「AI 雲公司」，並觀察美系大模型商與雲廠商博弈（雲廠嫌付出多、模型商想自建雲甚至自研晶片）。",
+        "【終局／候選人觀】與標題呼應：第一波基礎設施型巨頭可以極大（類比雅虎時代市值動能），但「大機率不是原生應用階段的大贏家」；化工／應用相對煉油廠可能更有長期價值。陸奇博士被引述：未來或有十萬億美元級公司，但未必是現在領跑的那兩家（STT 反覆；勿當報價）。",
+        "【中國模型賽道】嘉賓談淘汰賽感：年底跑不到約「3T」級模型可能出局；點到 Kimi 先在 3T 交卷、MiniMax 等跟進（名稱／進度以 STT 為準、需自行核對）。模型同質化高則可替代、生意難度上升；Anthropic／OpenAI 有差異但仍夠同質。",
+        "【注意】本集筆記來自公開音訊開頭約 40 分鐘；完整集更長。未寫入挑股清單；status=candidate。"
+      ]
+    },
+    "150": {
+      "listenedAt": "2026-09-26T03:33:40+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US", "CN"],
+      "stockAnalysis": [
+        "【標的脈絡｜NVIDIA】訪談對象為英偉達研究副總裁劉洺堉（STT 作劉明玉）；時點在黃仁勳訪華後約一個月。團隊發布世界模型 Cosmos 3；嘉賓亦任 Cosmos Lab 相關副總裁職銜（STT）。",
+        "【平台定位】嘉賓自述 NVIDIA 是運算／AI 基礎設施與平台公司，目標是幫做 solution 的客戶成功，而非自己做成完整機器人 solution；研究產出需能變成幫客戶成功的產品。",
+        "【早期 AI 敘事】回顧加入約十年：當時外界未必認同 NVIDIA 是 AI 公司；從傳統 graphic pipeline／GPU 架構走到大模型。提及早期專案（STT：Picasso 等）幫有數據／客戶但缺 AI infra 的內容公司做 gen-AI 模型再交付。",
+        "【算力細節（口述）】談到串起約千張 A100 做高效訓練不易、向黃仁勳要 GPU 等內部故事；具體張數／時點為口述回憶，勿當財報數字。",
+        "【對前沿實驗室】觀察 Anthropic 在 coding agent 上的經濟效益（長時間跑、token 量大）對同行造成壓力，促使資源往 coding 方向集中；並對比「賣 token 的平台公司為何還要自研」。NVIDIA 亦有強大基礎模型團隊（STT）。",
+        "【組織文化】黃仁勳被形容擅長「麻糬戰／只剩 30 天現金」式緊迫感；對 Cosmos 回報「做到 Cosmos 1917」、要 Pace 等（趣聞，非指引）。主持人問持股漲幅，嘉賓未在所聽片段給出可核對倍數。",
+        "【注意】開場～40 分鐘；世界模型／客戶細節後半集可能更密集。候選人觀察，不進挑股清單。"
+      ]
+    },
+    "149": {
+      "listenedAt": "2026-09-26T03:33:40+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US", "CN", "EU"],
+      "stockAnalysis": [
+        "【主題｜Neo labs 資本潮】主持人開場：歐美 New／Neo Lab 在尚無產品時就能以「估值數億美元」融資；當下活躍方向包括世界模型與 Auto Research（STT）。嘉賓劉子鳴（清華／上海期智相關 PI；STT）形容資本潮「太瘋狂」，並提及參與創業「圓環智能」等（名稱以 STT／標題為準）。",
+        "【技術賭注】討論為何語言模型成功未必等於「模型結構本身」；有觀點認為吃進優質數據／算力適配（「抽中 GPU 彩票」）同樣關鍵；世界模型公司要解決可壓縮、可擴展的表徵，而非只複製 Transformer 敘事。",
+        "【AI for AI／機制】長談用 AI 設計模型、coding agent 提升訓練 pipeline、Intelligence↔Compression 等研究哲學；偏研究與創投敘事，少具體上市公司指引。",
+        "【Anthropic 對照】片段提到與 Anthropic 相近方向（STT）；勿外推為持倉建議。",
+        "【注意】融資／估值數字來自主持人轉述＋STT，未核對輪次文件；僅作產業情緒觀測。Clip≈40min。"
+      ]
+    },
+    "148": {
+      "listenedAt": "2026-09-26T03:33:40+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US", "CN"],
+      "stockAnalysis": [
+        "【標的脈絡｜vLLM／AI Infra】嘉賓游凱超：公司由柏克萊校園開源專案 vLLM 演化而來（STT 公司名含糊作 Infraught／Infrared 一類，不臆造股票代號）。主持人稱今年初獲約 1.5 億美元種子輪（轉述，需自證）。",
+        "【商業化張力】討論開源社群情懷變成商業組織後如何運營；強調模型與 infra 的 co-design——token／執行帶有模型烙印，難以把系統當純黑盒搬運。",
+        "【生態對照】提到 DeepSeek 背後的 infra 工程（STT）、開源推理引擎生態；並述及與翁家翌等合作過開源 RL 系統「天授」、OpenMMLab 等貢獻；翁家翌後續在 ChatGPT 訓練相關角色（主持人／嘉賓口述）。",
+        "【時點】回憶 Manus 尚未被 Meta 收購時自己也在忙創業（STT）；僅作時間錨，非交易訊號。",
+        "【注意】開源 infra 新創多未上市；筆記停在產業／開源商業化候選人層級。"
+      ]
+    },
+    "147": {
+      "listenedAt": "2026-09-26T03:33:40+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["CN", "US"],
+      "stockAnalysis": [
+        "【標的脈絡｜螞蟻靈波】主持人：螞蟻集團孵化子公司「螞蟻靈波」做機器人原生基礎模型，已發第二代；對照矽谷偏大腦、中國偏本體／硬體的分工敘事，並點名 Physical Intelligence（上集關聯）。嘉賓沈宇軍為首席科學家（STT 職銜）。",
+        "【組織路徑】嘉賓自述：字節（內容／抖音語境）→ 螞蟻技術研究院用 AI 賦能既有生活服務／醫療等 → 再成立靈波子公司專做具身智能；認為機器人技術尚未收斂，應用路徑與純數位產品不同。",
+        "【產業催化】提到特斯拉帶火自動駕駛後的第二波具身／機器人敘事；強調機器人要有自己的模型與支撐數據，而非只套用通用對話模型。",
+        "【對照】業內有人把 PI 比作「機器人的 OpenAI」；本土路線則押原生底座＋本體。無足夠依據寫上市 ticker。",
+        "【注意】螞蟻／靈波非公開市場簡單標的；筆記為產業候選人觀察，來自約 40 分鐘開頭。"
+      ]
+    },
+    "146": {
+      "listenedAt": "2026-09-26T03:33:40+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US", "CN"],
+      "stockAnalysis": [
+        "【標的脈絡｜Physical Intelligence（π）】主持人開場：矽谷機器人大腦新創，成立約兩年、後續估值「已超過 50 億美元」（主持人轉述＋STT，需自證）；部分業界定錨為「機器人領域的 OpenAI」。嘉賓柯麗一鳴負責強化學習等，並談開源工作與 π0／π0.5／π0.6 等模型線（最新 π0.7 因錄製時點未深入，shownotes 另補）。",
+        "【產品哲學】嘉賓強調不做人形本體路線（「他們要做人形我就不來了」一類表述，STT）；關心機器人自我組裝／延續性等長線想像，以及近期可落地的代勞任務。",
+        "【中國對照】被問公司是否關注中國機器人發展：認為「都很關注、不可忽視」。",
+        "【注意】開頭約 40 分鐘偏人物／研究哲學，股票可執行細節少；估值僅主持人轉述。不進挑股清單。"
+      ]
+    },
+    "145": {
+      "listenedAt": "2026-09-26T03:33:40+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["US"],
+      "stockAnalysis": [
+        "【標的脈絡｜SpaceX／IPO 敘事】主持人把節目錨在 SpaceX 走向 IPO、並提及與 xAI 等資本結構話題（STT 含「收購／合併」類措辭，細節勿當已確認交易）。嘉賓洪力德：前火箭製造工程相關、約 2012 年加入、待約 7 年。",
+        "【定位】嘉賓強調 SpaceX 自視為「太空公司／文明擴張」而非純火箭公司；很早有火星小組，並討論太空數據中心等路徑——未必是馬斯克某夜突發奇想。",
+        "【資本／文化】對照特斯拉 Master Plan 式敘事；談內部競爭對手是自己、IPO 年預期帶來的賽道關注；主持人問是否有 SpaceX 股票，片段未給出可核對數量／成本。",
+        "【離職後】曾去電池公司，合夥人來自特斯拉（Freemont 等語境，STT），再一起做硬科技。",
+        "【注意】IPO 時點／估值／交易結構以監管文件為準；本筆記僅聽寫開頭敘事。候選人／觀察。"
+      ]
+    },
+    "143": {
+      "listenedAt": "2026-09-26T03:33:40+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh); ~40min opening clip",
+      "hostViewsOnly": true,
+      "markets": ["CN", "US"],
+      "stockAnalysis": [
+        "【標的脈絡｜小鵬】何小鵬第二次訪談；主持人點題：汽車之外還要打 AI／機器人仗，人形勝率更低；談 Iron 人形與意外、新車 GX 等（細節後半可能更多，本 clip 偏戰略）。",
+        "【算力／Token】討論公司投產分配、自動駕駛團隊合併後的算力口徑；以「給你 3 萬或 5 萬張 H100」作量級思考實驗，並說很少公司認真看到數據成本；非官方指引或訂單數字。",
+        "【自動駕駛史觀】回顧豐田、Google、百度、特斯拉、小鵬等長線投入；強調放大模型、降低軟體規則、先打開自動駕駛上限；對比產品「上限／下限」與客戶買單。",
+        "【應用型公司】認為許多大模型／應用型公司本質吃 token；硬體在客戶帳單中的佔比、機器人能力獲取方式等被拿來對照汽車＋機器人組合。",
+        "【注意】XPeng 相關表述為嘉賓／主持人觀點＋STT；未驗證財報或交付指引。Clip≈40min；candidate only。"
+      ]
+    }
+  }
 }
