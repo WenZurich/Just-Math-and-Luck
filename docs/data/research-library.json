@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-24T09:36:01+08:00",
+    "updated": "2026-09-25T09:22:51+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-09-24)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-09-25)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -6911,6 +6911,161 @@
         "kyle-lambda",
         "order-flow",
         "amihud",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-retail-signal-falsification-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Retail Trader's Ruin: An Anatomy of Popular Signal Failure",
+      "authors": [
+        "Adam Darmanin"
+      ],
+      "year": 2026,
+      "summary": "Joint falsification test of five widely promoted retail technical families (trend/MA, oscillator/RSI-MACD-Bollinger, candlestick, volume/OBV, calendar/Sell-in-May) plus a liquidity-weighted Jegadeesh–Titman 12-1 momentum calibration benchmark on US equities. Practical viability requires three predeclared gates: statistical Sharpe-gap edge after Benjamini–Yekutieli multiplicity control, economic CAGR gap net of ~10bps round-trip retail costs, and finite-bankroll survival under FINRA/ESMA leverage scenarios. Oscillator, volume, calendar, and candlestick are REFUTED (claim-excluding intervals); trend and diversified momentum are INCONCLUSIVE; none is SUPPORTED. Binding constraint under retail-realistic US margin is edge+costs, not ruin. Site takeaway: do not promote retail TA folklore as live screens; keep momentum/SMA only as watched candidates while olympiad math gate remains closed.",
+      "formulas": [
+        "sharpe_gap ← Sharpe(signal) − Sharpe(exposure_matched_benchmark); REFUTED if CI_upper < δ_S (δ_S≈0.20)",
+        "cagr_gap_net ← CAGR(signal) − CAGR(matched) − retail_cost_bps; REFUTED if CI_upper < δ_R (δ_R≈0.01)",
+        "survival ← P(forced_liquidation | leverage, maintenance_margin) over bootstrap paths; fail if CI_upper ≥ 0.10",
+        "joint ← SUPPORTED iff statistical=SUPPORTED AND economic=SUPPORTED AND survival=SURVIVES; else REFUTED if any gate REFUTED else INCONCLUSIVE"
+      ],
+      "plainTakeaways": [
+        "美股：常見散戶技術訊號（震盪指標、量能、日曆、K線）在統計＋成本＋生存三重閘門下被駁回",
+        "趨勢與分散動量在此樣本僅「無法定論」，不是通過；槓桿毀損在美股合理保證金下不是主因",
+        "僅作美股策略紀律／反例候選；數學閘門通過前不得把零售技術規則納入正式選股"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "美股：常見散戶技術訊號（震盪指標、量能、日曆、K線）在統計＋成本＋生存三重閘門下被駁回",
+          "趨勢與分散動量在此樣本僅「無法定論」，不是通過；槓桿毀損在美股合理保證金下不是主因",
+          "僅作美股策略紀律／反例候選；數學閘門通過前不得把零售技術規則納入正式選股"
+        ],
+        "en": [
+          "US: popular retail TA families (oscillators, volume, calendar, candlesticks) fail a joint stats+costs+survival gate",
+          "Trend and diversified momentum are INCONCLUSIVE here—not cleared; leverage ruin is not the binding US-margin constraint",
+          "US discipline / counter-example watch only; no live retail-TA screens before the math gate"
+        ],
+        "zh-Hans": [
+          "美股：常见散户技术信号（震荡指标、量能、日历、K线）在统计＋成本＋生存三重闸门下被驳回",
+          "趋势与分散动量在此样本仅「无法定论」，不是通过；杠杆毁损在美股合理保证金下不是主因",
+          "仅作美股策略纪律／反例候选；数学闸门通过前不得把零售技术规则纳入正式选股"
+        ],
+        "ja": [
+          "米国株：小口向けテクニカル（オシレータ／出来高／カレンダー／ローソク）は統計＋コスト＋生存の三重ゲートで却下",
+          "トレンドと分散モメンタムは本サンプルでは「判定不能」であり合格ではない；レバレッジ破綻は米株の現実的証拠金では主因でない",
+          "米国の規律／反例の監視候補のみ；数学ゲート通過前に小口テクニカルを本番スクリーナへ入れない"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — retail TA falsification stays candidate/watch as a negative control; never status=adopted into live screener.",
+      "sources": [
+        "https://arxiv.org/abs/2607.20093",
+        "https://doi.org/10.48550/arXiv.2607.20093"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "散戶交易者的毀滅：常見訊號失效解剖",
+        "en": "Retail Trader's Ruin: An Anatomy of Popular Signal Failure",
+        "zh-Hans": "散户交易者的毁灭：常见信号失效解剖",
+        "ja": "リテールトレーダーの破綻：人気シグナル失敗の解剖"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "以統計邊緣、交易成本與槓桿生存三重預先宣告閘門，檢定五類常見散戶技術訊號與流動性加權動量校準基準。震盪／量能／日曆／K線被駁回；趨勢與動量僅無法定論。僅候選。",
+        "en": "Joint stats+cost+survival gates on five retail TA families plus liquidity-weighted momentum calibration. Oscillator/volume/calendar/candlestick REFUTED; trend and momentum INCONCLUSIVE. Candidate only.",
+        "zh-Hans": "以统计边缘、交易成本与杠杆生存三重预先宣告闸门，检定五类常见散户技术信号与流动性加权动量校准基准。震荡／量能／日历／K线被驳回；趋势与动量仅无法定论。仅候选。",
+        "ja": "統計エッジ・取引コスト・レバレッジ生存の三重ゲートで小口テクニカル5系統と流動性加重モメンタム較正を検証。オシレータ／出来高／カレンダー／ローソクは却下；トレンドとモメンタムは判定不能。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "us",
+        "retail",
+        "technical-analysis",
+        "falsification",
+        "momentum",
+        "costs",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-crossalpha-disclosure-peers-2026",
+      "market": "BOTH",
+      "type": "paper",
+      "title": "CrossAlpha: An Annual-Report Benchmark for Cross-Market Factor Research (with LLM Agents)",
+      "authors": [
+        "Qian Wang",
+        "Zhongyi Tong",
+        "Nuo Chen",
+        "Zhaomin Wu",
+        "Bingsheng He"
+      ],
+      "year": 2026,
+      "summary": "Public cross-market annual-report benchmark covering ~3,600 firms across US, Japan, Taiwan (TWSE/MOPS), Korea, and Hong Kong. LLM disclosure distillation into a shared ten-category English schema, PCA-whitened residual schema graphs (~19M directed firm-pair scores), and timing-aligned evaluation on ~11 years of daily OHLCV. Disclosure-derived cross-market peers beat domestic text, GICS, and return-correlation peers (e.g. US→JP ICIR 0.39 vs 0.07–0.18); US→TW peer-momentum shows strong reported ICIR/Sharpe in the paper’s tables. TW domestic text peers can still beat cross-market sources (semiconductor cluster). Site takeaway: filing-text peer momentum / US→TW spillover is a BOTH-market watch candidate only — needs public reproducible peers and math-gate clearance before any live screen.",
+      "formulas": [
+        "s_text(i,j) ← mean_c cos(z_i^(c), z_j^(c)) over 10 residual schema categories after PCA whitening",
+        "peer_momentum_factor(i) ← similarity_weighted mean of source peers’ lagged sector-relative returns",
+        "IC ← Spearman(rank(factor), next_month_return); ICIR ← annualized mean(IC)/std(IC)",
+        "watch: US→TW / TW→KR directed spillover flags (candidate only; no live adoption)"
+      ],
+      "plainTakeaways": [
+        "美股＋台股：年報商業描述抽出的跨市同業，可比產業代碼或報酬相關更能預測後續報酬",
+        "美→台同業動量在論文樣本表現強；台股半導體群聚下，本地同業有時仍優於跨市來源",
+        "僅作跨市同業／溢出觀察候選；公開可重現同業圖與數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "美股＋台股：年報商業描述抽出的跨市同業，可比產業代碼或報酬相關更能預測後續報酬",
+          "美→台同業動量在論文樣本表現強；台股半導體群聚下，本地同業有時仍優於跨市來源",
+          "僅作跨市同業／溢出觀察候選；公開可重現同業圖與數學閘門通過前不上線"
+        ],
+        "en": [
+          "US+TW: annual-report business-description peers predict returns better than GICS or return-correlation peers",
+          "US→TW peer momentum is strong in-sample; TW domestic peers can still win inside the semiconductor cluster",
+          "Cross-market peer / spillover watch only — no live screen without reproducible public peers and math-gate clearance"
+        ],
+        "zh-Hans": [
+          "美股＋台股：年报商业描述抽出的跨市同业，可比产业代码或报酬相关更能预测后续报酬",
+          "美→台同业动量在论文样本表现强；台股半导体群聚下，本地同业有时仍优于跨市来源",
+          "仅作跨市同业／溢出观察候选；公开可重现同业图与数学闸门通过前不上线"
+        ],
+        "ja": [
+          "米＋台：年次報告書の事業記述から得たクロスマーケット同業は、業種コードやリターン相関より予測力が高い",
+          "米→台の同業モメンタムは論文サンプルで強い；台湾半導体クラスタでは国内同業が勝つことも",
+          "クロスマーケット同業／スピルオーバーの監視候補のみ；再現可能な公開グラフと数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — CrossAlpha disclosure peer-momentum / US↔TW spillover stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://arxiv.org/abs/2605.29286",
+        "https://doi.org/10.48550/arXiv.2605.29286"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "CrossAlpha：跨市年報因子研究基準（含 LLM 代理）",
+        "en": "CrossAlpha: An Annual-Report Benchmark for Cross-Market Factor Research (with LLM Agents)",
+        "zh-Hans": "CrossAlpha：跨市年报因子研究基准（含 LLM 代理）",
+        "ja": "CrossAlpha：クロスマーケット年次報告書ファクター研究ベンチマーク（LLMエージェント付き）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "公開跨市年報基準涵蓋美／日／台／韓／港；LLM 標準化商業描述後建殘差同業圖，對齊日頻行情做同業動量評估。跨市文字同業優於本地文字與產業代碼；美→台樣本表現強。僅候選。",
+        "en": "Public cross-market annual-report benchmark (US/JP/TW/KR/HK): LLM schema distillation, residual peer graphs, timing-aligned OHLCV evaluation. Cross-market text peers beat domestic text and GICS; US→TW strong in-sample. Candidate only.",
+        "zh-Hans": "公开跨市年报基准涵盖美／日／台／韩／港；LLM 标准化商业描述后建残差同业图，对齐日频行情做同业动量评估。跨市文字同业优于本地文字与产业代码；美→台样本表现强。仅候选。",
+        "ja": "米／日／台／韓／港の公開クロスマーケット年次報告書ベンチマーク。LLMスキーマ化と残差同業グラフ、日次OHLCV整合評価。クロスマーケットテキスト同業が国内テキストや業種を上回る；米→台はサンプル内で強い。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "us",
+        "tw",
+        "both",
+        "annual-report",
+        "peer-momentum",
+        "cross-market",
+        "llm",
         "candidate"
       ]
     }
