@@ -237,6 +237,61 @@ function pickAtm(contracts, spot) {
   );
 }
 
+
+/** Compact chain for paper fills — only public Yahoo fields; never invent premiums. */
+function slimContract(c) {
+  if (!c || typeof c.strike !== "number") return null;
+  const last = c.lastPrice ?? null;
+  const bid = c.bid ?? null;
+  const ask = c.ask ?? null;
+  let premium = null;
+  if (typeof last === "number" && last >= 0) premium = last;
+  else if (typeof bid === "number" && typeof ask === "number" && bid >= 0 && ask >= 0) {
+    premium = (bid + ask) / 2;
+  } else if (typeof bid === "number" && bid >= 0) premium = bid;
+  else if (typeof ask === "number" && ask >= 0) premium = ask;
+  if (premium == null || !Number.isFinite(premium) || premium < 0) return null;
+  return {
+    contractSymbol: c.contractSymbol || null,
+    strike: c.strike,
+    premium: round(premium, 4),
+    lastPrice: typeof last === "number" ? round(last, 4) : null,
+    bid: typeof bid === "number" ? round(bid, 4) : null,
+    ask: typeof ask === "number" ? round(ask, 4) : null,
+    volume: c.volume ?? null,
+    openInterest: c.openInterest ?? null,
+    inTheMoney: !!c.inTheMoney,
+  };
+}
+
+function buildPaperChain(calls, puts, spot, expiration, expirationUnix) {
+  const ATM_BAND = 8; // keep ±8 strikes around ATM for paper ticket
+  const slimCalls = (calls || []).map(slimContract).filter(Boolean);
+  const slimPuts = (puts || []).map(slimContract).filter(Boolean);
+  if (!slimCalls.length && !slimPuts.length) return null;
+  let atm = spot;
+  if (!(typeof atm === "number" && Number.isFinite(atm))) {
+    const pool = [...slimCalls, ...slimPuts];
+    atm = pool.length ? pool.reduce((b, c) => (Math.abs(c.strike - (b?.strike ?? c.strike)) < Math.abs((atm ?? c.strike) - c.strike) ? c : b), pool[0]).strike : null;
+  }
+  const near = (arr) => {
+    if (atm == null) return arr.slice(0, ATM_BAND * 2);
+    return [...arr]
+      .sort((a, b) => Math.abs(a.strike - atm) - Math.abs(b.strike - atm))
+      .slice(0, ATM_BAND * 2)
+      .sort((a, b) => a.strike - b.strike);
+  };
+  return {
+    expiration,
+    expirationUnix,
+    underlyingPrice: typeof spot === "number" ? spot : null,
+    asOfPremiumSource: "Yahoo options last/bid/ask (public)",
+    multiplier: 100,
+    calls: near(slimCalls),
+    puts: near(slimPuts),
+  };
+}
+
 function sanitizeIv(iv) {
   if (iv == null || !Number.isFinite(iv)) return null;
   if (iv < 0.02) return null;
@@ -437,6 +492,7 @@ async function fetchOptions(session, ticker, spotHint) {
       putCallOiRatio: callOi > 0 ? round(putOi / callOi, 3) : null,
       contractCounts: { calls: calls.length, puts: puts.length },
       missingFields: missing,
+      paperChain: buildPaperChain(calls, puts, spot, new Date(chosen * 1000).toISOString().slice(0, 10), chosen),
     },
   };
 }

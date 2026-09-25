@@ -320,6 +320,8 @@ export function renderPaperSection(paper) {
           <li>${escapeHtml(t("paperRuleUs"))}</li>
           <li>${escapeHtml(t("paperRuleBuy"))}</li>
           <li>${escapeHtml(t("paperRuleSell"))}</li>
+          <li>${escapeHtml(t("paperRuleOpt"))}</li>
+          <li>${escapeHtml(t("paperRuleTxf"))}</li>
         </ul>
       </details>
       <div class="tabs paper-tabs" role="tablist">

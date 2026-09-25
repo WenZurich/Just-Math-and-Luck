@@ -21,6 +21,25 @@ import {
   drawdownFromPeak,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
+import {
+  isFiniteNumber as pdFinite,
+  optionIntrinsic,
+  optionExtrinsic,
+  optionPremiumCashImpact,
+  optionPositionMarkValue,
+  optionUnrealizedPnl,
+  optionExpirySettlement,
+  txfMultiplier,
+  futuresPnlTwd,
+  futuresMarkPnlTwd,
+  futuresMarginHold,
+  canOpenFutures,
+  canBuyOption,
+  assertFinitePayload,
+  strategyLabelPlain,
+  US_OPTION_MULTIPLIER,
+  TXF_MULTIPLIERS,
+} from "../src/paper-derivatives-math.js";
 
 const failures = [];
 function fail(msg) {
@@ -331,6 +350,112 @@ assert(
   const dd = drawdownFromPeak(90, peak);
   assert(approx(peak, 100) && approx(dd, -0.1), `peak+dd chain 90 vs 100 → -0.1 (got peak=${peak}, dd=${dd})`);
 }
+
+
+// —— Paper derivatives: US options + TW 台指期 (olympiad guards) ——
+assert(US_OPTION_MULTIPLIER === 100, "US option multiplier = 100");
+assert(TXF_MULTIPLIERS.TX === 200 && TXF_MULTIPLIERS.MTX === 50, "TX=200 MTX=50 official");
+assert(txfMultiplier("TX") === 200 && txfMultiplier("mtx") === 50, "txfMultiplier case-insensitive");
+assert(txfMultiplier("FAKE") === null, "txfMultiplier unknown → null (never invent)");
+
+assert(optionIntrinsic(100, 95, "call") === 5, "call ITM intrinsic");
+assert(optionIntrinsic(100, 105, "call") === 0, "call OTM intrinsic 0");
+assert(optionIntrinsic(100, 105, "put") === 5, "put ITM intrinsic");
+assert(optionIntrinsic(100, 95, "put") === 0, "put OTM intrinsic 0");
+assert(optionIntrinsic(NaN, 100, "call") === null, "intrinsic NaN spot → null");
+assert(optionIntrinsic(-1, 100, "call") === null, "intrinsic negative spot → null");
+assert(optionIntrinsic(100, 100, "weird") === null, "intrinsic bad right → null");
+
+{
+  const e = optionExtrinsic(7, 100, 95, "call");
+  assert(approx(e, 2), `extrinsic 7−5 = 2 (got ${e})`);
+}
+assert(optionExtrinsic(-1, 100, 95, "call") === null, "extrinsic negative premium → null");
+assert(optionExtrinsic(1, 100, 95, "call") === null, "extrinsic premium < intrinsic → null");
+
+{
+  const buy = optionPremiumCashImpact({ side: "buy", premium: 2.5, contracts: 2 });
+  assert(buy.ok && approx(buy.cashDelta, -500) && approx(buy.notional, 500), `buy debit 2.5×100×2 = −500 (got ${buy.cashDelta})`);
+  const sell = optionPremiumCashImpact({ side: "sell", premium: 2.5, contracts: 2 });
+  assert(sell.ok && approx(sell.cashDelta, 500), `sell credit = +500 (got ${sell.cashDelta})`);
+}
+assert(!optionPremiumCashImpact({ side: "buy", premium: -1, contracts: 1 }).ok, "reject negative premium");
+assert(!optionPremiumCashImpact({ side: "buy", premium: 1, contracts: 1.5 }).ok, "reject non-int contracts");
+assert(!optionPremiumCashImpact({ side: "buy", premium: 1, contracts: 0 }).ok, "reject zero contracts");
+assert(!optionPremiumCashImpact({ side: "hold", premium: 1, contracts: 1 }).ok, "reject bad side");
+
+{
+  const mv = optionPositionMarkValue({ qty: 3, markPremium: 1.25 });
+  assert(approx(mv, 375), `long mark value 3×1.25×100 = 375 (got ${mv})`);
+  const shortMv = optionPositionMarkValue({ qty: -2, markPremium: 1.25 });
+  assert(approx(shortMv, -250), `short mark value = −250 (got ${shortMv})`);
+}
+assert(optionPositionMarkValue({ qty: 1, markPremium: -0.1 }) === null, "mark value rejects neg premium");
+
+{
+  const u = optionUnrealizedPnl({ qtySigned: 2, avgPremium: 3, markPremium: 5 });
+  assert(approx(u, 400), `long uPnl (5−3)×100×2 = 400 (got ${u})`);
+  const s = optionUnrealizedPnl({ qtySigned: -2, avgPremium: 3, markPremium: 5 });
+  assert(approx(s, -400), `short uPnl sign flip = −400 (got ${s})`);
+}
+
+{
+  const set = optionExpirySettlement({ qtySigned: 1, spot: 110, strike: 100, right: "call" });
+  assert(set.ok && approx(set.intrinsic, 10) && approx(set.cashDelta, 1000), `expiry long call settle +1000 (got ${set.cashDelta})`);
+  const shortPut = optionExpirySettlement({ qtySigned: -1, spot: 90, strike: 100, right: "put" });
+  assert(shortPut.ok && approx(shortPut.cashDelta, -1000), `expiry short put pays intrinsic (got ${shortPut.cashDelta})`);
+  const otm = optionExpirySettlement({ qtySigned: 1, spot: 90, strike: 100, right: "call" });
+  assert(otm.ok && approx(otm.cashDelta, 0), "OTM expiry cash 0");
+}
+
+{
+  const pnl = futuresPnlTwd({ pointsDelta: 10, multiplier: 200, contractsSigned: 2 });
+  assert(approx(pnl, 4000), `TX long +10pts ×200 ×2 = 4000 (got ${pnl})`);
+  const shortPnl = futuresPnlTwd({ pointsDelta: 10, multiplier: 50, contractsSigned: -3 });
+  assert(approx(shortPnl, -1500), `MTX short +10pts → −1500 (got ${shortPnl})`);
+  const down = futuresPnlTwd({ pointsDelta: -5, multiplier: 200, contractsSigned: -1 });
+  assert(approx(down, 1000), `TX short profits on −5pts = 1000 (got ${down})`);
+}
+assert(futuresPnlTwd({ pointsDelta: 1, multiplier: 200, contractsSigned: 1.5 }) === null, "futures rejects non-int contracts");
+assert(futuresPnlTwd({ pointsDelta: 1, multiplier: 0, contractsSigned: 1 }) === null, "futures rejects mult≤0");
+assert(futuresPnlTwd({ pointsDelta: NaN, multiplier: 200, contractsSigned: 1 }) === null, "futures rejects NaN points");
+
+{
+  const m = futuresMarkPnlTwd({ entryPrice: 48000, markPrice: 48100, code: "TX", contractsSigned: 1 });
+  assert(approx(m, 20000), `TX mark P&L 100pts×200 = 20000 (got ${m})`);
+  const bad = futuresMarkPnlTwd({ entryPrice: 48000, markPrice: 48100, code: "XYZ", contractsSigned: 1 });
+  assert(bad === null, "unknown futures code → null");
+}
+
+assert(futuresMarginHold({ contracts: 2, initialMarginPerContract: 701000 }) === 1402000, "margin hold 2×TX initial");
+assert(futuresMarginHold({ contracts: 0, initialMarginPerContract: 100 }) === null, "margin reject 0 contracts");
+assert(futuresMarginHold({ contracts: 1, initialMarginPerContract: -1 }) === null, "margin reject neg initial");
+
+{
+  const okOpen = canOpenFutures({ freeCash: 800000, contracts: 1, initialMarginPerContract: 701000 });
+  assert(okOpen.ok && approx(okOpen.hold, 701000), "can open TX with enough cash");
+  const no = canOpenFutures({ freeCash: 100000, contracts: 1, initialMarginPerContract: 701000 });
+  assert(!no.ok, "block futures when cash < margin");
+}
+{
+  const okBuy = canBuyOption({ freeCash: 600, premium: 2.5, contracts: 2 });
+  assert(okBuy.ok, "can buy option with cash");
+  const no = canBuyOption({ freeCash: 100, premium: 2.5, contracts: 2 });
+  assert(!no.ok, "block option buy when cash < debit");
+}
+
+assert(assertFinitePayload({ a: 1, b: { c: 2 } }).ok, "finite payload ok");
+assert(!assertFinitePayload({ a: NaN }).ok, "NaN payload blocked");
+assert(!assertFinitePayload({ a: Infinity }).ok, "Infinity payload blocked");
+
+assert(strategyLabelPlain({ stockQty: 200, optionRight: "call", optionQtySigned: -2, underlying: "AAPL" }) === "covered-call", "covered call when stock covers");
+assert(strategyLabelPlain({ stockQty: 50, optionRight: "call", optionQtySigned: -1, underlying: "AAPL" }) === "short-call", "naked short call label");
+assert(strategyLabelPlain({ stockQty: 100, optionRight: "put", optionQtySigned: 1, underlying: "AAPL" }) === "protective-put", "protective put");
+assert(strategyLabelPlain({ stockQty: 0, optionRight: "call", optionQtySigned: 1, underlying: "AAPL" }) === "long-call", "long call");
+
+// Currency / book separation habit: multipliers never cross books
+assert(TXF_MULTIPLIERS.TX !== US_OPTION_MULTIPLIER, "TX multiplier ≠ US option 100 (units differ)");
+assert(pdFinite(TXF_MULTIPLIERS.TX) && pdFinite(US_OPTION_MULTIPLIER), "multipliers finite");
 
 console.log("——");
 if (failures.length) {

@@ -13,6 +13,7 @@ import {
   bindPaperTabs,
   loadPaperPortfolio,
 } from "./paper.js";
+import { initPaperDerivatives } from "./paper-derivatives.js";
 import "./strategies.css";
 import {
   renderStrategiesSection,
@@ -986,6 +987,7 @@ async function mountUi(app) {
   await initUsMacroStrip("#us-macro-strip");
   await initTwMacroStrip("#tw-macro-strip");
   bindPaperTabs(app);
+  if (paper) await initPaperDerivatives(app, paper);
   bindLangSwitcher(app);
   await initStrategies("#xq-root");
   const routeAtMount = parseHashRoute();

@@ -91,7 +91,7 @@
         "missingFields": []
       },
       "options": {
-        "asOfUnderlying": 127.39,
+        "asOfUnderlying": 123,
         "expiration": "2026-10-23",
         "expirationUnix": 1792713600,
         "atmStrikeCall": 125,
@@ -111,7 +111,370 @@
           "calls": 62,
           "puts": 58
         },
-        "missingFields": []
+        "missingFields": [],
+        "paperChain": {
+          "expiration": "2026-10-23",
+          "expirationUnix": 1792713600,
+          "underlyingPrice": 123,
+          "asOfPremiumSource": "Yahoo options last/bid/ask (public)",
+          "multiplier": 100,
+          "calls": [
+            {
+              "contractSymbol": "INTC261023C00108000",
+              "strike": 108,
+              "premium": 19.63,
+              "lastPrice": 19.63,
+              "bid": 18.5,
+              "ask": 18.75,
+              "volume": 14,
+              "openInterest": 116,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00109000",
+              "strike": 109,
+              "premium": 18.99,
+              "lastPrice": 18.99,
+              "bid": 17.8,
+              "ask": 18.05,
+              "volume": 2,
+              "openInterest": 713,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00110000",
+              "strike": 110,
+              "premium": 17.6,
+              "lastPrice": 17.6,
+              "bid": 17.15,
+              "ask": 17.35,
+              "volume": 69,
+              "openInterest": 1471,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00111000",
+              "strike": 111,
+              "premium": 16.9,
+              "lastPrice": 16.9,
+              "bid": 16.45,
+              "ask": 16.7,
+              "volume": 4,
+              "openInterest": 76,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00112000",
+              "strike": 112,
+              "premium": 17.25,
+              "lastPrice": 17.25,
+              "bid": 15.8,
+              "ask": 16.05,
+              "volume": 39,
+              "openInterest": 442,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00113000",
+              "strike": 113,
+              "premium": 15.47,
+              "lastPrice": 15.47,
+              "bid": 15.2,
+              "ask": 15.4,
+              "volume": 101,
+              "openInterest": 287,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00114000",
+              "strike": 114,
+              "premium": 15.9,
+              "lastPrice": 15.9,
+              "bid": 14.55,
+              "ask": 14.8,
+              "volume": 5,
+              "openInterest": 175,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00115000",
+              "strike": 115,
+              "premium": 14.25,
+              "lastPrice": 14.25,
+              "bid": 14,
+              "ask": 14.2,
+              "volume": 176,
+              "openInterest": 1965,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00116000",
+              "strike": 116,
+              "premium": 14.5,
+              "lastPrice": 14.5,
+              "bid": 13.4,
+              "ask": 13.6,
+              "volume": 8,
+              "openInterest": 79,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00117000",
+              "strike": 117,
+              "premium": 14.11,
+              "lastPrice": 14.11,
+              "bid": 12.85,
+              "ask": 13.05,
+              "volume": 19,
+              "openInterest": 196,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00118000",
+              "strike": 118,
+              "premium": 13.55,
+              "lastPrice": 13.55,
+              "bid": 12.3,
+              "ask": 12.5,
+              "volume": 36,
+              "openInterest": 306,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00119000",
+              "strike": 119,
+              "premium": 12.1,
+              "lastPrice": 12.1,
+              "bid": 11.8,
+              "ask": 12,
+              "volume": 3,
+              "openInterest": 124,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00120000",
+              "strike": 120,
+              "premium": 12.2,
+              "lastPrice": 12.2,
+              "bid": 11.3,
+              "ask": 11.5,
+              "volume": 99,
+              "openInterest": 2456,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023C00125000",
+              "strike": 125,
+              "premium": 9.2,
+              "lastPrice": 9.2,
+              "bid": 9.05,
+              "ask": 9.25,
+              "volume": 360,
+              "openInterest": 1525,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023C00130000",
+              "strike": 130,
+              "premium": 7.35,
+              "lastPrice": 7.35,
+              "bid": 7.25,
+              "ask": 7.4,
+              "volume": 855,
+              "openInterest": 1613,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023C00135000",
+              "strike": 135,
+              "premium": 5.95,
+              "lastPrice": 5.95,
+              "bid": 5.75,
+              "ask": 5.9,
+              "volume": 162,
+              "openInterest": 914,
+              "inTheMoney": false
+            }
+          ],
+          "puts": [
+            {
+              "contractSymbol": "INTC261023P00108000",
+              "strike": 108,
+              "premium": 3.22,
+              "lastPrice": 3.22,
+              "bid": 3.25,
+              "ask": 3.35,
+              "volume": 88,
+              "openInterest": 193,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00109000",
+              "strike": 109,
+              "premium": 3.5,
+              "lastPrice": 3.5,
+              "bid": 3.55,
+              "ask": 3.65,
+              "volume": 90,
+              "openInterest": 98,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00110000",
+              "strike": 110,
+              "premium": 3.85,
+              "lastPrice": 3.85,
+              "bid": 3.85,
+              "ask": 4,
+              "volume": 289,
+              "openInterest": 1583,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00111000",
+              "strike": 111,
+              "premium": 4.15,
+              "lastPrice": 4.15,
+              "bid": 4.15,
+              "ask": 4.3,
+              "volume": 48,
+              "openInterest": 98,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00112000",
+              "strike": 112,
+              "premium": 4.47,
+              "lastPrice": 4.47,
+              "bid": 4.5,
+              "ask": 4.65,
+              "volume": 32,
+              "openInterest": 170,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00113000",
+              "strike": 113,
+              "premium": 4.87,
+              "lastPrice": 4.87,
+              "bid": 4.9,
+              "ask": 5,
+              "volume": 59,
+              "openInterest": 53,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00114000",
+              "strike": 114,
+              "premium": 5.02,
+              "lastPrice": 5.02,
+              "bid": 5.25,
+              "ask": 5.4,
+              "volume": 57,
+              "openInterest": 99,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00115000",
+              "strike": 115,
+              "premium": 5.63,
+              "lastPrice": 5.63,
+              "bid": 5.65,
+              "ask": 5.8,
+              "volume": 266,
+              "openInterest": 1028,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00116000",
+              "strike": 116,
+              "premium": 6.11,
+              "lastPrice": 6.11,
+              "bid": 6.1,
+              "ask": 6.25,
+              "volume": 32,
+              "openInterest": 362,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00117000",
+              "strike": 117,
+              "premium": 6.5,
+              "lastPrice": 6.5,
+              "bid": 6.5,
+              "ask": 6.7,
+              "volume": 51,
+              "openInterest": 83,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00118000",
+              "strike": 118,
+              "premium": 7,
+              "lastPrice": 7,
+              "bid": 7,
+              "ask": 7.15,
+              "volume": 74,
+              "openInterest": 125,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00119000",
+              "strike": 119,
+              "premium": 7.44,
+              "lastPrice": 7.44,
+              "bid": 7.45,
+              "ask": 7.6,
+              "volume": 56,
+              "openInterest": 71,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00120000",
+              "strike": 120,
+              "premium": 7.85,
+              "lastPrice": 7.85,
+              "bid": 7.95,
+              "ask": 8.1,
+              "volume": 229,
+              "openInterest": 904,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "INTC261023P00125000",
+              "strike": 125,
+              "premium": 10.75,
+              "lastPrice": 10.75,
+              "bid": 10.7,
+              "ask": 10.9,
+              "volume": 79,
+              "openInterest": 1210,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023P00130000",
+              "strike": 130,
+              "premium": 13.5,
+              "lastPrice": 13.5,
+              "bid": 13.85,
+              "ask": 14.05,
+              "volume": 6,
+              "openInterest": 60,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "INTC261023P00135000",
+              "strike": 135,
+              "premium": 16.4,
+              "lastPrice": 16.4,
+              "bid": 17.35,
+              "ask": 17.55,
+              "volume": 25,
+              "openInterest": 47,
+              "inTheMoney": true
+            }
+          ]
+        }
       },
       "blockers": [],
       "setups": [
@@ -248,7 +611,7 @@
         "missingFields": []
       },
       "options": {
-        "asOfUnderlying": 777.59,
+        "asOfUnderlying": 751.66,
         "expiration": "2026-10-23",
         "expirationUnix": 1792713600,
         "atmStrikeCall": 780,
@@ -268,7 +631,370 @@
           "calls": 110,
           "puts": 90
         },
-        "missingFields": []
+        "missingFields": [],
+        "paperChain": {
+          "expiration": "2026-10-23",
+          "expirationUnix": 1792713600,
+          "underlyingPrice": 751.66,
+          "asOfPremiumSource": "Yahoo options last/bid/ask (public)",
+          "multiplier": 100,
+          "calls": [
+            {
+              "contractSymbol": "META261023C00715000",
+              "strike": 715,
+              "premium": 54.16,
+              "lastPrice": 54.16,
+              "bid": 52.5,
+              "ask": 56.35,
+              "volume": 3,
+              "openInterest": 119,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023C00720000",
+              "strike": 720,
+              "premium": 50.05,
+              "lastPrice": 50.05,
+              "bid": 50,
+              "ask": 52.85,
+              "volume": 25,
+              "openInterest": 357,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023C00725000",
+              "strike": 725,
+              "premium": 48.34,
+              "lastPrice": 48.34,
+              "bid": 46.3,
+              "ask": 49.45,
+              "volume": 15,
+              "openInterest": 339,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023C00730000",
+              "strike": 730,
+              "premium": 46,
+              "lastPrice": 46,
+              "bid": 44,
+              "ask": 46.15,
+              "volume": 45,
+              "openInterest": 184,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023C00735000",
+              "strike": 735,
+              "premium": 41.15,
+              "lastPrice": 41.15,
+              "bid": 40.85,
+              "ask": 43.05,
+              "volume": 10,
+              "openInterest": 222,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023C00740000",
+              "strike": 740,
+              "premium": 39.59,
+              "lastPrice": 39.59,
+              "bid": 38.2,
+              "ask": 40.1,
+              "volume": 55,
+              "openInterest": 415,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023C00745000",
+              "strike": 745,
+              "premium": 37.35,
+              "lastPrice": 37.35,
+              "bid": 35.45,
+              "ask": 36.7,
+              "volume": 173,
+              "openInterest": 151,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023C00750000",
+              "strike": 750,
+              "premium": 34,
+              "lastPrice": 34,
+              "bid": 33.15,
+              "ask": 34.25,
+              "volume": 280,
+              "openInterest": 484,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023C00755000",
+              "strike": 755,
+              "premium": 32,
+              "lastPrice": 32,
+              "bid": 30.8,
+              "ask": 31.95,
+              "volume": 172,
+              "openInterest": 197,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023C00760000",
+              "strike": 760,
+              "premium": 29.4,
+              "lastPrice": 29.4,
+              "bid": 28.55,
+              "ask": 29.7,
+              "volume": 117,
+              "openInterest": 967,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023C00765000",
+              "strike": 765,
+              "premium": 27.25,
+              "lastPrice": 27.25,
+              "bid": 26.45,
+              "ask": 27.8,
+              "volume": 74,
+              "openInterest": 328,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023C00770000",
+              "strike": 770,
+              "premium": 25,
+              "lastPrice": 25,
+              "bid": 24.5,
+              "ask": 25.5,
+              "volume": 65,
+              "openInterest": 450,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023C00775000",
+              "strike": 775,
+              "premium": 23.37,
+              "lastPrice": 23.37,
+              "bid": 22.65,
+              "ask": 23.55,
+              "volume": 45,
+              "openInterest": 486,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023C00780000",
+              "strike": 780,
+              "premium": 21.62,
+              "lastPrice": 21.62,
+              "bid": 20.85,
+              "ask": 21.8,
+              "volume": 210,
+              "openInterest": 548,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023C00785000",
+              "strike": 785,
+              "premium": 20.15,
+              "lastPrice": 20.15,
+              "bid": 19.25,
+              "ask": 20.15,
+              "volume": 77,
+              "openInterest": 739,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023C00790000",
+              "strike": 790,
+              "premium": 17.9,
+              "lastPrice": 17.9,
+              "bid": 17.75,
+              "ask": 18.65,
+              "volume": 77,
+              "openInterest": 206,
+              "inTheMoney": false
+            }
+          ],
+          "puts": [
+            {
+              "contractSymbol": "META261023P00710000",
+              "strike": 710,
+              "premium": 14.17,
+              "lastPrice": 14.17,
+              "bid": 13.55,
+              "ask": 14.35,
+              "volume": 47,
+              "openInterest": 140,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00715000",
+              "strike": 715,
+              "premium": 15.54,
+              "lastPrice": 15.54,
+              "bid": 15.1,
+              "ask": 16.15,
+              "volume": 50,
+              "openInterest": 84,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00720000",
+              "strike": 720,
+              "premium": 16.93,
+              "lastPrice": 16.93,
+              "bid": 16.9,
+              "ask": 17.5,
+              "volume": 110,
+              "openInterest": 152,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00725000",
+              "strike": 725,
+              "premium": 19.05,
+              "lastPrice": 19.05,
+              "bid": 18.7,
+              "ask": 19.55,
+              "volume": 18,
+              "openInterest": 374,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00730000",
+              "strike": 730,
+              "premium": 20.15,
+              "lastPrice": 20.15,
+              "bid": 20.65,
+              "ask": 21.5,
+              "volume": 91,
+              "openInterest": 128,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00735000",
+              "strike": 735,
+              "premium": 22.15,
+              "lastPrice": 22.15,
+              "bid": 22.75,
+              "ask": 23.55,
+              "volume": 53,
+              "openInterest": 90,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00740000",
+              "strike": 740,
+              "premium": 25.03,
+              "lastPrice": 25.03,
+              "bid": 24.9,
+              "ask": 25.85,
+              "volume": 52,
+              "openInterest": 136,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00745000",
+              "strike": 745,
+              "premium": 26.59,
+              "lastPrice": 26.59,
+              "bid": 27.25,
+              "ask": 28.25,
+              "volume": 46,
+              "openInterest": 377,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00750000",
+              "strike": 750,
+              "premium": 30,
+              "lastPrice": 30,
+              "bid": 29.7,
+              "ask": 30.8,
+              "volume": 305,
+              "openInterest": 438,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "META261023P00755000",
+              "strike": 755,
+              "premium": 32.89,
+              "lastPrice": 32.89,
+              "bid": 32.3,
+              "ask": 33.35,
+              "volume": 77,
+              "openInterest": 87,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023P00760000",
+              "strike": 760,
+              "premium": 35.41,
+              "lastPrice": 35.41,
+              "bid": 35.1,
+              "ask": 36.15,
+              "volume": 61,
+              "openInterest": 186,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023P00765000",
+              "strike": 765,
+              "premium": 40.23,
+              "lastPrice": 40.23,
+              "bid": 37.9,
+              "ask": 39.1,
+              "volume": 53,
+              "openInterest": 80,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023P00770000",
+              "strike": 770,
+              "premium": 42,
+              "lastPrice": 42,
+              "bid": 40.85,
+              "ask": 42.2,
+              "volume": 49,
+              "openInterest": 117,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023P00775000",
+              "strike": 775,
+              "premium": 44.94,
+              "lastPrice": 44.94,
+              "bid": 43.85,
+              "ask": 45.4,
+              "volume": 65,
+              "openInterest": 105,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023P00785000",
+              "strike": 785,
+              "premium": 47.97,
+              "lastPrice": 47.97,
+              "bid": 50.1,
+              "ask": 51.9,
+              "volume": 3,
+              "openInterest": 12,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "META261023P00790000",
+              "strike": 790,
+              "premium": 55.3,
+              "lastPrice": 55.3,
+              "bid": 53.45,
+              "ask": 55.8,
+              "volume": 14,
+              "openInterest": 14,
+              "inTheMoney": true
+            }
+          ]
+        }
       },
       "blockers": [],
       "setups": [
@@ -405,7 +1131,7 @@
         "missingFields": []
       },
       "options": {
-        "asOfUnderlying": 373.56,
+        "asOfUnderlying": 365.44,
         "expiration": "2026-10-23",
         "expirationUnix": 1792713600,
         "atmStrikeCall": 375,
@@ -425,7 +1151,370 @@
           "calls": 39,
           "puts": 39
         },
-        "missingFields": []
+        "missingFields": [],
+        "paperChain": {
+          "expiration": "2026-10-23",
+          "expirationUnix": 1792713600,
+          "underlyingPrice": 365.44,
+          "asOfPremiumSource": "Yahoo options last/bid/ask (public)",
+          "multiplier": 100,
+          "calls": [
+            {
+              "contractSymbol": "CLS261023C00325000",
+              "strike": 325,
+              "premium": 53.16,
+              "lastPrice": 53.16,
+              "bid": 47,
+              "ask": 53.4,
+              "volume": 2,
+              "openInterest": 18,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00330000",
+              "strike": 330,
+              "premium": 54.59,
+              "lastPrice": 54.59,
+              "bid": 42.6,
+              "ask": 49.7,
+              "volume": 12,
+              "openInterest": 15,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00335000",
+              "strike": 335,
+              "premium": 45.25,
+              "lastPrice": 45.25,
+              "bid": 39,
+              "ask": 46.1,
+              "volume": 1,
+              "openInterest": 11,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00340000",
+              "strike": 340,
+              "premium": 41.8,
+              "lastPrice": 41.8,
+              "bid": 35.5,
+              "ask": 41.4,
+              "volume": 3,
+              "openInterest": 22,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00345000",
+              "strike": 345,
+              "premium": 28.7,
+              "lastPrice": 28.7,
+              "bid": 31.6,
+              "ask": 40,
+              "volume": 1,
+              "openInterest": 12,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00350000",
+              "strike": 350,
+              "premium": 39.2,
+              "lastPrice": 39.2,
+              "bid": 29.6,
+              "ask": 37,
+              "volume": 4,
+              "openInterest": 16,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00355000",
+              "strike": 355,
+              "premium": 34.48,
+              "lastPrice": 34.48,
+              "bid": 26.9,
+              "ask": 33.5,
+              "volume": 1,
+              "openInterest": 16,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00360000",
+              "strike": 360,
+              "premium": 28.18,
+              "lastPrice": 28.18,
+              "bid": 24.4,
+              "ask": 30.5,
+              "volume": 5,
+              "openInterest": 19,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00365000",
+              "strike": 365,
+              "premium": 25.8,
+              "lastPrice": 25.8,
+              "bid": 22.4,
+              "ask": 27.6,
+              "volume": 2,
+              "openInterest": 44,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023C00370000",
+              "strike": 370,
+              "premium": 26.3,
+              "lastPrice": 26.3,
+              "bid": 19.7,
+              "ask": 25.9,
+              "volume": 7,
+              "openInterest": 28,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023C00375000",
+              "strike": 375,
+              "premium": 24.19,
+              "lastPrice": 24.19,
+              "bid": 17.8,
+              "ask": 23.8,
+              "volume": 8,
+              "openInterest": 114,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023C00380000",
+              "strike": 380,
+              "premium": 23.92,
+              "lastPrice": 23.92,
+              "bid": 15.8,
+              "ask": 21.9,
+              "volume": 3,
+              "openInterest": 53,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023C00385000",
+              "strike": 385,
+              "premium": 19,
+              "lastPrice": 19,
+              "bid": 13.7,
+              "ask": 19.3,
+              "volume": 59,
+              "openInterest": 13,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023C00390000",
+              "strike": 390,
+              "premium": 16.2,
+              "lastPrice": 16.2,
+              "bid": 11.9,
+              "ask": 18.2,
+              "volume": 8,
+              "openInterest": 32,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023C00400000",
+              "strike": 400,
+              "premium": 11.25,
+              "lastPrice": 11.25,
+              "bid": 8.7,
+              "ask": 12,
+              "volume": 58,
+              "openInterest": 303,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023C00405000",
+              "strike": 405,
+              "premium": 12,
+              "lastPrice": 12,
+              "bid": 7.8,
+              "ask": 14.3,
+              "volume": 1,
+              "openInterest": 3,
+              "inTheMoney": false
+            }
+          ],
+          "puts": [
+            {
+              "contractSymbol": "CLS261023P00315000",
+              "strike": 315,
+              "premium": 5.5,
+              "lastPrice": 5.5,
+              "bid": 4,
+              "ask": 7.5,
+              "volume": 10,
+              "openInterest": 59,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00320000",
+              "strike": 320,
+              "premium": 5.9,
+              "lastPrice": 5.9,
+              "bid": 5.3,
+              "ask": 7.5,
+              "volume": 15,
+              "openInterest": 64,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00325000",
+              "strike": 325,
+              "premium": 7.1,
+              "lastPrice": 7.1,
+              "bid": 5.3,
+              "ask": 8.6,
+              "volume": 10,
+              "openInterest": 78,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00330000",
+              "strike": 330,
+              "premium": 8.6,
+              "lastPrice": 8.6,
+              "bid": 5.9,
+              "ask": 11.2,
+              "volume": 52,
+              "openInterest": 124,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00335000",
+              "strike": 335,
+              "premium": 9,
+              "lastPrice": 9,
+              "bid": 9,
+              "ask": 12,
+              "volume": 10,
+              "openInterest": 19,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00340000",
+              "strike": 340,
+              "premium": 12.1,
+              "lastPrice": 12.1,
+              "bid": 10.7,
+              "ask": 14.8,
+              "volume": 164,
+              "openInterest": 4,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00345000",
+              "strike": 345,
+              "premium": 13,
+              "lastPrice": 13,
+              "bid": 12,
+              "ask": 16.3,
+              "volume": 8,
+              "openInterest": 20,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00350000",
+              "strike": 350,
+              "premium": 16,
+              "lastPrice": 16,
+              "bid": 14.1,
+              "ask": 16.6,
+              "volume": 10,
+              "openInterest": 165,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00355000",
+              "strike": 355,
+              "premium": 15.3,
+              "lastPrice": 15.3,
+              "bid": 14.2,
+              "ask": 19.9,
+              "volume": 4,
+              "openInterest": 34,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00360000",
+              "strike": 360,
+              "premium": 19.53,
+              "lastPrice": 19.53,
+              "bid": 16.5,
+              "ask": 21.5,
+              "volume": 5,
+              "openInterest": 18,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00365000",
+              "strike": 365,
+              "premium": 24.9,
+              "lastPrice": 24.9,
+              "bid": 19.3,
+              "ask": 24.3,
+              "volume": 31,
+              "openInterest": 32,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "CLS261023P00370000",
+              "strike": 370,
+              "premium": 24,
+              "lastPrice": 24,
+              "bid": 21.8,
+              "ask": 29,
+              "volume": 11,
+              "openInterest": 12,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023P00375000",
+              "strike": 375,
+              "premium": 25.95,
+              "lastPrice": 25.95,
+              "bid": 24.8,
+              "ask": 30.3,
+              "volume": 2,
+              "openInterest": 3,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023P00385000",
+              "strike": 385,
+              "premium": 67.4,
+              "lastPrice": 67.4,
+              "bid": 30.8,
+              "ask": 36.9,
+              "volume": null,
+              "openInterest": 1,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023P00390000",
+              "strike": 390,
+              "premium": 70,
+              "lastPrice": 70,
+              "bid": 34,
+              "ask": 40,
+              "volume": null,
+              "openInterest": 1,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "CLS261023P00405000",
+              "strike": 405,
+              "premium": 80.8,
+              "lastPrice": 80.8,
+              "bid": 44.4,
+              "ask": 51.5,
+              "volume": null,
+              "openInterest": 1,
+              "inTheMoney": true
+            }
+          ]
+        }
       },
       "blockers": [],
       "setups": [
@@ -562,7 +1651,7 @@
         "missingFields": []
       },
       "options": {
-        "asOfUnderlying": 629.26,
+        "asOfUnderlying": 630.63,
         "expiration": "2026-10-23",
         "expirationUnix": 1792713600,
         "atmStrikeCall": 630,
@@ -582,7 +1671,370 @@
           "calls": 131,
           "puts": 110
         },
-        "missingFields": []
+        "missingFields": [],
+        "paperChain": {
+          "expiration": "2026-10-23",
+          "expirationUnix": 1792713600,
+          "underlyingPrice": 630.63,
+          "asOfPremiumSource": "Yahoo options last/bid/ask (public)",
+          "multiplier": 100,
+          "calls": [
+            {
+              "contractSymbol": "AMD261023C00595000",
+              "strike": 595,
+              "premium": 58.97,
+              "lastPrice": 58.97,
+              "bid": 54.35,
+              "ask": 59.35,
+              "volume": 2,
+              "openInterest": 137,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023C00600000",
+              "strike": 600,
+              "premium": 53.19,
+              "lastPrice": 53.19,
+              "bid": 51.75,
+              "ask": 54.2,
+              "volume": 34,
+              "openInterest": 439,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023C00605000",
+              "strike": 605,
+              "premium": 50.01,
+              "lastPrice": 50.01,
+              "bid": 48.7,
+              "ask": 51.2,
+              "volume": 7,
+              "openInterest": 524,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023C00610000",
+              "strike": 610,
+              "premium": 47.4,
+              "lastPrice": 47.4,
+              "bid": 45.35,
+              "ask": 48.75,
+              "volume": 28,
+              "openInterest": 288,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023C00615000",
+              "strike": 615,
+              "premium": 45.01,
+              "lastPrice": 45.01,
+              "bid": 42.95,
+              "ask": 45.45,
+              "volume": 34,
+              "openInterest": 377,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023C00620000",
+              "strike": 620,
+              "premium": 42.18,
+              "lastPrice": 42.18,
+              "bid": 41.1,
+              "ask": 42.75,
+              "volume": 87,
+              "openInterest": 373,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023C00625000",
+              "strike": 625,
+              "premium": 39.6,
+              "lastPrice": 39.6,
+              "bid": 37.7,
+              "ask": 40.15,
+              "volume": 46,
+              "openInterest": 251,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023C00630000",
+              "strike": 630,
+              "premium": 37.13,
+              "lastPrice": 37.13,
+              "bid": 35.2,
+              "ask": 37.75,
+              "volume": 185,
+              "openInterest": 1800,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023C00635000",
+              "strike": 635,
+              "premium": 34.67,
+              "lastPrice": 34.67,
+              "bid": 33.55,
+              "ask": 35.4,
+              "volume": 170,
+              "openInterest": 137,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023C00640000",
+              "strike": 640,
+              "premium": 32.12,
+              "lastPrice": 32.12,
+              "bid": 31.3,
+              "ask": 32.95,
+              "volume": 87,
+              "openInterest": 405,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023C00645000",
+              "strike": 645,
+              "premium": 29.72,
+              "lastPrice": 29.72,
+              "bid": 28.65,
+              "ask": 31.05,
+              "volume": 58,
+              "openInterest": 401,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023C00650000",
+              "strike": 650,
+              "premium": 28.08,
+              "lastPrice": 28.08,
+              "bid": 27.65,
+              "ask": 29.05,
+              "volume": 114,
+              "openInterest": 366,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023C00655000",
+              "strike": 655,
+              "premium": 26.9,
+              "lastPrice": 26.9,
+              "bid": 24.75,
+              "ask": 27.15,
+              "volume": 27,
+              "openInterest": 110,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023C00660000",
+              "strike": 660,
+              "premium": 24.08,
+              "lastPrice": 24.08,
+              "bid": 23,
+              "ask": 25,
+              "volume": 120,
+              "openInterest": 668,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023C00665000",
+              "strike": 665,
+              "premium": 22.3,
+              "lastPrice": 22.3,
+              "bid": 21.35,
+              "ask": 23.3,
+              "volume": 37,
+              "openInterest": 89,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023C00670000",
+              "strike": 670,
+              "premium": 21.55,
+              "lastPrice": 21.55,
+              "bid": 19.95,
+              "ask": 22,
+              "volume": 95,
+              "openInterest": 193,
+              "inTheMoney": false
+            }
+          ],
+          "puts": [
+            {
+              "contractSymbol": "AMD261023P00595000",
+              "strike": 595,
+              "premium": 18.88,
+              "lastPrice": 18.88,
+              "bid": 17.5,
+              "ask": 19.15,
+              "volume": 92,
+              "openInterest": 252,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023P00600000",
+              "strike": 600,
+              "premium": 20.62,
+              "lastPrice": 20.62,
+              "bid": 20.3,
+              "ask": 20.95,
+              "volume": 263,
+              "openInterest": 450,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023P00605000",
+              "strike": 605,
+              "premium": 22.3,
+              "lastPrice": 22.3,
+              "bid": 22.3,
+              "ask": 22.9,
+              "volume": 51,
+              "openInterest": 63,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023P00610000",
+              "strike": 610,
+              "premium": 24.3,
+              "lastPrice": 24.3,
+              "bid": 24.05,
+              "ask": 25,
+              "volume": 105,
+              "openInterest": 227,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023P00615000",
+              "strike": 615,
+              "premium": 26.69,
+              "lastPrice": 26.69,
+              "bid": 26.25,
+              "ask": 28.6,
+              "volume": 18,
+              "openInterest": 97,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023P00620000",
+              "strike": 620,
+              "premium": 29.1,
+              "lastPrice": 29.1,
+              "bid": 28.8,
+              "ask": 29.5,
+              "volume": 234,
+              "openInterest": 1010,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023P00625000",
+              "strike": 625,
+              "premium": 31.92,
+              "lastPrice": 31.92,
+              "bid": 31.1,
+              "ask": 32.75,
+              "volume": 36,
+              "openInterest": 61,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023P00630000",
+              "strike": 630,
+              "premium": 34.06,
+              "lastPrice": 34.06,
+              "bid": 33.4,
+              "ask": 35.75,
+              "volume": 68,
+              "openInterest": 71,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "AMD261023P00635000",
+              "strike": 635,
+              "premium": 37.03,
+              "lastPrice": 37.03,
+              "bid": 36.15,
+              "ask": 38.5,
+              "volume": 89,
+              "openInterest": 36,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023P00640000",
+              "strike": 640,
+              "premium": 39.9,
+              "lastPrice": 39.9,
+              "bid": 38.9,
+              "ask": 41.5,
+              "volume": 9,
+              "openInterest": 22,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023P00645000",
+              "strike": 645,
+              "premium": 44.7,
+              "lastPrice": 44.7,
+              "bid": 41.75,
+              "ask": 44.25,
+              "volume": 6,
+              "openInterest": 28,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023P00650000",
+              "strike": 650,
+              "premium": 46,
+              "lastPrice": 46,
+              "bid": 44.95,
+              "ask": 46.5,
+              "volume": 8,
+              "openInterest": 22,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023P00655000",
+              "strike": 655,
+              "premium": 47.25,
+              "lastPrice": 47.25,
+              "bid": 47.9,
+              "ask": 49.45,
+              "volume": 2,
+              "openInterest": 4,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023P00660000",
+              "strike": 660,
+              "premium": 52,
+              "lastPrice": 52,
+              "bid": 51.3,
+              "ask": 52.65,
+              "volume": 47,
+              "openInterest": 35,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023P00665000",
+              "strike": 665,
+              "premium": 54.9,
+              "lastPrice": 54.9,
+              "bid": 54.45,
+              "ask": 56.75,
+              "volume": 8,
+              "openInterest": 20,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "AMD261023P00670000",
+              "strike": 670,
+              "premium": 58.65,
+              "lastPrice": 58.65,
+              "bid": 55.45,
+              "ask": 60.1,
+              "volume": 2,
+              "openInterest": 33,
+              "inTheMoney": true
+            }
+          ]
+        }
       },
       "blockers": [],
       "setups": [
@@ -719,7 +2171,7 @@
         "missingFields": []
       },
       "options": {
-        "asOfUnderlying": 206.64,
+        "asOfUnderlying": 195.19,
         "expiration": "2026-10-23",
         "expirationUnix": 1792713600,
         "atmStrikeCall": 205,
@@ -739,7 +2191,370 @@
           "calls": 34,
           "puts": 60
         },
-        "missingFields": []
+        "missingFields": [],
+        "paperChain": {
+          "expiration": "2026-10-23",
+          "expirationUnix": 1792713600,
+          "underlyingPrice": 195.19,
+          "asOfPremiumSource": "Yahoo options last/bid/ask (public)",
+          "multiplier": 100,
+          "calls": [
+            {
+              "contractSymbol": "OKTA261023C00172500",
+              "strike": 172.5,
+              "premium": 22.87,
+              "lastPrice": 22.87,
+              "bid": 25.25,
+              "ask": 28.7,
+              "volume": 1,
+              "openInterest": 2,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00175000",
+              "strike": 175,
+              "premium": 32.27,
+              "lastPrice": 32.27,
+              "bid": 23.35,
+              "ask": 26.85,
+              "volume": 2,
+              "openInterest": 9,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00177500",
+              "strike": 177.5,
+              "premium": 18,
+              "lastPrice": 18,
+              "bid": 21.5,
+              "ask": 24.95,
+              "volume": 1,
+              "openInterest": 6,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00180000",
+              "strike": 180,
+              "premium": 24.41,
+              "lastPrice": 24.41,
+              "bid": 20.05,
+              "ask": 23.3,
+              "volume": 1,
+              "openInterest": 10,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00182500",
+              "strike": 182.5,
+              "premium": 20.24,
+              "lastPrice": 20.24,
+              "bid": 18.4,
+              "ask": 21.7,
+              "volume": 3,
+              "openInterest": 9,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00185000",
+              "strike": 185,
+              "premium": 31.13,
+              "lastPrice": 31.13,
+              "bid": 16.8,
+              "ask": 20.1,
+              "volume": 4,
+              "openInterest": 6,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00187500",
+              "strike": 187.5,
+              "premium": 18.32,
+              "lastPrice": 18.32,
+              "bid": 15.35,
+              "ask": 18.65,
+              "volume": 1,
+              "openInterest": 27,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00190000",
+              "strike": 190,
+              "premium": 15.69,
+              "lastPrice": 15.69,
+              "bid": 14.35,
+              "ask": 16.75,
+              "volume": 2,
+              "openInterest": 31,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00192500",
+              "strike": 192.5,
+              "premium": 14.7,
+              "lastPrice": 14.7,
+              "bid": 13.05,
+              "ask": 15.5,
+              "volume": 4,
+              "openInterest": 7,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00195000",
+              "strike": 195,
+              "premium": 13,
+              "lastPrice": 13,
+              "bid": 12.35,
+              "ask": 13.35,
+              "volume": 10,
+              "openInterest": 27,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023C00197500",
+              "strike": 197.5,
+              "premium": 15.2,
+              "lastPrice": 15.2,
+              "bid": 10.1,
+              "ask": 13.55,
+              "volume": 4,
+              "openInterest": 4,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023C00200000",
+              "strike": 200,
+              "premium": 10.93,
+              "lastPrice": 10.93,
+              "bid": 9,
+              "ask": 11.95,
+              "volume": 1,
+              "openInterest": 68,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023C00205000",
+              "strike": 205,
+              "premium": 8.42,
+              "lastPrice": 8.42,
+              "bid": 7.05,
+              "ask": 10.05,
+              "volume": 91,
+              "openInterest": 40,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023C00210000",
+              "strike": 210,
+              "premium": 14.58,
+              "lastPrice": 14.58,
+              "bid": 6.2,
+              "ask": 8.45,
+              "volume": 11,
+              "openInterest": 34,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023C00212500",
+              "strike": 212.5,
+              "premium": 11.22,
+              "lastPrice": 11.22,
+              "bid": 5,
+              "ask": 7.6,
+              "volume": 7,
+              "openInterest": 7,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023C00215000",
+              "strike": 215,
+              "premium": 12.75,
+              "lastPrice": 12.75,
+              "bid": 4.35,
+              "ask": 7.1,
+              "volume": 2,
+              "openInterest": 9,
+              "inTheMoney": false
+            }
+          ],
+          "puts": [
+            {
+              "contractSymbol": "OKTA261023P00165000",
+              "strike": 165,
+              "premium": 1.05,
+              "lastPrice": 1.05,
+              "bid": 1,
+              "ask": 2.9,
+              "volume": 1,
+              "openInterest": 39,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00167500",
+              "strike": 167.5,
+              "premium": 1.81,
+              "lastPrice": 1.81,
+              "bid": 0.83,
+              "ask": 3.65,
+              "volume": 1,
+              "openInterest": 4,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00170000",
+              "strike": 170,
+              "premium": 2.32,
+              "lastPrice": 2.32,
+              "bid": 2.01,
+              "ask": 3.25,
+              "volume": 1,
+              "openInterest": 47,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00172500",
+              "strike": 172.5,
+              "premium": 2.29,
+              "lastPrice": 2.29,
+              "bid": 1.83,
+              "ask": 4.75,
+              "volume": 2,
+              "openInterest": 3,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00175000",
+              "strike": 175,
+              "premium": 3.52,
+              "lastPrice": 3.52,
+              "bid": 2.75,
+              "ask": 4.6,
+              "volume": 12,
+              "openInterest": 21,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00177500",
+              "strike": 177.5,
+              "premium": 3.54,
+              "lastPrice": 3.54,
+              "bid": 3.95,
+              "ask": 5.7,
+              "volume": 13,
+              "openInterest": 6,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00180000",
+              "strike": 180,
+              "premium": 4.58,
+              "lastPrice": 4.58,
+              "bid": 4.25,
+              "ask": 6.4,
+              "volume": 89,
+              "openInterest": 18,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00185000",
+              "strike": 185,
+              "premium": 5.5,
+              "lastPrice": 5.5,
+              "bid": 5.7,
+              "ask": 8.65,
+              "volume": 15,
+              "openInterest": 16,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00187500",
+              "strike": 187.5,
+              "premium": 7,
+              "lastPrice": 7,
+              "bid": 6.7,
+              "ask": 9,
+              "volume": 3,
+              "openInterest": 3,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00190000",
+              "strike": 190,
+              "premium": 5.7,
+              "lastPrice": 5.7,
+              "bid": 7.8,
+              "ask": 10.75,
+              "volume": 5,
+              "openInterest": 11,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "OKTA261023P00197500",
+              "strike": 197.5,
+              "premium": 12.8,
+              "lastPrice": 12.8,
+              "bid": 12.15,
+              "ask": 13.4,
+              "volume": 3,
+              "openInterest": 8,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023P00200000",
+              "strike": 200,
+              "premium": 13.5,
+              "lastPrice": 13.5,
+              "bid": 13.5,
+              "ask": 15.95,
+              "volume": 3,
+              "openInterest": 9,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023P00205000",
+              "strike": 205,
+              "premium": 15.5,
+              "lastPrice": 15.5,
+              "bid": 16.5,
+              "ask": 18.95,
+              "volume": 14,
+              "openInterest": 14,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023P00210000",
+              "strike": 210,
+              "premium": 18.25,
+              "lastPrice": 18.25,
+              "bid": 19.4,
+              "ask": 21.75,
+              "volume": 8,
+              "openInterest": 9,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023P00212500",
+              "strike": 212.5,
+              "premium": 22.45,
+              "lastPrice": 22.45,
+              "bid": 21.2,
+              "ask": 24.1,
+              "volume": null,
+              "openInterest": 2,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "OKTA261023P00215000",
+              "strike": 215,
+              "premium": 25.8,
+              "lastPrice": 25.8,
+              "bid": 22.95,
+              "ask": 26.05,
+              "volume": null,
+              "openInterest": 1,
+              "inTheMoney": true
+            }
+          ]
+        }
       },
       "blockers": [],
       "setups": [
@@ -875,7 +2690,7 @@
         "missingFields": []
       },
       "options": {
-        "asOfUnderlying": 161.61,
+        "asOfUnderlying": 158.61,
         "expiration": "2026-10-23",
         "expirationUnix": 1792713600,
         "atmStrikeCall": 160,
@@ -895,7 +2710,370 @@
           "calls": 72,
           "puts": 72
         },
-        "missingFields": []
+        "missingFields": [],
+        "paperChain": {
+          "expiration": "2026-10-23",
+          "expirationUnix": 1792713600,
+          "underlyingPrice": 158.61,
+          "asOfPremiumSource": "Yahoo options last/bid/ask (public)",
+          "multiplier": 100,
+          "calls": [
+            {
+              "contractSymbol": "MSTR261023C00140000",
+              "strike": 140,
+              "premium": 22.95,
+              "lastPrice": 22.95,
+              "bid": 21.95,
+              "ask": 24.25,
+              "volume": 7,
+              "openInterest": 157,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00141000",
+              "strike": 141,
+              "premium": 22.14,
+              "lastPrice": 22.14,
+              "bid": 21.25,
+              "ask": 22.4,
+              "volume": 12,
+              "openInterest": 90,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00142000",
+              "strike": 142,
+              "premium": 21.33,
+              "lastPrice": 21.33,
+              "bid": 20.7,
+              "ask": 21.7,
+              "volume": 3,
+              "openInterest": 29,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00143000",
+              "strike": 143,
+              "premium": 20.17,
+              "lastPrice": 20.17,
+              "bid": 19.95,
+              "ask": 21,
+              "volume": 3,
+              "openInterest": 28,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00144000",
+              "strike": 144,
+              "premium": 28.2,
+              "lastPrice": 28.2,
+              "bid": 19.25,
+              "ask": 20.2,
+              "volume": 100,
+              "openInterest": 135,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00145000",
+              "strike": 145,
+              "premium": 19.3,
+              "lastPrice": 19.3,
+              "bid": 18.95,
+              "ask": 19.35,
+              "volume": 20,
+              "openInterest": 182,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00146000",
+              "strike": 146,
+              "premium": 28.1,
+              "lastPrice": 28.1,
+              "bid": 18,
+              "ask": 19,
+              "volume": 3,
+              "openInterest": 54,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00147000",
+              "strike": 147,
+              "premium": 18.15,
+              "lastPrice": 18.15,
+              "bid": 17.25,
+              "ask": 18.35,
+              "volume": 4,
+              "openInterest": 266,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00148000",
+              "strike": 148,
+              "premium": 16.85,
+              "lastPrice": 16.85,
+              "bid": 17,
+              "ask": 17.4,
+              "volume": 26,
+              "openInterest": 57,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00149000",
+              "strike": 149,
+              "premium": 17.55,
+              "lastPrice": 17.55,
+              "bid": 16.4,
+              "ask": 16.8,
+              "volume": 33,
+              "openInterest": 49,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00150000",
+              "strike": 150,
+              "premium": 16.84,
+              "lastPrice": 16.84,
+              "bid": 15.85,
+              "ask": 16.15,
+              "volume": 58,
+              "openInterest": 478,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00155000",
+              "strike": 155,
+              "premium": 13.97,
+              "lastPrice": 13.97,
+              "bid": 13.1,
+              "ask": 13.4,
+              "volume": 15,
+              "openInterest": 360,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023C00160000",
+              "strike": 160,
+              "premium": 11.35,
+              "lastPrice": 11.35,
+              "bid": 10.8,
+              "ask": 11.05,
+              "volume": 114,
+              "openInterest": 408,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023C00165000",
+              "strike": 165,
+              "premium": 8.8,
+              "lastPrice": 8.8,
+              "bid": 8.75,
+              "ask": 9.05,
+              "volume": 199,
+              "openInterest": 1002,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023C00170000",
+              "strike": 170,
+              "premium": 7.4,
+              "lastPrice": 7.4,
+              "bid": 7.25,
+              "ask": 7.45,
+              "volume": 382,
+              "openInterest": 1042,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023C00175000",
+              "strike": 175,
+              "premium": 6.3,
+              "lastPrice": 6.3,
+              "bid": 5.85,
+              "ask": 6.15,
+              "volume": 64,
+              "openInterest": 684,
+              "inTheMoney": false
+            }
+          ],
+          "puts": [
+            {
+              "contractSymbol": "MSTR261023P00140000",
+              "strike": 140,
+              "premium": 3.5,
+              "lastPrice": 3.5,
+              "bid": 3.45,
+              "ask": 3.65,
+              "volume": 63,
+              "openInterest": 481,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00141000",
+              "strike": 141,
+              "premium": 3.7,
+              "lastPrice": 3.7,
+              "bid": 3.7,
+              "ask": 4,
+              "volume": 31,
+              "openInterest": 88,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00142000",
+              "strike": 142,
+              "premium": 3.85,
+              "lastPrice": 3.85,
+              "bid": 4,
+              "ask": 4.25,
+              "volume": 43,
+              "openInterest": 150,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00143000",
+              "strike": 143,
+              "premium": 4.45,
+              "lastPrice": 4.45,
+              "bid": 4.25,
+              "ask": 4.55,
+              "volume": 21,
+              "openInterest": 70,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00144000",
+              "strike": 144,
+              "premium": 4.6,
+              "lastPrice": 4.6,
+              "bid": 4.6,
+              "ask": 4.85,
+              "volume": 22,
+              "openInterest": 51,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00145000",
+              "strike": 145,
+              "premium": 4.9,
+              "lastPrice": 4.9,
+              "bid": 4.9,
+              "ask": 5.15,
+              "volume": 83,
+              "openInterest": 446,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00146000",
+              "strike": 146,
+              "premium": 5.23,
+              "lastPrice": 5.23,
+              "bid": 5.25,
+              "ask": 5.5,
+              "volume": 100,
+              "openInterest": 204,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00147000",
+              "strike": 147,
+              "premium": 5.64,
+              "lastPrice": 5.64,
+              "bid": 5.6,
+              "ask": 5.85,
+              "volume": 40,
+              "openInterest": 140,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00148000",
+              "strike": 148,
+              "premium": 6.05,
+              "lastPrice": 6.05,
+              "bid": 5.95,
+              "ask": 6.2,
+              "volume": 158,
+              "openInterest": 194,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00149000",
+              "strike": 149,
+              "premium": 6.25,
+              "lastPrice": 6.25,
+              "bid": 6.35,
+              "ask": 6.65,
+              "volume": 85,
+              "openInterest": 279,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00150000",
+              "strike": 150,
+              "premium": 6.9,
+              "lastPrice": 6.9,
+              "bid": 6.75,
+              "ask": 7,
+              "volume": 149,
+              "openInterest": 695,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00155000",
+              "strike": 155,
+              "premium": 8.82,
+              "lastPrice": 8.82,
+              "bid": 9,
+              "ask": 9.3,
+              "volume": 426,
+              "openInterest": 1518,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "MSTR261023P00160000",
+              "strike": 160,
+              "premium": 11.41,
+              "lastPrice": 11.41,
+              "bid": 11.65,
+              "ask": 11.9,
+              "volume": 365,
+              "openInterest": 1133,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023P00165000",
+              "strike": 165,
+              "premium": 14.38,
+              "lastPrice": 14.38,
+              "bid": 14.7,
+              "ask": 14.95,
+              "volume": 294,
+              "openInterest": 1054,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023P00170000",
+              "strike": 170,
+              "premium": 17.45,
+              "lastPrice": 17.45,
+              "bid": 18,
+              "ask": 18.35,
+              "volume": 11,
+              "openInterest": 199,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "MSTR261023P00175000",
+              "strike": 175,
+              "premium": 21.7,
+              "lastPrice": 21.7,
+              "bid": 21.7,
+              "ask": 22,
+              "volume": 10,
+              "openInterest": 63,
+              "inTheMoney": true
+            }
+          ]
+        }
       },
       "blockers": [],
       "setups": [
@@ -1031,7 +3209,7 @@
         "missingFields": []
       },
       "options": {
-        "asOfUnderlying": 451.15,
+        "asOfUnderlying": 450.61,
         "expiration": "2026-10-23",
         "expirationUnix": 1792713600,
         "atmStrikeCall": 450,
@@ -1051,7 +3229,370 @@
           "calls": 60,
           "puts": 58
         },
-        "missingFields": []
+        "missingFields": [],
+        "paperChain": {
+          "expiration": "2026-10-23",
+          "expirationUnix": 1792713600,
+          "underlyingPrice": 450.61,
+          "asOfPremiumSource": "Yahoo options last/bid/ask (public)",
+          "multiplier": 100,
+          "calls": [
+            {
+              "contractSymbol": "TSM261023C00415000",
+              "strike": 415,
+              "premium": 38.8,
+              "lastPrice": 38.8,
+              "bid": 40.1,
+              "ask": 42.75,
+              "volume": 1,
+              "openInterest": 90,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023C00420000",
+              "strike": 420,
+              "premium": 36.5,
+              "lastPrice": 36.5,
+              "bid": 35.95,
+              "ask": 38.95,
+              "volume": 23,
+              "openInterest": 329,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023C00425000",
+              "strike": 425,
+              "premium": 33.47,
+              "lastPrice": 33.47,
+              "bid": 32.5,
+              "ask": 34.8,
+              "volume": 7,
+              "openInterest": 136,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023C00430000",
+              "strike": 430,
+              "premium": 29.73,
+              "lastPrice": 29.73,
+              "bid": 27.9,
+              "ask": 31.05,
+              "volume": 16,
+              "openInterest": 617,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023C00435000",
+              "strike": 435,
+              "premium": 26.79,
+              "lastPrice": 26.79,
+              "bid": 25.15,
+              "ask": 26.65,
+              "volume": 6,
+              "openInterest": 170,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023C00440000",
+              "strike": 440,
+              "premium": 22.88,
+              "lastPrice": 22.88,
+              "bid": 21.85,
+              "ask": 23.45,
+              "volume": 13,
+              "openInterest": 142,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023C00445000",
+              "strike": 445,
+              "premium": 20,
+              "lastPrice": 20,
+              "bid": 19.15,
+              "ask": 21.6,
+              "volume": 199,
+              "openInterest": 191,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023C00450000",
+              "strike": 450,
+              "premium": 17.57,
+              "lastPrice": 17.57,
+              "bid": 16.25,
+              "ask": 17.75,
+              "volume": 241,
+              "openInterest": 286,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023C00455000",
+              "strike": 455,
+              "premium": 15.1,
+              "lastPrice": 15.1,
+              "bid": 14.1,
+              "ask": 16.1,
+              "volume": 120,
+              "openInterest": 225,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023C00460000",
+              "strike": 460,
+              "premium": 12.3,
+              "lastPrice": 12.3,
+              "bid": 11.6,
+              "ask": 13.95,
+              "volume": 69,
+              "openInterest": 316,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023C00465000",
+              "strike": 465,
+              "premium": 10.6,
+              "lastPrice": 10.6,
+              "bid": 9.6,
+              "ask": 11.2,
+              "volume": 42,
+              "openInterest": 283,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023C00470000",
+              "strike": 470,
+              "premium": 9.15,
+              "lastPrice": 9.15,
+              "bid": 8.6,
+              "ask": 9.75,
+              "volume": 410,
+              "openInterest": 271,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023C00475000",
+              "strike": 475,
+              "premium": 7.65,
+              "lastPrice": 7.65,
+              "bid": 7.25,
+              "ask": 8.8,
+              "volume": 28,
+              "openInterest": 341,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023C00480000",
+              "strike": 480,
+              "premium": 6.36,
+              "lastPrice": 6.36,
+              "bid": 5.6,
+              "ask": 6.8,
+              "volume": 257,
+              "openInterest": 2605,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023C00485000",
+              "strike": 485,
+              "premium": 5.23,
+              "lastPrice": 5.23,
+              "bid": 4.95,
+              "ask": 5.55,
+              "volume": 69,
+              "openInterest": 274,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023C00490000",
+              "strike": 490,
+              "premium": 4.4,
+              "lastPrice": 4.4,
+              "bid": 4.05,
+              "ask": 5.45,
+              "volume": 15,
+              "openInterest": 110,
+              "inTheMoney": false
+            }
+          ],
+          "puts": [
+            {
+              "contractSymbol": "TSM261023P00415000",
+              "strike": 415,
+              "premium": 3.7,
+              "lastPrice": 3.7,
+              "bid": 2.57,
+              "ask": 5,
+              "volume": 37,
+              "openInterest": 186,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023P00420000",
+              "strike": 420,
+              "premium": 4.58,
+              "lastPrice": 4.58,
+              "bid": 4.5,
+              "ask": 5.2,
+              "volume": 93,
+              "openInterest": 372,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023P00425000",
+              "strike": 425,
+              "premium": 6.27,
+              "lastPrice": 6.27,
+              "bid": 5.6,
+              "ask": 6.25,
+              "volume": 65,
+              "openInterest": 280,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023P00430000",
+              "strike": 430,
+              "premium": 6.92,
+              "lastPrice": 6.92,
+              "bid": 6.85,
+              "ask": 7.65,
+              "volume": 285,
+              "openInterest": 179,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023P00435000",
+              "strike": 435,
+              "premium": 8.84,
+              "lastPrice": 8.84,
+              "bid": 7.55,
+              "ask": 9.5,
+              "volume": 20,
+              "openInterest": 281,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023P00440000",
+              "strike": 440,
+              "premium": 10.75,
+              "lastPrice": 10.75,
+              "bid": 10.15,
+              "ask": 11.45,
+              "volume": 43,
+              "openInterest": 96,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023P00445000",
+              "strike": 445,
+              "premium": 12.3,
+              "lastPrice": 12.3,
+              "bid": 11.95,
+              "ask": 13.7,
+              "volume": 6,
+              "openInterest": 233,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023P00450000",
+              "strike": 450,
+              "premium": 15,
+              "lastPrice": 15,
+              "bid": 14.4,
+              "ask": 15.75,
+              "volume": 81,
+              "openInterest": 598,
+              "inTheMoney": false
+            },
+            {
+              "contractSymbol": "TSM261023P00455000",
+              "strike": 455,
+              "premium": 17.21,
+              "lastPrice": 17.21,
+              "bid": 17,
+              "ask": 18.75,
+              "volume": 32,
+              "openInterest": 152,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023P00460000",
+              "strike": 460,
+              "premium": 19.9,
+              "lastPrice": 19.9,
+              "bid": 19.8,
+              "ask": 21.7,
+              "volume": 8,
+              "openInterest": 25,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023P00465000",
+              "strike": 465,
+              "premium": 23.4,
+              "lastPrice": 23.4,
+              "bid": 22.85,
+              "ask": 24.1,
+              "volume": 7,
+              "openInterest": 12,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023P00470000",
+              "strike": 470,
+              "premium": 27.55,
+              "lastPrice": 27.55,
+              "bid": 26.15,
+              "ask": 27.95,
+              "volume": 17,
+              "openInterest": 32,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023P00475000",
+              "strike": 475,
+              "premium": 35.8,
+              "lastPrice": 35.8,
+              "bid": 28.75,
+              "ask": 31.5,
+              "volume": 7,
+              "openInterest": 7,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023P00480000",
+              "strike": 480,
+              "premium": 35,
+              "lastPrice": 35,
+              "bid": 32.35,
+              "ask": 35.2,
+              "volume": 1,
+              "openInterest": 2,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023P00485000",
+              "strike": 485,
+              "premium": 37.65,
+              "lastPrice": 37.65,
+              "bid": 36.35,
+              "ask": 39.15,
+              "volume": null,
+              "openInterest": 1,
+              "inTheMoney": true
+            },
+            {
+              "contractSymbol": "TSM261023P00490000",
+              "strike": 490,
+              "premium": 42.78,
+              "lastPrice": 42.78,
+              "bid": 40.5,
+              "ask": 43.25,
+              "volume": null,
+              "openInterest": 2,
+              "inTheMoney": true
+            }
+          ]
+        }
       },
       "blockers": [],
       "setups": [

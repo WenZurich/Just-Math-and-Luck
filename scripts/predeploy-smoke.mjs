@@ -1174,6 +1174,58 @@ async function main() {
     const paperSrc = fs.readFileSync(path.join(ROOT, "src/paper.js"), "utf8");
     if (!/data-lq="pos"/.test(paperSrc) || !/data-lq-book/.test(paperSrc)) fail("paper.js should expose live mark hooks");
     else ok("paper.js live mark hooks");
+
+  // Paper derivatives: US options + TW 台指期 (math-gated, books separated)
+  {
+    const derivMath = fs.readFileSync(path.join(ROOT, "src/paper-derivatives-math.js"), "utf8");
+    const derivUi = fs.readFileSync(path.join(ROOT, "src/paper-derivatives.js"), "utf8");
+    if (!/TXF_MULTIPLIERS/.test(derivMath) || !/optionIntrinsic/.test(derivMath) || !/futuresPnlTwd/.test(derivMath)) {
+      fail("paper-derivatives-math missing core guards");
+    } else ok("paper-derivatives-math core exports");
+    if (!/US_OPTION_MULTIPLIER\s*=\s*100/.test(derivMath)) fail("US option multiplier must be 100");
+    else ok("US option multiplier 100");
+    if (!/TX:\s*200/.test(derivMath) || !/MTX:\s*50/.test(derivMath)) fail("TX/MTX multipliers must be 200/50");
+    else ok("TX/MTX multipliers 200/50");
+    if (!/tradeUsOption/.test(derivUi) || !/tradeTwFutures/.test(derivUi)) fail("paper-derivatives missing trade actions");
+    else ok("paper-derivatives trade actions");
+    if (!/txf-desk\.json/.test(derivUi)) fail("paper-derivatives should load txf-desk.json");
+    else ok("paper-derivatives loads txf-desk.json");
+    if (!/us-options-snapshot\.json/.test(derivUi)) fail("paper-derivatives should load us-options-snapshot");
+    else ok("paper-derivatives loads us-options-snapshot");
+    if (!/initPaperDerivatives/.test(mainJs)) fail("main.js missing initPaperDerivatives");
+    else ok("main.js wires initPaperDerivatives");
+    if (/passedGate\s*=\s*true/.test(derivUi) || /passedGate\s*=\s*true/.test(derivMath)) {
+      fail("paper derivatives must not open screener math gate");
+    } else ok("screener passedGate stays untouched by paper deriv");
+    const i18nSrc = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    if (!/paperDerivUsTitle/.test(i18nSrc) || !/paperDerivTwTitle/.test(i18nSrc)) fail("i18n missing paperDeriv titles");
+    else ok("paperDeriv i18n titles");
+    const txfPath = path.join(ROOT, "public/data/txf-desk.json");
+    if (!fs.existsSync(txfPath)) fail("missing public/data/txf-desk.json for TW paper futures");
+    else {
+      const txf = JSON.parse(fs.readFileSync(txfPath, "utf8"));
+      if (txf.market !== "TW") fail("txf-desk market must be TW");
+      else ok("txf-desk market TW");
+      if (txf.contracts?.TX?.multiplierTwdPerPoint !== 200 || txf.contracts?.MTX?.multiplierTwdPerPoint !== 50) {
+        fail("txf-desk multipliers TX200/MTX50 required");
+      } else ok("txf-desk multipliers TX200/MTX50");
+      if (!txf.contracts?.TX?.margin?.initial || !txf.contracts?.MTX?.margin?.initial) {
+        fail("txf-desk missing official initial margins");
+      } else ok("txf-desk official initial margins present");
+      if (!txf.paperTrading?.pnlTwdFormula) fail("txf-desk missing paperTrading.pnlTwdFormula");
+      else ok("txf-desk paperTrading block present");
+    }
+    const optSnap = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/us-options-snapshot.json"), "utf8"));
+    const withChain = (optSnap.tickers || []).filter((r) => r?.options?.paperChain?.calls?.length);
+    if (!withChain.length) fail("us-options-snapshot needs paperChain premiums for US paper options");
+    else ok(`us-options paperChain tickers ${withChain.length}`);
+    for (const row of withChain.slice(0, 3)) {
+      const c0 = row.options.paperChain.calls[0];
+      if (!(typeof c0.premium === "number") || c0.premium < 0) fail(`bad premium on ${row.ticker}`);
+    }
+    ok("paperChain premiums non-negative sample");
+  }
+
     const soxlSrcLive = fs.readFileSync(path.join(ROOT, "src/soxl.js"), "utf8");
     if (!/data-lq-sym="SOXL"/.test(soxlSrcLive)) fail("soxl.js should mark SOXL for live overlay");
     else ok("soxl.js SOXL live hook");

@@ -17,3 +17,6 @@ Continuous olympiad-level math improvement means **zero tolerance for silent ari
 
 Implementation: `scripts/math-core.mjs` (pure helpers) + `scripts/math-guards.mjs` (property tests).
 Daily drills live outside the site repo: `/workspace/stock-ops-study/math-drills/`.
+
+| Paper options intrinsic/extrinsic + premium×100 cash | `optionIntrinsic` / `optionPremiumCashImpact` reject neg premium & non-int contracts |
+| TX/MTX P&L points×mult×contracts + margin hold | `futuresPnlTwd` / `futuresMarginHold`; unknown codes → null (never invent) |

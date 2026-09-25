@@ -2686,3 +2686,116 @@ body.nav-more-open {
   background: var(--bg-chip-muted, #f0f2f5);
   color: var(--text, #1f2937);
 }
+
+/* —— Paper derivatives (US options + TW 台指期) —— */
+.paper-deriv {
+  margin-top: 1.25rem;
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 10px;
+  background: var(--bg-elevated, #fff);
+}
+.paper-deriv-head h4 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+.paper-deriv-lead {
+  margin: 0 0 0.75rem;
+  color: var(--text-muted, #5b6472);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.paper-deriv-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+.paper-deriv-kpis .k-label {
+  font-size: 0.72rem;
+  color: var(--text-muted, #5b6472);
+}
+.paper-deriv-kpis .k-val {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.paper-deriv-form {
+  margin-bottom: 0.85rem;
+}
+.paper-deriv-form .pdf-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.85rem;
+  margin-bottom: 0.5rem;
+  align-items: flex-end;
+}
+.paper-deriv-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.75rem;
+  color: var(--text-muted, #5b6472);
+}
+.paper-deriv-form select,
+.paper-deriv-form input[type="number"] {
+  min-width: 7rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid var(--border, #d1d5db);
+  border-radius: 6px;
+  background: var(--bg, #fff);
+  color: var(--text, #1f2937);
+  font-size: 0.9rem;
+}
+.paper-deriv-form .pdf-meta {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.8rem;
+  color: var(--text-muted, #5b6472);
+  gap: 1rem;
+}
+.paper-deriv-form .pdf-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+.paper-deriv-form .pdf-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.paper-deriv-form .pdf-btn.buy {
+  background: #0f7b4c;
+  color: #fff;
+}
+.paper-deriv-form .pdf-btn.sell {
+  background: #b42318;
+  color: #fff;
+}
+.paper-deriv-form .pdf-msg {
+  margin: 0.45rem 0 0;
+  font-size: 0.85rem;
+}
+.paper-deriv-form .pdf-msg.ok { color: #0f7b4c; }
+.paper-deriv-form .pdf-msg.err { color: #b42318; }
+.paper-deriv-margin-note,
+.paper-deriv-missing {
+  font-size: 0.8rem;
+  color: var(--text-muted, #5b6472);
+  margin: 0.35rem 0 0.5rem;
+}
+.deriv-tag {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  background: var(--bg-chip-muted, #f0f2f5);
+  font-size: 0.7rem;
+  color: var(--text-muted, #5b6472);
+}
+.deriv-table { min-width: 640px; }
+@media (max-width: 720px) {
+  .paper-deriv-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
