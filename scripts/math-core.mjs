@@ -125,3 +125,34 @@ export function pctFromSma(price, smaVal) {
   if (!(smaVal > 0)) return null;
   return price / smaVal - 1;
 }
+
+/**
+ * Max of the last `n` points (peak lookback).
+ * Rejects empty/short windows and any non-finite entry (NaN must not become dd garbage).
+ * @param {number[]} arr
+ * @param {number} n window (positive integer)
+ * @returns {number|null}
+ */
+export function peakInWindow(arr, n) {
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  if (!Number.isInteger(n) || n <= 0) return null;
+  if (arr.length < n) return null;
+  const slice = arr.slice(-n);
+  let peak = -Infinity;
+  for (const x of slice) {
+    if (!isFiniteNumber(x)) return null;
+    if (x > peak) peak = x;
+  }
+  return peak;
+}
+
+/**
+ * Fractional drawdown from a peak: price/peak − 1.
+ * Matches market-regime ddFrom252dHigh units (≤ 0 when price ≤ peak).
+ * Same domain as pctFromSma: peak must be > 0.
+ */
+export function drawdownFromPeak(price, peak) {
+  if (!isFiniteNumber(price) || !isFiniteNumber(peak)) return null;
+  if (!(peak > 0)) return null;
+  return price / peak - 1;
+}

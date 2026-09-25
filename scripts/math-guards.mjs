@@ -17,6 +17,8 @@ import {
   avgVolume,
   clamp,
   pctFromSma,
+  peakInWindow,
+  drawdownFromPeak,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 
@@ -281,6 +283,54 @@ assert(
   clamp(temperatureScore({ pctFromSma200: 0.2, ddFrom252dHigh: 0, near52wHigh: true, atrBottomQuartile: true }, { d20d: -0.5 }, { breadthProxy: 0.9, hygVsLqd20d: 0.05 }).score, -2, 2) === 2,
   "clamp agrees with temp upper bound 2"
 );
+
+
+// —— peak window + drawdown from peak (regime ddFrom252dHigh units) ——
+assert(peakInWindow([], 5) === null, "peakInWindow empty → null");
+assert(peakInWindow([1, 2, 3], 0) === null, "peakInWindow window 0 → null");
+assert(peakInWindow([1, 2, 3], -1) === null, "peakInWindow negative window → null");
+assert(peakInWindow([1, 2, 3], 1.5) === null, "peakInWindow non-integer window → null");
+assert(peakInWindow([1, 2], 3) === null, "peakInWindow short series → null");
+assert(peakInWindow(null, 2) === null, "peakInWindow null arr → null");
+assert(peakInWindow([1, NaN, 3], 3) === null, "peakInWindow rejects NaN");
+assert(peakInWindow([1, Infinity, 3], 3) === null, "peakInWindow rejects Infinity");
+assert(peakInWindow([1, -Infinity, 3], 3) === null, "peakInWindow rejects -Infinity");
+{
+  const v = peakInWindow([2, 9, 4, 7], 4);
+  assert(approx(v, 9), `peakInWindow full = 9 (got ${v})`);
+}
+{
+  const v = peakInWindow([2, 9, 4, 7], 2);
+  assert(approx(v, 7), `peakInWindow last-2 = 7 (got ${v})`);
+}
+
+assert(drawdownFromPeak(90, 0) === null, "drawdownFromPeak peak=0 → null");
+assert(drawdownFromPeak(90, -10) === null, "drawdownFromPeak peak≤0 → null");
+assert(drawdownFromPeak(NaN, 100) === null, "drawdownFromPeak NaN price → null");
+assert(drawdownFromPeak(90, NaN) === null, "drawdownFromPeak NaN peak → null");
+assert(drawdownFromPeak(Infinity, 100) === null, "drawdownFromPeak Infinity price → null");
+assert(drawdownFromPeak(90, Infinity) === null, "drawdownFromPeak Infinity peak → null");
+{
+  const v = drawdownFromPeak(90, 100);
+  assert(approx(v, -0.1), `drawdownFromPeak 90/100−1 = -0.1 (got ${v})`);
+}
+{
+  const v = drawdownFromPeak(100, 100);
+  assert(approx(v, 0), `drawdownFromPeak at peak = 0 (got ${v})`);
+}
+{
+  const v = drawdownFromPeak(110, 100);
+  assert(approx(v, 0.1), `drawdownFromPeak above peak = +0.1 (got ${v})`);
+}
+assert(
+  approx(drawdownFromPeak(85, 100), pctFromSma(85, 100)),
+  "drawdownFromPeak ≡ pctFromSma (same fractional form)"
+);
+{
+  const peak = peakInWindow([80, 100, 95, 90], 4);
+  const dd = drawdownFromPeak(90, peak);
+  assert(approx(peak, 100) && approx(dd, -0.1), `peak+dd chain 90 vs 100 → -0.1 (got peak=${peak}, dd=${dd})`);
+}
 
 console.log("——");
 if (failures.length) {

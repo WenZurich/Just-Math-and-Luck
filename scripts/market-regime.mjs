@@ -5,7 +5,7 @@
  * Pure SMA / returns / volume helpers: ./math-core.mjs (guarded by math-guards).
  */
 
-import { sma, retChange as pctChange, volumeRatio, avgVolume } from "./math-core.mjs";
+import { sma, retChange as pctChange, volumeRatio, avgVolume, pctFromSma, peakInWindow, drawdownFromPeak } from "./math-core.mjs";
 
 export const PHASE_TO_STANCE = {
   euphoric: "defensive",
@@ -75,15 +75,13 @@ export function indexFeaturesFromChart(chart) {
   const lookbackHigh = Math.min(252, highs.length);
   let maxHigh = null;
   if (lookbackHigh >= 20) {
-    maxHigh = Math.max(...highs.slice(-lookbackHigh));
+    maxHigh = peakInWindow(highs, lookbackHigh);
   } else {
     gaps.push("dd_from_252d_high");
   }
-  const ddFrom252dHigh =
-    maxHigh != null && maxHigh > 0 ? price / maxHigh - 1 : null;
+  const ddFrom252dHigh = maxHigh != null ? drawdownFromPeak(price, maxHigh) : null;
 
-  const pctFromSma200 =
-    sma200 != null && sma200 > 0 ? price / sma200 - 1 : null;
+  const pctFromSma200 = sma200 != null ? pctFromSma(price, sma200) : null;
 
   const idx5 = closes.length - 1 - 5;
   const idx10 = closes.length - 1 - 10;

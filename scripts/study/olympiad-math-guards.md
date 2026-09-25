@@ -11,6 +11,7 @@ Continuous olympiad-level math improvement means **zero tolerance for silent ari
 | Monotonicity of scoring functionals | Synthetic fixtures assert higher RS / trend / constructive volume raise `baseRankingScore` |
 | Clamp and additive checklist arithmetic | Marks `temperatureScore` stays in \[−2, +2\] and composes proxies additively |
 | Percent from SMA | `pctFromSma(price,sma)=price/sma−1`; reject `sma≤0` / non-finite (regime units) |
+| Drawdown from peak | `peakInWindow` + `drawdownFromPeak(price,peak)=price/peak−1`; reject non-finite / `peak≤0` |
 
 **Run:** `npm run test:math` (also chained from `test:smoke` / `predeploy` so bad math cannot ship).
 
