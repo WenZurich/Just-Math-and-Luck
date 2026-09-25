@@ -378,34 +378,6 @@ function renderListHeaders() {
     </tr>`;
 }
 
-function renderParity(parity) {
-  if (!parity) return "";
-  const prem = parity.premiumPct;
-  return `
-    <section class="section">
-      <h2 class="section-title">${term("adr", "ADR")} ${term("parity", t("parity"))}｜TSM vs 2330</h2>
-      <div class="parity-block">
-        <div class="parity-side" data-lq="pick" data-lq-sym="TSM">
-          <div class="p-label">${term("usStock", t("usStock"))} ${term("adr", "ADR")}</div>
-          <div class="p-ticker">TSM</div>
-          <div class="p-price" data-lq-field="price" data-lq-parity="TSM">${fmtPrice(parity.tsm, "USD")}</div>
-        </div>
-        <div class="parity-mid">
-          <div class="row"><span>${term("adsRatio", t("adsRatio"))}</span>　<strong>${escapeHtml(parity.adsRatio || "—")}</strong></div>
-          <div class="row"><span>${term("parity", t("implied"))}</span>　<strong>${parity.impliedUsdTaipeiFx != null ? fmtNum(parity.impliedUsdTaipeiFx, 2) : "—"}</strong></div>
-          <div class="row"><span>${term("premium", t("premium"))}</span>　<strong class="${pctClass(prem)}">${fmtPct(prem)}</strong></div>
-        </div>
-        <div class="parity-side" data-lq="pick" data-lq-sym="2330.TW">
-          <div class="p-label">${term("twStock", t("twStock"))}</div>
-          <div class="p-ticker">2330.TW</div>
-          <div class="p-price" data-lq-field="price" data-lq-parity="2330.TW">${fmtPrice(parity.tw2330, "TWD")}</div>
-        </div>
-        ${parity.note ? `<p class="parity-note">${escapeHtml(parity.note)}</p>` : ""}
-      </div>
-    </section>
-  `;
-}
-
 
 function stockMarket(s) {
   if (!s) return "US";
@@ -730,7 +702,6 @@ function renderApp(data, paper) {
             <div class="mobile-list">${mobileCards(tw)}</div>
           </section>
         </div>
-        ${renderParity(data.parity)}
       </div>
       <div class="view" id="view-logic" data-view="logic" hidden>
         <span id="logic" class="view-anchor" tabindex="-1"></span>

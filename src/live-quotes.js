@@ -607,19 +607,6 @@ function applySoxl(root, quote) {
   }
 }
 
-function applyParity(root, map) {
-  const tsm = map.get("TSM");
-  const tw = map.get("2330.TW") || map.get("__MIS_2330");
-  const fx = map.get("USDTWD=X");
-  const tsmEl = root.querySelector("[data-lq-parity='TSM']");
-  const twEl = root.querySelector("[data-lq-parity='2330.TW']");
-  if (tsm?.price != null && tsmEl) patchText(tsmEl, fmtPrice(tsm.price, "USD"), { flash: true });
-  if (tw?.price != null && twEl) patchText(twEl, fmtPrice(tw.price, "TWD"), { flash: true });
-  // Premium vs implied: ADR shares / ADS ratio 1:5 historically — keep snapshot note;
-  // only refresh prices here (ratio/premium math stays overnight baseline unless both+fx live).
-  void fx;
-}
-
 function resolveQuote(map, ticker) {
   const y = yahooSymFromTicker(ticker);
   if (y && map.has(y)) return map.get(y);
@@ -729,7 +716,6 @@ async function tick() {
   });
 
   applySoxl(rootEl, map.get("SOXL"));
-  applyParity(rootEl, map);
   recomputePaperBookKpis(rootEl);
 
   const age = lastSuccessAt ? Date.now() - lastSuccessAt : Infinity;
