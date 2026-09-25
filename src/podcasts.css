@@ -1,0 +1,128 @@
+/* 名人podcast — hub cards; MSN Finance tone */
+.podcasts-section { padding-bottom: 1.25rem; }
+
+.pc-disclaimer {
+  margin: 0.5rem 0 0.95rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, #6366f1 28%, var(--border));
+  background: color-mix(in srgb, #eef2ff 88%, white);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.pc-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.pc-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-elevated, #fff);
+  overflow: hidden;
+}
+
+.pc-card-featured {
+  border-color: color-mix(in srgb, #4338ca 32%, var(--border));
+  box-shadow: 0 1px 0 color-mix(in srgb, #4338ca 8%, transparent);
+}
+
+.pc-card-stub {
+  border-color: color-mix(in srgb, #0ea5e9 28%, var(--border));
+}
+
+.pc-card-head {
+  padding: 0.95rem 1.05rem 0.75rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.pc-card-stub .pc-card-head {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+}
+
+.pc-card-identity {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+
+.pc-card-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.pc-badge-featured { background: #4338ca; color: #fff; }
+.pc-badge-stub { background: #0369a1; color: #fff; }
+.pc-badge-us { background: #dbeafe; color: #1e40af; }
+.pc-badge-tw { background: #cffafe; color: #155e75; }
+.pc-badge-candidate { background: #e0e7ff; color: #3730a3; }
+.pc-badge-watch { background: #fef3c7; color: #92400e; }
+
+.pc-card-title {
+  margin: 0 0 0.2rem;
+  font-size: 1.12rem;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.pc-card-handle {
+  margin: 0 0 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: #4338ca;
+  letter-spacing: 0.01em;
+}
+
+.pc-card-blurb {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.pc-card-body {
+  padding: 0.85rem 1.05rem 1.05rem;
+}
+
+.pc-stub-note {
+  margin: 0 0 0.65rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.pc-stub-points {
+  margin: 0 0 0.85rem;
+  padding-left: 1.15rem;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.pc-stub-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+}
+
+.pc-link {
+  font-size: 0.86rem;
+  font-weight: 650;
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.pc-link:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .pc-card-head,
+  .pc-card-body { padding-left: 0.85rem; padding-right: 0.85rem; }
+}

@@ -1,5 +1,6 @@
 /**
- * 哥吉拉心法 — Threads interviewee investment arguments (static, candidate/watch only).
+ * 哥吉拉（Godzilla）— featured entry inside 名人podcast hub.
+ * Threads interviewee investment arguments (static, candidate/watch only).
  * Source: Terry × 哥吉拉 YouTube interview. Figures labeled 受訪者自述.
  * Math gate CLOSED — not wired into live screener or paper trading.
  */
@@ -119,13 +120,10 @@ function paint(root) {
   `;
 }
 
+/** Legacy export — detail block (now embedded under 名人podcast hub). */
 export function renderGodzillaSection() {
   return `
     <section class="section godzilla-section" aria-label="${escapeHtml(t("godzillaTitle"))}">
-      <header class="view-header">
-        <h2 class="view-title">${escapeHtml(t("godzillaTitle"))}</h2>
-        <p class="view-lead">${escapeHtml(t("godzillaLead"))}</p>
-      </header>
       <p class="gz-disclaimer" role="note">${escapeHtml(t("godzillaDisclaimer"))}</p>
       <div id="gz-root" class="gz-root"></div>
     </section>`;

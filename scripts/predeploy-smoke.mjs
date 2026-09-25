@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#lookup", "#soxl", "#godzilla", "#paper"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#lookup", "#soxl", "#podcasts", "#paper"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-lookup", "view-soxl", "view-godzilla", "view-paper"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-lookup", "view-soxl", "view-podcasts", "view-paper"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -536,7 +536,19 @@ async function main() {
     fail("missing src/soxl.css");
   } else ok("soxl.css present");
 
-  // —— Godzilla playbook (candidate / watch only) ——
+  // —— Celebrity podcasts hub (Godzilla featured; candidate / watch) ——
+  const pcJsPath = path.join(ROOT, "src/podcasts.js");
+  if (!fs.existsSync(pcJsPath)) fail("missing src/podcasts.js");
+  else ok("podcasts.js present");
+  if (!fs.existsSync(path.join(ROOT, "src/podcasts.css"))) fail("missing src/podcasts.css");
+  else ok("podcasts.css present");
+  const pcJs = fs.readFileSync(pcJsPath, "utf8");
+  if (!pcJs.includes("renderPodcastsSection") || !pcJs.includes("initPodcasts") || !pcJs.includes("podcast-godzilla")) {
+    fail("podcasts.js missing hub / Godzilla featured wiring");
+  } else ok("podcasts.js hub + Godzilla featured");
+  if (!pcJs.includes("podcast-gooaye") || !pcJs.includes("podcastsGooayeTitle")) {
+    fail("podcasts.js missing Gooaye stub entry");
+  } else ok("podcasts.js Gooaye stub");
   const gzJsPath = path.join(ROOT, "src/godzilla.js");
   if (!fs.existsSync(gzJsPath)) fail("missing src/godzilla.js");
   else ok("godzilla.js present");
@@ -552,23 +564,29 @@ async function main() {
   if (/\bfetch\s*\(/.test(gzJs) || /strategy-screener|paper-trade\.mjs/.test(gzJs)) {
     fail("godzilla.js must stay static (no live fetch / screener wiring)");
   } else ok("godzilla static (no fetch)");
-  if (!mainJs.includes("view-godzilla") || !mainJs.includes('"godzilla"') || !mainJs.includes("initGodzilla")) {
-    fail("main.js missing godzilla view wiring");
-  } else ok("godzilla view wired in main.js");
+  if (!mainJs.includes("view-podcasts") || !mainJs.includes('"podcasts"') || !mainJs.includes("initPodcasts")) {
+    fail("main.js missing podcasts view wiring");
+  } else ok("podcasts view wired in main.js");
+  if (!/godzilla:\s*"podcasts"/.test(mainJs) && !mainJs.includes('godzilla: "podcasts"')) {
+    fail("main.js should alias #godzilla → podcasts");
+  } else ok("#godzilla aliases to podcasts");
+  if (!mainJs.includes('id="godzilla"') || !mainJs.includes('id="podcasts"')) {
+    fail("podcasts view should keep #podcasts and #godzilla anchors");
+  } else ok("podcasts + godzilla anchors present");
   {
     const i18nGz = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
-    if (!i18nGz.includes("navGodzilla") || !i18nGz.includes("哥吉拉心法") || !i18nGz.includes("godzillaDisclaimer")) {
-      fail("i18n missing godzilla nav/title/disclaimer");
-    } else ok("godzilla i18n present");
-    for (const langKey of ["navGodzilla", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle"]) {
+    if (!i18nGz.includes("navPodcasts") || !i18nGz.includes("名人podcast") || !i18nGz.includes("godzillaDisclaimer")) {
+      fail("i18n missing podcasts nav/title or godzilla disclaimer");
+    } else ok("podcasts + godzilla i18n present");
+    for (const langKey of ["navPodcasts", "podcastsTitle", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle", "podcastsGooayeTitle"]) {
       const n = (i18nGz.match(new RegExp(langKey + ":", "g")) || []).length;
       if (n < 4) fail(`i18n ${langKey} expected 4 langs, got ${n}`);
     }
-    ok("godzilla i18n 4 langs");
+    ok("podcasts/godzilla i18n 4 langs");
     if (!/尚未寫進正式篩選|Not in the formal screener/.test(i18nGz)) {
       fail("godzilla gate note missing");
     } else ok("godzilla gate note");
-    if (!/strategyCandidate=watch|strategyCandidate=watch/.test(i18nGz) && !i18nGz.includes("strategyCandidate=watch")) {
+    if (!i18nGz.includes("strategyCandidate=watch")) {
       fail("godzilla status watch note missing");
     } else ok("godzilla watch status noted");
   }
@@ -759,11 +777,15 @@ async function main() {
     fail("Escape should close More sheet");
   } else ok("Escape closes More sheet");
   {
-    const gz = mainSrc.match(/godzilla:\s*`([^`]+)`/);
-    if (!gz) fail("godzilla nav icon missing");
-    else if (/l-\.?8 10/.test(gz[1])) fail("godzilla nav icon still tombstone/trash path");
-    else ok("godzilla nav icon is not tombstone");
+    const pc = mainSrc.match(/podcasts:\s*`([^`]+)`/);
+    if (!pc) fail("podcasts nav icon missing");
+    else if (/l-\.?8 10/.test(pc[1])) fail("podcasts nav icon still tombstone/trash path");
+    else if (!/path fill="currentColor"/.test(pc[1])) fail("podcasts nav icon should be SVG path");
+    else ok("podcasts nav icon present (headphones)");
   }
+  if (!/MOBILE_MORE\s*=\s*\[[^\]]*podcasts/.test(mainSrc)) {
+    fail("podcasts should be under MOBILE_MORE");
+  } else ok("podcasts listed in MOBILE_MORE");
   if (!mainSrc.includes('id="strategies"') || !mainSrc.includes('id="paper"')) {
     fail("strategies/paper view-anchor ids missing");
   } else ok("strategies/paper view-anchor ids present");

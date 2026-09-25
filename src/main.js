@@ -45,10 +45,11 @@ import {
   initSoxl,
 } from "./soxl.js";
 import "./godzilla.css";
+import "./podcasts.css";
 import {
-  renderGodzillaSection,
-  initGodzilla,
-} from "./godzilla.js";
+  renderPodcastsSection,
+  initPodcasts,
+} from "./podcasts.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -385,14 +386,14 @@ function getViews() {
     { id: "earnings", label: t("navEarnings"), hash: "earnings" },
     { id: "lookup", label: t("navLookup"), hash: "lookup" },
     { id: "soxl", label: t("navSoxl"), hash: "soxl" },
-    { id: "godzilla", label: t("navGodzilla"), hash: "godzilla" },
+    { id: "podcasts", label: t("navPodcasts"), hash: "podcasts" },
     { id: "paper", label: t("navPaper"), hash: "paper" },
   ];
 }
 
 /** Primary mobile bottom tabs (≤5). Secondary live under 「更多」. */
 const MOBILE_PRIMARY = ["today", "strategies", "paper", "research"];
-const MOBILE_MORE = ["logic", "options", "earnings", "lookup", "soxl", "godzilla"];
+const MOBILE_MORE = ["logic", "options", "earnings", "lookup", "soxl", "podcasts"];
 
 const HASH_ALIASES = {
   today: "today",
@@ -404,7 +405,11 @@ const HASH_ALIASES = {
   lookup: "lookup",
   quote: "lookup",
   soxl: "soxl",
-  godzilla: "godzilla",
+  podcasts: "podcasts",
+  podcast: "podcasts",
+  名人podcast: "podcasts",
+  "celebrity-podcasts": "podcasts",
+  godzilla: "podcasts",
   paper: "paper",
   // retired social → home
   social: "today",
@@ -433,10 +438,10 @@ const HASH_ALIASES = {
   semiconductor: "soxl",
   半導體: "soxl",
   三倍半導體: "soxl",
-  哥吉拉: "godzilla",
-  哥吉拉心法: "godzilla",
-  "godzilla-playbook": "godzilla",
-  playbook: "godzilla",
+  哥吉拉: "podcasts",
+  哥吉拉心法: "podcasts",
+  "godzilla-playbook": "podcasts",
+  playbook: "podcasts",
   method: "logic",
   邏輯: "logic",
 };
@@ -450,7 +455,7 @@ const NAV_ICONS = {
   earnings: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 4v2h10V7H7zm0 4v2h10v-2H7zm0 4v2h6v-2H7z"/></svg>`,
   lookup: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 3a7 7 0 0 1 5.47 11.34l4.1 4.09-1.42 1.42-4.09-4.1A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>`,
   soxl: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25 9.5 9l3.5 4.5L17 8l4 9.25H3zM5 19h14v2H5v-2z"/></svg>`,
-  godzilla: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.25a4.25 4.25 0 1 1 0 8.5 4.25 4.25 0 0 1 0-8.5zM4.5 19.75v-.9C4.5 16.55 7.7 14.75 12 14.75s7.5 1.8 7.5 4.1v.9H4.5z"/></svg>`,
+  podcasts: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-9 9v7a2 2 0 0 0 2 2h3v-8H7v-1a5 5 0 0 1 10 0v1h-1v8h3a2 2 0 0 0 2-2v-7a9 9 0 0 0-9-9zm-4 11v5H5v-5h3zm11 5h-3v-5h3v5zM12 7a3 3 0 0 0-3 3v1h6v-1a3 3 0 0 0-3-3z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   more: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 10h4v4H5v-4zm5 0h4v4h-4v-4zm5 0h4v4h-4v-4z"/></svg>`,
 };
@@ -647,9 +652,10 @@ function renderApp(data, paper) {
         ${renderSoxlSection()}
       </div>
 
-      <div class="view" id="view-godzilla" data-view="godzilla" hidden>
+      <div class="view" id="view-podcasts" data-view="podcasts" hidden>
+        <span id="podcasts" class="view-anchor" tabindex="-1"></span>
         <span id="godzilla" class="view-anchor" tabindex="-1"></span>
-        ${renderGodzillaSection()}
+        ${renderPodcastsSection()}
       </div>
 
       <div class="view" id="view-paper" data-view="paper" hidden>
@@ -846,7 +852,7 @@ async function mountUi(app) {
   await initEarnings("#er-root");
   initLookup("#lk-root");
   await initSoxl("#sx-root");
-  initGodzilla("#gz-root");
+  initPodcasts("#gz-root");
   void nav;
 }
 
