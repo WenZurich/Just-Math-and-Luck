@@ -126,3 +126,11 @@
   .pc-card-head,
   .pc-card-body { padding-left: 0.85rem; padding-right: 0.85rem; }
 }
+
+.pc-card-jensen {
+  border-color: color-mix(in srgb, #047857 32%, var(--border));
+  box-shadow: 0 1px 0 color-mix(in srgb, #047857 8%, transparent);
+}
+.pc-card-head-jensen {
+  background: linear-gradient(135deg, #f8fafc 0%, #ecfdf5 100%);
+}

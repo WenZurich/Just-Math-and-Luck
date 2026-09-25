@@ -1,12 +1,12 @@
 /**
  * 名人podcast — hub of notable investor / host podcast frameworks.
- * Godzilla is the first featured entry (full static playbook).
- * Gooaye stub uses existing research-library metadata only (no invented quotes).
+ * Order: Godzilla (featured), Jensen Huang (featured talk), Gooaye (stub).
  * Math gate CLOSED for featured entries — candidate/watch; not live screener.
  */
 import { escapeHtml } from "./glossary.js";
 import { t } from "./i18n.js";
 import { initGodzilla } from "./godzilla.js";
+import { initJensen } from "./jensen.js";
 
 const GOOAYE_RESEARCH_HASH = "#research";
 const GOOAYE_APPLE =
@@ -29,6 +29,27 @@ function featuredGodzillaCard() {
       <div class="pc-card-body">
         <p class="gz-disclaimer" role="note">${escapeHtml(t("godzillaDisclaimer"))}</p>
         <div id="gz-root" class="gz-root"></div>
+      </div>
+    </article>`;
+}
+
+function featuredJensenCard() {
+  return `
+    <article class="pc-card pc-card-featured pc-card-jensen" id="podcast-jensen" data-podcast="jensen">
+      <header class="pc-card-head pc-card-head-jensen">
+        <div class="pc-card-identity">
+          <span class="pc-card-badge pc-badge-featured">${escapeHtml(t("podcastsFeatured"))}</span>
+          <span class="pc-card-badge pc-badge-us">${escapeHtml(t("jensenUsFocus"))}</span>
+          <span class="pc-card-badge pc-badge-candidate">${escapeHtml(t("godzillaBadgeCandidate"))}</span>
+          <span class="pc-card-badge pc-badge-watch">${escapeHtml(t("godzillaBadgeWatch"))}</span>
+        </div>
+        <h3 class="pc-card-title">${escapeHtml(t("jensenTitle"))}</h3>
+        <p class="pc-card-handle">${escapeHtml(t("jensenHandle"))}</p>
+        <p class="pc-card-blurb">${escapeHtml(t("jensenLead"))}</p>
+      </header>
+      <div class="pc-card-body">
+        <p class="jh-disclaimer" role="note">${escapeHtml(t("jensenDisclaimer"))}</p>
+        <div id="jh-root" class="jh-root"></div>
       </div>
     </article>`;
 }
@@ -70,11 +91,14 @@ export function renderPodcastsSection() {
       <p class="pc-disclaimer" role="note">${escapeHtml(t("podcastsDisclaimer"))}</p>
       <div class="pc-list" role="list">
         ${featuredGodzillaCard()}
+        ${featuredJensenCard()}
         ${gooayeStubCard()}
       </div>
     </section>`;
 }
 
 export function initPodcasts(selector = "#gz-root") {
-  return initGodzilla(selector);
+  const gz = initGodzilla(selector);
+  const jh = initJensen("#jh-root");
+  return { ok: !!(gz?.ok && jh?.ok), godzilla: gz, jensen: jh };
 }

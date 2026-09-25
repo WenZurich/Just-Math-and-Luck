@@ -549,6 +549,21 @@ async function main() {
   if (!pcJs.includes("podcast-gooaye") || !pcJs.includes("podcastsGooayeTitle")) {
     fail("podcasts.js missing Gooaye stub entry");
   } else ok("podcasts.js Gooaye stub");
+  if (!pcJs.includes("podcast-jensen") || !pcJs.includes("initJensen") || !pcJs.includes("jensenTitle")) {
+    fail("podcasts.js missing Jensen Huang featured entry");
+  } else ok("podcasts.js Jensen Huang featured");
+  const jhJsPath = path.join(ROOT, "src/jensen.js");
+  if (!fs.existsSync(jhJsPath)) fail("missing src/jensen.js");
+  else ok("jensen.js present");
+  if (!fs.existsSync(path.join(ROOT, "src/jensen.css"))) fail("missing src/jensen.css");
+  else ok("jensen.css present");
+  const jhJs = fs.readFileSync(jhJsPath, "utf8");
+  if (!jhJs.includes("initJensen") || !jhJs.includes("jh-hero") || !jhJs.includes("Xn1EsFe7snQ")) {
+    fail("jensen.js missing hero / YouTube wiring");
+  } else ok("jensen.js hero + YouTube");
+  if (/\bfetch\s*\(/.test(jhJs) || /strategy-screener|paper-trade\.mjs/.test(jhJs)) {
+    fail("jensen.js must stay static (no live fetch / screener wiring)");
+  } else ok("jensen static (no fetch)");
   const gzJsPath = path.join(ROOT, "src/godzilla.js");
   if (!fs.existsSync(gzJsPath)) fail("missing src/godzilla.js");
   else ok("godzilla.js present");
@@ -573,22 +588,34 @@ async function main() {
   if (!mainJs.includes('id="godzilla"') || !mainJs.includes('id="podcasts"')) {
     fail("podcasts view should keep #podcasts and #godzilla anchors");
   } else ok("podcasts + godzilla anchors present");
+  if (!mainJs.includes('id="jensen"') || !/jensen:\s*"podcasts"/.test(mainJs)) {
+    fail("podcasts view should keep #jensen anchor and alias");
+  } else ok("jensen anchor + alias");
+  if (!mainJs.includes("jensen.css")) {
+    fail("main.js missing jensen.css import");
+  } else ok("jensen.css imported");
   {
     const i18nGz = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
     if (!i18nGz.includes("navPodcasts") || !i18nGz.includes("名人podcast") || !i18nGz.includes("godzillaDisclaimer")) {
       fail("i18n missing podcasts nav/title or godzilla disclaimer");
     } else ok("podcasts + godzilla i18n present");
-    for (const langKey of ["navPodcasts", "podcastsTitle", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle", "podcastsGooayeTitle"]) {
+    for (const langKey of ["navPodcasts", "podcastsTitle", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle", "podcastsGooayeTitle", "jensenTitle", "jensenDisclaimer", "jensenGateNote", "jensenH1Title", "jensenYoutube"]) {
       const n = (i18nGz.match(new RegExp(langKey + ":", "g")) || []).length;
       if (n < 4) fail(`i18n ${langKey} expected 4 langs, got ${n}`);
     }
-    ok("podcasts/godzilla i18n 4 langs");
+    ok("podcasts/godzilla/jensen i18n 4 langs");
     if (!/尚未寫進正式篩選|Not in the formal screener/.test(i18nGz)) {
       fail("godzilla gate note missing");
     } else ok("godzilla gate note");
     if (!i18nGz.includes("strategyCandidate=watch")) {
       fail("godzilla status watch note missing");
     } else ok("godzilla watch status noted");
+    if (!i18nGz.includes("Xn1EsFe7snQ") && !pcJs.includes("Xn1EsFe7snQ") && !jhJs.includes("Xn1EsFe7snQ")) {
+      fail("Jensen YouTube id missing from wiring");
+    } else ok("Jensen YouTube id present");
+    if (!/黃仁勳|Jensen Huang/.test(i18nGz)) {
+      fail("jensen speaker name missing in i18n");
+    } else ok("jensen speaker named");
   }
 
 

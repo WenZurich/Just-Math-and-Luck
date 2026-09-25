@@ -45,6 +45,7 @@ import {
   initSoxl,
 } from "./soxl.js";
 import "./godzilla.css";
+import "./jensen.css";
 import "./podcasts.css";
 import {
   renderPodcastsSection,
@@ -410,6 +411,11 @@ const HASH_ALIASES = {
   名人podcast: "podcasts",
   "celebrity-podcasts": "podcasts",
   godzilla: "podcasts",
+  jensen: "podcasts",
+  huang: "podcasts",
+  "jensen-huang": "podcasts",
+  "黃仁勳": "podcasts",
+  nvidia: "podcasts",
   paper: "paper",
   // retired social → home
   social: "today",
@@ -442,6 +448,9 @@ const HASH_ALIASES = {
   哥吉拉心法: "podcasts",
   "godzilla-playbook": "podcasts",
   playbook: "podcasts",
+  黃仁勳: "podcasts",
+  "jen-hsun": "podcasts",
+  etl: "podcasts",
   method: "logic",
   邏輯: "logic",
 };
@@ -655,6 +664,7 @@ function renderApp(data, paper) {
       <div class="view" id="view-podcasts" data-view="podcasts" hidden>
         <span id="podcasts" class="view-anchor" tabindex="-1"></span>
         <span id="godzilla" class="view-anchor" tabindex="-1"></span>
+        <span id="jensen" class="view-anchor" tabindex="-1"></span>
         ${renderPodcastsSection()}
       </div>
 
