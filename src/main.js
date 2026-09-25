@@ -138,6 +138,17 @@ function screenBadges(screens) {
 
 
 
+/** Official publisher pages for 「熱門」 pills (real public URLs only). */
+const INDEX_OFFICIAL_URLS = {
+  tw: "https://www.twse.com.tw/zh/indices/taiex/mi-5min-indices.html",
+  otc: "https://www.tpex.org.tw/zh-tw/mainboard/trading/info/daily-indices.html",
+  spx: "https://www.spglobal.com/spdji/en/indices/equity/sp-500/",
+  nasdaq: "https://www.nasdaq.com/market-activity/index/comp",
+  sox: "https://www.nasdaq.com/market-activity/index/sox",
+  // CBC publishes Taipei Forex (台北外匯經紀) interbank closing USD/TWD
+  usdTwd: "https://www.cbc.gov.tw/tw/lp-645-1.html",
+};
+
 function renderIndexStrip(indices) {
   const chips = [];
 
@@ -158,13 +169,22 @@ function renderIndexStrip(indices) {
       item.session === "intraday"
         ? ` · ${term("intraday", t("intraday"))}`
         : "";
-    chips.push(`
-      <div class="index-chip ${incomplete ? "incomplete" : ""}">
+    const href = INDEX_OFFICIAL_URLS[key];
+    const title = href ? `title="${escapeHtml((item.name || key) + " · official ↗")}"` : "";
+    const inner = `
         <div class="label">${labelHtml}${session}</div>
         <div class="value">${val}</div>
-        ${pct}
-      </div>
-    `);
+        ${pct}`;
+    if (href) {
+      chips.push(`
+      <a class="index-chip ${incomplete ? "incomplete" : ""}" href="${escapeHtml(href)}"
+         target="_blank" rel="noopener noreferrer" ${title}>${inner}
+      </a>`);
+    } else {
+      chips.push(`
+      <div class="index-chip ${incomplete ? "incomplete" : ""}">${inner}
+      </div>`);
+    }
   };
 
   pushPct("tw", term("taiex", indices.tw?.name || t("taiex")), indices.tw);
@@ -176,15 +196,25 @@ function renderIndexStrip(indices) {
   if (indices.usdTwd) {
     const fx = indices.usdTwd;
     const show = fx.taipeiClose ?? fx.yahoo;
+    const href = INDEX_OFFICIAL_URLS.usdTwd;
+    const tip = [
+      "USD/TWD",
+      t("taipeiClose") + (fx.taipeiClose != null ? ` ${fmtNum(fx.taipeiClose, 3)}` : " —"),
+      fx.yahoo != null ? `Yahoo ${fmtNum(fx.yahoo, 3)}` : null,
+      "CBC / 台北外匯 official ↗",
+    ]
+      .filter(Boolean)
+      .join(" · ");
     chips.push(`
-      <div class="index-chip">
+      <a class="index-chip" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"
+         title="${escapeHtml(tip)}">
         <div class="label">${term("usdtwd", t("usdtwd"))}</div>
         <div class="value">${fmtNum(show, 3)}</div>
         <div class="pct flat" style="font-size:0.7rem">
           ${escapeHtml(t("taipeiClose"))} ${fx.taipeiClose != null ? fmtNum(fx.taipeiClose, 3) : "—"}
           · Yahoo ${fx.yahoo != null ? fmtNum(fx.yahoo, 3) : "—"}
         </div>
-      </div>
+      </a>
     `);
   }
 
@@ -193,7 +223,7 @@ function renderIndexStrip(indices) {
   }
 
   const group = `<div class="index-marquee-group">${chips.join("")}</div>`;
-  // Duplicate track for seamless mobile ticker; desktop CSS hides the clone.
+  // Duplicate track for seamless ticker loop (desktop + mobile).
   return `
     <div class="index-strip index-strip--marquee">
       <div class="index-marquee" tabindex="0">
@@ -883,7 +913,7 @@ function applyCategoryRoute(route) {
 }
 
 
-/** Pause/resume mobile 「熱門」 ticker on press (CSS :hover / :active cover desktop pointer). */
+/** Pause/resume 「熱門」 ticker on press (CSS :hover / :active also cover pointer). */
 function bindMarketMarquee(root) {
   const el = root.querySelector(".index-marquee");
   if (!el || el.dataset.marqueeBound === "1") return;

@@ -170,7 +170,7 @@ h1 {
   min-width: 0;
 }
 
-/* Marquee viewport (mobile ticker; desktop falls back to calm wrap) */
+/* Marquee viewport — continuous ticker on all widths (desktop + mobile) */
 .index-strip--marquee {
   overflow: hidden;
   position: relative;
@@ -190,6 +190,8 @@ h1 {
   flex-wrap: nowrap;
   align-items: center;
   width: max-content;
+  animation: index-marquee-scroll 38s linear infinite;
+  will-change: transform;
   /* no gap on track — padding on each group keeps -50% seamless */
 }
 
@@ -202,9 +204,9 @@ h1 {
   padding-right: 0.45rem;
 }
 
-/* Clone only used for seamless loop on mobile */
+/* Duplicate group for seamless -50% loop (desktop + mobile) */
 .index-marquee-group--clone {
-  display: none;
+  display: flex;
 }
 
 @keyframes index-marquee-scroll {
@@ -212,59 +214,23 @@ h1 {
   to { transform: translate3d(-50%, 0, 0); }
 }
 
-/* Phone / bottom-nav widths: horizontal finance ticker */
-@media (max-width: 899px) {
-  .index-marquee-group--clone {
-    display: flex;
-  }
-
-  .index-marquee-track {
-    animation: index-marquee-scroll 38s linear infinite;
-    will-change: transform;
-  }
-
-  .index-marquee:hover .index-marquee-track,
-  .index-marquee:focus-within .index-marquee-track,
-  .index-marquee:active .index-marquee-track,
-  .index-marquee.is-paused .index-marquee-track {
-    animation-play-state: paused;
-  }
-}
-
-/* Desktop: calm wrap, no auto-scroll */
-@media (min-width: 900px) {
-  .index-strip--marquee {
-    overflow: visible;
-  }
-  .index-marquee {
-    overflow: visible;
-  }
-  .index-marquee-track {
-    flex-wrap: wrap;
-    width: auto;
-    animation: none;
-    transform: none;
-  }
-  .index-marquee-group {
-    flex-wrap: wrap;
-    padding-right: 0;
-  }
-  .index-marquee-group--clone {
-    display: none !important;
-  }
+/* Pause on hover / focus / press (desktop pointer + touch) */
+.index-marquee:hover .index-marquee-track,
+.index-marquee:focus-within .index-marquee-track,
+.index-marquee:active .index-marquee-track,
+.index-marquee.is-paused .index-marquee-track {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .index-marquee-track {
     animation: none !important;
     transform: none !important;
+    flex-wrap: wrap;
+    width: auto;
   }
   .index-marquee-group--clone {
     display: none !important;
-  }
-  .index-marquee-track {
-    flex-wrap: wrap;
-    width: auto;
   }
 }
 
@@ -306,6 +272,20 @@ h1 {
 
 .index-chip.incomplete .value {
   color: var(--text-dim);
+}
+
+a.index-chip {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+a.index-chip:hover,
+a.index-chip:focus-visible {
+  border-color: var(--accent, #0078d4);
+  box-shadow: 0 0 0 1px rgba(0, 120, 212, 0.25);
+  outline: none;
 }
 
 
@@ -364,7 +344,7 @@ h1 {
   margin-bottom: 0;
 }
 
-/* Always ticker (more events than 熱門); beat desktop wrap + clone !important on .index-strip--marquee */
+/* Always ticker; !important keeps macro timing distinct from 熱門 38s */
 .macro-strip .index-strip--marquee {
   overflow: hidden !important;
   position: relative;
@@ -1426,7 +1406,7 @@ h1 {
   /* flex chips; mobile marquee handled via .index-strip--marquee */
 }
 @media (min-width: 640px) and (max-width: 899px) {
-  /* Mid widths still use ticker; wrap only on true desktop (≥900) */
+  /* Non-marquee strips may wrap; .index-strip--marquee always tickers */
   .index-strip:not(.index-strip--marquee) {
     flex-wrap: wrap;
   }

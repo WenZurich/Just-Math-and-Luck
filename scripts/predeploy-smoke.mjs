@@ -1010,16 +1010,35 @@ async function main() {
     } else ok("lookup.css official filings styles present");
   }
 
-  // —— Mobile 「熱門」 market-index marquee/ticker ——
+  // —— 「熱門」 market-index marquee/ticker (desktop + mobile) ——
   if (!/index-strip--marquee/.test(mainSrc) || !/index-marquee-track/.test(mainSrc)) {
     fail("renderIndexStrip should emit index-strip--marquee + index-marquee-track");
   } else ok("market index marquee markup in main.js");
   if (!/bindMarketMarquee/.test(mainSrc) || !/is-paused/.test(mainSrc)) {
     fail("bindMarketMarquee / is-paused touch pause missing");
   } else ok("market marquee pause binding present");
+  if (!/INDEX_OFFICIAL_URLS/.test(mainSrc) || !/twse\.com\.tw/.test(mainSrc) || !/tpex\.org\.tw/.test(mainSrc)) {
+    fail("hot pills should map INDEX_OFFICIAL_URLS to TWSE/TPEx");
+  } else ok("hot pills have INDEX_OFFICIAL_URLS (TWSE/TPEx)");
+  if (!/spglobal\.com\/spdji/.test(mainSrc) || !/nasdaq\.com\/market-activity\/index\/comp/.test(mainSrc) || !/nasdaq\.com\/market-activity\/index\/sox/.test(mainSrc)) {
+    fail("hot pills missing S&P / Nasdaq / SOX official URLs");
+  } else ok("hot pills S&P / Nasdaq / SOX official URLs");
+  if (!/cbc\.gov\.tw/.test(mainSrc)) {
+    fail("USD/TWD hot pill should link CBC Taipei Forex page");
+  } else ok("USD/TWD links CBC official rate page");
+  if (!/<a class="index-chip/.test(mainSrc) || !/target="_blank"/.test(mainSrc) || !/rel="noopener noreferrer"/.test(mainSrc)) {
+    fail("index chips should be <a class=index-chip> with target=_blank rel=noopener");
+  } else ok("index chips are official links in new tab");
   if (!/index-marquee-scroll/.test(cssNav) || !/animation-play-state:\s*paused/.test(cssNav)) {
     fail("style.css missing index-marquee-scroll / animation-play-state:paused");
   } else ok("market marquee CSS animation + pause");
+  // Desktop must NOT disable marquee (no min-width wrap/kill of clone)
+  if (/@media\s*\(min-width:\s*900px\)[\s\S]{0,400}?index-marquee-group--clone[\s\S]{0,80}?display:\s*none/.test(cssNav)) {
+    fail("desktop ≥900px must not hide index-marquee-group--clone (熱門 should ticker on desktop)");
+  } else ok("desktop marquee clone not disabled at ≥900px");
+  if (!/\.index-marquee-track\s*\{[\s\S]*?animation:\s*index-marquee-scroll/.test(cssNav)) {
+    fail("index-marquee-track should animate outside mobile-only media query");
+  } else ok("index-marquee-track animates at all widths");
   if (!/@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?index-marquee-track[\s\S]*?animation:\s*none/.test(cssNav)) {
     fail("prefers-reduced-motion should disable index-marquee-track animation");
   } else ok("market marquee respects prefers-reduced-motion");
