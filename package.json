@@ -17,7 +17,8 @@
     "predeploy": "npm run test:smoke && npm run build",
     "fetch-soxl": "node scripts/fetch-soxl.mjs",
     "fetch-us-macro": "node scripts/fetch-us-macro-calendar.mjs",
-    "fetch-gooaye": "node scripts/fetch-gooaye-episodes.mjs"
+    "fetch-gooaye": "node scripts/fetch-gooaye-episodes.mjs",
+    "listen-gooaye": "node scripts/listen-gooaye-episodes.mjs"
   },
   "devDependencies": {
     "happy-dom": "^20.14.5",

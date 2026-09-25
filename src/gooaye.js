@@ -1,5 +1,7 @@
 /**
- * Gooaye（股癌）episode library — public RSS key-points only.
+ * Gooaye（股癌）episode library.
+ * Listened episodes: stockAnalysis from audio→STT review.
+ * Others: RSS show-note teasers only (notesQuality !== "listened").
  * Candidate / watch; math gate CLOSED. Not investment advice.
  */
 import { escapeHtml } from "./glossary.js";
@@ -49,6 +51,10 @@ function formatAsOf(asOf) {
   }
 }
 
+function isListened(ep) {
+  return ep?.notesQuality === "listened" && Array.isArray(ep.stockAnalysis) && ep.stockAnalysis.length > 0;
+}
+
 function filteredEpisodes(data) {
   const list = data?.episodes || [];
   const q = filterQuery.trim().toLowerCase();
@@ -59,7 +65,9 @@ function filteredEpisodes(data) {
       ep.subtitle,
       ep.ep != null ? `ep${ep.ep}` : "",
       ep.ep != null ? String(ep.ep) : "",
+      ...(ep.stockAnalysis || []),
       ...(ep.keyPoints || []),
+      ...(ep.rssTeaser || []),
     ]
       .filter(Boolean)
       .join("\n")
@@ -69,6 +77,7 @@ function filteredEpisodes(data) {
 }
 
 function episodeCard(ep) {
+  const listened = isListened(ep);
   const num =
     ep.ep != null
       ? `<span class="gy-ep-num">EP${escapeHtml(String(ep.ep))}</span>`
@@ -76,34 +85,60 @@ function episodeCard(ep) {
   const date = ep.pubDateTw
     ? `<time class="gy-ep-date" datetime="${escapeHtml(ep.pubDateIso || ep.pubDateTw)}">${escapeHtml(ep.pubDateTw)}</time>`
     : "";
+  const badge = listened
+    ? `<span class="gy-ep-badge gy-ep-badge-listened">${escapeHtml(t("gooayeBadgeListened"))}</span>`
+    : `<span class="gy-ep-badge gy-ep-badge-rss">${escapeHtml(t("gooayeBadgeRssOnly"))}</span>`;
   const titleText = ep.title || (ep.ep != null ? `EP${ep.ep}` : t("gooayeUntitled"));
-  const points = (ep.keyPoints || []).filter(Boolean);
-  let body;
-  if (points.length) {
-    body = `<ul class="gy-ep-points">${points
+
+  let body = "";
+  if (listened) {
+    const stock = (ep.stockAnalysis || []).filter(Boolean);
+    body += `<p class="gy-ep-kicker gy-ep-kicker-stock">${escapeHtml(t("gooayeStockAnalysis"))}</p>`;
+    body += `<ul class="gy-ep-points gy-ep-stock">${stock
       .map((p) => `<li>${escapeHtml(p)}</li>`)
       .join("")}</ul>`;
+    const teaser = (ep.rssTeaser || ep.keyPoints || []).filter(Boolean);
+    if (teaser.length) {
+      body += `<details class="gy-ep-rss-details"><summary>${escapeHtml(t("gooayeRssTeaserToggle"))}</summary>`;
+      body += `<ul class="gy-ep-points gy-ep-rss">${teaser
+        .map((p) => `<li>${escapeHtml(p)}</li>`)
+        .join("")}</ul></details>`;
+    }
+    if (ep.listenedAt || ep.transcriptSource) {
+      const bits = [];
+      if (ep.listenedAt) bits.push(t("gooayeListenedAt", { date: String(ep.listenedAt).slice(0, 16).replace("T", " ") }));
+      if (ep.transcriptSource) bits.push(String(ep.transcriptSource));
+      body += `<p class="gy-ep-source-note">${escapeHtml(bits.join(" · "))}</p>`;
+    }
   } else {
-    body = `<p class="gy-ep-empty">${escapeHtml(t("gooayeNotesThin"))}</p>`;
+    const points = (ep.keyPoints || []).filter(Boolean);
+    body += `<p class="gy-ep-kicker">${escapeHtml(t("gooayeKeyPoints"))}</p>`;
+    if (points.length) {
+      body += `<ul class="gy-ep-points">${points
+        .map((p) => `<li>${escapeHtml(p)}</li>`)
+        .join("")}</ul>`;
+    } else {
+      body += `<p class="gy-ep-empty">${escapeHtml(t("gooayeNotesThin"))}</p>`;
+    }
+    const thinNote =
+      ep.notesQuality === "teaser" || ep.notesQuality === "title-only" || !points.length
+        ? `<p class="gy-ep-source-note">${escapeHtml(t("gooayeTeaserNote"))}</p>`
+        : `<p class="gy-ep-source-note">${escapeHtml(t("gooayeRssOnlyNote"))}</p>`;
+    body += thinNote;
   }
-  const thinNote =
-    ep.notesQuality === "teaser" || ep.notesQuality === "title-only"
-      ? `<p class="gy-ep-source-note">${escapeHtml(t("gooayeTeaserNote"))}</p>`
-      : "";
+
   const link = ep.link
     ? `<a class="gy-ep-link" href="${escapeHtml(ep.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("gooayeListen"))}</a>`
     : "";
 
   return `
-    <article class="gy-ep" data-ep="${escapeHtml(String(ep.ep ?? ""))}">
+    <article class="gy-ep${listened ? " gy-ep-listened" : " gy-ep-rss-only"}" data-ep="${escapeHtml(String(ep.ep ?? ""))}" data-quality="${escapeHtml(listened ? "listened" : "rss-only")}">
       <header class="gy-ep-head">
-        <div class="gy-ep-meta">${num}${date}</div>
+        <div class="gy-ep-meta">${num}${badge}${date}</div>
         <h4 class="gy-ep-title">${escapeHtml(titleText)}</h4>
       </header>
       <div class="gy-ep-body">
-        <p class="gy-ep-kicker">${escapeHtml(t("gooayeKeyPoints"))}</p>
         ${body}
-        ${thinNote}
         <div class="gy-ep-actions">${link}</div>
       </div>
     </article>`;
@@ -130,6 +165,11 @@ function paint(root, data, { error } = {}) {
     <div class="gy-toolbar">
       <div class="gy-toolbar-stats" aria-live="polite">
         <span class="gy-stat">${escapeHtml(t("gooayeEpisodeCount", { n: String(totalAll) }))}</span>
+        ${
+          counts.listened
+            ? `<span class="gy-stat gy-stat-listened">${escapeHtml(t("gooayeListenedCount", { n: String(counts.listened) }))}</span>`
+            : ""
+        }
         ${asOf ? `<span class="gy-asof">${escapeHtml(t("gooayeAsOf", { date: asOf }))}</span>` : ""}
         ${
           counts.notesEmpty

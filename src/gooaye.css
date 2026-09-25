@@ -209,3 +209,50 @@
   .gy-ep-body { padding-left: 0.75rem; padding-right: 0.75rem; }
   .gy-search { max-width: none; }
 }
+
+/* Listened vs RSS-only badges */
+.gy-ep-badge {
+  font-size: 0.7rem;
+  font-weight: 750;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.gy-ep-badge-listened {
+  background: #065f46;
+  color: #ecfdf5;
+}
+.gy-ep-badge-rss {
+  background: #e2e8f0;
+  color: #475569;
+}
+.gy-ep-listened {
+  border-color: color-mix(in srgb, #059669 35%, var(--border, #e2e8f0));
+  box-shadow: 0 1px 0 color-mix(in srgb, #059669 10%, transparent);
+}
+.gy-ep-listened .gy-ep-head {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+}
+.gy-ep-kicker-stock {
+  color: #047857;
+}
+.gy-ep-stock {
+  font-weight: 550;
+}
+.gy-ep-rss-details {
+  margin: 0.35rem 0 0.45rem;
+  font-size: 0.82rem;
+  color: var(--text-muted, #64748b);
+}
+.gy-ep-rss-details summary {
+  cursor: pointer;
+  font-weight: 650;
+  color: #64748b;
+}
+.gy-ep-rss {
+  margin-top: 0.35rem;
+  opacity: 0.92;
+}
+.gy-stat-listened {
+  color: #047857;
+}

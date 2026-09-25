@@ -348,11 +348,63 @@ function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n", "utf8");
 }
 
+
+
+/** Fields written by listen-gooaye-episodes.mjs — keep across RSS re-fetches. */
+const PRESERVE_LISTENED = [
+  "stockAnalysis",
+  "rssTeaser",
+  "notesQuality",
+  "listenedAt",
+  "transcriptSource",
+  "markets",
+  "hostViewsOnly",
+];
+
+function loadPreviousByEp() {
+  const map = new Map();
+  if (!fs.existsSync(OUT_PUBLIC)) return map;
+  try {
+    const prev = JSON.parse(fs.readFileSync(OUT_PUBLIC, "utf8"));
+    for (const ep of prev.episodes || []) {
+      if (ep?.ep == null) continue;
+      if (ep.notesQuality === "listened" && Array.isArray(ep.stockAnalysis) && ep.stockAnalysis.length) {
+        map.set(ep.ep, ep);
+      }
+    }
+  } catch (e) {
+    console.warn("Could not read previous gooaye-episodes.json for merge:", e.message);
+  }
+  return map;
+}
+
+function mergeListened(episodes, prevByEp) {
+  let kept = 0;
+  for (const ep of episodes) {
+    const prev = prevByEp.get(ep.ep);
+    if (!prev) continue;
+    if (!ep.rssTeaser && Array.isArray(prev.rssTeaser)) ep.rssTeaser = prev.rssTeaser;
+    else if (!ep.rssTeaser && Array.isArray(ep.keyPoints) && ep.keyPoints.length) {
+      ep.rssTeaser = [...ep.keyPoints];
+    }
+    for (const k of PRESERVE_LISTENED) {
+      if (k === "rssTeaser") continue;
+      if (prev[k] !== undefined) ep[k] = prev[k];
+    }
+    ep.notesQuality = "listened";
+    kept += 1;
+  }
+  return kept;
+}
+
 async function main() {
   console.log("Fetching Gooaye SoundOn RSS…");
   console.log(" ", FEED_URL);
   const xml = await fetchFeed();
   const { episodes, thinCount, titleOnlyCount, skippedEmpty } = parseItems(xml);
+  const prevByEp = loadPreviousByEp();
+  const keptListened = mergeListened(episodes, prevByEp);
+  if (keptListened) console.log(`  preserved listened enrichment for ${keptListened} episode(s)`);
 
   if (!episodes.length) {
     console.error("No episodes parsed — refusing to overwrite last-good file.");
@@ -369,7 +421,7 @@ async function main() {
     status: "candidate",
     mathGate: "closed",
     disclaimer:
-      "Not investment advice. Per-episode 重點整理 distilled from public SoundOn RSS titles/descriptions after stripping sponsor boilerplate. No audio transcripts; no invented quotes or numbers.",
+      "Not investment advice. Candidate/watch; math gate closed. Episodes with notesQuality=listened include 股票重點分析 after public audio download + speech-to-text review. RSS-only episodes are show-note teasers only. Host views; no invented tickers, prices, or quotes.",
     show: {
       name: "Gooaye 股癌",
       host: "謝孟恭",
@@ -388,6 +440,8 @@ async function main() {
       notesTeaser: thinCount,
       notesTitleOnly: titleOnlyCount,
       notesEmpty: emptyNotes.length,
+      listened: episodes.filter((e) => e.notesQuality === "listened").length,
+      rssOnly: episodes.filter((e) => e.notesQuality !== "listened").length,
     },
     episodes,
   };

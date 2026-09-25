@@ -612,6 +612,26 @@ async function main() {
   if (!fs.existsSync(path.join(ROOT, "scripts/fetch-gooaye-episodes.mjs"))) {
     fail("missing scripts/fetch-gooaye-episodes.mjs");
   } else ok("fetch-gooaye-episodes.mjs present");
+  if (!fs.existsSync(path.join(ROOT, "scripts/listen-gooaye-episodes.mjs"))) {
+    fail("missing scripts/listen-gooaye-episodes.mjs");
+  } else ok("listen-gooaye-episodes.mjs present");
+  if (!fs.existsSync(path.join(ROOT, "scripts/gooaye-stock-analysis.json"))) {
+    fail("missing scripts/gooaye-stock-analysis.json");
+  } else ok("gooaye-stock-analysis.json present");
+  if (!gyJs.includes("gooayeBadgeListened") || !gyJs.includes("stockAnalysis") || !/notesQuality/.test(gyJs)) {
+    fail("gooaye.js missing listened badge / stockAnalysis wiring");
+  } else ok("gooaye.js listened vs RSS-only UI");
+  {
+    const gy2 = JSON.parse(fs.readFileSync(gyDataPath, "utf8"));
+    const listenedEps = (gy2.episodes || []).filter((e) => e.notesQuality === "listened");
+    if (listenedEps.length < 12) {
+      fail(`need >=12 listened gooaye episodes with stockAnalysis, got ${listenedEps.length}`);
+    } else ok(`gooaye listened episodes ${listenedEps.length}`);
+    const bad = listenedEps.find((e) => !Array.isArray(e.stockAnalysis) || e.stockAnalysis.length < 3);
+    if (bad) fail(`listened EP${bad.ep} missing stockAnalysis bullets`);
+    else ok("listened episodes have stockAnalysis");
+  }
+
   if (!pcJs.includes("podcast-jensen") || !pcJs.includes("initJensen") || !pcJs.includes("jensenTitle")) {
     fail("podcasts.js missing Jensen Huang featured entry");
   } else ok("podcasts.js Jensen Huang featured");
