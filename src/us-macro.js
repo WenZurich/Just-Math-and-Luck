@@ -1,5 +1,6 @@
 /**
  * US market-moving macro calendar strip (under 「熱門」).
+ * Horizontal marquee (same UX as index-marquee) with clickable official release links.
  * Data: public/data/us-macro-calendar.json  — refresh via npm run fetch-us-macro
  */
 import { t, numberLocale } from "./i18n.js";
@@ -101,21 +102,48 @@ function renderChip(ev, { todayEt, nextId, timeZone }) {
     badges.push(`<span class="macro-chip-tag macro-chip-tag--high">${escapeHtml(t("macroHighImpact"))}</span>`);
   }
 
-  const titleBits = [ev.eventName, ev.periodLabel, `${ev.dayEt} ${timePart} ET`]
+  const titleBits = [ev.eventName, ev.periodLabel, `${ev.dayEt} ${timePart} ET`, ev.officialUrl ? "↗ official" : null]
     .filter(Boolean)
     .join(" · ");
 
+  const when = timePart
+    ? `${escapeHtml(datePart)} ${escapeHtml(timePart)}`
+    : escapeHtml(datePart);
+
+  const inner = `
+      <span class="macro-chip-when">${when}</span>
+      <span class="macro-chip-name">${label}</span>
+      ${badges.length ? `<span class="macro-chip-tags">${badges.join("")}</span>` : ""}`;
+
+  const href = typeof ev.officialUrl === "string" && /^https?:\/\//i.test(ev.officialUrl)
+    ? ev.officialUrl
+    : null;
+
+  if (href) {
+    return `
+    <a class="${classes}" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"
+       title="${escapeHtml(titleBits)}" data-event-id="${escapeHtml(ev.id)}">${inner}
+    </a>`;
+  }
+
   return `
-    <article class="${classes}" title="${escapeHtml(titleBits)}" data-event-id="${escapeHtml(ev.id)}">
-      <div class="macro-chip-when">
-        <span class="macro-chip-date">${escapeHtml(datePart)}</span>
-        <span class="macro-chip-time">${escapeHtml(timePart)}</span>
-      </div>
-      <div class="macro-chip-body">
-        <span class="macro-chip-name">${label}</span>
-        ${badges.length ? `<span class="macro-chip-tags">${badges.join("")}</span>` : ""}
-      </div>
-    </article>`;
+    <span class="${classes}" title="${escapeHtml(titleBits)}" data-event-id="${escapeHtml(ev.id)}">${inner}
+    </span>`;
+}
+
+function bindMacroMarquee(root) {
+  const el = root.querySelector(".index-marquee");
+  if (!el || el.dataset.marqueeBound === "1") return;
+  el.dataset.marqueeBound = "1";
+  const pause = () => el.classList.add("is-paused");
+  const resume = () => el.classList.remove("is-paused");
+  el.addEventListener("pointerdown", pause);
+  el.addEventListener("pointerup", resume);
+  el.addEventListener("pointercancel", resume);
+  el.addEventListener("pointerleave", resume);
+  el.addEventListener("touchstart", pause, { passive: true });
+  el.addEventListener("touchend", resume, { passive: true });
+  el.addEventListener("touchcancel", resume, { passive: true });
 }
 
 function paint(root, data) {
@@ -142,7 +170,7 @@ function paint(root, data) {
   if (!events.length) {
     root.innerHTML = `
       <div class="macro-strip" role="region" aria-label="${escapeHtml(t("macroTitle"))}">
-        <div class="macro-strip-head">
+        <div class="macro-strip-side">
           <span class="macro-strip-label">${escapeHtml(t("macroTitle"))}</span>
           <span class="macro-strip-meta">${meta}</span>
         </div>
@@ -151,20 +179,27 @@ function paint(root, data) {
     return;
   }
 
-  const chips = events.map((ev) => renderChip(ev, { todayEt, nextId, timeZone })).join("");
+  const chips = events.map((ev) => renderChip(ev, { todayEt, nextId, timeZone }));
+  const group = `<div class="index-marquee-group">${chips.join("")}</div>`;
+  const clone = `<div class="index-marquee-group index-marquee-group--clone" aria-hidden="true">${chips.join("")}</div>`;
 
   root.innerHTML = `
     <div class="macro-strip" role="region" aria-label="${escapeHtml(t("macroTitle"))}">
-      <div class="macro-strip-head">
+      <div class="macro-strip-side">
         <span class="macro-strip-label">${escapeHtml(t("macroTitle"))}</span>
-        <span class="macro-strip-meta">${meta}</span>
+        <span class="macro-strip-meta" title="${meta}">${meta}</span>
       </div>
-      <div class="macro-strip-scroll" tabindex="0">
-        <div class="macro-strip-chips">
-          ${chips}
+      <div class="index-strip index-strip--marquee macro-strip-marquee">
+        <div class="index-marquee" tabindex="0">
+          <div class="index-marquee-track">
+            ${group}
+            ${clone}
+          </div>
         </div>
       </div>
     </div>`;
+
+  bindMacroMarquee(root);
 }
 
 export function renderUsMacroStripSlot() {
@@ -191,7 +226,7 @@ export async function initUsMacroStrip(selector = "#us-macro-strip") {
     } catch (err) {
       root.innerHTML = `
         <div class="macro-strip macro-strip--error" role="status">
-          <div class="macro-strip-head">
+          <div class="macro-strip-side">
             <span class="macro-strip-label">${escapeHtml(t("macroTitle"))}</span>
           </div>
           <p class="macro-strip-empty">${escapeHtml(

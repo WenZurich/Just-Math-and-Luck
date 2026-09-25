@@ -1004,6 +1004,38 @@ async function main() {
     fail("prefers-reduced-motion should disable index-marquee-track animation");
   } else ok("market marquee respects prefers-reduced-motion");
 
+  // —— US 「美股大事」 macro marquee under 熱門 ——
+  const macroSrc = fs.readFileSync(path.join(ROOT, "src/us-macro.js"), "utf8");
+  if (!/index-marquee-track/.test(macroSrc) || !/index-marquee-group--clone/.test(macroSrc)) {
+    fail("us-macro.js should emit index-marquee-track + clone group like 熱門");
+  } else ok("US macro strip uses index-marquee markup");
+  if (!/bindMacroMarquee/.test(macroSrc) || !/is-paused/.test(macroSrc)) {
+    fail("us-macro.js missing bindMacroMarquee / is-paused pause");
+  } else ok("US macro marquee pause binding present");
+  if (!/target="_blank"/.test(macroSrc) || !/rel="noopener noreferrer"/.test(macroSrc) || !/officialUrl/.test(macroSrc)) {
+    fail("us-macro chips must link officialUrl with target=_blank rel=noopener noreferrer");
+  } else ok("US macro chips open officialUrl in new tab");
+  if (!/macro-strip-marquee/.test(cssNav) || !/\.macro-strip \.index-marquee-track/.test(cssNav)) {
+    fail("style.css missing macro-strip marquee overrides");
+  } else ok("US macro marquee CSS present");
+  const macroJsonPath = path.join(ROOT, "public/data/us-macro-calendar.json");
+  if (!fs.existsSync(macroJsonPath)) {
+    fail("public/data/us-macro-calendar.json missing");
+  } else {
+    const macroJson = JSON.parse(fs.readFileSync(macroJsonPath, "utf8"));
+    const evs = Array.isArray(macroJson.events) ? macroJson.events : [];
+    if (!evs.length) fail("us-macro-calendar.json has no events");
+    else {
+      const bad = evs.filter((e) => !e.officialUrl || !/^https:\/\//i.test(e.officialUrl));
+      if (bad.length) fail(`events missing https officialUrl: ${bad.map((e) => e.eventKey).join(",")}`);
+      else ok(`US macro calendar has officialUrl on ${evs.length} events`);
+    }
+  }
+  const fetchMacro = fs.readFileSync(path.join(ROOT, "scripts/fetch-us-macro-calendar.mjs"), "utf8");
+  if (!/OFFICIAL_URLS/.test(fetchMacro) || !/officialUrlFor/.test(fetchMacro)) {
+    fail("fetch-us-macro-calendar.mjs must map OFFICIAL_URLS → officialUrl");
+  } else ok("fetch-us-macro maps official agency URLs");
+
   // —— CSS: tall sticky chips must stay disabled (root cause of dead panel clicks) ——
   const css = fs.readFileSync(path.join(ROOT, "src/strategies.css"), "utf8");
   if (!/Do NOT sticky the full chip list/.test(css) && !/\.xq-chips\s*\{[\s\S]*?position:\s*static\s*!important/.test(css)) {

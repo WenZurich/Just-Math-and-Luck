@@ -310,26 +310,32 @@ h1 {
 
 
 /* —— US macro market-moving dates (under 熱門) —— */
+/* Same row layout as .market-strip-wrap; chips use index-marquee for continuous scroll */
 .us-macro-strip-host {
-  margin: 0.15rem 0 0;
+  margin: 0.05rem 0 0;
   min-width: 0;
 }
 
 .macro-strip {
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.4rem 0 0.2rem;
+  align-items: stretch;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0.35rem 0 0.15rem;
   border-top: 1px solid var(--border-soft);
+  overflow: hidden;
   min-width: 0;
 }
 
-.macro-strip-head {
+.macro-strip-side {
+  flex: 0 0 auto;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.65rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.1rem;
+  min-width: 0;
+  max-width: 5.5rem;
+  z-index: 1;
 }
 
 .macro-strip-label {
@@ -337,44 +343,117 @@ h1 {
   font-weight: 600;
   color: var(--text-muted);
   white-space: nowrap;
+  padding: 0 0.15rem 0 0;
 }
 
 .macro-strip-meta {
-  font-size: 0.68rem;
+  font-size: 0.58rem;
   color: var(--text-dim);
   font-family: var(--mono);
-  text-align: right;
+  line-height: 1.25;
+  max-width: 5.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.macro-strip-scroll {
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  outline: none;
+.macro-strip .macro-strip-marquee,
+.macro-strip .index-strip--marquee {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+/* Always ticker (more events than 熱門); beat desktop wrap + clone !important on .index-strip--marquee */
+.macro-strip .index-strip--marquee {
+  overflow: hidden !important;
+  position: relative;
+}
+
+.macro-strip .index-marquee {
+  overflow: hidden !important;
+  width: 100%;
   min-width: 0;
 }
 
-.macro-strip-chips {
-  display: flex;
-  flex-wrap: nowrap;
+.macro-strip .index-marquee-track {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  width: max-content !important;
+  animation: index-marquee-scroll 48s linear infinite !important;
+  will-change: transform;
+  transform: none; /* start frame; animation owns transform */
+}
+
+.macro-strip .index-marquee-group {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
   gap: 0.45rem;
-  width: max-content;
-  padding: 0.1rem 0 0.25rem;
+  flex: 0 0 auto;
+  padding-right: 0.45rem !important;
+}
+
+.macro-strip .index-marquee-group--clone {
+  display: flex !important;
+}
+
+.macro-strip .index-marquee:hover .index-marquee-track,
+.macro-strip .index-marquee:focus-within .index-marquee-track,
+.macro-strip .index-marquee:active .index-marquee-track,
+.macro-strip .index-marquee.is-paused .index-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .macro-strip .index-marquee-track {
+    animation: none !important;
+    transform: none !important;
+    flex-wrap: wrap;
+    width: auto;
+  }
+  .macro-strip .index-marquee-group--clone {
+    display: none !important;
+  }
+  .macro-strip .index-marquee {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .macro-strip .index-marquee-track {
+    width: max-content;
+    flex-wrap: nowrap;
+  }
+}
+
+/* Compact pills (like .index-chip), not multi-row cards */
+a.macro-chip {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a.macro-chip:hover,
+a.macro-chip:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+  outline: none;
 }
 
 .macro-chip {
   flex: 0 0 auto;
-  display: flex;
-  align-items: stretch;
-  gap: 0.5rem;
-  min-width: 7.5rem;
-  max-width: 11.5rem;
-  padding: 0.4rem 0.65rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-width: max-content;
+  max-width: none;
+  padding: 0.35rem 0.75rem;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 999px;
   box-shadow: none;
+  white-space: nowrap;
 }
 
 .macro-chip--high {
@@ -396,49 +475,27 @@ h1 {
 }
 
 .macro-chip-when {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.1rem;
-  min-width: 2.6rem;
-}
-
-.macro-chip-date {
+  font-family: var(--mono);
   font-size: 0.68rem;
   font-weight: 600;
-  color: var(--text);
-  white-space: nowrap;
-  line-height: 1.2;
-}
-
-.macro-chip-time {
-  font-family: var(--mono);
-  font-size: 0.65rem;
   color: var(--text-muted);
   white-space: nowrap;
-}
-
-.macro-chip-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  min-width: 0;
+  line-height: 1.2;
 }
 
 .macro-chip-name {
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--text);
-  line-height: 1.25;
+  line-height: 1.2;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .macro-chip-tags {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
   gap: 0.2rem;
+  align-items: center;
 }
 
 .macro-chip-tag {
@@ -464,15 +521,9 @@ h1 {
 
 .macro-strip-empty {
   margin: 0;
+  align-self: center;
   font-size: 0.75rem;
   color: var(--text-dim);
-}
-
-@media (min-width: 900px) {
-  .macro-strip-chips {
-    flex-wrap: wrap;
-    width: auto;
-  }
 }
 
 /* —— Sections —— */

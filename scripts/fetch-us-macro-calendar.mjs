@@ -57,6 +57,34 @@ const HIGH_IMPACT_KEYS = new Set([
   "ismServices",
 ]);
 
+/** Official agency release / schedule hubs (real public URLs — never invent). */
+const OFFICIAL_URLS = {
+  cpi: "https://www.bls.gov/schedule/news_release/cpi.htm",
+  ppi: "https://www.bls.gov/schedule/news_release/ppi.htm",
+  nfp: "https://www.bls.gov/schedule/news_release/empsit.htm",
+  jolts: "https://www.bls.gov/schedule/news_release/jolts.htm",
+  pce: "https://www.bea.gov/data/personal-consumption-expenditures-price-index",
+  gdp: "https://www.bea.gov/data/gdp/gross-domestic-product",
+  joblessClaims: "https://www.dol.gov/ui/data.pdf",
+  retailSales: "https://www.census.gov/retail/index.html",
+  fomcDecision: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+  fomcMinutes: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+  ismMfg: "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
+  ismServices:
+    "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
+};
+
+function officialUrlFor(eventKey, source) {
+  if (eventKey && OFFICIAL_URLS[eventKey]) return OFFICIAL_URLS[eventKey];
+  const src = String(source || "").toLowerCase();
+  if (src === "bls") return "https://www.bls.gov/schedule/";
+  if (src === "bea") return "https://www.bea.gov/news/schedule";
+  if (src === "fed") return "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm";
+  if (src === "dol") return "https://www.dol.gov/ui/data.pdf";
+  if (src === "census") return "https://www.census.gov/economic-indicators/";
+  return null;
+}
+
 function ymdInTz(date, timeZone) {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone,
@@ -145,6 +173,7 @@ function normalizeEvents(rawList, fromYmd, toYmd) {
       dayEt,
       periodLabel: row.periodLabel || null,
       source: row.source || null,
+      officialUrl: officialUrlFor(eventKey, row.source),
       actual: row.actual ?? null,
       previous: row.previous ?? null,
       unit: row.unit || null,

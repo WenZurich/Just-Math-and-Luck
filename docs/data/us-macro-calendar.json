@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-09-25T17:18:30.981Z",
+  "asOf": "2026-09-25T17:24:38.947Z",
   "market": "US",
   "timezone": "America/New_York",
   "timezoneLabel": "US ET",
@@ -11,7 +11,7 @@
     "name": "XOOMAR",
     "url": "https://xoomar.com/api/markets/calendar",
     "docs": "https://xoomar.com/markets/api/calendar",
-    "remoteUpdatedAt": "2026-09-25T17:18:31.201Z",
+    "remoteUpdatedAt": "2026-09-25T17:24:39.727Z",
     "attribution": "Credit XOOMAR with a link to the dataset page on xoomar.com when you republish this data",
     "license": "https://xoomar.com/terms"
   },
@@ -28,6 +28,7 @@
       "dayEt": "2026-09-30",
       "periodLabel": "August 2026",
       "source": "bea",
+      "officialUrl": "https://www.bea.gov/data/personal-consumption-expenditures-price-index",
       "actual": null,
       "previous": null,
       "unit": null
@@ -43,6 +44,7 @@
       "dayEt": "2026-10-01",
       "periodLabel": "Week ending 2026-09-26",
       "source": "dol",
+      "officialUrl": "https://www.dol.gov/ui/data.pdf",
       "actual": null,
       "previous": null,
       "unit": null
@@ -58,6 +60,7 @@
       "dayEt": "2026-10-02",
       "periodLabel": "September 2026",
       "source": "bls",
+      "officialUrl": "https://www.bls.gov/schedule/news_release/empsit.htm",
       "actual": null,
       "previous": null,
       "unit": "thousands, monthly change"
@@ -73,6 +76,7 @@
       "dayEt": "2026-10-07",
       "periodLabel": "September 2026 meeting",
       "source": "fed",
+      "officialUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
       "actual": null,
       "previous": null,
       "unit": null
@@ -88,6 +92,7 @@
       "dayEt": "2026-10-08",
       "periodLabel": "Week ending 2026-10-03",
       "source": "dol",
+      "officialUrl": "https://www.dol.gov/ui/data.pdf",
       "actual": null,
       "previous": null,
       "unit": null
@@ -103,6 +108,7 @@
       "dayEt": "2026-10-14",
       "periodLabel": "September 2026",
       "source": "bls",
+      "officialUrl": "https://www.bls.gov/schedule/news_release/cpi.htm",
       "actual": null,
       "previous": null,
       "unit": "% y/y, all items"
@@ -118,6 +124,7 @@
       "dayEt": "2026-10-15",
       "periodLabel": "September 2026",
       "source": "census",
+      "officialUrl": "https://www.census.gov/retail/index.html",
       "actual": null,
       "previous": null,
       "unit": null
@@ -133,6 +140,7 @@
       "dayEt": "2026-10-15",
       "periodLabel": "September 2026",
       "source": "bls",
+      "officialUrl": "https://www.bls.gov/schedule/news_release/ppi.htm",
       "actual": null,
       "previous": null,
       "unit": null
@@ -148,6 +156,7 @@
       "dayEt": "2026-10-15",
       "periodLabel": "Week ending 2026-10-10",
       "source": "dol",
+      "officialUrl": "https://www.dol.gov/ui/data.pdf",
       "actual": null,
       "previous": null,
       "unit": null
@@ -163,6 +172,7 @@
       "dayEt": "2026-10-22",
       "periodLabel": "Week ending 2026-10-17",
       "source": "dol",
+      "officialUrl": "https://www.dol.gov/ui/data.pdf",
       "actual": null,
       "previous": null,
       "unit": null
@@ -178,6 +188,7 @@
       "dayEt": "2026-10-28",
       "periodLabel": "October 2026 meeting",
       "source": "fed",
+      "officialUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
       "actual": null,
       "previous": null,
       "unit": "%, target range midpoint"
@@ -193,6 +204,7 @@
       "dayEt": "2026-10-29",
       "periodLabel": null,
       "source": "bea",
+      "officialUrl": "https://www.bea.gov/data/gdp/gross-domestic-product",
       "actual": null,
       "previous": null,
       "unit": "% q/q annualized, real GDP"
@@ -208,6 +220,7 @@
       "dayEt": "2026-10-29",
       "periodLabel": "September 2026",
       "source": "bea",
+      "officialUrl": "https://www.bea.gov/data/personal-consumption-expenditures-price-index",
       "actual": null,
       "previous": null,
       "unit": null
@@ -223,6 +236,7 @@
       "dayEt": "2026-10-29",
       "periodLabel": "Week ending 2026-10-24",
       "source": "dol",
+      "officialUrl": "https://www.dol.gov/ui/data.pdf",
       "actual": null,
       "previous": null,
       "unit": null
