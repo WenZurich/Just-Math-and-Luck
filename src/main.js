@@ -53,6 +53,7 @@ import {
 import "./godzilla.css";
 import "./jensen.css";
 import "./podcasts.css";
+import "./gooaye.css";
 import {
   renderPodcastsSection,
   initPodcasts,

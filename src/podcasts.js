@@ -6,10 +6,7 @@ import { escapeHtml } from "./glossary.js";
 import { t } from "./i18n.js";
 import { initGodzilla } from "./godzilla.js";
 import { initJensen } from "./jensen.js";
-
-const GOOAYE_RESEARCH_HASH = "#research/podcast";
-const GOOAYE_APPLE =
-  "https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292";
+import { gooayeDetailHtml, initGooaye } from "./gooaye.js";
 
 /** Host/show categories from current content only. */
 export const PODCAST_CATEGORIES = [
@@ -119,39 +116,15 @@ function featuredJensenCard() {
     </article>`;
 }
 
-function gooayeStubCard() {
-  return `
-    <article class="pc-card pc-card-stub" id="podcast-gooaye" data-podcast="gooaye">
-      <header class="pc-card-head">
-        <div class="pc-card-identity">
-          <span class="pc-card-badge pc-badge-stub">${escapeHtml(t("podcastsStubBadge"))}</span>
-          <span class="pc-card-badge pc-badge-tw">${escapeHtml(t("podcastsGooayeMarket"))}</span>
-          <span class="pc-card-badge pc-badge-candidate">${escapeHtml(t("godzillaBadgeCandidate"))}</span>
-        </div>
-        <h3 class="pc-card-title">${escapeHtml(t("podcastsGooayeTitle"))}</h3>
-        <p class="pc-card-blurb">${escapeHtml(t("podcastsGooayeLead"))}</p>
-      </header>
-      <div class="pc-card-body pc-stub-body">
-        <p class="pc-stub-note" role="note">${escapeHtml(t("podcastsGooayeStubNote"))}</p>
-        <ul class="pc-stub-points">
-          <li>${escapeHtml(t("podcastsGooayePoint1"))}</li>
-          <li>${escapeHtml(t("podcastsGooayePoint2"))}</li>
-          <li>${escapeHtml(t("podcastsGooayePoint3"))}</li>
-        </ul>
-        <div class="pc-stub-actions">
-          <a class="pc-link" href="${GOOAYE_RESEARCH_HASH}">${escapeHtml(t("podcastsGotoResearch"))}</a>
-          <a class="pc-link pc-link-ext" href="${GOOAYE_APPLE}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("podcastsGooayeApple"))}</a>
-        </div>
-      </div>
-    </article>`;
-}
 
 function categoryMenuCards() {
   return PODCAST_CATEGORIES.map((c) => {
     const mktClass = c.market === "TW" ? "pc-badge-tw" : "pc-badge-us";
     const feat = c.featured
       ? `<span class="pc-card-badge pc-badge-featured">${escapeHtml(t("podcastsFeatured"))}</span>`
-      : `<span class="pc-card-badge pc-badge-stub">${escapeHtml(t("podcastsStubBadge"))}</span>`;
+      : c.id === "gooaye"
+        ? `<span class="pc-card-badge pc-badge-library">${escapeHtml(t("gooayeLibraryBadge"))}</span>`
+        : `<span class="pc-card-badge pc-badge-stub">${escapeHtml(t("podcastsStubBadge"))}</span>`;
     const handle = c.handleKey
       ? `<p class="pc-menu-handle">${escapeHtml(t(c.handleKey))}</p>`
       : "";
@@ -186,7 +159,7 @@ function tabsHtml(active) {
 function detailHtml(catId) {
   if (catId === "godzilla") return featuredGodzillaCard();
   if (catId === "jensen") return featuredJensenCard();
-  if (catId === "gooaye") return gooayeStubCard();
+  if (catId === "gooaye") return gooayeDetailHtml();
   return `
     <div class="pc-menu" role="list" aria-label="${escapeHtml(t("podcastsCatMenu"))}">
       <p class="pc-menu-lead">${escapeHtml(t("podcastsMenuLead"))}</p>
@@ -229,6 +202,7 @@ function paintPodcasts(root, catId, { syncUrl = true } = {}) {
 
   if (cat === "godzilla") initGodzilla("#gz-root");
   if (cat === "jensen") initJensen("#jh-root");
+  if (cat === "gooaye") initGooaye("#gy-root");
 }
 
 export function renderPodcastsSection() {

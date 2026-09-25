@@ -575,9 +575,43 @@ async function main() {
   if (!pcJs.includes("renderPodcastsSection") || !pcJs.includes("initPodcasts") || !pcJs.includes("podcast-godzilla")) {
     fail("podcasts.js missing hub / Godzilla featured wiring");
   } else ok("podcasts.js hub + Godzilla featured");
-  if (!pcJs.includes("podcast-gooaye") || !pcJs.includes("podcastsGooayeTitle")) {
-    fail("podcasts.js missing Gooaye stub entry");
-  } else ok("podcasts.js Gooaye stub");
+  if (!pcJs.includes("initGooaye") || !pcJs.includes("gooayeDetailHtml") || !pcJs.includes("podcastsGooayeTitle")) {
+    fail("podcasts.js missing Gooaye episode library wiring");
+  } else ok("podcasts.js Gooaye episode library");
+  if (/gooayeStubCard|輕量 stub|podcastsGooayeStubNote/.test(pcJs)) {
+    fail("podcasts.js still references Gooaye stub UI");
+  } else ok("podcasts.js Gooaye stub removed");
+  const gyJsPath = path.join(ROOT, "src/gooaye.js");
+  if (!fs.existsSync(gyJsPath)) fail("missing src/gooaye.js");
+  else ok("gooaye.js present");
+  if (!fs.existsSync(path.join(ROOT, "src/gooaye.css"))) fail("missing src/gooaye.css");
+  else ok("gooaye.css present");
+  const gyJs = fs.readFileSync(gyJsPath, "utf8");
+  if (!gyJs.includes("initGooaye") || !gyJs.includes("gooaye-episodes.json") || !gyJs.includes("gy-ep-points")) {
+    fail("gooaye.js missing episode list / data URL wiring");
+  } else ok("gooaye.js episode list + data URL");
+  if (!mainJs.includes("gooaye.css")) {
+    fail("main.js missing gooaye.css import");
+  } else ok("gooaye.css imported");
+  const gyDataPath = path.join(ROOT, "public/data/gooaye-episodes.json");
+  if (!fs.existsSync(gyDataPath)) fail("missing public/data/gooaye-episodes.json");
+  else {
+    const gyData = JSON.parse(fs.readFileSync(gyDataPath, "utf8"));
+    const eps = gyData.episodes || [];
+    if (eps.length < 100) fail(`gooaye-episodes.json too few episodes: ${eps.length}`);
+    else ok(`gooaye-episodes.json catalog ${eps.length}`);
+    if (!gyData.show?.feedUrl || !String(gyData.show.feedUrl).includes("soundon")) {
+      fail("gooaye-episodes.json missing SoundOn feedUrl");
+    } else ok("gooaye-episodes.json SoundOn feed");
+    if (!gyData.asOf) fail("gooaye-episodes.json missing asOf");
+    else ok(`gooaye-episodes asOf ${gyData.asOf}`);
+    const invented = eps.some((e) => !Array.isArray(e.keyPoints));
+    if (invented) fail("gooaye episode missing keyPoints array");
+    else ok("gooaye episodes have keyPoints arrays");
+  }
+  if (!fs.existsSync(path.join(ROOT, "scripts/fetch-gooaye-episodes.mjs"))) {
+    fail("missing scripts/fetch-gooaye-episodes.mjs");
+  } else ok("fetch-gooaye-episodes.mjs present");
   if (!pcJs.includes("podcast-jensen") || !pcJs.includes("initJensen") || !pcJs.includes("jensenTitle")) {
     fail("podcasts.js missing Jensen Huang featured entry");
   } else ok("podcasts.js Jensen Huang featured");
@@ -634,7 +668,7 @@ async function main() {
     if (!i18nGz.includes("navPodcasts") || !i18nGz.includes("名人podcast") || !i18nGz.includes("godzillaDisclaimer")) {
       fail("i18n missing podcasts nav/title or godzilla disclaimer");
     } else ok("podcasts + godzilla i18n present");
-    for (const langKey of ["navPodcasts", "podcastsTitle", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle", "podcastsGooayeTitle", "jensenTitle", "jensenDisclaimer", "jensenGateNote", "jensenH1Title", "jensenYoutube", "jensenWatchCta", "jensenEmbedBlockedNote"]) {
+    for (const langKey of ["navPodcasts", "podcastsTitle", "godzillaTitle", "godzillaDisclaimer", "godzillaGateNote", "godzillaTwTitle", "podcastsGooayeTitle", "gooayeLibraryBadge", "gooayeKeyPoints", "gooayeLoadMore", "gooayeAsOf", "jensenTitle", "jensenDisclaimer", "jensenGateNote", "jensenH1Title", "jensenYoutube", "jensenWatchCta", "jensenEmbedBlockedNote"]) {
       const n = (i18nGz.match(new RegExp(langKey + ":", "g")) || []).length;
       if (n < 4) fail(`i18n ${langKey} expected 4 langs, got ${n}`);
     }
