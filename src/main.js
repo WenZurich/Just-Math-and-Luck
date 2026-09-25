@@ -46,6 +46,10 @@ import {
   renderSoxlSection,
   initSoxl,
 } from "./soxl.js";
+import {
+  renderUsMacroStripSlot,
+  initUsMacroStrip,
+} from "./us-macro.js";
 import "./godzilla.css";
 import "./jensen.css";
 import "./podcasts.css";
@@ -630,6 +634,7 @@ function renderApp(data, paper) {
         <span class="market-strip-label">${escapeHtml(t("hot"))}</span>
         ${renderIndexStrip(data.indices || {})}
       </div>
+      ${renderUsMacroStripSlot()}
     </header>
 
     <main class="view-host">
@@ -926,6 +931,7 @@ async function mountUi(app) {
   showView(app, viewBefore, { updateHash: true, scrollTop: false });
   bindTabs(app);
   bindMarketMarquee(app);
+  await initUsMacroStrip("#us-macro-strip");
   bindPaperTabs(app);
   bindLangSwitcher(app);
   await initStrategies("#xq-root");

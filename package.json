@@ -15,7 +15,8 @@
     "test:math": "node scripts/math-guards.mjs",
     "test:smoke": "npm run test:math && node scripts/predeploy-smoke.mjs",
     "predeploy": "npm run test:smoke && npm run build",
-    "fetch-soxl": "node scripts/fetch-soxl.mjs"
+    "fetch-soxl": "node scripts/fetch-soxl.mjs",
+    "fetch-us-macro": "node scripts/fetch-us-macro-calendar.mjs"
   },
   "devDependencies": {
     "happy-dom": "^20.14.5",

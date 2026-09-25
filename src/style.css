@@ -308,6 +308,173 @@ h1 {
   color: var(--text-dim);
 }
 
+
+/* —— US macro market-moving dates (under 熱門) —— */
+.us-macro-strip-host {
+  margin: 0.15rem 0 0;
+  min-width: 0;
+}
+
+.macro-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem 0 0.2rem;
+  border-top: 1px solid var(--border-soft);
+  min-width: 0;
+}
+
+.macro-strip-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.macro-strip-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.macro-strip-meta {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  text-align: right;
+}
+
+.macro-strip-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  outline: none;
+  min-width: 0;
+}
+
+.macro-strip-chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.45rem;
+  width: max-content;
+  padding: 0.1rem 0 0.25rem;
+}
+
+.macro-chip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  min-width: 7.5rem;
+  max-width: 11.5rem;
+  padding: 0.4rem 0.65rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.macro-chip--high {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.macro-chip--today {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-elevated));
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.macro-chip--next {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+}
+
+.macro-chip--past {
+  opacity: 0.55;
+}
+
+.macro-chip-when {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.1rem;
+  min-width: 2.6rem;
+}
+
+.macro-chip-date {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.macro-chip-time {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.macro-chip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.macro-chip-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.macro-chip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.macro-chip-tag {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.08rem 0.35rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg));
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.macro-chip-tag--next {
+  background: color-mix(in srgb, var(--text-muted) 14%, var(--bg));
+  color: var(--text-muted);
+}
+
+.macro-chip-tag--high {
+  background: color-mix(in srgb, #c45c26 16%, var(--bg));
+  color: #b44a18;
+}
+
+.macro-strip-empty {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+@media (min-width: 900px) {
+  .macro-strip-chips {
+    flex-wrap: wrap;
+    width: auto;
+  }
+}
+
 /* —— Sections —— */
 .section {
   margin-bottom: 2rem;
