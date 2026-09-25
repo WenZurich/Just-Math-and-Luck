@@ -9,6 +9,7 @@ import { initJensen } from "./jensen.js";
 import { gooayeDetailHtml, initGooaye } from "./gooaye.js";
 import { xiaojunDetailHtml, initXiaojun } from "./xiaojun.js";
 import { whynottvDetailHtml, initWhynottv } from "./whynottv.js";
+import { zhangJunanDetailHtml, initZhangJunan } from "./zhang-junan.js";
 
 /** Host/show categories from current content only. */
 export const PODCAST_CATEGORIES = [
@@ -57,6 +58,15 @@ export const PODCAST_CATEGORIES = [
     market: "CN",
     featured: false,
   },
+  {
+    id: "zhang-junan",
+    titleKey: "podcastsZhangJunanTitle",
+    handleKey: "podcastsZhangJunanHandle",
+    blurbKey: "podcastsZhangJunanLead",
+    marketKey: "podcastsZhangJunanMarket",
+    market: "TW",
+    featured: false,
+  },
 ];
 
 const CAT_ALIASES = {
@@ -81,6 +91,10 @@ const CAT_ALIASES = {
   whynottv: "whynottv",
   whynot: "whynottv",
   "WhynotTV": "whynottv",
+  "zhang-junan": "zhang-junan",
+  zhangjunan: "zhang-junan",
+  "張濬安": "zhang-junan",
+  "张浚安": "zhang-junan",
   menu: "menu",
   all: "menu",
   index: "menu",
@@ -148,8 +162,8 @@ function categoryMenuCards() {
     const mktClass = c.market === "TW" ? "pc-badge-tw" : c.market === "CN" ? "pc-badge-cn" : "pc-badge-us";
     const feat = c.featured
       ? `<span class="pc-card-badge pc-badge-featured">${escapeHtml(t("podcastsFeatured"))}</span>`
-      : c.id === "gooaye" || c.id === "xiaojun" || c.id === "whynottv"
-        ? `<span class="pc-card-badge pc-badge-library">${escapeHtml(t(c.id === "gooaye" ? "gooayeLibraryBadge" : c.id === "xiaojun" ? "xiaojunLibraryBadge" : "whynottvLibraryBadge"))}</span>`
+      : c.id === "gooaye" || c.id === "xiaojun" || c.id === "whynottv" || c.id === "zhang-junan"
+        ? `<span class="pc-card-badge pc-badge-library">${escapeHtml(t(c.id === "gooaye" ? "gooayeLibraryBadge" : c.id === "xiaojun" ? "xiaojunLibraryBadge" : c.id === "whynottv" ? "whynottvLibraryBadge" : "zhangJunanLibraryBadge"))}</span>`
         : `<span class="pc-card-badge pc-badge-stub">${escapeHtml(t("podcastsStubBadge"))}</span>`;
     const handle = c.handleKey
       ? `<p class="pc-menu-handle">${escapeHtml(t(c.handleKey))}</p>`
@@ -188,6 +202,7 @@ function detailHtml(catId) {
   if (catId === "gooaye") return gooayeDetailHtml();
   if (catId === "xiaojun") return xiaojunDetailHtml();
   if (catId === "whynottv") return whynottvDetailHtml();
+  if (catId === "zhang-junan") return zhangJunanDetailHtml();
   return `
     <div class="pc-menu" role="list" aria-label="${escapeHtml(t("podcastsCatMenu"))}">
       <p class="pc-menu-lead">${escapeHtml(t("podcastsMenuLead"))}</p>
@@ -233,6 +248,7 @@ function paintPodcasts(root, catId, { syncUrl = true } = {}) {
   if (cat === "gooaye") initGooaye("#gy-root");
   if (cat === "xiaojun") initXiaojun("#xj-root");
   if (cat === "whynottv") initWhynottv("#wn-root");
+  if (cat === "zhang-junan") initZhangJunan("#zj-root");
 }
 
 export function renderPodcastsSection() {

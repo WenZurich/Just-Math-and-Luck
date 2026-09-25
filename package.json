@@ -23,7 +23,8 @@
     "fetch-xiaojun": "node scripts/fetch-xiaojun-episodes.mjs",
     "fetch-whynottv": "node scripts/fetch-whynottv-episodes.mjs",
     "listen-xiaojun": "node scripts/listen-xiaojun-episodes.mjs",
-    "listen-whynottv": "node scripts/listen-whynottv-episodes.mjs"
+    "listen-whynottv": "node scripts/listen-whynottv-episodes.mjs",
+    "fetch-zhang-junan": "node scripts/fetch-zhang-junan-posts.mjs"
   },
   "devDependencies": {
     "happy-dom": "^20.14.5",

@@ -61,6 +61,7 @@ import "./podcasts.css";
 import "./gooaye.css";
 import "./xiaojun.css";
 import "./whynottv.css";
+import "./zhang-junan.css";
 import {
   renderPodcastsSection,
   initPodcasts,
@@ -434,6 +435,9 @@ const HASH_ALIASES = {
   jensen: "podcasts",
   xiaojun: "podcasts",
   whynottv: "podcasts",
+  "zhang-junan": "podcasts",
+  zhangjunan: "podcasts",
+  "張濬安": "podcasts",
   whynot: "podcasts",
   huang: "podcasts",
   "jensen-huang": "podcasts",
@@ -514,6 +518,10 @@ const PODCAST_DIRECT_SUB = {
   whynottv: "whynottv",
   whynot: "whynottv",
   "WhynotTV": "whynottv",
+  "zhang-junan": "zhang-junan",
+  zhangjunan: "zhang-junan",
+  "張濬安": "zhang-junan",
+  "张浚安": "zhang-junan",
 };
 
 /** Parse #view or #view/sub/... plus direct aliases like #godzilla → podcasts/godzilla. */
@@ -745,6 +753,7 @@ function renderApp(data, paper) {
         <span id="jensen" class="view-anchor" tabindex="-1"></span>
         <span id="xiaojun" class="view-anchor" tabindex="-1"></span>
         <span id="whynottv" class="view-anchor" tabindex="-1"></span>
+        <span id="zhang-junan" class="view-anchor" tabindex="-1"></span>
         ${renderPodcastsSection()}
       </div>
 
