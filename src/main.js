@@ -46,6 +46,11 @@ import {
   renderSoxlSection,
   initSoxl,
 } from "./soxl.js";
+import "./txf.css";
+import {
+  renderTxfSection,
+  initTxf,
+} from "./txf.js";
 import { startLiveQuotes, stopLiveQuotes } from "./live-quotes.js";
 import {
   renderUsMacroStripSlot,
@@ -408,6 +413,7 @@ function getViews() {
     { id: "earnings", label: t("navEarnings"), hash: "earnings" },
     { id: "lookup", label: t("navLookup"), hash: "lookup" },
     { id: "soxl", label: t("navSoxl"), hash: "soxl" },
+    { id: "txf", label: t("navTxf"), hash: "txf" },
     { id: "podcasts", label: t("navPodcasts"), hash: "podcasts" },
     { id: "paper", label: t("navPaper"), hash: "paper" },
   ];
@@ -415,7 +421,7 @@ function getViews() {
 
 /** Primary mobile bottom tabs (≤5). Secondary live under 「更多」. */
 const MOBILE_PRIMARY = ["today", "strategies", "paper", "research"];
-const MOBILE_MORE = ["logic", "options", "earnings", "lookup", "soxl", "podcasts"];
+const MOBILE_MORE = ["logic", "options", "earnings", "lookup", "soxl", "txf", "podcasts"];
 
 const HASH_ALIASES = {
   today: "today",
@@ -427,6 +433,11 @@ const HASH_ALIASES = {
   lookup: "lookup",
   quote: "lookup",
   soxl: "soxl",
+  txf: "txf",
+  "futures-tw": "txf",
+  台指期: "txf",
+  臺指期: "txf",
+  "tx-futures": "txf",
   podcasts: "podcasts",
   podcast: "podcasts",
   名人podcast: "podcasts",
@@ -471,6 +482,8 @@ const HASH_ALIASES = {
   semiconductor: "soxl",
   半導體: "soxl",
   三倍半導體: "soxl",
+  台指期貨: "txf",
+  臺股期貨: "txf",
   哥吉拉: "podcasts",
   哥吉拉心法: "podcasts",
   "godzilla-playbook": "podcasts",
@@ -491,6 +504,7 @@ const NAV_ICONS = {
   earnings: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 4v2h10V7H7zm0 4v2h10v-2H7zm0 4v2h6v-2H7z"/></svg>`,
   lookup: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 3a7 7 0 0 1 5.47 11.34l4.1 4.09-1.42 1.42-4.09-4.1A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>`,
   soxl: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25 9.5 9l3.5 4.5L17 8l4 9.25H3zM5 19h14v2H5v-2z"/></svg>`,
+  txf: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 18h16v2H4v-2zm1.5-3.5 3.2-4.2 2.8 3.3L16 8l4 6.5H5.5zM7 4h2v2H7V4zm4 0h2v2h-2V4zm4 0h2v2h-2V4z"/></svg>`,
   podcasts: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-9 9v7a2 2 0 0 0 2 2h3v-8H7v-1a5 5 0 0 1 10 0v1h-1v8h3a2 2 0 0 0 2-2v-7a9 9 0 0 0-9-9zm-4 11v5H5v-5h3zm11 5h-3v-5h3v5zM12 7a3 3 0 0 0-3 3v1h6v-1a3 3 0 0 0-3-3z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   more: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 10h4v4H5v-4zm5 0h4v4h-4v-4zm5 0h4v4h-4v-4z"/></svg>`,
@@ -747,6 +761,12 @@ function renderApp(data, paper) {
         ${renderSoxlSection()}
       </div>
 
+      <div class="view" id="view-txf" data-view="txf" hidden>
+        <span id="txf" class="view-anchor" tabindex="-1"></span>
+        <span id="futures-tw" class="view-anchor" tabindex="-1"></span>
+        ${renderTxfSection()}
+      </div>
+
       <div class="view" id="view-podcasts" data-view="podcasts" hidden>
         <span id="podcasts" class="view-anchor" tabindex="-1"></span>
         <span id="godzilla" class="view-anchor" tabindex="-1"></span>
@@ -978,6 +998,7 @@ async function mountUi(app) {
   await initEarnings("#er-root");
   initLookup("#lk-root");
   await initSoxl("#sx-root");
+  await initTxf("#txf-root");
   initPodcasts("#pc-root", {
     category: routeAtMount.view === "podcasts" ? routeAtMount.sub || "menu" : "menu",
     syncUrl: false,

@@ -848,6 +848,23 @@ async function main() {
     }
   }
 
+
+  
+  // Optional: FETCH_TXF=1 → also refresh Taiwan Index Futures desk
+  if (process.env.FETCH_TXF === "1") {
+    try {
+      const { spawnSync } = await import("node:child_process");
+      console.log("\n▶ fetch-txf (FETCH_TXF=1)…");
+      const xr = spawnSync(process.execPath, [join(__dirname, "fetch-txf-desk.mjs")], {
+        stdio: "inherit",
+        cwd: ROOT,
+      });
+      if (xr.status !== 0) console.warn("fetch-txf exited", xr.status);
+    } catch (e) {
+      console.warn("fetch-txf skipped:", e?.message || e);
+    }
+  }
+
 console.log("\nWrote latest.json");
   console.log("Top5:", top5.map((t) => `${t.ticker} ${t.dayPct}%`).join(", "));
   console.log("US", usPicks.length, "TW", twPicks.length);

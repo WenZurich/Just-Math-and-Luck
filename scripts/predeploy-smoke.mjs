@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#lookup", "#soxl", "#podcasts", "#paper"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#lookup", "#soxl", "#txf", "#podcasts", "#paper"];
 
 const failures = [];
 function fail(msg) {
@@ -87,7 +87,7 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-lookup", "view-soxl", "view-podcasts", "view-paper"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-lookup", "view-soxl", "view-txf", "view-podcasts", "view-paper"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
@@ -535,6 +535,85 @@ async function main() {
   if (!fs.existsSync(path.join(ROOT, "src/soxl.css"))) {
     fail("missing src/soxl.css");
   } else ok("soxl.css present");
+
+  // —— 台指期 (TXF) desk ——
+  const txfSnap = path.join(ROOT, "public/data/txf-desk.json");
+  if (!fs.existsSync(txfSnap)) {
+    fail("missing public/data/txf-desk.json (run npm run fetch-txf)");
+  } else {
+    try {
+      const desk = JSON.parse(fs.readFileSync(txfSnap, "utf8"));
+      if (desk.market !== "TW") fail("txf-desk market must be TW");
+      else ok("txf-desk market TW");
+      if (desk.desk !== "txf") fail("txf-desk desk must be txf");
+      else ok("txf-desk desk id");
+      if (!desk.asOf) fail("txf-desk missing asOf");
+      else ok(`txf asOf ${desk.asOf}`);
+      if (!desk.sessionDate) fail("txf-desk missing sessionDate");
+      else ok(`txf sessionDate ${desk.sessionDate}`);
+      const near = desk.contracts?.TX?.near;
+      if (!near || near.last == null) fail("txf-desk missing TX.near.last");
+      else ok(`txf TX near ${near.month} last=${near.last} OI=${near.openInterest}`);
+      if (desk.contracts?.TX?.multiplierTwdPerPoint !== 200) fail("txf TX multiplier must be 200");
+      else ok("txf TX multiplier 200");
+      if (desk.contracts?.MTX?.multiplierTwdPerPoint !== 50) fail("txf MTX multiplier must be 50");
+      else ok("txf MTX multiplier 50");
+      if (desk.contracts?.TMF?.multiplierTwdPerPoint !== 10) fail("txf TMF multiplier must be 10");
+      else ok("txf TMF multiplier 10");
+      if (!desk.spot || desk.spot.last == null) fail("txf-desk missing spot.last");
+      else ok(`txf spot ${desk.spot.last}`);
+      if (!desk.basis || desk.basis.basisPoints == null) fail("txf-desk missing basis");
+      else ok(`txf basis ${desk.basis.basisPoints}`);
+      if (!desk.institutional?.byContract?.TX?.length) fail("txf institutional TX missing");
+      else ok(`txf institutional TX rows ${desk.institutional.byContract.TX.length}`);
+      if (!desk.paperTrading?.multipliers?.TX) fail("txf paperTrading multipliers missing");
+      else ok("txf paperTrading hints present");
+      if (!Array.isArray(desk.sources) || !desk.sources.length) fail("txf sources missing");
+      else ok(`txf sources ${desk.sources.length}`);
+      const disc = (desk.disclaimers || []).join(" ");
+      if (!/非投資建議|Not investment advice|投資助言ではない|非投资建议/.test(disc)) {
+        fail("txf disclaimers missing 非投資建議-class text");
+      } else ok("txf disclaimer");
+    } catch (e) {
+      fail(`txf-desk parse: ${e}`);
+    }
+  }
+  const txfJs = fs.readFileSync(path.join(ROOT, "src/txf.js"), "utf8");
+  if (/Black-Scholes|\\bN\(d1\)|d1\s*=\s*\(/.test(txfJs)) {
+    fail("txf.js appears to dump raw formulas");
+  } else ok("txf.js no raw formula dump");
+  if (!txfJs.includes("renderTxfSection") || !txfJs.includes("txf-hero") || !txfJs.includes("basis")) {
+    fail("txf.js missing hero/basis wiring");
+  } else ok("txf.js hero + basis");
+  if (!mainJs.includes("view-txf") || !mainJs.includes('"txf"')) {
+    fail("main.js missing txf view wiring");
+  } else ok("txf view wired in main.js");
+  if (!/MOBILE_MORE\s*=\s*\[[^\]]*txf/.test(mainJs)) {
+    fail("txf should be under MOBILE_MORE (not a 6th primary tab)");
+  } else ok("txf listed in MOBILE_MORE");
+  {
+    const i18nTx = fs.readFileSync(path.join(ROOT, "src/i18n.js"), "utf8");
+    if (!i18nTx.includes("navTxf") || !i18nTx.includes("txfDisclaimer") || !i18nTx.includes("txfTitle")) {
+      fail("i18n missing txf nav/title/disclaimer");
+    } else ok("txf i18n present");
+    for (const langKey of ["navTxf", "txfTitle", "txfDisclaimer", "txfExplain1"]) {
+      const n = (i18nTx.match(new RegExp(langKey + ":", "g")) || []).length;
+      if (n < 4) fail(`i18n ${langKey} expected 4 langs, got ${n}`);
+    }
+    ok("txf i18n 4 langs");
+  }
+  if (!fs.existsSync(path.join(ROOT, "scripts/fetch-txf-desk.mjs"))) {
+    fail("missing scripts/fetch-txf-desk.mjs");
+  } else ok("fetch-txf-desk.mjs present");
+  if (!fs.existsSync(path.join(ROOT, "src/txf.css"))) {
+    fail("missing src/txf.css");
+  } else ok("txf.css present");
+  if (!/FETCH_TXF/.test(fs.readFileSync(path.join(ROOT, "scripts/daily-scan.mjs"), "utf8"))) {
+    fail("daily-scan should optionally run FETCH_TXF=1");
+  } else ok("daily-scan FETCH_TXF hook");
+  if (!/"fetch-txf"/.test(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"))) {
+    fail("package.json missing fetch-txf script");
+  } else ok("npm fetch-txf script");
 
   
   // —— Category menus for podcasts + research ——

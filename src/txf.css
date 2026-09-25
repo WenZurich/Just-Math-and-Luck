@@ -1,0 +1,163 @@
+/* 台指期 desk — MSN-Finance-like, TW futures only */
+.txf-section { padding-bottom: 1.25rem; }
+.txf-root { min-height: 4rem; }
+.txf-loading, .txf-muted { color: var(--text-muted); font-size: 0.88rem; }
+.txf-disclaimer {
+  margin: 0.5rem 0 0.85rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, #f59e0b 35%, var(--border));
+  background: color-mix(in srgb, #fff7ed 90%, white);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+.txf-disclaimer-top { margin-top: 0; }
+.txf-disc-list { margin: 0; padding-left: 1.1rem; }
+.txf-disc-list li { margin: 0.2rem 0; }
+
+.txf-hero {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: 1.35fr 1fr;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+  margin-bottom: 0.85rem;
+}
+.txf-symbol-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-bottom: 0.35rem;
+}
+.txf-symbol {
+  font-family: var(--mono);
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+}
+.txf-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1e40af;
+}
+.txf-fund { color: var(--text-muted); font-size: 0.82rem; }
+.txf-price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-family: var(--mono);
+  font-weight: 800;
+}
+.txf-price { font-size: 2rem; line-height: 1.1; color: var(--text); }
+.txf-chg, .txf-chgp { font-size: 1.15rem; }
+.txf-up { color: #dc2626; }
+.txf-down { color: #16a34a; }
+.txf-flat { color: var(--text-muted); }
+.txf-session {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.txf-hero-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  justify-content: center;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.txf-side-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+.txf-side-label { color: var(--text-muted); min-width: 3.2rem; }
+.txf-side-val { font-family: var(--mono); font-weight: 800; font-size: 1.05rem; }
+.txf-side-chg { font-family: var(--mono); font-weight: 700; }
+.txf-side-note { margin: 0; color: var(--text-muted); font-size: 0.78rem; }
+
+.txf-h3 { margin: 0 0 0.45rem; font-size: 1.05rem; }
+.txf-panel-lead {
+  margin: 0 0 0.55rem;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+.txf-panel {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated, #fff);
+}
+.txf-contract-card, .txf-inst-card, .txf-cal-card {
+  margin: 0.65rem 0 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+}
+.txf-contract-head h4, .txf-inst-card h4, .txf-cal-card h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+}
+.txf-pill {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.08rem 0.35rem;
+  border-radius: 999px;
+  background: #e0e7ff;
+  color: #3730a3;
+  margin-right: 0.25rem;
+}
+.txf-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.txf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.txf-table th, .txf-table td {
+  padding: 0.4rem 0.45rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+.txf-table th { color: var(--text-muted); font-weight: 700; font-size: 0.75rem; }
+.txf-num { font-family: var(--mono); text-align: right !important; font-variant-numeric: tabular-nums; }
+.txf-inst-grid, .txf-cal-grid {
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.txf-cal-big {
+  margin: 0.15rem 0 0.35rem;
+  font-family: var(--mono);
+  font-weight: 800;
+  font-size: 1.35rem;
+}
+.txf-explain { margin: 0; padding-left: 1.15rem; font-size: 0.88rem; line-height: 1.5; }
+.txf-explain li { margin: 0.35rem 0; }
+.txf-src-list { margin: 0; padding-left: 1.15rem; font-size: 0.82rem; line-height: 1.5; }
+.txf-src-list a { color: var(--link, #1d4ed8); }
+.txf-footnote { margin: 0.55rem 0 0; font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+.txf-empty { padding: 1rem; color: var(--text-muted); }
+
+@media (max-width: 720px) {
+  .txf-hero { grid-template-columns: 1fr; }
+  .txf-price { font-size: 1.7rem; }
+}
