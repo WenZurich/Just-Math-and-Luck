@@ -1,6 +1,6 @@
 /**
  * Jensen Huang (黃仁勳) — Stanford ETL talk entry inside 名人podcast hub.
- * Source: Stanford Online / STVP Entrepreneurial Thought Leaders (~2009; YT 2011).
+ * Source: Stanford Online / STVP ETL (~2009; YT 2011). Public video downloaded + STT listened.
  * Math gate CLOSED — candidate/watch; not live screener.
  * YouTube owner blocks embeds → link-out card (embedAllowed: false).
  */
@@ -27,6 +27,7 @@ function badgeRow() {
       <span class="jh-badge jh-badge-watch" role="listitem">${escapeHtml(t("godzillaBadgeWatch"))}</span>
       <span class="jh-badge jh-badge-us" role="listitem">${escapeHtml(t("jensenUsFocus"))}</span>
       <span class="jh-badge jh-badge-talk" role="listitem">${escapeHtml(t("jensenTalkBadge"))}</span>
+      <span class="jh-badge jh-badge-listened" role="listitem">${escapeHtml(t("jensenListenedBadge"))}</span>
     </div>`;
 }
 
@@ -118,6 +119,16 @@ function paint(root) {
     </section>
 
     ${videoBlock()}
+
+
+    <section class="jh-panel jh-listened" aria-label="${escapeHtml(t("jensenStockTitle"))}">
+      <h3 class="jh-h3">${escapeHtml(t("jensenStockTitle"))}</h3>
+      <p class="jh-panel-lead">${escapeHtml(t("jensenStockLead"))}</p>
+      <ul class="jh-bullet-list jh-stock-list">
+        ${[1,2,3,4,5,6].map((n)=>`<li>${escapeHtml(t(`jensenStock${n}`))}</li>`).join("")}
+      </ul>
+      <p class="jh-source-note">${escapeHtml(t("jensenStockNote"))}</p>
+    </section>
 
     <section class="jh-panel" aria-label="${escapeHtml(t("jensenHighlightsTitle"))}">
       <h3 class="jh-h3">${escapeHtml(t("jensenHighlightsTitle"))}</h3>

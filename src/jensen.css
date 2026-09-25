@@ -309,3 +309,8 @@
   .jh-hero,
   .jh-panel { padding-left: 0.85rem; padding-right: 0.85rem; }
 }
+
+.jh-badge-listened { background:#065f46; color:#ecfdf5; }
+.jh-listened .jh-h3 { color:#047857; }
+.jh-stock-list { font-weight:550; }
+.jh-source-note { margin:0.55rem 0 0; font-size:0.78rem; color:var(--text-muted,#64748b); line-height:1.4; }
