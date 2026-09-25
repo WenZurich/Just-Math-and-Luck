@@ -1,7 +1,7 @@
 /**
  * 哥吉拉（Godzilla）— featured entry inside 名人podcast hub.
  * Threads interviewee investment arguments (static, candidate/watch only).
- * Source: Terry × 哥吉拉 YouTube interview. Figures labeled 受訪者自述.
+ * Source: Terry × 哥吉拉 YouTube interview (public audio → STT listened). Figures labeled 受訪者自述.
  * Math gate CLOSED — not wired into live screener or paper trading.
  */
 import { escapeHtml } from "./glossary.js";
@@ -21,6 +21,7 @@ function badgeRow() {
       <span class="gz-badge gz-badge-watch" role="listitem">${escapeHtml(t("godzillaBadgeWatch"))}</span>
       <span class="gz-badge gz-badge-us" role="listitem">${escapeHtml(t("godzillaUsFocus"))}</span>
       <span class="gz-badge gz-badge-self" role="listitem">${escapeHtml(t("godzillaSelfReport"))}</span>
+      <span class="gz-badge gz-badge-listened" role="listitem">${escapeHtml(t("godzillaListenedBadge"))}</span>
     </div>`;
 }
 
@@ -78,6 +79,16 @@ function paint(root) {
           <span class="gz-source-cite">· ${escapeHtml(t("godzillaSourceCite"))}</span>
         </p>
       </div>
+    </section>
+
+
+    <section class="gz-panel gz-listened" aria-label="${escapeHtml(t("godzillaStockTitle"))}">
+      <h3 class="gz-h3">${escapeHtml(t("godzillaStockTitle"))}</h3>
+      <p class="gz-panel-lead">${escapeHtml(t("godzillaStockLead"))}</p>
+      <ul class="gz-bullet-list gz-stock-list">
+        ${[1,2,3,4,5,6].map((n) => `<li>${escapeHtml(t(`godzillaStock${n}`))}</li>`).join("")}
+      </ul>
+      <p class="gz-source-note">${escapeHtml(t("godzillaStockNote"))}</p>
     </section>
 
     <section class="gz-panel" aria-label="${escapeHtml(t("godzillaThesesTitle"))}">

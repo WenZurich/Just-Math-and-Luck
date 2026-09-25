@@ -209,3 +209,16 @@
   .gz-thesis-grid { grid-template-columns: 1fr; }
   .gz-hero { padding: 0.85rem 0.9rem; }
 }
+
+.gz-badge-listened {
+  background: #065f46;
+  color: #ecfdf5;
+}
+.gz-listened .gz-h3 { color: #047857; }
+.gz-stock-list { font-weight: 550; }
+.gz-source-note {
+  margin: 0.55rem 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted, #64748b);
+  line-height: 1.4;
+}
