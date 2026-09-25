@@ -1,6 +1,6 @@
 {
   "id": "gooaye-episodes",
-  "asOf": "2026-09-26T02:10:26+08:00",
+  "asOf": "2026-09-26T03:16:21+08:00",
   "timezone": "Asia/Taipei",
   "status": "candidate",
   "mathGate": "closed",
@@ -31,8 +31,8 @@
     "notesTeaser": 533,
     "notesTitleOnly": 1,
     "notesEmpty": 1,
-    "listened": 12,
-    "rssOnly": 687
+    "listened": 28,
+    "rssOnly": 671
   },
   "episodes": [
     {
@@ -469,8 +469,27 @@
       "keyPoints": [
         "宙斯法則必須重新被尊重"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "宙斯法則必須重新被尊重"
+      ],
+      "stockAnalysis": [
+        "【盤勢｜宙斯法則】主持人強調「開好營收就該上漲」的共識；若利多／超預期營收被拿來出貨，會變成互相算計、區間盤難做。點名某 AWS 概念股（Trainium 放量、營收遠超預期）卻未開漲停，解讀為知情盤互搞；預期大盤走入「新高週」後這類現象才易改善。整體仍相對樂觀。",
+        "【美股｜Apple vs Frontier AI】市場嘴上說 Apple 是 AI 輸家、幾乎不做大投資，但 YTD 表現居前、資金實際往 Apple 跑；反而重押 Frontier Lab／雲端 CSP 的績效偏弱。主持人提醒：敘事贏≠賺到錢，短期決勝負即可，勿只辯論長期故事。",
+        "【美股｜Google／Berkshire】提到 Berkshire（波克夏）於 2025 Q3 起大舉買 Google（主持人複述約千萬股級加碼與後續私募相關傳聞，數字以公開財報為準）。DeepMind／Frontier 人事收成向 Pichai 報告的「單軌」；Frontier 逆風但 Cloud 大成長，市場解讀為算力外租而非自用＝軟體不行——主持人反例 Apple：不一定是壞事。",
+        "【美股｜房東敘事】Google 可能把偏「買權／燒錢」的 Frontier 風險放到體外（other bets 類），本體靠 Cloud 現金流，並當算力房東；Meta 亦有往「類 CoreWeave／租賃算力」味道（不如 Google 明確）。觀察訊號：TPU 上修、Meta 採購指標是否加速。",
+        "【台股｜輪動與部位】聽友問光通／設備／AI Power／散熱／PCB 載板／老 AI 輪動：主持人本波布局對象偏光通、AI Power、散熱；設備只買一點；PCB 載板擁擠興趣低；老 AI 小做後撤出；指數部位先前偏重，改拿去打中小／題材成長。具名核心觀察：台積電、0050、奇鋐（聽寫齊鴻）等散熱、台達電 AI 電源、智邦、貿聯-KY 等 AI 基建。",
+        "【台股型態】前波整盤殺壞後難辨強勢族群；近期已有中小／題材創歷史新高，預期會持續出現並讓族群可識別。篩股偏 2026–2027 就能交出 EPS 者，嫌遠（2028–29）者較無感。",
+        "【標的紀律】明確提及 Apple、Google、Meta、Berkshire、OpenAI／Anthropic、台積電、0050、奇鋐、台達電、智邦、貿聯-KY；AWS Trainium 概念股未點名代號。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T02:32:51+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "0e0b7654-dec7-479d-8edd-b5d51f76126d",
@@ -486,8 +505,27 @@
       "keyPoints": [
         "各位 88 快樂！"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "各位 88 快樂！"
+      ],
+      "stockAnalysis": [
+        "【美股｜軟體回流】觀察資金明顯跑回軟體：Palantir、Cloudflare 財報後大漲（市場視為貴到不可思議仍當軟體第一棒）；美股資安股類似、Forward PER 偏貴但資金願意湧入；亦可類推部分軟體屬性的巨頭。",
+        "【美／台｜光通與散熱】光通全面站起來；台股光通跟漲。供應鏈節奏：光通最先休息→散熱跟下→如今光通最先轉強、散熱也起，推測可能沿鏈輪動，之後才輪到五～六月最強的被動／功率元件再醒。",
+        "【漲價鏈】五～六月被動／功率元件漲價行情崩後市場質疑「根本沒漲」；隨營收與漲價信（ODM／OEM／EMS）露出，主持人認為漲價為真。國際原物料若再上，可能再一輪「光／散熱→元件」輪動。七月修正後不再當追風者：修正期強勢族群（含輝達某材料類）仍難逃補跌。",
+        "【台股光通定位】台廠多屬 Tier 2／3，光市況好仍連帶受惠；更要注意上游材料（磷化銦 InP 等）缺料——無米難炊。台／美光相關財報顯示仍有缺料，需求好但數字未開滿，或成下一輪觀察點。",
+        "【盤勢期待】美股指數已創新高，希望台股跟攻新高並出現明確強勢族群；現多為反彈、離前高仍有距離，真進攻應見新高確認。主持人宣布下一週放暑假、短線追殺減碼，改做好配置等待。",
+        "【產業補充｜MicroLED】聽友／展場提到 MicroLED 作光源之一，量產仍需數年；對照光通題材炒三年後才正式放量、CPU 題材也曾快於實際——股價節奏≠產業節奏。",
+        "【標的紀律】具名 Palantir、Cloudflare、台積電；族群：美股軟體／資安、光通、散熱、被動／功率、磷化銦材料。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T02:32:51+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "fec2d61c-668c-4918-a7cb-19bfa09f7717",
@@ -503,8 +541,26 @@
       "keyPoints": [
         "人類又找回勇氣了"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "人類又找回勇氣了"
+      ],
+      "stockAnalysis": [
+        "【台股｜絕世大反彈】上週五起台積電漲停、各式標的自谷底彈；先前喊「進便宜區」後僅約四個交易日，許多標的已回到中性價，超便宜窗口極短。實務難買在最低：微笑曲線式分批（含套牢單、谷底單、鎖漲停後單）較合理。",
+        "【指數｜美／台】標普已在新高附近；加權離新高亦很近。若手握大量半導體／中小，體感與指數脫節——未碰半導體元件或 AI infra 者可能「感覺不到」這波大異動。",
+        "【美股｜軟體敘事打臉】Palantir、Cloudflare 等曾被說「AI 會繞過／自建軟體→被淘汰」，主持人認為 AI 是工具、企業合規與數據整合需求仍在，軟體未必被取代；光通開始領跑可視為盤面健康訊號。另提 SpaceX 成績與展望偏正向（盤後有回落）。",
+        "【光通｜中國加一】光通高階不少在中國；對美系伺服器供應鏈「利大於弊」的初步判斷，需持續看中國加一／出口管制變化；中國加一廠商理論上有機會受惠，但細節依政策。",
+        "【情緒｜財報懲罰→翻轉】台積財報前後市場降槓桿、肌肉記憶像去年 3 月；先前「開財報被罰」（例：Google 財報先跌後再長一圈）顯示情緒動態，看法對錯以真金白銀勝負為準。",
+        "【STT 備註】本集聽寫品質偏噪（段數／字數少於同長音檔），標的與數字僅採可複核段落；未點名的代號不發明。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T02:32:51+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "40e92e32-94d9-44b5-a683-8bc2d8fcc8c2",
@@ -520,8 +576,26 @@
       "keyPoints": [
         "終於可以喘一下"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "終於可以喘一下"
+      ],
+      "stockAnalysis": [
+        "【核心事件｜降槓桿】主持人判斷本波核心是市場降槓桿，未必高度跟基本面綁死：四五六月最熱門標的，七月跌最重；台股甚至出現「崩跌50」迷因。過去一年若完全沒碰這批「市場最長」的股票，報酬易貼近大盤、難打 Alpha。",
+        "【美股｜AI 多空基金爆倉敘事】討論某 AI Long/Short 避險基金（聽寫近似 Arsham Brand／類名）：Long 多為當時最標的（點名 Nebius、Sandisk、Iron、Bloom、Micron、SK Hynix 等），Short 空軟體卻被軋；非單一人砸盤，韓系與多家知名 HF（點名生態如 Millennium、Citadel、Point72 等傳言層級）動能 PAD 受傷亦加速砍多、回補空單→軟體谷底大反彈。",
+        "【槓桿機制】HF 追求穩定報酬、普遍帶融資；PAD 虧損觸及約 5–10% 紀律線就可能被砍，加劇熱門多頭提款。軟體反彈部分可歸因空單回補，而非單純基本面一夜翻多。",
+        "【台股均線】提及十年線／五年線終將相遇但距離仍遠，不預期很快碰到，但須記取槓桿清算案例。",
+        "【AI 泡沫訊號 Q&A】完美逃頂不實際；微軟單季資本支出「低於預期」主持人理解偏會計調整而非真縮減。GPT 模型降價、歷史泡沫常伴升息等僅作背景，估值「尚未到離譜狂熱」仍須自行風控。",
+        "【標的紀律】具名 Micron、SK Hynix、Nebius、Sandisk、Bloom 等為討論中的熱門／受傷標的；軟體為空單回補族群層級。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T02:32:51+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "067686d8-d739-40ff-bbb9-5d2e7558b6ee",
@@ -537,8 +611,26 @@
       "keyPoints": [
         "一個月前的自己對未來寄予厚望"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "一個月前的自己對未來寄予厚望"
+      ],
+      "stockAnalysis": [
+        "【估值錨｜台積電／NVIDIA】過去半年常聞「市場最便宜的 AI 股已是台積電與 NVIDIA」（約十來倍本益比級），快樂夥伴反而 30–40 倍。七月屠殺後視角反轉：或許 TSMC／NV 才是公允錨，其他該殺更低——尤其記憶體（三星、SK 海力士）共識最缺仍大跌，令人警惕。",
+        "【CPU：GPU 比例】質疑「很快 1:1」：NVIDIA／Vera Rubin、AMD Helios 等公開 spec 仍多為 1 CPU：4 GPU；僅 NVIDIA Vera 純 CPU rack 例外。產業圈說法：CPU 不一定以 AI Server Rack 現身，資料中心另堆 General Purpose CPU rack，經串／並聯卸載 Agent 工作流壓力；把 GP CPU 加總後相對 AI server 量，才可能贴近樂觀比例。Intel／AMD 在 GP 伺服器有表現空間（需搶到產能）。",
+        "【記憶體】美光×Meta 白皮書：DRAM 卸載到 SSD 慢數十倍→DRAM／HBM 用量邏輯仍強。GPU／HBM／DRAM 極缺已是共識；CPU 較像前波風潮後被追問。",
+        "【中國記憶體／CXMT】CXMT 傳以多重曝光等方式逼近先進製程（犧牲良率成本）；DUV 進展打壓美股設備→半導體連殺。主持人：若僅中國自用、美國不開綠燈，對外影響有限；若美國放行 Apple／CSP 採用 CXMT，恐再演便宜產能傾銷——此為解讀「跌什麼」的關鍵假設，非預測政策。",
+        "【部位體感】融資／槓桿在殺盤期大減；對照 2024/7 鴻海等 ODM 大回檔有人全年獲利歸零，今年較少聽到「全年輸光」，成本區多在三～六月→或解釋為何跌而不放量。",
+        "【標的紀律】具名台積電、NVIDIA、AMD、Intel、美光、Meta、Apple、CXMT、三星／SK 海力士、鴻海（ODM 前例）。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T02:32:51+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "f0e5d2ea-7a8c-4058-ba11-8c2708e0a357",
@@ -554,8 +646,28 @@
       "keyPoints": [
         "魂系 everywhere"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "魂系 everywhere"
+      ],
+      "stockAnalysis": [
+        "【盤勢｜半導體重挫】標普仍在相對高位，但費城半導體（SOX）低點附近約摔近三成；台／韓／日投資人因持股偏 AI 零組件，體感更痛。主持人部位有感「被引爆」、回撤約兩成多；若再到約 25–30% 可能更積極轉保守、提高現金。型態醜、像去年三月那種「不知道在跌什麼」；买方／海外券商說法分歧。",
+        "【事件消化】前有 Kimi（月之暗面）等話題衝擊，產業面似已消化，尾盤仍賣——擔心新一週再觸發賣壓。希望快點拉回；產業面主張 No change，但尊重「有未知因素在醞釀」（類比去年閃崩：先不知為何跌、後知後覺）。",
+        "【美股財報｜台積電／Google】台積電財報很好仍被砸；Google 財報主持人評非常好，並視為 AI 可以賺錢的證明。自由現金流轉負：數月前已預期——AI 軟體／應用背後有模型與推論成本，不再是古典「一本萬利」軟體；CSP 不投資就會輸。",
+        "【CapEx 敘事】Google 大舉投資被認為合理（雲＋AI 優勢）；Apple 因終端信仰／中端裝置話語權可選較輕模型投入。預期 Amazon、Microsoft、中國 BAT 等雲巨頭同樣「錢不得不花」；TAM 變大但毛利可能被運算成本擠壓（類比 AI server 白牌接越多毛利率越低但賺更多錢的數學）。Tesla 花在 Physical AI，評價較難，類比 Meta 元宇宙時期「頭洗下去」。",
+        "【類比／漲價】德州儀器（TI）法說釋出全面復甦、開始漲價訊號；呼應數月前觀察：功率／類比半導體各家漲價，但股價仍可不理基本面。現況：開壞財報跌、開好財報也跌，難用單一文句解釋。",
+        "【記憶體價格曲線】供應鏈觀察：記憶體漲幅 Q1–Q2 曾約 100% 級、Q3 收斂約 10–30%、Q4 可能 <10% 後趨向 flat（約 4Q 至明年 1Q）——解讀偏「賺太兇／對客戶與美國政府難交代」而提前煞車，不是基本面崩壞；除非新爆款 AI 應用再逼上修 CapEx。三星等毛利傳朝極高（聽寫提及約 80% 級）仍可能見到。中國「拒絕漲價」並轉向國產（CXMT）；海外其他元件漲價仍在。",
+        "【族群殺盤】科技／AI 相關幾乎通殺；聽友舉光通有堆到約五成跌幅。相對抗跌敘事偏傳產（塑化等）但難放大錢。功率半導體聽友點名 ON／ADI 等與台股強茂、德微、漢磊、杰敏等——主持人：能看到的 AI related 幾乎都在疊。",
+        "【短線題材】AMD Advancing AI 相關概念有帶來一些正報酬，不足以抵銷美股／台股其他部位負報酬。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T02:35:38+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "d18db2fa-bdd7-4c88-91ed-3b37648e0707",
@@ -571,8 +683,29 @@
       "keyPoints": [
         "再一次相信真愛存在的機會"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "再一次相信真愛存在的機會"
+      ],
+      "stockAnalysis": [
+        "【盤勢｜人道走廊】近兩日反彈、台股曾漲破季線，主持人稱為「人道走廊」：反彈會碰上套牢賣壓，理想是彈起→洗→再攻；若彈不起又轉弱，可能在下一波落隊。仍偏整理／邊緣階段，不宜當已經轉多確認。",
+        "【台股結構】許多過往主流型態已跌壞；即便知名 Power Rack／伺服器相關超級大廠，反彈力道也不大，有機會進入休息。相對強勢：載板族群出現集體偏多、甚至多檔漲停。被動元件過去殺深，近期營收年增仍漂亮，但難抵「曾漲數倍」後的基本面校正賣壓。",
+        "【老 AI／ODM】老 AI 重新轉強：邏輯是休息已久；ODM 端不少 Forward PER 落在約十倍附近，屬「有業績、有防守」、聰明錢暫避高 PER 屠殺區的去處。主持人不空手；身邊不少人空手——若反彈一路衝，追價會很痛苦。",
+        "【美股事件｜AMD Advancing AI】活動重點在 Lisa Su keynote。市場已知／預期：Microsoft 將大量部署 Helios 機櫃做推論；客戶名單在 Meta／OpenAI／Oracle 之外再添 Microsoft。法人圈流傳已久：Anthropic 有機會宣布採用 AMD 伺服器。",
+        "【GPU 敘事】市況傳 CUDA 護城河被高 CP 值 AMD 硬體＋自研軟體慢慢削弱；另有「走到 MI350／下一代板級可堆比 NVIDIA 更多顆」說法——主持人提醒黃仁勳不會躺平。仍可期待 AMD GPU 後續表現與大型客戶。",
+        "【CPU｜Venice／供應瓶頸】預期正式發表 Venice（EPYC SP7 CPU），後市供不應求機率高：AMD CPU 市占持續咬 Intel；Intel 下一代 Clearwater Forest／Diamond Rapids 約年底～明年初才到。供應鏈抱怨 CPU 缺、營收只能慢慢進；Agentic workflow 推升 CPU 用量，比例討論從 1：多顆 GPU／ASIC 往 1：4、1：2。AMD 先前投資人會已上修 CPU TAM。",
+        "【CPU 鏈／Socket】除 Intel／AMD 本體，相關 components 在缺貨下可能有溢價；換代帶動被動元件與記憶體需求。Socket 約 1：1、針腳數上升→ASP 有階梯式上修機會。年初已吵過一波 CPU，keynote 後可能二波關注——市場向上需要領頭羊，先看 AMD 能否擔。",
+        "【Google 自研推論晶片】新聞指推論加速晶片（主持人認為與 Marvell 設計那顆相關）。重點不在買 Google（自用、營收占比可忽略），而在誰做這顆——但節目早拆過、催化力存疑；若後續反映到供應鏈營收，仍可能再成題材。Google 模型節奏被笑「沒東西」時，主持人當深蹲、生態仍看好。",
+        "【標的紀律】具名 AMD、Intel、NVIDIA、Microsoft、Meta、OpenAI、Oracle、Anthropic、Google、Marvell；台股載板／ODM／Power Rack／被動為族群層級。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:00:46+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "07b58c03-5a1b-4cf9-b87f-3354f50c3cde",
@@ -588,8 +721,30 @@
       "keyPoints": [
         "至少碗筷不用買"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "至少碗筷不用買"
+      ],
+      "stockAnalysis": [
+        "【部位｜防守模式】大盤跌破季線且未迅速站回，主持人從高點回撤逾約 15% 後切換防守：不再追高 Beta／本夢比，改往「業績股＋指數／台積電」配置；高估值若再修 PE 可能「修到認不得」。把中小／AI 高 Beta 撤出堆進台積電曾有效平滑回撤，但週五台積電單日大跌約 6%，當時持股逾半是台積電，仍達自己的防守觸發標準。",
+        "【台／美｜台積電財報】Q2 EPS 約 27.25、毛利率約 67.7%，大致符合多數預期；先前有人喊到 70% 被主持人視為不切實際（類比美光某季預期喊太高後財報震盪）。CapEx 由約 52–56B 上修至約 60–64B，超出不少人預期、屬 surprise 利多；Q3 毛利指引約 65–67、營業利益率約 56–58，主持人傾向低標高達、能見度仍高。ADR 盤後賣壓＋設備股隔日有往跌停衝——解讀為不理性殺盤，非產業變壞。",
+        "【長線 vs 修正】引述法說：長線好到約 2029–30 沒問題，過程能否 correction 無人保證；重點是 navigate 活下來。憂心類似 2022 初（烏戰觸發但修正拖很久）的劇本；破季線後若只橫盤讓季線走平再下殺會更可怕。砍在破季線是選項，但若只因破線就砍、回頭踩別人標的，會踩到市場生存法則的坑。",
+        "【記憶體／殺便宜】韓系與美光等記憶體大摔，產業前景與短缺敘事仍在，主持人視為「殺便宜」而非沒人用；循環股大波段，不愛用 forward PE 當主指標。產業面整體仍不錯，只是股價殺深。",
+        "【指數工具】選股變難時，用台指期／0050 持有大盤：權值高度集中台積電，且無論誰先反彈帶指數回穩都能吃到；產業面記憶體／被動／光通回檔深但未必有超級大基本面問題。",
+        "【美股經典｜敘事翻轉】點名 Credo、Astera Labs：大跌時人人喊打，後來噴很兇，期間公司差距不大，差在論述從「氣筒轉光」等敘事翻轉——提醒勿過度解釋短線股價。",
+        "【漲價救不了盤】ADI、被動元件、載板／玻纖布等七月多有漲價訊息，仍救不起市場；合理解釋偏氛圍改變。催化之一：韓國大量槓桿 ETF／槓桿資金先爆，牽動全球情緒、大家修部位。",
+        "【鬼故事刪除法】Kimi K2／K3、戰爭等敘事難解釋這波回檔（油價也沒大行情）；Agentic／reasoning／mission 導向 AI 更耗算力，不認為 Kimi 討論能證偽 AI infra。較偏資金導向大屠殺，同時尊重未知因素（類比去年 3 月）。",
+        "【美股｜SpaceX】SpaceX 股價續落，主持人仍勇敢加碼；述及 2024 參觀 Hawthorne 工廠緣分，自認馬斯克粉，對 SpaceX／Tesla 周邊長期正向。槓桿已降很低，盤差仍勉力笑看。",
+        "【標的紀律】具名台積電／TSM、0050、美光、Credo、Astera Labs、ADI、SpaceX、Tesla；族群：記憶體、被動、光通、載板／玻纖布、設備（CapEx 受惠卻被殺）。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:00:59+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "23fa0bcd-2051-41e5-b7a8-ae58366f43a7",
@@ -605,8 +760,26 @@
       "keyPoints": [
         "金融恐怖份子"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "金融恐怖份子"
+      ],
+      "stockAnalysis": [
+        "【盤勢｜韓股去槓桿外溢】本集核心：韓國投資人超高槓桿（指數本就波動大＋槓桿 ETF／融資，聽友戲稱有效槓桿可想像到更高倍數）爆倉去槓桿，外溢全球風險資產；台股大盤自高點回檔約一成內、多往季線靠，與去年 3–4 月「大盤破線往下」型態不同。主持人提醒：若大盤只回個位數％，開 2× 左右槓桿者不該輸大盤太多，否則難救回。",
+        "【美 vs 韓｜去槓桿型態】美式去槓桿相對有序；韓式像「帶債高揚」——槓桿堆太高、被迫平倉、人踩人，量化／對沖反而賺翻。回顧歷史：韓經理人超槓爆倉連鎖、Terra／Luna、炒 Tesla／Palantir 高點回檔等，常有韓系槓桿抽流動性後踩踏；加密貨幣同理。",
+        "【台股結構】大盤未崩、接近原水位；痛的是熱門／融資堆疊高的族群。短線反彈時「彈不起來」的標的，依經驗多半是上面人太多，需時間消化槓桿客，終將回歸基本面——道聽途說買到台積電長期仍可能賺，但過程是信仰測試。",
+        "【部位回憶】對照去年 4 月關稅殺盤時因先前有解碼／降槓桿而有子彈加碼；這次差異是大盤未全面破線下跌。韓國記憶體權值約佔其大盤一半，韓股波動本就偏大，再疊槓桿更恐怖。",
+        "【聽友題｜CCL／風測／被動】被動元件基本面節目很早談過；CCL／載板籌碼與敘事另論，不必整天只聊台積電。亦提有人聽聞買一堆美光、以及載板／設備／光通設備等輪動記憶——僅轉述討論，非點名下單。",
+        "【標的紀律】具名台積電、美光；族群：韓股槓桿／記憶體權值、台股融資熱門股、CCL／載板／被動／光通設備。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:00:22+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "233f8f4d-1bd8-49dd-9744-4867e9012965",
@@ -622,8 +795,26 @@
       "keyPoints": [
         "好像是很難得的躲噴"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "好像是很難得的躲噴"
+      ],
+      "stockAnalysis": [
+        "【美股｜Meta 算力出租】Meta 股價重新站上季線；市場意見領袖一度解讀「賣閒置算力＝退出算力近戰」。主持人原先看法相反，後獲 Zuckerberg 訪問側證：Meta 仍是 AI 超級買方，找到出海口把部分算力外租是 bullish（對 Meta 與算力定價），不是認輸。短線走勢不拿來硬編故事，但可作觀察。",
+        "【Neocloud／租賃賽】Meta 下场做 AI 算力租賃，對自用巨頭敘事是好事，但可能壓縮純 Neocloud／公有鏈「需求無限大」的夢想空間；除中國巨頭外，連 Meta 都拿出自用算力，後續算力定價需留意。",
+        "【漲價鏈｜記憶體／被動／功率】記憶體下季漲價仍在、幅度收斂——主持人早多半下車，僅定期追蹤「射到宇宙」後的價格。被動元件：絕大多數廠商漲價成功、少部分失敗（不點名）；功率／類比：ADI 等大廠發漲價函，全球功率元件全面漲價味道濃。奇妙處：美股部分功率標的未必再走高，台股功率／MOSFET 反而相對有表現——資金搶故事、sentiment 轉差時好東西也可能沒人買。",
+        "【導線架／老梗料件】聽供應鏈：導線架 lead time 再拉長、甚至漲價；AI 關鍵老梗料件漲價趨勢仍在。",
+        "【光通】催化之一可能是 Semianalysis 相關 ETF 納入部分光通元件（偏資金面）。主持人：高估值光通要進攻／突破，大盤最好在新高附近；族群內也有輪動，最熱 Sci‑Fi 光通未必繼續最強，Wide & Slow 類近日相對轉強。",
+        "【標的紀律】具名 Meta、ADI；族群：記憶體、被動、功率／類比、導線架、光通、Neocloud。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:00:22+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "4c045cc2-378b-4653-a683-c93fc37d0a2d",
@@ -639,8 +830,27 @@
       "keyPoints": [
         "那個要我放雲霄飛車的是不是未來人"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "那個要我放雲霄飛車的是不是未來人"
+      ],
+      "stockAnalysis": [
+        "【槓桿觀】自述年輕時融資開滿約 2.5×（自備四成）是個人上限，遇回檔會提早處理；新世代傳說 5–6×、選項／不斷 roll 的槓桿，一兩根跌停就可能部位歸零。SpaceX 上市後單日震幅被比喻「一天一個巴菲特」級——工具愈多，風險樣貌愈與想像不同。",
+        "【盤勢｜輪動非結束】找不到夠大的壞消息 justify 近期回檔；雖有族群破季線轉弱，但功率、CCL、Wafer 等仍強，不像行情立刻結束，比較像新一波輪動。光通集體轉弱、被動部分進修正，換下一棒味道較濃。",
+        "【塞錢標的】過去能塞法人大量資金的是被動（國巨、華新科等）；被動若續修正，法人會找下一個 parking 處——可能仍是被動反彈，或換其他能吸納資金的族群。",
+        "【光通部位】聽友問：光通部位已降，但敘事基本面未變？主持人：軟體／SaaSpocalypse、AI 搶工作等敘事最近在財報／電話會議翻轉（更多證據顯示 AI 創造工作）；token 成本下降後軟體數字開始變好。光通基本面路上仍正確，股價是資金取向問題。",
+        "【長期持有】有人問如何決定長期持有如 Tesla、NVIDIA；另提 SpaceX 上市後把部分 Tesla 換到 SpaceX、想像未來 SpaceX 收 Tesla 等——屬主持人個人敘事與假設，非建議。",
+        "【中國／關稅】提及有人因貼近中國資金而吃虧、關稅波段後的雄心與現實；僅作風險討論。",
+        "【標的紀律】具名 Tesla、NVIDIA、SpaceX、國巨、華新科、Google（軟體敘事）；族群：被動、功率、CCL、Wafer、光通。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:00:22+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "2d7b77d8-c828-43f9-b835-5a1a72aa2e38",
@@ -656,8 +866,26 @@
       "keyPoints": [
         "他有很多有錢的客人"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "他有很多有錢的客人"
+      ],
+      "stockAnalysis": [
+        "【主線｜被動→功率】過去數月部位低配／主軸在被動元件；被動修正後率先轉強，才去撈其他題材，發現功率元件也出現 lead time 與漲價，力道不輸被動，本週有白熱化味道。被動已較確定，功率毛利／漲價「醞釀正發生」；成熟製程晶圓（6／8 吋）與後段封測也因「大家都要做得出來」而有類似「巴結產能」邏輯。",
+        "【驗證轉強】若某族群帶頭跟著大盤創高，修正結束訊號較明確；猜測一兩週內見分曉。記憶體當年漲價時仍有人重押甚至增資搶料——提醒循環股賭性。",
+        "【Meta × Neocloud】新聞：Meta 要把多餘算力拿出來做 Neocloud／出租；市場多數解讀偏空（不玩自建？），主持人認為需分辨自用 vs 出租、Double Down 意圖，對照 Google 也曾有「看起來像爛尾」的投資。不確定性高，勿一面倒。",
+        "【光通｜沒人要的孩子？】聽友催聊台股光通：不是基本面壞，是資金不在這裡；過去幾乎都在 cover 被動。Semianalysis 相關發行商有光／Boss 類 ETF 選股，短線或有機會，但要等資金回流主持人才會把資源放回這個題。",
+        "【工具｜0050／Google】提及用 0050 等大盤工具；Google 搜尋／AI Overview、Perplexity 使用習慣——偏產品體驗，非股評。",
+        "【標的紀律】具名 Meta、Google、台積電（產能卡位類比）、0050；族群：被動、功率、成熟製程／封測、光通、記憶體（歷史類比）。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:00:22+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "31e6121a-9d45-4204-aac1-f3a2cd7cd5fe",
@@ -673,8 +901,24 @@
       "keyPoints": [
         "突然想到上集有人許願要我放雲霄飛車我忘了"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "突然想到上集有人許願要我放雲霄飛車我忘了"
+      ],
+      "stockAnalysis": [
+        "【漲價哲學｜需求 vs 成本】供應鏈幾乎全面漲價（含玻纖布再漲）；主持人區分「需求驅動」與「成本轉嫁」（如 DDIC 因代工被漲而轉嫁客戶）。選股偏好需求／藉口漲價且能被客戶接受者，而非純反映經援代工廠成本者——資金也較願意追前者。",
+        "【被動元件】股價早已「射到宇宙」，節目一兩個月前就說不太再對股價做文章，但仍 update 產業：進入 7 月，台系／日系被動龍頭預期連發漲價信；料件極雜、談判價不一，數字終會浮上市場。日股被動噴翻、美股相對休息（財務操作感），台股風水輪流轉。漲價蔓延到非最 critical、非純 AI 料——大廠 EOL／轉單也推波。",
+        "【主動／功率】主動元件漲價趨勢愈明顯，像稍早的被動；供應鏈已回報部分 MOSFET 缺貨。先前恐怖平衡被資金炒作打破後，公司派也開始正視自家股價噴出的供需訊號。",
+        "【標的紀律】未點名單一個股代號做推薦；族群：被動（台／日／美）、功率／MOSFET、DDIC、玻纖布等原物料。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:16:13+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "1b5e1964-2bc3-4634-80c6-228c02e87474",
@@ -693,8 +937,28 @@
         "充電站好找、站點夠多，",
         "有時候比剩幾趴還重要。"
       ],
-      "notesQuality": "rich",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "小光：你會老我會大",
+        "電動車開久了就知道，",
+        "充電站好找、站點夠多，",
+        "有時候比剩幾趴還重要。"
+      ],
+      "stockAnalysis": [
+        "【部位調動｜個人】第一季衛星／載板／玻璃基板題做到段落後換碼；第二季主做漲價題（被動、近期功率），美股動作較少、偏長期。為籌資金買 SpaceX，賣掉部分表現差的持股與部分 Tesla（原買 Tesla 為押馬斯克，現有 SpaceX 可替代敘事）。另有壓到 CPU 鏈與 ASIC（Marvell 聽寫 Mavial）後因美股分化而調節；台股轉弱標的傾向先賣。",
+        "【美股｜Apple／Microsoft】相信 Apple 在 AI 被嫌棄後仍可能維持領導；滿手蘋果產品但缺合適切入點。注意到大盤差時微軟／蘋果反而跳——若持續轉強，可能把錢移過去。台美輪動經驗：狂罵一邊時另一邊常給驚喜。",
+        "【季線紀律】大盤位置仍可、但個股若站不回季線，即便是 AI 大題材、資金不在就難上；價值投資視破季線為相對好買點，但要「等」資金回流。",
+        "【Apple 漲價】記憶體高漲下 Apple 上修 MacBook 等約十幾到二十％；選在此時點而非等新品，有趣。後續看銷量是否吃得下；供應鏈漲價若客戶拒絕才需擔心。AI 端客戶胃口被養壞，玻纖布／Q 布／被動／記憶體再怎麼漲也常有人買單。",
+        "【標的紀律】具名 SpaceX、Tesla、Apple、Microsoft、Marvell（ASIC）；族群：被動、功率、CPU、載板／玻璃基板。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:16:13+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "df09166b-22a7-4cc7-8610-ab2f6f812e92",
@@ -710,8 +974,25 @@
       "keyPoints": [
         "韓國人真的很會玩"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "韓國人真的很會玩"
+      ],
+      "stockAnalysis": [
+        "【韓股外溢體感】體感韓國槓桿 ETF 爆倉大殺後牽動全球情緒；台股有人喊「韓股跌關我們屁事」，但心情與韓系巨頭股價連動仍在。",
+        "【博通／產品世代】討論解決「博通是否被跳過一代」疑慮——主持人認為並未跳過，有新產品產生（細節以公開資訊為準）。",
+        "【被動｜電阻接力】預期七月初可能再一波被動漲價；電阻（R‑chip）供需轉緊、漲價信出現，電容已相當程度漲過且反映到大型 EMS／ODM，中位數漲幅超預期。功率元件亦在觀察清單。",
+        "【美光／SK 海力士】聽友問 SK 海力士赴美發 ADR 是否該配置美光：主持人拒給買賣建議；自述很久沒買金／相關、美光只剩少數部位，資金已轉其他題材。",
+        "【標的紀律】具名博通、美光、SK 海力士；族群：被動（電容／電阻）、功率、韓股槓桿。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:16:13+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "99c7ad0e-d899-4a9a-9450-749b5053dbff",
@@ -727,8 +1008,25 @@
       "keyPoints": [
         "又新高拉"
       ],
-      "notesQuality": "teaser",
-      "source": "soundon-rss"
+      "notesQuality": "listened",
+      "source": "soundon-rss",
+      "rssTeaser": [
+        "又新高拉"
+      ],
+      "stockAnalysis": [
+        "【AI 伺服器瓶頸】產業訊號持續指 AI 很好，但進入密集拉貨後的 bottleneck；最大驅動仍是 AI 伺服器出貨節奏。",
+        "【台積電＝限制器】引 Gavin Baker 類觀點：台積電像限制器——若瘋狂大擴產，這波 AI 可能更猛但更快結束；硬體股能走這麼遠，部分因尚未很快撞上爆炸點。",
+        "【軟體分化】Software 類股有人在新高、有人在右下角，市場已做強弱分流；Hour／人力相關亦非全面在右上——能 harness AI 工具者較不被淘汰敘事打中。",
+        "【聽友｜工程師焦慮】AI agent 讓軟體工作從創作變校對、非頂尖工程師壓力大——主持人偏向組織重整與工具賦能視角，而非全面取代（細節偏職涯，非股評）。",
+        "【標的紀律】本集具名偏少；族群／概念：AI 伺服器、台積電產能限制、軟體強弱分流。候選／觀察，非投資建議。"
+      ],
+      "listenedAt": "2026-09-26T03:16:13+08:00",
+      "transcriptSource": "faster-whisper small int8 (zh)",
+      "markets": [
+        "TW",
+        "US"
+      ],
+      "hostViewsOnly": true
     },
     {
       "id": "4f8d2d01-0119-4349-b970-5077910a3362",
@@ -12498,6 +12796,6 @@
     "script": "scripts/listen-gooaye-episodes.mjs",
     "analysisPack": "scripts/gooaye-stock-analysis.json",
     "transcriptModel": "faster-whisper small int8 (zh)",
-    "updatedAt": "2026-09-26T02:10:26+08:00"
+    "updatedAt": "2026-09-26T03:16:21+08:00"
   }
 }
