@@ -84,22 +84,43 @@ function tradeRows(trades, currency) {
     .join("");
 }
 
-function positionRows(positions, currency) {
+function dayPnlOf(p) {
+  if (p.dayPct == null || Number.isNaN(p.dayPct) || p.mark == null || p.qty == null) return null;
+  // dayPct is mark change vs prior close; dollar day P/L ≈ mark * qty * dayPct/100
+  return (p.mark * p.qty * p.dayPct) / 100;
+}
+
+function positionRows(positions, currency, positionsValue) {
+  const colCount = 11;
   if (!positions.length) {
-    return `<tr><td colspan="6" class="empty-cell">${escapeHtml(t("noPositions"))}</td></tr>`;
+    return `<tr><td colspan="${colCount}" class="empty-cell">${escapeHtml(t("noPositions"))}</td></tr>`;
   }
+  const bookMv = positionsValue > 0 ? positionsValue : positions.reduce((s, p) => s + (p.mark || 0) * (p.qty || 0), 0);
   return positions
     .map((p) => {
+      const mv = (p.mark || 0) * (p.qty || 0);
+      const cost = (p.avgCost || 0) * (p.qty || 0);
       const u = (p.mark - p.avgCost) * p.qty;
       const r = p.avgCost ? ((p.mark - p.avgCost) / p.avgCost) * 100 : 0;
+      const dayPnl = dayPnlOf(p);
+      const weight = bookMv > 0 ? (mv / bookMv) * 100 : null;
+      const name = p.name ? escapeHtml(p.name) : "";
       return `
-      <tr>
-        <td><span class="ticker">${escapeHtml(p.ticker)}</span></td>
+      <tr class="pos-row" data-ticker="${escapeHtml(p.ticker)}" tabindex="0">
+        <td class="pos-sym">
+          <span class="ticker">${escapeHtml(p.ticker)}</span>
+          ${name ? `<span class="pos-name">${name}</span>` : ""}
+        </td>
         <td class="num">${p.qty?.toLocaleString(numberLocale())}</td>
-        <td class="num">${fmtPrice(p.avgCost, currency)}</td>
         <td class="num">${fmtPrice(p.mark, currency)}</td>
+        <td class="num">${fmtMoney(mv, currency)}</td>
+        <td class="num ${pctClass(dayPnl)}">${dayPnl == null ? "—" : fmtMoney(dayPnl, currency)}</td>
+        <td class="num ${pctClass(p.dayPct)}">${fmtPct(p.dayPct)}</td>
         <td class="num ${pctClass(u)}">${fmtMoney(u, currency)}</td>
         <td class="num ${pctClass(r)}">${fmtPct(r)}</td>
+        <td class="num">${fmtMoney(cost, currency)}</td>
+        <td class="num">${fmtPrice(p.avgCost, currency)}</td>
+        <td class="num">${weight == null ? "—" : `${weight.toFixed(2)}%`}</td>
       </tr>`;
     })
     .join("");
@@ -184,35 +205,6 @@ function tradeCards(trades, currency) {
     .join("");
 }
 
-function positionCards(positions, currency) {
-  if (!positions.length) {
-    return `<div class="list-card empty-card">${escapeHtml(t("noPositions"))}</div>`;
-  }
-  return positions
-    .map((p) => {
-      const u = (p.mark - p.avgCost) * p.qty;
-      const r = p.avgCost ? ((p.mark - p.avgCost) / p.avgCost) * 100 : 0;
-      return `
-      <div class="list-card paper-card">
-        <div class="lc-head">
-          <div>
-            <span class="ticker" style="font-family:var(--mono);font-weight:600">${escapeHtml(p.ticker)}</span>
-            <div style="color:var(--text-muted);font-size:0.8rem">${escapeHtml(t("qtyShares"))} ${p.qty?.toLocaleString(numberLocale())}</div>
-          </div>
-          <div style="text-align:right">
-            <div class="${pctClass(u)}" style="font-family:var(--mono);font-weight:600">${fmtMoney(u, currency)}</div>
-            <div class="${pctClass(r)}" style="font-family:var(--mono)">${fmtPct(r)}</div>
-          </div>
-        </div>
-        <div class="lc-metrics">
-          <span>${escapeHtml(t("avgCost"))} ${fmtPrice(p.avgCost, currency)}</span>
-          <span>${escapeHtml(t("mark"))} ${fmtPrice(p.mark, currency)}</span>
-        </div>
-      </div>`;
-    })
-    .join("");
-}
-
 function renderTradeTable(title, trades, currency) {
   return `
     <div class="paper-table-block">
@@ -236,26 +228,33 @@ function renderTradeTable(title, trades, currency) {
     </div>`;
 }
 
-function renderPosTable(positions, currency) {
+function renderPosTable(positions, currency, positionsValue) {
   return `
-    <div class="paper-table-block">
-      <h4>${escapeHtml(t("positions"))}</h4>
-      <div class="table-wrap">
-        <table class="stock-table paper-table">
+    <div class="paper-table-block paper-pos-block">
+      <div class="pos-block-head">
+        <h4>${escapeHtml(t("positions"))}</h4>
+        <span class="pos-scroll-hint">${escapeHtml(t("posScrollHint"))}</span>
+      </div>
+      <div class="pos-scroll" role="region" aria-label="${escapeHtml(t("positions"))}">
+        <table class="pos-table">
           <thead>
             <tr>
-              <th>${term("ticker", t("ticker"))}</th>
-              <th>${escapeHtml(t("qty"))}</th>
-              <th>${escapeHtml(t("avgCost"))}</th>
-              <th>${escapeHtml(t("mark"))}</th>
-              <th>${term("unrealizedPnl", t("unrealizedPnl"))} $</th>
-              <th>${term("unrealizedPnl", t("unrealizedPct"))}</th>
+              <th class="pos-sym">${term("ticker", t("ticker"))}</th>
+              <th class="num">${escapeHtml(t("qty"))}</th>
+              <th class="num">${escapeHtml(t("mark"))}</th>
+              <th class="num">${escapeHtml(t("mktValue"))}</th>
+              <th class="num">${escapeHtml(t("dayPnl"))}</th>
+              <th class="num">${escapeHtml(t("dayPct"))}</th>
+              <th class="num">${escapeHtml(t("unrealizedPnl"))}</th>
+              <th class="num">${escapeHtml(t("unrealizedPct"))}</th>
+              <th class="num">${escapeHtml(t("costBasis"))}</th>
+              <th class="num">${escapeHtml(t("avgCost"))}</th>
+              <th class="num">${escapeHtml(t("weightPct"))}</th>
             </tr>
           </thead>
-          <tbody>${positionRows(positions, currency)}</tbody>
+          <tbody>${positionRows(positions, currency, positionsValue)}</tbody>
         </table>
       </div>
-      <div class="mobile-list">${positionCards(positions, currency)}</div>
     </div>`;
 }
 
@@ -276,7 +275,7 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate) {
       <p class="paper-session-note">${escapeHtml(t("paperSession", { date: asOfDate || "—", inception }))}</p>
       ${renderTradeTable(`${t("buy")} ${asOfDate || ""}`, todayBuys, currency)}
       ${renderTradeTable(`${t("sell")} ${asOfDate || ""}`, todaySells, currency)}
-      ${renderPosTable(book.positions || [], currency)}
+      ${renderPosTable(book.positions || [], currency, book.positionsValue)}
       ${renderTradeTable(t("recentTrades"), recent, currency)}
     </div>`;
 }
