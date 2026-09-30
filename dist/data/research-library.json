@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-25T09:22:51+08:00",
+    "updated": "2026-09-30T09:20:08+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-09-25)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-09-30)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -7066,6 +7066,232 @@
         "peer-momentum",
         "cross-market",
         "llm",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-tw-capital-liquidity-abnormal-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "Capital liquidity and abnormal returns in the Taiwan stock market: The impact of the US-China trade conflict and the COVID-19 pandemic",
+      "authors": [
+        "W.D. Chen"
+      ],
+      "year": 2026,
+      "summary": "Studies how capital-flow liquidity relates to abnormal returns on Taiwan equities around two external-risk episodes: the US–China trade conflict and COVID-19. Beyond transaction-cost frictions, higher external risk can slow liquidity and produce sharp abnormal moves. Public abstract evidence: trade-war period associated with higher capital liquidity in TW; COVID period with lower liquidity; illiquidity significantly linked to abnormal returns. Site takeaway: treat TW liquidity / crisis-regime flags as research candidates only — keep US/TW separate and do not change live screener math while the olympiad gate is closed.",
+      "formulas": [
+        "liquidity_proxy ← capital_flow / trading-friction measures (paper constructs; site uses public Amihud/turnover proxies only)",
+        "abnormal_return ← realized_return − expected_benchmark_return over event windows",
+        "regime_flag ← trade_war | covid | calm (external-risk calendar)",
+        "gate: TW-only candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股：外部風險（美中貿易衝突、疫情）會改變資金流動性，並與異常報酬有關",
+        "貿易衝突期流動性偏高、疫情期流動性偏低；流動性不足與異常報酬連動",
+        "僅作台股流動性／危機體制觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股：外部風險（美中貿易衝突、疫情）會改變資金流動性，並與異常報酬有關",
+          "貿易衝突期流動性偏高、疫情期流動性偏低；流動性不足與異常報酬連動",
+          "僅作台股流動性／危機體制觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "TW: external-risk episodes (US–China trade conflict, COVID) shift capital liquidity and link to abnormal returns",
+          "Trade-war period: higher capital liquidity; COVID: lower liquidity; illiquidity tied to abnormal returns",
+          "TW liquidity / crisis-regime watch only — no live screen before the math gate"
+        ],
+        "zh-Hans": [
+          "台股：外部风险（美中贸易冲突、疫情）会改变资金流动性，并与异常报酬有关",
+          "贸易冲突期流动性偏高、疫情期流动性偏低；流动性不足与异常报酬联动",
+          "仅作台股流动性／危机体制观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "台湾株：外部リスク（米中貿易摩擦・コロナ）が資本流動性を変え、異常リターンと結びつく",
+          "貿易摩擦期は流動性が高く、コロナ期は低い；非流動性は異常リターンと関連",
+          "台湾の流動性／危機レジーム監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW capital-liquidity / external-risk abnormal-return link stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://ideas.repec.org/a/taf/applec/v58y2026i1p69-82.html",
+        "https://doi.org/10.1080/00036846.2024.2448613"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "資本流動性與台股異常報酬：美中貿易衝突與 COVID-19 的影響",
+        "en": "Capital liquidity and abnormal returns in the Taiwan stock market: The impact of the US-China trade conflict and the COVID-19 pandemic",
+        "zh-Hans": "资本流动性与台股异常报酬：美中贸易冲突与 COVID-19 的影响",
+        "ja": "資本流動性と台湾株の異常リターン：米中貿易摩擦とCOVID-19の影響"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "檢視台股資金流動性與異常報酬在美中貿易衝突與疫情前後的關係。貿易衝突期流動性上升、疫情期下降；流動性不足顯著影響異常報酬。僅候選。",
+        "en": "Links Taiwan capital-flow liquidity to abnormal returns around the US–China trade conflict and COVID-19. Trade-war: higher liquidity; COVID: lower; illiquidity significantly affects abnormal returns. Candidate only.",
+        "zh-Hans": "检视台股资金流动性与异常报酬在美中贸易冲突与疫情前后的关系。贸易冲突期流动性上升、疫情期下降；流动性不足显著影响异常报酬。仅候选。",
+        "ja": "米中貿易摩擦とコロナ前後の台湾株で、資本流動性と異常リターンの関係を検証。貿易摩擦期は流動性上昇、コロナ期は低下；非流動性が異常リターンに影響。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "tw",
+        "liquidity",
+        "abnormal-returns",
+        "trade-war",
+        "covid",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-tw-investor-price-discovery-2026",
+      "market": "TW",
+      "type": "paper",
+      "title": "Investor Contributions to Price Discovery and Trading Performance: Evidence from the Taiwan Stock Exchange",
+      "authors": [
+        "Pi-Hsia Hung",
+        "Donald Lien"
+      ],
+      "year": 2026,
+      "summary": "Open-access TWSE microstructure study linking investor-type information shares (IS) to trading performance on five-second intraday data (call-auction era sample). Institutions show higher IS per order than individuals and better trading performance; higher IS associates with better contemporaneous outcomes but does not predict long-horizon performance. Determinants include investor type, price aggressiveness, trade size, herding, firm traits, and macro conditions. Site takeaway: public institutional-flow / herding awareness for TW is a watch candidate only — not a live screen while math gate is closed.",
+      "formulas": [
+        "IS_n ← Hasbrouck / Lien–Shrestha information share of investor type n (foreign | trust | other_inst | individual)",
+        "scaled_IS ← IS / order_count (per-thousand-orders) for cross-type comparison",
+        "perf(t,t+τ) ← signed buy–sell imbalance × subsequent returns over horizon τ",
+        "gate: TW-only candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股：機構（尤其投信）每筆委託對價格發現貢獻高於散戶，短線績效也較佳",
+        "資訊份額與當日／短窗績效有關，但對長期績效預測力弱；機構羊群可能傷害價格發現",
+        "僅作台股機構流向／價格發現觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股：機構（尤其投信）每筆委託對價格發現貢獻高於散戶，短線績效也較佳",
+          "資訊份額與當日／短窗績效有關，但對長期績效預測力弱；機構羊群可能傷害價格發現",
+          "僅作台股機構流向／價格發現觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "TW: institutions (esp. investment trusts) contribute more price discovery per order than individuals and outperform short-term",
+          "Higher IS links to better contemporaneous/short-window trading outcomes, not long-horizon prediction; institutional herding can impair discovery",
+          "TW institutional-flow / price-discovery watch only — no live screen before the math gate"
+        ],
+        "zh-Hans": [
+          "台股：机构（尤其投信）每笔委托对价格发现贡献高于散户，短线绩效也较佳",
+          "信息份额与当日／短窗绩效有关，但对长期绩效预测力弱；机构羊群可能伤害价格发现",
+          "仅作台股机构流向／价格发现观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "台湾株：機関（特に投信）は1注文あたりの価格発見寄与が個人より高く、短期成績も良い",
+          "情報シェアは当日／短期成績と関連するが長期予測は弱い；機関のハーディングは価格発見を損ないうる",
+          "台湾の機関フロー／価格発見の監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW investor-type information share / trading-performance link stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://www.mdpi.com/1911-8074/19/5/323",
+        "https://doi.org/10.3390/jrfm19050323"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "投資人對價格發現與交易績效的貢獻：台灣證券交易所證據",
+        "en": "Investor Contributions to Price Discovery and Trading Performance: Evidence from the Taiwan Stock Exchange",
+        "zh-Hans": "投资人对价格发现与交易绩效的贡献：台湾证券交易所证据",
+        "ja": "投資家の価格発見と取引成績への寄与：台湾証券取引所の証拠"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "以五秒級盤中資料建構台股投資人類別資訊份額，並連結交易績效。機構每筆貢獻高於散戶且短線績效較佳；高 IS 與當期結果相關但難預測長期。僅候選。",
+        "en": "Builds stock–trader–direction information shares on five-second TWSE data and links them to trading performance. Institutions contribute more per order and outperform short-term; IS helps contemporaneously, not long-term. Candidate only.",
+        "zh-Hans": "以五秒级盘中资料建构台股投资人类别信息份额，并连结交易绩效。机构每笔贡献高于散户且短线绩效较佳；高 IS 与当期结果相关但难预测长期。仅候选。",
+        "ja": "5秒足のTWSEデータで投資家タイプ別情報シェアを構築し取引成績と結び付ける。機関は1注文あたり寄与が高く短期も優位；ISは同時期には有効だが長期予測は弱い。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "tw",
+        "price-discovery",
+        "information-share",
+        "institutions",
+        "herding",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-intramonth-momentum-cycle-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "The Intramonth Momentum Cycle",
+      "authors": [
+        "Daniel Nathan",
+        "Matti Suominen",
+        "Joni Tasa"
+      ],
+      "year": 2026,
+      "summary": "Shows U.S. equity momentum returns concentrate in a six-trading-day pre-turn-of-the-month window ending four days before month-end, driven mainly by losers sold for month-end cash needs rather than winners winning. Over 1980–2025 the PreTOM WML path compounds far more than rest-of-month; SEC T+2→T+1 settlement shifts selling pressure one day later as predicted; pattern appears across 19 developed markets. Site takeaway: calendar / settlement-aware momentum timing is a US watch candidate only — do not harden into live screens while math gate is closed.",
+      "formulas": [
+        "PreTOM ← trading days [τ−9, τ−4] relative to month-end τ",
+        "WML_t ← VW(top_mom_decile) − VW(bottom_mom_decile); deciles fixed within calendar month (12–2 sort)",
+        "Loser×PreTOM ← panel underperformance of D1 vs market on PreTOM days",
+        "gate: US-only candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "美股：動能報酬大多集中在月底前六個交易日（PreTOM），主因是輸家被賣出籌現金",
+        "結算周期縮短（T+1）會把賣壓往月底挪一天；不只是贏家繼續漲",
+        "僅作美股日曆／結算感知動能觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "美股：動能報酬大多集中在月底前六個交易日（PreTOM），主因是輸家被賣出籌現金",
+          "結算周期縮短（T+1）會把賣壓往月底挪一天；不只是贏家繼續漲",
+          "僅作美股日曆／結算感知動能觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "US: momentum returns concentrate in six pre-month-end trading days (PreTOM), driven by loser selling for cash",
+          "Shorter settlement (T+1) shifts selling pressure one day later; not mainly winners winning",
+          "US calendar / settlement-aware momentum watch only — no live screen before the math gate"
+        ],
+        "zh-Hans": [
+          "美股：动能报酬大多集中在月底前六个交易日（PreTOM），主因是输家被卖出筹现金",
+          "结算周期缩短（T+1）会把卖压往月底挪一天；不只是赢家继续涨",
+          "仅作美股日历／结算感知动能观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "米国株：モメンタム収益の大半は月末前6取引日（PreTOM）に集中し、主因は敗者株の現金化売り",
+          "決済短縮（T+1）は売り圧力を1日後ろへずらす；勝者の勝ち続きが主因ではない",
+          "米国のカレンダー／決済連動モメンタム監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — US intramonth / PreTOM momentum concentration stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6426026",
+        "https://doi.org/10.2139/ssrn.6426026",
+        "https://danielrnathan.com/assets/pdf/The_Intramonth_Momentum_Cycle.pdf"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "月內動能週期",
+        "en": "The Intramonth Momentum Cycle",
+        "zh-Hans": "月内动能周期",
+        "ja": "月内モメンタム・サイクル"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "美股動能報酬集中在月底前六個交易日，主因輸家為月底現金需求被賣出；T+1 結算使賣壓後移一日；跨 19 個已開發市場可見類似型態。僅候選。",
+        "en": "US momentum returns concentrate in six pre-month-end days via loser cash-raising sales; T+1 settlement shifts pressure one day later; similar pattern in 19 developed markets. Candidate only.",
+        "zh-Hans": "美股动能报酬集中在月底前六个交易日，主因输家为月底现金需求被卖出；T+1 结算使卖压后移一日；跨 19 个已开发市场可见类似型态。仅候选。",
+        "ja": "米株モメンタムは月末前6日に集中し、主因は敗者株の現金化売り；T+1決済で売り圧力が1日後ろへ；19先進国でも同様。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "us",
+        "momentum",
+        "calendar",
+        "settlement",
+        "liquidity",
         "candidate"
       ]
     }
