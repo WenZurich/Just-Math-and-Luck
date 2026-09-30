@@ -156,3 +156,21 @@ export function drawdownFromPeak(price, peak) {
   if (!(peak > 0)) return null;
   return price / peak - 1;
 }
+
+/**
+ * Compound fractional returns: ∏(1+r_i) − 1.
+ * Domain: nonempty array; every r finite and r > −1 (else growth factor ≤ 0 breaks
+ * multiplicative compounding — olympiad habit: refuse the formula off-domain).
+ * Units match retChange / regime lookbacks (fractional, not percentage points).
+ */
+export function compoundRet(rets) {
+  if (!Array.isArray(rets) || rets.length === 0) return null;
+  let growth = 1;
+  for (const r of rets) {
+    if (!isFiniteNumber(r)) return null;
+    if (!(r > -1)) return null;
+    growth *= 1 + r;
+  }
+  if (!isFiniteNumber(growth)) return null;
+  return growth - 1;
+}

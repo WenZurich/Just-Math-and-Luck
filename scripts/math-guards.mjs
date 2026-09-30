@@ -19,6 +19,7 @@ import {
   pctFromSma,
   peakInWindow,
   drawdownFromPeak,
+  compoundRet,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 import {
@@ -351,6 +352,40 @@ assert(
   assert(approx(peak, 100) && approx(dd, -0.1), `peak+dd chain 90 vs 100 → -0.1 (got peak=${peak}, dd=${dd})`);
 }
 
+
+// —— compound multi-day fractional returns (SOS/AM-GM domain: ∏(1+r)−1) ——
+assert(compoundRet([]) === null, "compoundRet empty → null");
+assert(compoundRet(null) === null, "compoundRet null → null");
+assert(compoundRet([NaN]) === null, "compoundRet NaN → null");
+assert(compoundRet([Infinity]) === null, "compoundRet Infinity → null");
+assert(compoundRet([-1]) === null, "compoundRet r=-1 → null");
+assert(compoundRet([-1.5]) === null, "compoundRet r<-1 → null");
+assert(compoundRet([0.1, -1]) === null, "compoundRet mixed with r=-1 → null");
+assert(compoundRet([0.1, NaN]) === null, "compoundRet mixed NaN → null");
+{
+  const v = compoundRet([0.1]);
+  assert(approx(v, 0.1), `compoundRet single 0.1 = 0.1 (got ${v})`);
+}
+{
+  const v = compoundRet([0.1, 0.1]);
+  assert(approx(v, 0.21), `compoundRet 1.1×1.1−1 = 0.21 (got ${v})`);
+}
+{
+  const v = compoundRet([0.5, -0.5]);
+  assert(approx(v, -0.25), `compoundRet 1.5×0.5−1 = -0.25 (got ${v})`);
+}
+{
+  const v = compoundRet([0, 0, 0]);
+  assert(approx(v, 0), `compoundRet flat zeros = 0 (got ${v})`);
+}
+assert(
+  approx(compoundRet([retChange(100, 110)]), retChange(100, 110)),
+  "compoundRet([ret]) ≡ retChange"
+);
+assert(
+  approx(compoundRet([0.1, 0.2]), (1.1 * 1.2) - 1),
+  "compoundRet matches explicit product"
+);
 
 // —— Paper derivatives: US options + TW 台指期 (olympiad guards) ——
 assert(US_OPTION_MULTIPLIER === 100, "US option multiplier = 100");
