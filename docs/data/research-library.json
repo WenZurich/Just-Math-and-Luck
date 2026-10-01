@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-09-30T09:20:08+08:00",
+    "updated": "2026-10-01T09:25:32+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-09-30)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-01)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -7291,6 +7291,162 @@
         "momentum",
         "calendar",
         "settlement",
+        "liquidity",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-trended-momentum-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Trended Momentum",
+      "authors": [
+        "Charlie X. Cai",
+        "Peng Li",
+        "Kevin Keasey"
+      ],
+      "year": 2026,
+      "summary": "JFQA study arguing that how clearly prices trend during the formation window matters for momentum, not only cumulative past return. Trend clarity (TC) is the R² from regressing daily price on time over months t−11 to t−1 (skipping t); high-TC momentum quintiles earn about 12.68% annualized versus about 6.90% for conventional momentum. Fits Hong–Stein multi-period chasing and appears across assets/global markets. Site takeaway: path-quality / R²-conditioned momentum is a US watch candidate only — do not harden into live screens while the olympiad math gate is closed.",
+      "formulas": [
+        "TC ← R² of OLS(price_day ~ time) over formation days in [t−11, t−1] (skip month t)",
+        "mom_ret ← cumulative return over same formation window (standard 12–2 style)",
+        "trended_mom ← intersect high_mom with high_TC quintile (or double-sort TC within mom)",
+        "gate: US-primary candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "美股：同樣過去報酬，價格走勢愈「清楚」（趨勢 R² 高）的動能組合，後續報酬通常更強",
+        "趨勢清晰度是路徑條件變數，不是只看累積漲幅；與資訊離散度（ID）相關但不同",
+        "僅作美股路徑品質／趨勢清晰動能觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "美股：同樣過去報酬，價格走勢愈「清楚」（趨勢 R² 高）的動能組合，後續報酬通常更強",
+          "趨勢清晰度是路徑條件變數，不是只看累積漲幅；與資訊離散度（ID）相關但不同",
+          "僅作美股路徑品質／趨勢清晰動能觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "US: among equal past-return stocks, clearer price paths (higher trend R²) strengthen subsequent momentum",
+          "Trend clarity is a path conditioner, not just cumulative return; related to but distinct from information discreteness (ID)",
+          "US path-quality / trend-clarity momentum watch only — no live screen before the math gate"
+        ],
+        "zh-Hans": [
+          "美股：同样过去报酬，价格走势越「清楚」（趋势 R² 高）的动能组合，后续报酬通常更强",
+          "趋势清晰度是路径条件变量，不是只看累积涨幅；与信息离散度（ID）相关但不同",
+          "仅作美股路径质量／趋势清晰动能观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "米国株：同じ過去リターンでも、価格経路がより明確（トレンドR²が高い）だとモメンタムが強まりやすい",
+          "トレンド明瞭度は経路の条件変数であり累積リターンだけではない；情報離散度（ID）とは関連するが別物",
+          "米国の経路品質／トレンド明瞭モメンタム監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — US trended / trend-clarity (R²-path) momentum stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://jfqa.org/2026/07/07/trended-momentum/",
+        "https://jfqa.org/wp-content/uploads/2026/07/26353_Trended_Momentum.pdf",
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4740445",
+        "https://doi.org/10.2139/ssrn.4740445"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "趨勢清晰動能（Trended Momentum）",
+        "en": "Trended Momentum",
+        "zh-Hans": "趋势清晰动能（Trended Momentum）",
+        "ja": "トレンデッド・モメンタム（Trended Momentum）"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "JFQA：動能不只看累積報酬，形成期價格路徑的「趨勢清晰度」（日價對時間回歸的 R²）會強化後續動能；高清晰五分位約 12.68% 年化對照傳統約 6.90%。僅候選。",
+        "en": "JFQA: momentum strengthens when formation-period price paths are clearer (R² of price on time); top TC quintile ~12.68% ann. vs ~6.90% conventional. Candidate only.",
+        "zh-Hans": "JFQA：动能不只看累积报酬，形成期价格路径的「趋势清晰度」（日价对时间回归的 R²）会强化后续动能；高清晰五分位约 12.68% 年化对照传统约 6.90%。仅候选。",
+        "ja": "JFQA：モメンタムは累積リターンだけでなく形成期の価格経路の明瞭度（価格〜時間回帰のR²）で強化；高明瞭五分位は年率約12.68%、従来約6.90%。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "us",
+        "momentum",
+        "trend-clarity",
+        "behavioral",
+        "path",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-tw-geopolitical-foreign-inst-2024",
+      "market": "TW",
+      "type": "paper",
+      "title": "Geopolitical Risks and Foreign Institutional Investors: Evidence from the Taiwan Stock Market",
+      "authors": [
+        "Hao-Wen Chang",
+        "I-Hsuan Ethan Chiang",
+        "Huimin Chung",
+        "Chih-Yung Lin"
+      ],
+      "year": 2024,
+      "summary": "Difference-in-differences event study of Taiwan equities around the 2022 Russia–Ukraine war outbreak, comparing firms in the top vs bottom 30% of foreign institutional ownership (TEJ data). High-foreign-ownership firms see roughly 14.65% drop in foreign ownership, larger losses, and higher volume, Parkinson volatility, and turnover; effects stronger for weaker operations, higher risk, and more liquid names; 3–/6-month buy-and-hold returns underperform. Site takeaway: TW foreign-ownership / geopolitical-shock stress flags are research candidates only — keep US/TW separate and do not change live screener math while the olympiad gate is closed.",
+      "formulas": [
+        "treat ← 1{foreign_inst_ownership in top 30%} before event; control ← bottom 30%",
+        "DiD ← Post_war × Treat on daily_return / volume / Parkinson_vol / turnover",
+        "foreign_ownership_delta ← post-event change in FIO (~−14.65% for treated in study)",
+        "gate: TW-only candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股：地緣政治衝擊下，外資持股偏高的公司更容易出現外資撤出、報酬較差、波動與周轉升高",
+        "效果在營運偏弱、風險偏高、流動性較高的標的更明顯；短中期買進持有仍偏弱",
+        "僅作台股外資／地緣風險體制觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股：地緣政治衝擊下，外資持股偏高的公司更容易出現外資撤出、報酬較差、波動與周轉升高",
+          "效果在營運偏弱、風險偏高、流動性較高的標的更明顯；短中期買進持有仍偏弱",
+          "僅作台股外資／地緣風險體制觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "TW: under geopolitical shock, high foreign-ownership names see more foreign exit, weaker returns, and higher vol/turnover",
+          "Effects stronger for weaker ops, higher risk, and more liquid stocks; 3–/6-month BHR still underperforms",
+          "TW foreign-ownership / geo-risk regime watch only — no live screen before the math gate"
+        ],
+        "zh-Hans": [
+          "台股：地缘政治冲击下，外资持股偏高的公司更容易出现外资撤出、报酬较差、波动与周转升高",
+          "效果在营运偏弱、风险偏高、流动性较高的标的更明显；短中期买入持有仍偏弱",
+          "仅作台股外资／地缘风险体制观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "台湾株：地政学ショック下では外資保有比率が高い銘柄ほど外資退出・リターン悪化・出来高／ボラ／回転率上昇が起きやすい",
+          "業績弱め・高リスク・高流動性銘柄で効果が強く、3〜6か月のバイ・アンド・ホールドも劣後",
+          "台湾の外資／地政学レジーム監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW geopolitical / foreign-institutional ownership stress stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4867567",
+        "https://doi.org/10.2139/ssrn.4867567",
+        "https://www.aeaweb.org/conference/2026/program/paper/h7tTe5Yi"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "地緣政治風險與外資法人：台股實證",
+        "en": "Geopolitical Risks and Foreign Institutional Investors: Evidence from the Taiwan Stock Market",
+        "zh-Hans": "地缘政治风险与外资法人：台股实证",
+        "ja": "地政学リスクと外国人機関投資家：台湾株の実証"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "以俄烏戰爭爆發為事件日，比較台股外資持股高低組。高外資組外資持股約降 14.65%，報酬較差且量能／波動／周轉上升；弱營運、高風險、高流動性者更明顯。僅候選。",
+        "en": "DiD around Russia–Ukraine outbreak for TW stocks by foreign ownership. Treated FIO falls ~14.65%; larger losses and higher volume/vol/turnover, stronger for weak ops / high risk / liquid names. Candidate only.",
+        "zh-Hans": "以俄乌战争爆发为事件日，比较台股外资持股高低组。高外资组外资持股约降 14.65%，报酬较差且量能／波动／周转上升；弱营运、高风险、高流动性者更明显。仅候选。",
+        "ja": "ロシア・ウクライナ開戦をイベントに台湾株の外資保有高低を比較。高外資群の保有は約14.65%低下し、損失・出来高・ボラ・回転率が上昇；業績弱・高リスク・高流動性でより顕著。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "tw",
+        "geopolitical",
+        "foreign-ownership",
+        "event-study",
         "liquidity",
         "candidate"
       ]
