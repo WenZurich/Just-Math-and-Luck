@@ -174,3 +174,26 @@ export function compoundRet(rets) {
   if (!isFiniteNumber(growth)) return null;
   return growth - 1;
 }
+
+/**
+ * Finite-only weighted mean: Σ(v_i w_i) / Σ w_i.
+ * Domain: nonempty equal-length arrays; every value and weight finite; every weight ≥ 0;
+ * total weight > 0. Reject negatives (weights are blend masses for volume/score, not signed).
+ * Returns null off-domain (olympiad habit: refuse the formula rather than invent a blend).
+ */
+export function weightedMean(values, weights) {
+  if (!Array.isArray(values) || !Array.isArray(weights)) return null;
+  if (values.length === 0 || values.length !== weights.length) return null;
+  let num = 0;
+  let den = 0;
+  for (let i = 0; i < values.length; i++) {
+    const v = values[i];
+    const w = weights[i];
+    if (!isFiniteNumber(v) || !isFiniteNumber(w)) return null;
+    if (w < 0) return null;
+    num += v * w;
+    den += w;
+  }
+  if (!(den > 0) || !isFiniteNumber(num) || !isFiniteNumber(den)) return null;
+  return num / den;
+}

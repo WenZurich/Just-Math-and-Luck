@@ -20,6 +20,7 @@ import {
   peakInWindow,
   drawdownFromPeak,
   compoundRet,
+  weightedMean,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 import {
@@ -385,6 +386,36 @@ assert(
 assert(
   approx(compoundRet([0.1, 0.2]), (1.1 * 1.2) - 1),
   "compoundRet matches explicit product"
+);
+
+// —— weighted mean (multi-day volume / score blends) ——
+assert(weightedMean(null, [1]) === null, "weightedMean null values → null");
+assert(weightedMean([1], null) === null, "weightedMean null weights → null");
+assert(weightedMean([], []) === null, "weightedMean empty → null");
+assert(weightedMean([1, 2], [1]) === null, "weightedMean length mismatch → null");
+assert(weightedMean([1], [1, 2]) === null, "weightedMean length mismatch reverse → null");
+assert(weightedMean([NaN], [1]) === null, "weightedMean NaN value → null");
+assert(weightedMean([1], [NaN]) === null, "weightedMean NaN weight → null");
+assert(weightedMean([1], [Infinity]) === null, "weightedMean Infinity weight → null");
+assert(weightedMean([1, 2], [0, 0]) === null, "weightedMean total weight 0 → null");
+assert(weightedMean([1], [-1]) === null, "weightedMean negative weight → null");
+assert(weightedMean([1, 2], [1, -0.5]) === null, "weightedMean mixed negative weight → null");
+{
+  const v = weightedMean([10], [3]);
+  assert(approx(v, 10), `weightedMean single = 10 (got ${v})`);
+}
+{
+  const v = weightedMean([2, 4, 6], [1, 1, 1]);
+  assert(approx(v, 4), `weightedMean equal weights → arithmetic mean 4 (got ${v})`);
+}
+{
+  // exact fixture: (10·1 + 20·3) / (1+3) = 70/4 = 17.5
+  const v = weightedMean([10, 20], [1, 3]);
+  assert(approx(v, 17.5), `weightedMean [10,20],[1,3] = 17.5 (got ${v})`);
+}
+assert(
+  approx(weightedMean([5, 5], [0, 2]), 5),
+  "weightedMean zero+positive weight ok when total>0"
 );
 
 // —— Paper derivatives: US options + TW 台指期 (olympiad guards) ——

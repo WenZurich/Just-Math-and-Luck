@@ -13,6 +13,7 @@ Continuous olympiad-level math improvement means **zero tolerance for silent ari
 | Percent from SMA | `pctFromSma(price,sma)=price/sma−1`; reject `sma≤0` / non-finite (regime units) |
 | Drawdown from peak | `peakInWindow` + `drawdownFromPeak(price,peak)=price/peak−1`; reject non-finite / `peak≤0` |
 | Compound multi-day returns | `compoundRet(rets)=∏(1+r_i)−1`; reject empty / non-finite / `r≤−1` |
+| Weighted blend masses | `weightedMean(values,weights)=Σvw/Σw`; reject mismatch / empty / non-finite / weight<0 / Σw≤0 |
 
 **Run:** `npm run test:math` (also chained from `test:smoke` / `predeploy` so bad math cannot ship).
 
