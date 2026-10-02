@@ -1,9 +1,9 @@
 {
   "meta": {
     "id": "research-library",
-    "updated": "2026-10-01T09:25:32+08:00",
+    "updated": "2026-10-02T09:18:56+08:00",
     "timezone": "Asia/Taipei",
-    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-01)",
+    "purpose": "Growing US+TW bookshelf + papers + podcasts across Buffett/Futu classics and curated Chinese taxonomy shelves; strategy candidates with honest calibration (weekday expand 2026-10-02)",
     "copyright": "Original short summaries only — no copyrighted verbatim book text",
     "mathGate": "正式納入策略需數學閘門通過（目前未過）— 僅候選",
     "updateScript": "scripts/update-research-library.mjs",
@@ -7448,6 +7448,160 @@
         "foreign-ownership",
         "event-study",
         "liquidity",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-speculative-leverage-factor-mom-2026",
+      "market": "US",
+      "type": "paper",
+      "title": "Speculative Leverage and Factor Momentum",
+      "authors": [
+        "Weijian Sun",
+        "Yu Xia"
+      ],
+      "year": 2026,
+      "summary": "Studies time-series factor momentum (long recently winning factors, short losers) across 201 U.S. equity factors. Since the late 1990s the strategy strengthens after quarters of rapid aggregate margin-debt growth: a one-standard-deviation rise in lagged quarterly margin-debt growth lifts nearest-horizon, stock-momentum-free abnormal returns by about 49 bp/month. Effect fades as the signal ages, concentrates in hard-to-arbitrage factors, is not absorbed by risk/uncertainty/credit controls, and holds out of sample vs a historical-mean benchmark. After anomalies are published, factor return levels decay while factor momentum persists. Site takeaway: margin-debt / speculative-leverage regime as a US factor-momentum overlay is a watch candidate only — do not harden into live screens while the olympiad gate is closed.",
+      "formulas": [
+        "TS_factor_mom ← long factors with positive recent return, short factors with negative recent return (201 equity factors)",
+        "signal_boost ← +1σ lagged quarterly margin_debt_growth → ~+49 bp/month nearest-horizon stock-mom-free alpha (study estimate)",
+        "decay ← predictability weakens monotonically as momentum lookback ages; stronger among hard-to-arbitrage factors",
+        "gate: US-only candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "美股：因子動能（追最近強、空最近弱）在融資餘額季增偏快之後明顯變強",
+        "效果隨訊號變舊而減弱，且集中在難套利因子；異常公開後水準報酬衰退但因子動能仍在",
+        "僅作美股融資／槓桿體制下的因子動能觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "美股：因子動能（追最近強、空最近弱）在融資餘額季增偏快之後明顯變強",
+          "效果隨訊號變舊而減弱，且集中在難套利因子；異常公開後水準報酬衰退但因子動能仍在",
+          "僅作美股融資／槓桿體制下的因子動能觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "US: time-series factor momentum strengthens after rapid quarterly margin-debt growth",
+          "Effect fades as the signal ages and concentrates in hard-to-arbitrage factors; after publication, factor levels decay but factor momentum persists",
+          "US margin-debt / leverage-regime factor-momentum watch only — no live screen before the math gate"
+        ],
+        "zh-Hans": [
+          "美股：因子动能（追最近强、空最近弱）在融资余额季增偏快之后明显变强",
+          "效果随讯号变旧而减弱，且集中在难套利因子；异常公开后水准报酬衰退但因子动能仍在",
+          "仅作美股融资／杠杆体制下的因子动能观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "米国株：ファクター・モメンタムは四半期の信用残高急増の後に強まる",
+          "シグナルが古くなると弱まり難裁定ファクターに集中；公表後は水準リターンは減衰してもファクター・モメンタムは残る",
+          "米国の信用／レバレッジ体制下のファクター・モメンタム監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — US speculative-leverage / margin-debt conditioned factor momentum stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7512099",
+        "https://doi.org/10.2139/ssrn.7512099"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "投機性槓桿與因子動能",
+        "en": "Speculative Leverage and Factor Momentum",
+        "zh-Hans": "投机性杠杆与因子动能",
+        "ja": "投機的レバレッジとファクター・モメンタム"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "檢視 201 個美股因子的時間序列因子動能。1990 年代末起，融資餘額季增偏快後策略明顯變強（約 +1σ → 近端去股動能 alpha 約 +49bp/月）；訊號變舊則減弱、集中難套利因子；公開後水準報酬衰退但動能仍在。僅候選。",
+        "en": "Across 201 US equity factors, time-series factor momentum strengthens after rapid quarterly margin-debt growth (~+49 bp/month nearest-horizon stock-mom-free alpha per +1σ). Fades with signal age; hard-to-arbitrage concentrated; after publication levels decay but factor momentum persists. Candidate only.",
+        "zh-Hans": "检视 201 个美股因子的时间序列因子动能。1990 年代末起，融资余额季增偏快后策略明显变强（约 +1σ → 近端去股动能 alpha 约 +49bp/月）；讯号变旧则减弱、集中难套利因子；公开后水准报酬衰退但动能仍在。仅候选。",
+        "ja": "201の米株ファクターで、四半期信用残高の急増後に時系列ファクター・モメンタムが強まる（+1σで近傍・株式モメンタム除去後アルファ約+49bp/月）。シグナル老化で減衰、難裁定に集中；公表後は水準は減衰してもモメンタムは残る。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "us",
+        "factor-momentum",
+        "margin-debt",
+        "leverage",
+        "limits-to-arbitrage",
+        "candidate"
+      ]
+    },
+    {
+      "id": "paper-tw-ml-momentum-2023",
+      "market": "TW",
+      "type": "paper",
+      "title": "Momentum in Machine Learning: Evidence from the Taiwan Stock Market",
+      "authors": [
+        "Dien Giau Bui",
+        "De-Rong Kong",
+        "Chih-Yung Lin",
+        "Tse-Chun Lin"
+      ],
+      "year": 2023,
+      "summary": "Revisits 86 asset-pricing anomalies in Taiwan equities and shows machine-learning long-short portfolios (e.g. neural nets, partial least squares) deliver roughly 1.20%–1.50% per month. Five of the top-20 most influential return predictors are momentum-related — notable because Taiwan is often cited as a classic exception to the momentum anomaly. Takeaway for the site: TW momentum features may still matter inside multivariate / ML-style screens even when simple 12–2 long-short looks weak; keep as a Taiwan-only research candidate and do not change live screener math while the olympiad gate is closed.",
+      "formulas": [
+        "universe ← TW listed equities; anomalies ← 86 characteristic predictors",
+        "ML_LS ← neural_net / PLS long-short (~1.20%–1.50%/month in study)",
+        "importance ← rank predictors by ML variable importance; check share of momentum-family features in top 20",
+        "gate: TW-only candidate; no live screener change until math gate passes"
+      ],
+      "plainTakeaways": [
+        "台股：機器學習多因子多頭－空頭組合可帶來約每月 1.2%–1.5% 量級的多空報酬（研究估計）",
+        "前 20 個重要預測變數中約有五個屬動能族——即使台股常被視為傳統動能例外",
+        "僅作台股動能／ML 選股觀察候選；數學閘門通過前不上線"
+      ],
+      "plainTakeawaysLocalized": {
+        "zh-Hant": [
+          "台股：機器學習多因子多頭－空頭組合可帶來約每月 1.2%–1.5% 量級的多空報酬（研究估計）",
+          "前 20 個重要預測變數中約有五個屬動能族——即使台股常被視為傳統動能例外",
+          "僅作台股動能／ML 選股觀察候選；數學閘門通過前不上線"
+        ],
+        "en": [
+          "TW: ML long-short portfolios over many anomalies deliver roughly 1.2%–1.5% per month in the study",
+          "About five of the top-20 influential predictors are momentum-related — even though Taiwan is a classic simple-momentum exception",
+          "TW momentum-inside-ML screen watch only — no live screen before the math gate"
+        ],
+        "zh-Hans": [
+          "台股：机器学习多因子多头－空头组合可带来约每月 1.2%–1.5% 量级的多空报酬（研究估计）",
+          "前 20 个重要预测变量中约有五个属动能族——即使台股常被视为传统动能例外",
+          "仅作台股动能／ML 选股观察候选；数学闸门通过前不上线"
+        ],
+        "ja": [
+          "台湾株：多数アノマリーに対するMLロングショートは研究で月次約1.2%〜1.5%",
+          "重要度上位20のうち約5つがモメンタム系——単純モメンタム例外とされる台湾でも",
+          "台湾のモメンタム／MLスクリーニング監視候補のみ；数学ゲート前は本番不採用"
+        ]
+      },
+      "strategyCandidate": "watch",
+      "status": "candidate",
+      "mathGateNote": "Olympiad gold-gate passedGate=false — TW ML / momentum-feature importance stays candidate/watch; never status=adopted into live screener.",
+      "sources": [
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4595220",
+        "https://doi.org/10.1016/j.pacfin.2023.102178",
+        "https://ideas.repec.org/a/eee/pacfin/v82y2023ics0927538x23002494.html",
+        "https://scholar.nycu.edu.tw/en/publications/momentum-in-machine-learning-evidence-from-the-taiwan-stock-marke/"
+      ],
+      "coverUrl": "./covers/placeholder-paper.svg",
+      "coverFallback": "./covers/placeholder-paper.svg",
+      "titleLocalized": {
+        "zh-Hant": "機器學習中的動能：台股實證",
+        "en": "Momentum in Machine Learning: Evidence from the Taiwan Stock Market",
+        "zh-Hans": "机器学习中的动能：台股实证",
+        "ja": "機械学習におけるモメンタム：台湾株の実証"
+      },
+      "summaryLocalized": {
+        "zh-Hant": "重訪台股 86 項定價異常，機器學習多空組合約每月 1.2%–1.5%；前 20 重要預測變數中約五個屬動能族——挑戰「台股無動能」的簡化觀點。僅候選。",
+        "en": "Revisits 86 TW anomalies; ML long-short ~1.2%–1.5%/month. Five of top-20 predictors are momentum-related despite Taiwan’s reputation as a simple-momentum exception. Candidate only.",
+        "zh-Hans": "重访台股 86 项定价异常，机器学习多空组合约每月 1.2%–1.5%；前 20 重要预测变量中约五个属动能族——挑战「台股无动能」的简化观点。仅候选。",
+        "ja": "台湾株86アノマリーを再検証し、MLロングショートは月次約1.2%〜1.5%。重要度上位20のうち約5つがモメンタム系で、単純モメンタム例外という見方に反する。候補のみ。"
+      },
+      "shelf": "market_analysis",
+      "tags": [
+        "tw",
+        "momentum",
+        "machine-learning",
+        "anomalies",
+        "screening",
         "candidate"
       ]
     }
