@@ -197,3 +197,16 @@ export function weightedMean(values, weights) {
   if (!(den > 0) || !isFiniteNumber(num) || !isFiniteNumber(den)) return null;
   return num / den;
 }
+
+/**
+ * Logarithmic return: ln(p1 / p0).
+ * Domain: both prices finite and strictly positive (no log of ≤0; no sign-flip garbage).
+ * Units: continuously compounded fractional return — compatible with summing across bars
+ * and with compoundRet via exp(Σ logRet) − 1 when every step is defined.
+ */
+export function logReturn(p0, p1) {
+  if (!isFiniteNumber(p0) || !isFiniteNumber(p1)) return null;
+  if (!(p0 > 0) || !(p1 > 0)) return null;
+  const r = Math.log(p1 / p0);
+  return isFiniteNumber(r) ? r : null;
+}

@@ -21,6 +21,7 @@ import {
   drawdownFromPeak,
   compoundRet,
   weightedMean,
+  logReturn,
 } from "./math-core.mjs";
 import { temperatureScore } from "./market-regime.mjs";
 import {
@@ -416,6 +417,37 @@ assert(weightedMean([1, 2], [1, -0.5]) === null, "weightedMean mixed negative we
 assert(
   approx(weightedMean([5, 5], [0, 2]), 5),
   "weightedMean zero+positive weight ok when total>0"
+);
+
+
+// —— log return: ln(p1/p0); prices > 0 ——
+assert(logReturn(0, 110) === null, "logReturn p0=0 → null");
+assert(logReturn(100, 0) === null, "logReturn p1=0 → null");
+assert(logReturn(-10, 110) === null, "logReturn p0≤0 → null");
+assert(logReturn(100, -10) === null, "logReturn p1≤0 → null");
+assert(logReturn(NaN, 110) === null, "logReturn NaN p0 → null");
+assert(logReturn(100, NaN) === null, "logReturn NaN p1 → null");
+assert(logReturn(Infinity, 110) === null, "logReturn Infinity p0 → null");
+assert(logReturn(100, Infinity) === null, "logReturn Infinity p1 → null");
+{
+  const v = logReturn(100, 100);
+  assert(approx(v, 0), `logReturn flat = 0 (got ${v})`);
+}
+{
+  const v = logReturn(100, 110);
+  assert(approx(v, Math.log(1.1)), `logReturn 100→110 = ln(1.1) (got ${v})`);
+}
+{
+  const v = logReturn(110, 100);
+  assert(approx(v, Math.log(100 / 110)), `logReturn down = ln(100/110) (got ${v})`);
+}
+assert(
+  approx(logReturn(100, 121), Math.log(1.1) + Math.log(1.1)),
+  "logReturn additive across equal factors"
+);
+assert(
+  approx(Math.exp(logReturn(80, 100)) - 1, retChange(80, 100)),
+  "exp(logReturn)−1 ≡ retChange on positive prices"
 );
 
 // —— Paper derivatives: US options + TW 台指期 (olympiad guards) ——
