@@ -2705,6 +2705,12 @@ body.nav-more-open {
   font-size: 0.85rem;
   line-height: 1.4;
 }
+.paper-deriv-server {
+  margin: -0.35rem 0 0.75rem;
+  color: var(--text, #1c2430);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
 .paper-deriv-kpis {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

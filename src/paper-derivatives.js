@@ -4,7 +4,7 @@
  * Math via paper-derivatives-math.js (olympiad guards).
  */
 import { escapeHtml } from "./glossary.js";
-import { t, numberLocale } from "./i18n.js";
+import { t, numberLocale, getLang } from "./i18n.js";
 import {
   US_OPTION_MULTIPLIER,
   optionPremiumCashImpact,
@@ -24,6 +24,7 @@ import {
 const STORAGE_KEY = "jml-paper-deriv-v1";
 const OPT_URL = "./data/us-options-snapshot.json";
 const TXF_URL = "./data/txf-desk.json";
+const SERVER_URL = "./data/paper-derivatives.json";
 const START_DATE = "2026-09-15";
 
 function emptyMarketBook() {
@@ -145,6 +146,95 @@ export async function loadTxfDesk() {
   } catch {
     return null;
   }
+}
+
+export async function loadServerBook() {
+  try {
+    const res = await fetch(SERVER_URL);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data || data.version !== 1 || data.booksSeparate !== true) return null;
+    const book = {
+      version: 1,
+      startDate: data.startDate || START_DATE,
+      asOf: data.asOf || null,
+      noteZh: data.noteZh || "",
+      noteEn: data.noteEn || "",
+      US: { ...emptyMarketBook(), ...(data.US || {}) },
+      TW: { ...emptyMarketBook(), ...(data.TW || {}) },
+    };
+    const check = assertFinitePayload({
+      US: { cashAdj: book.US.cashAdj, marginHold: book.US.marginHold, realizedPnl: book.US.realizedPnl },
+      TW: { cashAdj: book.TW.cashAdj, marginHold: book.TW.marginHold, realizedPnl: book.TW.realizedPnl },
+    });
+    if (!check.ok) return null;
+    const usOk = (book.US.positions || []).some((p) => p.asset === "option" && Number.isInteger(p.qtySigned) && p.qtySigned !== 0);
+    const twOk = (book.TW.positions || []).some(
+      (p) => p.asset === "futures" && (p.code === "TX" || p.code === "MTX") && Number.isInteger(p.qtySigned) && p.qtySigned !== 0
+    );
+    if (!usOk || !twOk) return null;
+    return book;
+  } catch {
+    return null;
+  }
+}
+
+function stripServerOrigin(state) {
+  for (const m of ["US", "TW"]) {
+    state[m].positions = (state[m].positions || []).filter((p) => p.origin !== "server");
+    state[m].trades = (state[m].trades || []).filter((tr) => tr.origin !== "server");
+  }
+}
+
+/** Server book is what every device sees. Local ticket fills stay in localStorage only. */
+function mergeDisplay(user, server) {
+  if (!server) return user;
+  const out = emptyState();
+  out.startDate = user.startDate || server.startDate || START_DATE;
+  out.serverAsOf = server.asOf || null;
+  out.noteZh = server.noteZh || "";
+  out.noteEn = server.noteEn || "";
+  for (const m of ["US", "TW"]) {
+    const sBook = server[m] || emptyMarketBook();
+    const uBook = user[m];
+    const digits = m === "TW" ? 0 : 2;
+    const sPos = (sBook.positions || []).map((p) => ({ ...p, origin: "server" }));
+    const uPos = (uBook.positions || []).filter((p) => p.origin !== "server");
+    out[m] = {
+      cashAdj: roundMoney((sBook.cashAdj || 0) + (uBook.cashAdj || 0), digits),
+      marginHold: roundMoney((sBook.marginHold || 0) + (uBook.marginHold || 0), digits),
+      realizedPnl: roundMoney((sBook.realizedPnl || 0) + (uBook.realizedPnl || 0), digits),
+      positions: [...sPos, ...uPos],
+      trades: [
+        ...(sBook.trades || []).map((tr) => ({ ...tr, origin: "server" })),
+        ...(uBook.trades || []).filter((tr) => tr.origin !== "server"),
+      ],
+      summaryZh: sBook.summaryZh || "",
+      summaryEn: sBook.summaryEn || "",
+    };
+  }
+  return out;
+}
+
+function serverBanner(state, market) {
+  const book = state?.[market];
+  if (!book) return "";
+  const lang = getLang();
+  const summary = lang === "en" || lang === "ja" ? book.summaryEn || book.summaryZh : book.summaryZh || book.summaryEn;
+  if (!summary && !state.noteZh) return "";
+  const note = lang === "en" || lang === "ja" ? state.noteEn || state.noteZh : state.noteZh || state.noteEn;
+  return `<p class="paper-deriv-server">${escapeHtml(t("paperDerivServerBook"))}${
+    summary ? ` ${escapeHtml(summary)}` : ""
+  }${note ? ` ${escapeHtml(note)}` : ""}</p>`;
+}
+
+function fillMetaHtml(p) {
+  const lang = getLang();
+  const src = lang === "en" || lang === "ja" ? p.fillSourceEn || p.fillSource : p.fillSource || p.fillSourceEn;
+  const asOf = p.openedAsOf || p.lastTradeAsOf || "";
+  return `${src ? `<span class="pos-name">${escapeHtml(src)}</span>` : ""}${
+    asOf ? `<span class="pos-name">asOf ${escapeHtml(asOf)}</span>` : ""
+  }`;
 }
 
 function stockQty(paper, market, ticker) {
@@ -655,8 +745,9 @@ function renderUsOptionRows(positions, paper) {
       const side = p.qtySigned > 0 ? t("paperDerivLong") : t("paperDerivShort");
       return `<tr>
         <td class="pos-sym"><span class="ticker">${escapeHtml(p.underlying)}</span>
-          <span class="pos-name">${escapeHtml(p.right.toUpperCase())} ${escapeHtml(String(p.strike))} ${escapeHtml(p.expiry || "")}</span>
+          <span class="pos-name">${escapeHtml(p.right.toUpperCase())} ${escapeHtml(String(p.strike))} ${escapeHtml(p.expiry || "")}${p.contractSymbol ? ` · ${escapeHtml(p.contractSymbol)}` : ""}</span>
           ${label ? `<span class="deriv-tag">${escapeHtml(strategyLabelText(label))}</span>` : ""}
+          ${fillMetaHtml(p)}
         </td>
         <td class="num">${escapeHtml(side)} ${Math.abs(p.qtySigned)}</td>
         <td class="num">${fmtNum(p.avgPremium, 2)}</td>
@@ -690,7 +781,8 @@ function renderTwFutRows(positions) {
       });
       return `<tr>
         <td class="pos-sym"><span class="ticker">${escapeHtml(p.code)}</span>
-          <span class="pos-name">${escapeHtml(p.name || "")} ${escapeHtml(p.month)}</span>
+          <span class="pos-name">${escapeHtml(p.name || "")} ${escapeHtml(p.month)} · ${escapeHtml(p.qtySigned > 0 ? t("paperDerivLong") : t("paperDerivShort"))} ${Math.abs(p.qtySigned)}</span>
+          ${fillMetaHtml(p)}
         </td>
         <td class="num">${escapeHtml(side)} ${Math.abs(p.qtySigned)}${escapeHtml(t("paperDerivContracts"))}</td>
         <td class="num">${fmtNum(p.avgPrice, 0)}</td>
@@ -804,6 +896,7 @@ export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
         <div class="paper-deriv-head">
           <h4>${escapeHtml(t("paperDerivUsTitle"))}</h4>
           <p class="paper-deriv-lead">${escapeHtml(t("paperDerivUsLead"))}</p>
+          ${serverBanner(state, "US")}
         </div>
         <div class="paper-deriv-kpis">
           <div><div class="k-label">${escapeHtml(t("paperDerivFreeCash"))}</div><div class="k-val">${fmtMoney(free, "USD")}</div></div>
@@ -849,6 +942,7 @@ export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
       <div class="paper-deriv-head">
         <h4>${escapeHtml(t("paperDerivTwTitle"))}</h4>
         <p class="paper-deriv-lead">${escapeHtml(t("paperDerivTwLead", { session }))}</p>
+        ${serverBanner(state, "TW")}
       </div>
       <div class="paper-deriv-kpis">
         <div><div class="k-label">${escapeHtml(t("paperDerivFreeCash"))}</div><div class="k-val">${fmtMoney(free, "TWD")}</div></div>
@@ -972,12 +1066,23 @@ function showMsg(form, text, ok) {
  */
 export async function initPaperDerivatives(root, paper) {
   if (!root || !paper?.books) return;
-  const [optSnap, txf] = await Promise.all([loadOptionsSnapshot(), loadTxfDesk()]);
-  let state = loadState();
+  const [optSnap, txf, serverRaw] = await Promise.all([
+    loadOptionsSnapshot(),
+    loadTxfDesk(),
+    loadServerBook(),
+  ]);
+  const user = loadState();
+  stripServerOrigin(user);
+  markOptionPositions(user, optSnap);
+  markFuturesPositions(user, txf);
+  saveState(user);
 
-  markOptionPositions(state, optSnap);
-  markFuturesPositions(state, txf);
-  saveState(state);
+  const server = serverRaw ? structuredClone(serverRaw) : null;
+  if (server) {
+    markOptionPositions(server, optSnap);
+    markFuturesPositions(server, txf);
+  }
+  const state = mergeDisplay(user, server);
 
   const usPanel = root.querySelector("#paper-panel-US");
   const twPanel = root.querySelector("#paper-panel-TW");
@@ -1007,7 +1112,7 @@ export async function initPaperDerivatives(root, paper) {
       const side = ev.submitter?.value || "buy";
       const res = tradeUsOption({
         paper,
-        state,
+        state: user,
         optSnap,
         underlying: usForm.underlying.value,
         right: usForm.right.value,
@@ -1038,7 +1143,7 @@ export async function initPaperDerivatives(root, paper) {
       const side = ev.submitter?.value || "buy";
       const res = tradeTwFutures({
         paper,
-        state,
+        state: user,
         txf,
         code: twForm.code.value,
         month: twForm.month.value,
@@ -1061,5 +1166,8 @@ export const _test = {
   saveState,
   emptyState,
   freeCash,
+  mergeDisplay,
+  stripServerOrigin,
   STORAGE_KEY,
+  SERVER_URL,
 };

@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "startDate": "2026-09-15",
+  "asOf": "2026-10-03T11:35:14+08:00",
+  "cumulative": true,
+  "booksSeparate": true,
+  "screenerMathGate": "closed",
+  "noteZh": "全站模擬成交，寫在本檔，每台裝置都看得到，不依賴瀏覽器 localStorage。台股帳與美股帳分開。選股數學閘門未開啟。非投資建議、非真實下單。",
+  "noteEn": "Site-wide paper fills in this file (not browser localStorage). US and TW books stay separate. Screener math gate stays closed. Not a recommendation or a live order.",
+  "US": {
+    "cashAdj": -35,
+    "marginHold": 0,
+    "realizedPnl": 0,
+    "summaryZh": "已成交：買進 NVDA 2026-10-30 270 Call 1 口，權利金 0.35，現金借記 US$35.00。成交後美股可用現金約 US$5.66（股票帳現金 US$40.66 − 35）。",
+    "summaryEn": "Filled: buy 1 NVDA 2026-10-30 270 call at 0.35. Cash debit US$35.00. US free cash about US$5.66 after (stock-book cash US$40.66 − 35).",
+    "positions": [
+      {
+        "asset": "option",
+        "origin": "server",
+        "underlying": "NVDA",
+        "name": "NVIDIA",
+        "right": "call",
+        "expiry": "2026-10-30",
+        "strike": 270,
+        "qtySigned": 1,
+        "avgPremium": 0.35,
+        "markPremium": 0.35,
+        "markAsOf": "2026-10-02T00:10:41.679Z",
+        "markSource": "yahoo-paperChain-lastPrice",
+        "openedAsOf": "2026-10-02T00:10:41.679Z",
+        "openedOn": "2026-10-03",
+        "lastTradeAsOf": "2026-10-02T00:10:41.679Z",
+        "currency": "USD",
+        "multiplier": 100,
+        "contractSymbol": "NVDA261030C00270000",
+        "spotAtFill": 230.86,
+        "bid": 0.33,
+        "ask": 0.37,
+        "fillSource": "成交價 0.35＝Yahoo Finance 公開期權鏈 paperChain lastPrice（NVDA261030C00270000）；來源檔 us-options-snapshot.json。現金＝0.35×100×1＝US$35.00 借記。",
+        "fillSourceEn": "Fill 0.35 = Yahoo Finance public paperChain lastPrice (NVDA261030C00270000) in us-options-snapshot.json. Cash debit = 0.35×100×1 = US$35.00."
+      }
+    ],
+    "trades": [
+      {
+        "date": "2026-10-03",
+        "asOf": "2026-10-02T00:10:41.679Z",
+        "market": "US",
+        "asset": "option",
+        "origin": "server",
+        "side": "BUY",
+        "underlying": "NVDA",
+        "right": "call",
+        "expiry": "2026-10-30",
+        "strike": 270,
+        "qty": 1,
+        "premium": 0.35,
+        "cashDelta": -35,
+        "reason": "server-open",
+        "reasonText": "買進 1 口。權利金取自公開鏈，未用賣方或價差。",
+        "strategy": "long-call",
+        "realizedPnl": 0,
+        "source": "public/data/us-options-snapshot.json options.paperChain",
+        "contractSymbol": "NVDA261030C00270000"
+      }
+    ]
+  },
+  "TW": {
+    "cashAdj": 0,
+    "marginHold": 701000,
+    "realizedPnl": 0,
+    "summaryZh": "已成交：TX 202610 多 1 口，成交價 48671（近月 last）。初始保證金占用 NT$701,000。台股股票帳現金 NT$1,245,200，占用後可用約 NT$544,200。未實現損益在成交價為 0。",
+    "summaryEn": "Filled: long 1 TX 202610 at 48671 (near last). Initial margin hold NT$701,000. TW stock-book cash NT$1,245,200; free after hold about NT$544,200. Unrealized P&L is 0 at the fill.",
+    "positions": [
+      {
+        "asset": "futures",
+        "origin": "server",
+        "code": "TX",
+        "name": "臺股期貨",
+        "month": "202610",
+        "qtySigned": 1,
+        "avgPrice": 48671,
+        "mark": 48671,
+        "settleAtFill": 48669,
+        "markAsOf": "2026-10-03T11:35:14+08:00",
+        "markSource": "txf-desk-near-last",
+        "openedAsOf": "2026-10-03T11:35:14+08:00",
+        "openedOn": "2026-10-03",
+        "currency": "TWD",
+        "multiplier": 200,
+        "initialMarginPerContract": 701000,
+        "lastTradingDay": "2026-10-21",
+        "sessionDate": "2026-10-02",
+        "fillSource": "成交價 48671＝台指期桌近月 last（session 2026-10-02；同列 settle 48669 僅對照，未當成交價）。來源檔 txf-desk.json，期交所 DailyMarketReportFut。保證金＝官方初始 701000×1 口。損益＝點數差×200×口數。",
+        "fillSourceEn": "Fill 48671 = txf-desk near last (session 2026-10-02; settle 48669 is reference only). Source txf-desk.json / TAIFEX DailyMarketReportFut. Margin = official initial 701000 × 1. P&L = points × 200 × contracts."
+      }
+    ],
+    "trades": [
+      {
+        "date": "2026-10-03",
+        "asOf": "2026-10-03T11:35:14+08:00",
+        "market": "TW",
+        "asset": "futures",
+        "origin": "server",
+        "side": "BUY",
+        "code": "TX",
+        "month": "202610",
+        "qty": 1,
+        "price": 48671,
+        "reason": "server-open",
+        "reasonText": "多單 1 口。價格用近月 last，保證金用官方初始保證金。",
+        "realizedPnl": 0,
+        "marginHold": 701000,
+        "source": "public/data/txf-desk.json contracts.TX.near.last",
+        "sessionDate": "2026-10-02"
+      }
+    ]
+  }
+}

@@ -1192,6 +1192,9 @@ async function main() {
     else ok("paper-derivatives loads txf-desk.json");
     if (!/us-options-snapshot\.json/.test(derivUi)) fail("paper-derivatives should load us-options-snapshot");
     else ok("paper-derivatives loads us-options-snapshot");
+    if (!/paper-derivatives\.json/.test(derivUi) || !/mergeDisplay/.test(derivUi)) {
+      fail("paper-derivatives must load and merge paper-derivatives.json");
+    } else ok("paper-derivatives loads server book");
     if (!/initPaperDerivatives/.test(mainJs)) fail("main.js missing initPaperDerivatives");
     else ok("main.js wires initPaperDerivatives");
     if (/passedGate\s*=\s*true/.test(derivUi) || /passedGate\s*=\s*true/.test(derivMath)) {
@@ -1224,6 +1227,49 @@ async function main() {
       if (!(typeof c0.premium === "number") || c0.premium < 0) fail(`bad premium on ${row.ticker}`);
     }
     ok("paperChain premiums non-negative sample");
+    const derivBookPath = path.join(ROOT, "public/data/paper-derivatives.json");
+    if (!fs.existsSync(derivBookPath)) fail("missing public/data/paper-derivatives.json");
+    else {
+      const book = JSON.parse(fs.readFileSync(derivBookPath, "utf8"));
+      if (book.version !== 1 || book.booksSeparate !== true) fail("paper-derivatives.json must be v1 and booksSeparate");
+      else ok("paper-derivatives.json v1 separate books");
+      if (book.screenerMathGate !== "closed") fail("paper-derivatives.json must keep screener math gate closed");
+      else ok("paper-derivatives.json screener gate closed");
+      const usPos = book.US?.positions || [];
+      const twPos = book.TW?.positions || [];
+      const usFill = usPos.find((p) => p.asset === "option" && p.qtySigned);
+      const twFill = twPos.find((p) => p.asset === "futures" && (p.code === "TX" || p.code === "MTX") && p.qtySigned);
+      if (!usFill) fail("paper-derivatives.json needs a US option fill");
+      else ok(`paper US option fill ${usFill.underlying} ${usFill.right} ${usFill.strike} x${usFill.qtySigned} @ ${usFill.avgPremium}`);
+      if (!twFill) fail("paper-derivatives.json needs a TW futures fill");
+      else ok(`paper TW futures fill ${twFill.code} ${twFill.month} x${twFill.qtySigned} @ ${twFill.avgPrice}`);
+      if (usFill && twFill) {
+        const debit = usFill.avgPremium * 100 * usFill.qtySigned;
+        if (!(usFill.qtySigned > 0) || book.US?.cashAdj !== -debit) {
+          fail("US paper option cash debit must equal premium×100×qty");
+        } else ok(`US option debit US$${debit}`);
+        const txfNow = JSON.parse(fs.readFileSync(txfPath, "utf8"));
+        const spec = txfNow.contracts?.[twFill.code];
+        const monthRow =
+          (spec?.near?.month === twFill.month && spec.near) ||
+          (spec?.next?.month === twFill.month && spec.next) ||
+          null;
+        if (!monthRow || monthRow.last !== twFill.avgPrice) {
+          fail("TW futures fill price must equal txf-desk last for that month");
+        } else ok(`TW ${twFill.code} fill matches desk last ${monthRow.last}`);
+        const hold = spec.margin.initial * Math.abs(twFill.qtySigned);
+        if (book.TW?.marginHold !== hold) fail(`TW margin hold ${book.TW?.marginHold} != official initial×qty ${hold}`);
+        else ok(`TW margin hold ${hold}`);
+        const nv = (optSnap.tickers || []).find((r) => r.ticker === usFill.underlying);
+        const chain = nv?.options?.paperChain;
+        const list = (usFill.right === "put" ? chain?.puts : chain?.calls) || [];
+        const hit = list.find((c) => c.strike === usFill.strike);
+        if (!hit || hit.premium !== usFill.avgPremium) fail("US option fill premium must equal paperChain");
+        else ok("US option fill matches paperChain premium");
+        if (chain?.expiration && usFill.expiry !== chain.expiration) fail("US option expiry must match paperChain");
+        else ok("US option expiry matches paperChain");
+      }
+    }
   }
 
     const soxlSrcLive = fs.readFileSync(path.join(ROOT, "src/soxl.js"), "utf8");
