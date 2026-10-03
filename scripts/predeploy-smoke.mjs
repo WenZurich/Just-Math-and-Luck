@@ -18,7 +18,7 @@ const SCREENER =
   process.env.SMOKE_SCREENER ||
   path.join(ROOT, "public/data/strategy-screener.json");
 const REQUIRED_TABS = ["大師", "基本", "籌碼", "技術", "綜合"];
-const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#lookup", "#soxl", "#txf", "#podcasts", "#paper"];
+const REQUIRED_HASHES = ["#today", "#logic", "#research", "#strategies", "#options", "#earnings", "#lookup", "#soxl", "#txf", "#podcasts", "#letters", "#manbao", "#paper"];
 
 const failures = [];
 function fail(msg) {
@@ -87,10 +87,44 @@ async function main() {
       ok(`hash route ${h}`);
     }
   }
-  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-lookup", "view-soxl", "view-txf", "view-podcasts", "view-paper"]) {
+  for (const id of ["view-today", "view-logic", "view-research", "view-strategies", "view-options", "view-earnings", "view-lookup", "view-soxl", "view-txf", "view-podcasts", "view-letters", "view-manbao", "view-paper"]) {
     if (!mainJs.includes(id)) fail(`main.js missing ${id}`);
     else ok(`view shell ${id}`);
   }
+
+  const letters = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/berkshire-letters.json"), "utf8"));
+  const yrs = letters.letters.filter((x) => x.access === "read");
+  if (yrs.length !== 49) fail(`berkshire read letters ${yrs.length} expected 49`);
+  else ok("berkshire read letters 49");
+  const years = new Set(yrs.map((x) => x.year));
+  for (let y = 1977; y <= 2025; y++) {
+    if (!years.has(y)) fail(`missing Berkshire letter ${y}`);
+  }
+  if (years.size === 49) ok("berkshire years 1977-2025");
+  for (const x of yrs) {
+    if (!x.url || !x.url.startsWith("https://www.berkshirehathaway.com/")) fail(`bad letter url ${x.year}`);
+    if (!Array.isArray(x.bullets) || x.bullets.length < 3 || x.bullets.length > 6) fail(`bullets ${x.year}`);
+    const blob = x.bullets.join(" ");
+    if (blob.length > 900) fail(`letter notes too long ${x.year}`);
+  }
+  const linkOnly = letters.letters.filter((x) => x.access === "link-only");
+  if (linkOnly.length !== 1) fail("expected one link-only special letter");
+  else ok("berkshire special letter link-only");
+  const manbao = JSON.parse(fs.readFileSync(path.join(ROOT, "public/data/manbao.json"), "utf8"));
+  if (!Array.isArray(manbao.essays) || manbao.essays.length < 6) fail("manbao public essays missing");
+  else ok(`manbao public summaries ${manbao.essays.length}`);
+  for (const e of manbao.essays) {
+    if (!e.url.startsWith("https://manny-li.com/")) fail(`public essay url ${e.title}`);
+    if (!e.summary || e.summary.length < 2) fail(`public essay summary ${e.title}`);
+  }
+  if (manbao.posts.length !== 120) fail(`manbao pro index ${manbao.posts.length}`);
+  else ok("manbao pro index 120");
+  const paidBody = manbao.posts.some((p) => p.body || p.html || (p.summary && p.summary.length));
+  if (paidBody) fail("manbao pro posts must not carry bodies");
+  else ok("manbao pro posts link-only");
+  if (manbao.posts.some((p) => !p.memberOnly || !p.url.includes("pro.manny-li.com/posts/"))) {
+    fail("manbao pro url or member flag");
+  } else ok("manbao pro official links");
 
   // —— linkJargon must not shadow i18n t ——
   const stratSrc = fs.readFileSync(path.join(ROOT, "src/strategies.js"), "utf8");

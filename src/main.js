@@ -74,6 +74,19 @@ import {
   setPodcastCategory,
   normalizePodcastCategory,
 } from "./podcasts.js";
+import "./letters.css";
+import {
+  renderLettersSection,
+  initLetters,
+  setLettersCategory,
+  normalizeLettersCategory,
+} from "./letters.js";
+import {
+  renderManbaoSection,
+  initManbao,
+  setManbaoCategory,
+  normalizeManbaoCategory,
+} from "./manbao.js";
 
 const DATA_URL = "./data/latest.json";
 
@@ -416,13 +429,15 @@ function getViews() {
     { id: "soxl", label: t("navSoxl"), hash: "soxl" },
     { id: "txf", label: t("navTxf"), hash: "txf" },
     { id: "podcasts", label: t("navPodcasts"), hash: "podcasts" },
+    { id: "letters", label: t("navLetters"), hash: "letters" },
+    { id: "manbao", label: t("navManbao"), hash: "manbao" },
     { id: "paper", label: t("navPaper"), hash: "paper" },
   ];
 }
 
 /** Primary mobile bottom tabs (≤5). Secondary live under 「更多」. */
 const MOBILE_PRIMARY = ["today", "strategies", "paper", "research"];
-const MOBILE_MORE = ["logic", "options", "earnings", "lookup", "soxl", "txf", "podcasts"];
+const MOBILE_MORE = ["logic", "options", "earnings", "lookup", "soxl", "txf", "podcasts", "letters", "manbao"];
 
 const HASH_ALIASES = {
   today: "today",
@@ -455,6 +470,18 @@ const HASH_ALIASES = {
   "jensen-huang": "podcasts",
   "黃仁勳": "podcasts",
   nvidia: "podcasts",
+  letters: "letters",
+  berkshire: "letters",
+  buffett: "letters",
+  股東信: "letters",
+  股东信: "letters",
+  巴菲特: "letters",
+  manbao: "manbao",
+  "mann-pro": "manbao",
+  曼報: "manbao",
+  曼报: "manbao",
+  "曼報pro": "manbao",
+  "曼報Pro": "manbao",
   paper: "paper",
   // retired social → home
   social: "today",
@@ -507,6 +534,8 @@ const NAV_ICONS = {
   soxl: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25 9.5 9l3.5 4.5L17 8l4 9.25H3zM5 19h14v2H5v-2z"/></svg>`,
   txf: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 18h16v2H4v-2zm1.5-3.5 3.2-4.2 2.8 3.3L16 8l4 6.5H5.5zM7 4h2v2H7V4zm4 0h2v2h-2V4zm4 0h2v2h-2V4z"/></svg>`,
   podcasts: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 0 0-9 9v7a2 2 0 0 0 2 2h3v-8H7v-1a5 5 0 0 1 10 0v1h-1v8h3a2 2 0 0 0 2-2v-7a9 9 0 0 0-9-9zm-4 11v5H5v-5h3zm11 5h-3v-5h3v5zM12 7a3 3 0 0 0-3 3v1h6v-1a3 3 0 0 0-3-3z"/></svg>`,
+  letters: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 4h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm8 8.2L5.2 6.5 4 7.9l8 6.2 8-6.2-1.2-1.4L12 12.2z"/></svg>`,
+  manbao: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h11l4 4v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm10 1.5V8h3.5L15 4.5zM7 11h10v1.6H7V11zm0 3.4h10v1.6H7v-1.6zM7 18h6v1.6H7V18z"/></svg>`,
   paper: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17h-2v-.07A8.01 8.01 0 0 1 5.07 13H7v-2H5.07A8.01 8.01 0 0 1 11 5.07V7h2V5.07A8.01 8.01 0 0 1 18.93 11H17v2h1.93A8.01 8.01 0 0 1 13 16.93z"/></svg>`,
   more: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 10h4v4H5v-4zm5 0h4v4h-4v-4zm5 0h4v4h-4v-4z"/></svg>`,
 };
@@ -567,6 +596,8 @@ function parseHashRoute() {
   if (view === "podcasts" && sub) {
     sub = normalizePodcastCategory(sub);
   }
+  if (view === "letters" && sub) sub = normalizeLettersCategory(sub);
+  if (view === "manbao" && sub) sub = normalizeManbaoCategory(sub);
   if (view === "research" && sub) {
     // shelf deep-link: #research/shelf/<id>
     if (sub.toLowerCase() === "shelf" && parts[1]) {
@@ -778,6 +809,16 @@ function renderApp(data, paper) {
         ${renderPodcastsSection()}
       </div>
 
+      <div class="view" id="view-letters" data-view="letters" hidden>
+        <span id="letters" class="view-anchor" tabindex="-1"></span>
+        ${renderLettersSection()}
+      </div>
+
+      <div class="view" id="view-manbao" data-view="manbao" hidden>
+        <span id="manbao" class="view-anchor" tabindex="-1"></span>
+        ${renderManbaoSection()}
+      </div>
+
       <div class="view" id="view-paper" data-view="paper" hidden>
         <span id="paper" class="view-anchor" tabindex="-1"></span>
         ${renderPaperSection(paper)}
@@ -932,6 +973,12 @@ function applyCategoryRoute(route) {
       shelf: route.shelf || null,
     });
   }
+  if (route.view === "letters") {
+    setLettersCategory(route.sub || "menu", { syncUrl: false });
+  }
+  if (route.view === "manbao") {
+    setManbaoCategory(route.sub || "menu", { syncUrl: false });
+  }
 }
 
 
@@ -981,7 +1028,9 @@ async function mountUi(app) {
   applyDocumentLang();
 
   const nav = bindAppNav(app);
-  showView(app, viewBefore, { updateHash: true, scrollTop: false });
+  const routeAtMount = parseHashRoute();
+  const keepNested = Boolean(routeAtMount.sub || routeAtMount.shelf);
+  showView(app, viewBefore, { updateHash: !keepNested, scrollTop: false });
   bindTabs(app);
   bindMarketMarquee(app);
   await initUsMacroStrip("#us-macro-strip");
@@ -990,7 +1039,6 @@ async function mountUi(app) {
   if (paper) await initPaperDerivatives(app, paper);
   bindLangSwitcher(app);
   await initStrategies("#xq-root");
-  const routeAtMount = parseHashRoute();
   await initResearch("#rl-root", undefined, {
     category: routeAtMount.view === "research" ? routeAtMount.sub || "menu" : "menu",
     shelf: routeAtMount.view === "research" ? routeAtMount.shelf : null,
@@ -1003,6 +1051,14 @@ async function mountUi(app) {
   await initTxf("#txf-root");
   initPodcasts("#pc-root", {
     category: routeAtMount.view === "podcasts" ? routeAtMount.sub || "menu" : "menu",
+    syncUrl: false,
+  });
+  await initLetters("#lt-root", {
+    category: routeAtMount.view === "letters" ? routeAtMount.sub || "menu" : "menu",
+    syncUrl: false,
+  });
+  await initManbao("#mb-root", {
+    category: routeAtMount.view === "manbao" ? routeAtMount.sub || "menu" : "menu",
     syncUrl: false,
   });
   void nav;

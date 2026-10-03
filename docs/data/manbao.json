@@ -1,0 +1,1175 @@
+{
+  "asOf": "2026-10-03",
+  "officialSite": "https://manny-li.com/",
+  "essayIndex": "https://manny-li.com/essay/",
+  "proHome": "https://pro.manny-li.com/",
+  "proJoin": "https://pro.manny-li.com/join",
+  "proPosts": "https://pro.manny-li.com/posts",
+  "publicCount": 7,
+  "proCount": 120,
+  "proMemberOnly": 120,
+  "indexNote": "公開長文以 manny-li.com/essay/ 與分類頁 category/article/ 上能讀到全文者為限。/essay/ 未列出 Epic 判決那篇，但分類頁有全文，故一併收進公開摘要。免費電子報沒有可核對的公開全文目錄，此處不補期數標題。Pro 索引共 120 篇，公開頁全部標為會員限定，且沒有副標，因此只列標題、日期與官方連結。",
+  "essays": [
+    {
+      "title": "超過三億人在玩的 Roblox 如何用 AI 顛覆遊戲開發",
+      "date": "2024-09-03",
+      "url": "https://manny-li.com/roblox-generative-ai/",
+      "category": "public",
+      "summary": [
+        "用 Roblox 說明生成式 AI 對遊戲的意義，不在「會打字就能做遊戲」，而在平台同時握有工具、流量與分潤，才付得起研發。",
+        "文中整理 Studio 裡的 Assistant、角色自動綁定與材質生成，並把他們說的 4D 理解成「物件還要會互動」，認為這一步仍早。",
+        "損益表長期虧損與營運現金流為正並陳，用來說明保守的營收認列，不等於沒有現金可投入研發。"
+      ]
+    },
+    {
+      "title": "創新的用途理論：問對問題的第一步",
+      "date": "2023-07-25",
+      "url": "https://manny-li.com/competing-against-luck/",
+      "category": "public",
+      "summary": [
+        "讀 Christensen：企業守不住，常常是因為只看自己的產品、競爭者與表面成長。",
+        "「用途」比空泛的需求或痛點具體，因為它帶著情境；顧客是為了進步而雇用產品。",
+        "方法不是公式。組織若沒有共同語言與流程，老闆一個人懂理論也無法守成。"
+      ]
+    },
+    {
+      "title": "生態系競爭策略：如何贏對賽局",
+      "date": "2022-07-25",
+      "url": "https://manny-li.com/ecosystem-strategies/",
+      "category": "public",
+      "summary": [
+        "生態系被定義成：夥伴透過價值結構，把價值主張交給終端客戶。終端客戶是誰必須先講清楚。",
+        "防禦是把夥伴嵌進自己的獨特問題；進攻要先有最小可行生態系，再按階段引入下一個夥伴。",
+        "柯達的例子被用來說明：轉型失敗不一定是沒投資，也可能是沒看到夥伴反過來改寫價值結構。",
+        "協調者與執行者適合不同階段，微軟從 Ballmer 到 Nadella 被拿來對照，不是人格優劣。"
+      ]
+    },
+    {
+      "title": "Metaverse（元宇宙）漫遊指南（下）",
+      "date": "2021-11-02",
+      "url": "https://manny-li.com/metaverse-02/",
+      "category": "public",
+      "summary": [
+        "下篇把可交互性拆成兩件事：虛擬世界之間能否搬走化身與物品，以及虛擬與現實能否互相影響。",
+        "NFT 與區塊鏈被視為心理上的「物」與經濟活動，不等於規則與能力數值也能跨遊戲通用。",
+        "若 AR 要碰到真實物體，就得先有現實的數位雙生；文中用 Niantic 與 Meta 的製圖計畫當例子。"
+      ]
+    },
+    {
+      "title": "Metaverse（元宇宙）漫遊指南（上）",
+      "date": "2021-10-31",
+      "url": "https://manny-li.com/metaverse-01/",
+      "category": "public",
+      "summary": [
+        "上篇不把元宇宙當成已經發生的事實，先對照 MUD、Habitat、Active Worlds、Second Life 這條虛擬世界的歷史。",
+        "Gilbert、Ball、Koster、Zuckerberg 的定義被並排，重疊處很多，所以「舊瓶新酒」的懷疑說得通，但不完整。",
+        "作者自己的框架是：規模、世界之間能互用、3D 且有臨場感、以使用者生成內容為主、並且跟真實世界有往來。"
+      ]
+    },
+    {
+      "title": "行動應用商店的關鍵審判：Epic Games v. Apple 判決書精華",
+      "date": "2021-09-23",
+      "url": "https://manny-li.com/epic-games-v-apple/",
+      "category": "public",
+      "summary": [
+        "讀 2021 年 9 月判決：法院把市場定成全球行動遊戲交易，不採 Epic 的前市場／後市場三段論。",
+        "在這個定義下，Apple 未被認定壟斷；仍可要求經 App Store 發行並使用自家應用內支付。",
+        "Apple 輸掉的是反導向條款：不能禁止開發者告訴用戶還有別的付款方式。",
+        "文末提醒，打著產業大義的訴訟，仍可能是在為自己的商業條件開路。"
+      ]
+    },
+    {
+      "title": "EPAI 理論看人格特質與組織的適配",
+      "date": "2020-12-29",
+      "url": "https://manny-li.com/epai-theory/",
+      "category": "public",
+      "summary": [
+        "Bill Gross 的四種角色：想出點子的人、把東西做出來的人、把流程管好的人、把衝突在情感上湊起來的人。",
+        "公司早期同時需要點子與執行；找到產品與市場的配合後才需要管理；整合者的重要性不會隨規模衰退。",
+        "重點不是把人分成四格，而是角色與階段是否配得上。"
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "title": "為什麼科技巨頭會找上 Blackstone 融資？（Blackstone 總裁暨營運長 Jon Gray）",
+      "date": "2026-09-30",
+      "url": "https://pro.manny-li.com/posts/blackstone-jon-gray-dwcrddrmu86k",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Amazon 為什麼要封鎖 Meta Muse？談 AI 代理人發起的電商整合與拆分之爭",
+      "date": "2026-09-27",
+      "url": "https://pro.manny-li.com/posts/why-amazon-blocks-muse-kudnr9rb2r56",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "名利雙收 IV：再投資機會有限的「中等」生意——Springer Nature",
+      "date": "2026-09-25",
+      "url": "https://pro.manny-li.com/posts/springer-nature-financial-analysis-w8n34nnkw3d4",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "名利雙收 III：學術聲望與出版量如何兼得？",
+      "date": "2026-09-25",
+      "url": "https://pro.manny-li.com/posts/academic-publishing-growth-strategy-ta8afrymmmcj",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "名利雙收 II：學術出版業為何越來越集中化？",
+      "date": "2026-09-25",
+      "url": "https://pro.manny-li.com/posts/academic-publishing-g25ebdxu3cu6",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "名利雙收 I：別人出錢出力的高利潤生意",
+      "date": "2026-09-25",
+      "url": "https://pro.manny-li.com/posts/springer-nature-business-model-du9cp8u5u3vg",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "售票平台這麼好賺，為什麼還要花重金蓋場館？（Live Nation 總裁 Joe Berchtold）",
+      "date": "2026-09-18",
+      "url": "https://pro.manny-li.com/posts/live-nation-joe-berchtold-y3ajdu6pbwwx",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 的三種速度，以及為什麼監管這麼難",
+      "date": "2026-09-17",
+      "url": "https://pro.manny-li.com/posts/pacing-ai-is-hard-x29tt82u4h4q",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年 8 月你問我答",
+      "date": "2026-09-13",
+      "url": "https://pro.manny-li.com/posts/ama-august-2026-r9fgagndpvde",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "實體書店還沒死，甚至能活得更好（Barnes & Noble 執行長 James Daunt）",
+      "date": "2026-09-12",
+      "url": "https://pro.manny-li.com/posts/james-daunt-barnes-and-noble-w8sgypnhcpp9",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年第三季實體交流活動紀錄",
+      "date": "2026-09-05",
+      "url": "https://pro.manny-li.com/posts/meetup-3q-2026-b2r32qpe3jna",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "因貨得福 IV：快撞到天花板的「中上」生意——TJX Companies",
+      "date": "2026-08-29",
+      "url": "https://pro.manny-li.com/posts/tjx-financial-analysis-grs9prj89rgd",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "因貨得福 III：TJX 為什麼能越贏越多？",
+      "date": "2026-08-29",
+      "url": "https://pro.manny-li.com/posts/tjx-ross-burlington-bpvzaq5abb4y",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "因貨得福 II：TJX 領先同業的獨家配方",
+      "date": "2026-08-29",
+      "url": "https://pro.manny-li.com/posts/tjx-buying-organization-wzwbvczbu6tb",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "因貨得福 I：把別人的失算做成生意",
+      "date": "2026-08-29",
+      "url": "https://pro.manny-li.com/posts/tjx-business-model-m2yjx2xzuqcu",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "從一支藥到一個平台（Moderna 執行長 Stéphane Bancel）",
+      "date": "2026-08-28",
+      "url": "https://pro.manny-li.com/posts/moderna-stephane-bancel-nkjkkq9yvgt9",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "支付巨頭 Stripe 為什麼花 80 億美元買一家 AI 模型路由公司？",
+      "date": "2026-08-23",
+      "url": "https://pro.manny-li.com/posts/stripe-acquires-openrouter-jkvgret4ww4d",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 電力戰如何把 NVIDIA 推向算力融資",
+      "date": "2026-08-17",
+      "url": "https://pro.manny-li.com/posts/nvidia-ai-compute-financing-dzcqdpceapkv",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年 7 月你問我答",
+      "date": "2026-08-14",
+      "url": "https://pro.manny-li.com/posts/ama-july-2026-k8w9aqudktnu",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Hoka、On、Gymshark 怎麼在巨頭眼皮底下崛起",
+      "date": "2026-08-11",
+      "url": "https://pro.manny-li.com/posts/hoka-on-gymshark-23jwvufhmrsw",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Airtable 折價八成出售：SaaS 獨角獸如何被重新定價",
+      "date": "2026-08-06",
+      "url": "https://pro.manny-li.com/posts/airtable-acquisitions-j3kbjjzwdjzd",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "過路財神 Ⅴ：如何正確估值一門優異的生意",
+      "date": "2026-07-30",
+      "url": "https://pro.manny-li.com/posts/visa-financial-analysis-zvsevsgssyap",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "過路財神 IV：最具破壞力的兩個新趨勢",
+      "date": "2026-07-30",
+      "url": "https://pro.manny-li.com/posts/alternative-payment-rails-rtqwsk3m4mxk",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "過路財神 III：新業者如何分一杯羹？",
+      "date": "2026-07-30",
+      "url": "https://pro.manny-li.com/posts/payments-value-capture-wvdcaes6auhw",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "過路財神 II：不再只是信用卡",
+      "date": "2026-07-30",
+      "url": "https://pro.manny-li.com/posts/visa-beyond-cards-hzz5fkvrxg5x",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "過路財神 I：不扛風險的過路財神",
+      "date": "2026-07-30",
+      "url": "https://pro.manny-li.com/posts/visa-business-model-yb9cs6kekxas",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "美國科技業為何押注開放權重 AI 模型？",
+      "date": "2026-07-30",
+      "url": "https://pro.manny-li.com/posts/open-weights-and-american-ai-hxdkrud95vd8",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "IMAX：稀缺的代價",
+      "date": "2026-07-26",
+      "url": "https://pro.manny-li.com/posts/imax-tn4vjnb9dbtb",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "預測市場能從博弈走向金融創新嗎？",
+      "date": "2026-07-23",
+      "url": "https://pro.manny-li.com/posts/prediction-markets-68ezcucry26v",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "新體育淘金潮：Hyrox、匹克球、Banana Ball",
+      "date": "2026-07-17",
+      "url": "https://pro.manny-li.com/posts/hyrox-ppatour-pickleball-bananaball-rhyvggwtrxqh",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "買下一堆過氣品牌的義大利併購機器：Bending Spoons",
+      "date": "2026-07-16",
+      "url": "https://pro.manny-li.com/posts/bending-spoons-ipo-wuw9hfu5buhb",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年 6 月你問我答",
+      "date": "2026-07-15",
+      "url": "https://pro.manny-li.com/posts/ama-jun-2026-3ra5g3yjyez4",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年第二季實體交流活動紀錄",
+      "date": "2026-07-12",
+      "url": "https://pro.manny-li.com/posts/meetup-2q-2026-nrjggjnrfetu",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "出乎義料 III：薩莉亞不只是一門「中等」餐飲生意",
+      "date": "2026-06-28",
+      "url": "https://pro.manny-li.com/posts/saizeriya-financial-analysis-dq883qwwkcv2",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "出乎義料 II：重資產的投資其實更賺錢",
+      "date": "2026-06-28",
+      "url": "https://pro.manny-li.com/posts/restaurant-chains-business-model-rm4zgfgjfpc2",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "出乎義料 I：橫跨五十年的低價秘訣",
+      "date": "2026-06-28",
+      "url": "https://pro.manny-li.com/posts/saizeriya-business-model-cscagbwsrcnb",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 開放模型崛起後，誰還握有定價權？",
+      "date": "2026-06-28",
+      "url": "https://pro.manny-li.com/posts/open-source-ai-models-5hk42uvhcs2t",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "微軟的後 OpenAI 時代",
+      "date": "2026-06-23",
+      "url": "https://pro.manny-li.com/posts/msft-post-openai-cjww9vu45utm",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "用爆 AI token 的企業為什麼還沒賺爆？",
+      "date": "2026-06-16",
+      "url": "https://pro.manny-li.com/posts/ai-tokenmaxxing-zbbg828wt3aa",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年 5 月你問我答",
+      "date": "2026-06-14",
+      "url": "https://pro.manny-li.com/posts/ama-may-2026-2cw32kpzmnpy",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "太空資料中心是畫大餅還是真未來？",
+      "date": "2026-06-12",
+      "url": "https://pro.manny-li.com/posts/space-datacenter-spacex-3ss5znuzunbe",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "從資料中心到筆電：NVIDIA RTX Spark",
+      "date": "2026-06-02",
+      "url": "https://pro.manny-li.com/posts/nvidia-rtx-spark-jq8rpf6p2f59",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 裁員潮是真的趨勢，還是企業的遮羞布？",
+      "date": "2026-05-31",
+      "url": "https://pro.manny-li.com/posts/ai-layoff-wave-52gjqz2bbj2p",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "一字千金 IV：賺錢與成長兼具的信評巨頭——Moody's Corporation",
+      "date": "2026-05-30",
+      "url": "https://pro.manny-li.com/posts/moodys-financial-analysis-cuxbwar4cvth",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "一字千金 III：連 2008 年金融危機都打不倒的信用評級系統",
+      "date": "2026-05-30",
+      "url": "https://pro.manny-li.com/posts/credit-rating-business-9pj32ujkxanq",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "一字千金 II：從評級報告到風險決策 SaaS ",
+      "date": "2026-05-30",
+      "url": "https://pro.manny-li.com/posts/moodys-analytics-business-model-ta8h85jcrrrf",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "一字千金 I：信用評級是一門怎樣的生意？",
+      "date": "2026-05-30",
+      "url": "https://pro.manny-li.com/posts/moodys-investors-service-business-model-y3v4hgf4gbmf",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "自駕卡車為什麼這麼難，以及 2026 年有什麼不一樣？",
+      "date": "2026-05-26",
+      "url": "https://pro.manny-li.com/posts/autonomous-trucks-aurora-kodiak-waabi-tdzgzbsctptw",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "拆解 SpaceX 的 S-1：不只是一家太空公司在上市",
+      "date": "2026-05-25",
+      "url": "https://pro.manny-li.com/posts/spacex-ipo-s1-3wwyhabrfgca",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Atlassian 能靠掌握「工作脈絡」贏下這場戰爭嗎？",
+      "date": "2026-05-20",
+      "url": "https://pro.manny-li.com/posts/atlassian-ai-context-moat-drwymxex2ytn",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 巨頭贏下企業市場的關鍵：FDE",
+      "date": "2026-05-18",
+      "url": "https://pro.manny-li.com/posts/what-is-fde-b8mnrda6dvcj",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年 4 月你問我答\n",
+      "date": "2026-05-15",
+      "url": "https://pro.manny-li.com/posts/ama-apr-2026-88jxuzxku3eu",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "DoorDash、Uber、Booking 這些「平台」的時代是否要結束了？",
+      "date": "2026-04-30",
+      "url": "https://pro.manny-li.com/posts/ai-replace-platforms-hez389wzm44g",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "矯正回歸 IV：跌落神壇的估值保衛戰——Align Technology",
+      "date": "2026-04-28",
+      "url": "https://pro.manny-li.com/posts/align-financial-analysis-ngsbqxnadchn",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "矯正回歸 III：創新者的困境",
+      "date": "2026-04-28",
+      "url": "https://pro.manny-li.com/posts/align-category-creator-dilemma-wyym9cue2crw",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "矯正回歸 II：沒有對手的黃金十年",
+      "date": "2026-04-28",
+      "url": "https://pro.manny-li.com/posts/align-competitive-advantage-wt4bbtb2kex3",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "矯正回歸 I：革命性品牌「隱適美」",
+      "date": "2026-04-28",
+      "url": "https://pro.manny-li.com/posts/align-business-model-tyy9rqctxpkh",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "從保全、房東到中間人：Cloudflare 的三次擴張和一次豪賭 \n",
+      "date": "2026-04-24",
+      "url": "https://pro.manny-li.com/posts/cloudflare-4th-wave-sfddnjkgm59b",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "資料平台：AI 時代的企業作業系統",
+      "date": "2026-04-22",
+      "url": "https://pro.manny-li.com/posts/ai-data-saas-snowflake-databricks-sg2sthu6aaak",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年 3 月你問我答",
+      "date": "2026-04-14",
+      "url": "https://pro.manny-li.com/posts/ama-mar-2026-xdqzqvzyyzb8",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 沒有消滅好萊塢（至少不是字面上的意思）",
+      "date": "2026-04-13",
+      "url": "https://pro.manny-li.com/posts/does-ai-kill-hollywood-qj3wwurtndbm",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "SpaceX 的上市前簡析",
+      "date": "2026-04-09",
+      "url": "https://pro.manny-li.com/posts/spacex-preipo-tvqqj5aqhcr3",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "為什麼 3.5 兆美元的私募信貸贖回風暴不會是下一個 2008 金融海嘯",
+      "date": "2026-03-30",
+      "url": "https://pro.manny-li.com/posts/private-credit-apollo-blackstone-ares-kkr-goldman-pxkj26b9zjj5",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Palantir 其實是一面 AI 照妖鏡？",
+      "date": "2026-03-28",
+      "url": "https://pro.manny-li.com/posts/palantir-ai-nqtk4h6ntusm",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "複利引擎 IV：精密拆解 Roper Technologies",
+      "date": "2026-03-28",
+      "url": "https://pro.manny-li.com/posts/roper-technologies-financial-analysis-g88uv4p93amw",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "複利引擎 III：「我比巴菲特更厲害」",
+      "date": "2026-03-28",
+      "url": "https://pro.manny-li.com/posts/roper-brian-jellison-33q9heffxzna",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "複利引擎 II：連續併購者的宿命",
+      "date": "2026-03-28",
+      "url": "https://pro.manny-li.com/posts/roper-constellation-berkshire-serial-acquirer-9e2jqsm9y5bj",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "複利引擎 I：買到翻身的秘訣",
+      "date": "2026-03-28",
+      "url": "https://pro.manny-li.com/posts/roper-business-model-2cukhad2j6dq",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 吞噬軟體，資安收保護費",
+      "date": "2026-03-16",
+      "url": "https://pro.manny-li.com/posts/cybersecurity-crwd-panw-g6q855r8jky9",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "套利先知：預測市場到底是什麼？",
+      "date": "2026-03-15",
+      "url": "https://pro.manny-li.com/posts/what-is-prediction-market-edpjc5mshdka",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年第一季實體交流活動紀錄",
+      "date": "2026-03-14",
+      "url": "https://pro.manny-li.com/posts/meetup-1q-2026-bg89rvnhstnm",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年 2 月你問我答",
+      "date": "2026-03-14",
+      "url": "https://pro.manny-li.com/posts/ama-feb-2026-m5pergwrjrrp",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 會毀掉經濟嗎？一套好用的思考框架",
+      "date": "2026-03-06",
+      "url": "https://pro.manny-li.com/posts/ai-apocalypse-or-not-cj5j4nkzkjc5",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "鹿遙知馬力 Ⅳ：中上到優秀的距離——Deere & Company",
+      "date": "2026-02-27",
+      "url": "https://pro.manny-li.com/posts/john-deere-financial-analysis-mcesz5fk85wy",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "鹿遙知馬力 Ⅲ：王者為何仍需轉型？",
+      "date": "2026-02-27",
+      "url": "https://pro.manny-li.com/posts/john-deere-smart-industrial-wmste5rh4s2q",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "鹿遙知馬力 Ⅱ：稱霸業界的秘訣——自營金融",
+      "date": "2026-02-27",
+      "url": "https://pro.manny-li.com/posts/john-deere-financial-9bazcddtrbc6",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "鹿遙知馬力 Ⅰ：從賣產品到建生態",
+      "date": "2026-02-27",
+      "url": "https://pro.manny-li.com/posts/john-deere-business-model-d95qtaqsfsck",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "也許我們不會再有下一個 MrBeast",
+      "date": "2026-02-26",
+      "url": "https://pro.manny-li.com/posts/mrbeast-beastindustries-mxtxvxnbnc88",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "社群平台為什麼開始跟你收錢？",
+      "date": "2026-02-22",
+      "url": "https://pro.manny-li.com/posts/social-media-subscription-erw26rvsctcr",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "廣告是不道德的？談 LLM 商業模式的終局",
+      "date": "2026-02-19",
+      "url": "https://pro.manny-li.com/posts/llm-ads-business-model-rdnwj3ty26j9",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2026 年 1 月你問我答",
+      "date": "2026-02-15",
+      "url": "https://pro.manny-li.com/posts/ama-jan-2026-uh6ys6nwfnc5",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Matthew Prince (Cloudflare)：內容經濟的三種未來",
+      "date": "2026-02-12",
+      "url": "https://pro.manny-li.com/posts/matthew-prince-ai-agent-bzqqad4bwawe",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "無人機很夯，但誰能大規模量產？",
+      "date": "2026-02-09",
+      "url": "https://pro.manny-li.com/posts/None-p8ytfvhbvbgy",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "KR Sridhar (Bloom Energy）：燃料電池的歷史性時刻",
+      "date": "2026-01-29",
+      "url": "https://pro.manny-li.com/posts/None-x4dmsg59wxpe",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Meta 的世紀豪賭還沒結束",
+      "date": "2026-01-27",
+      "url": "https://pro.manny-li.com/posts/None-xyacaqc5ex9p",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "舉重若輕 Ⅳ：卓越的商業模式典範——Marriott",
+      "date": "2026-01-26",
+      "url": "https://pro.manny-li.com/posts/None-tvjpcgcpfym3",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "舉重若輕 Ⅲ：從飲料攤變飯店業龍頭的求生之路",
+      "date": "2026-01-26",
+      "url": "https://pro.manny-li.com/posts/None-vzej66cff3bh",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "舉重若輕 Ⅱ：讓會員離不開的萬有引力",
+      "date": "2026-01-26",
+      "url": "https://pro.manny-li.com/posts/None-t43v6uuxx3tp",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "舉重若輕 Ⅰ：不蓋飯店的飯店集團",
+      "date": "2026-01-26",
+      "url": "https://pro.manny-li.com/posts/None-duukfut6958f",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "CJ Desai (MongoDB)：SaaS 真的要被 AI 消滅？",
+      "date": "2026-01-26",
+      "url": "https://pro.manny-li.com/posts/None-zppaa3v8qrtw",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "AI 時代的影子收購：人才併購（Acqui-hire）",
+      "date": "2026-01-18",
+      "url": "https://pro.manny-li.com/posts/None-xub3t2c88p2t",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2025 年 12 月你問我答",
+      "date": "2026-01-15",
+      "url": "https://pro.manny-li.com/posts/ama-dec-2025-8vfvgz33vcq2",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2025 年第四季實體交流活動紀錄",
+      "date": "2026-01-08",
+      "url": "https://pro.manny-li.com/posts/meetup-4q-2025-p8nahz4ju59d",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "波士頓動力 Boston Dynamics：人形機器人的商業豪賭",
+      "date": "2026-01-07",
+      "url": "https://pro.manny-li.com/posts/boston-dynamics-humanoid-j8f4gchrfeb5",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2025 年致會員信（Letter to Members）",
+      "date": "2026-01-04",
+      "url": "https://pro.manny-li.com/posts/2025-letter-to-members-d9dsbngvz4c9",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": " 眾聲有價 Ⅲ：如何正確評估 Reddit 的潛力",
+      "date": "2025-12-29",
+      "url": "https://pro.manny-li.com/posts/None-4ddye6dahq6r",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "眾聲有價 Ⅱ：販售「真實」的挑戰與機會",
+      "date": "2025-12-29",
+      "url": "https://pro.manny-li.com/posts/None-6tdws32g4rwp",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "眾聲有價 Ⅰ：論壇文明的倖存者",
+      "date": "2025-12-29",
+      "url": "https://pro.manny-li.com/posts/None-9bqny83p92n5",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Coursera 與 Udemy 宣布合併：當信任成為一種稀缺",
+      "date": "2025-12-25",
+      "url": "https://pro.manny-li.com/posts/None-99c45rxf5864",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Mati Staniszewski：如果 Google 或 OpenAI 決定做你的生意怎麼辦？",
+      "date": "2025-12-23",
+      "url": "https://pro.manny-li.com/posts/None-j9mt5hwzd9pn",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Peter Beck：脫離地心引力後，太空產業的幻想和真實",
+      "date": "2025-12-18",
+      "url": "https://pro.manny-li.com/posts/None-k6x9tusww2es",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2025 年 11 月你問我答",
+      "date": "2025-12-15",
+      "url": "https://pro.manny-li.com/posts/ama-nov-2025-ufwby4nxpxtv",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "串流大戰的終局與寡頭時代的序幕：Netflix 收購華納兄弟",
+      "date": "2025-12-08",
+      "url": "https://pro.manny-li.com/posts/None-ueyj98gmbgxn",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "人性套利 V：深度解析網路博弈巨頭 Flutter Entertainment",
+      "date": "2025-11-29",
+      "url": "https://pro.manny-li.com/posts/None-avmqs55nnqwj",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "人性套利 Ⅳ：決定市場的那隻手",
+      "date": "2025-11-29",
+      "url": "https://pro.manny-li.com/posts/None-t8dntpyvdeyp",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "人性套利 Ⅲ：博弈市場的競爭終局",
+      "date": "2025-11-28",
+      "url": "https://pro.manny-li.com/posts/None-jtpkdq4kt63v",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "人性套利 Ⅱ：莊家為何要對賭客慷慨？",
+      "date": "2025-11-28",
+      "url": "https://pro.manny-li.com/posts/None-jmtvz5xwptwb",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "人性套利 Ⅰ：賭盤賠率的秘密",
+      "date": "2025-11-28",
+      "url": "https://pro.manny-li.com/posts/None-zma3sf389tbr",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "不只是遊戲主機：Valve 如何一步步擺脫 Windows 的重力井",
+      "date": "2025-11-24",
+      "url": "https://pro.manny-li.com/posts/None-r432czr8q5bk",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Scott Strazik：歡迎 AI 來到有錢也很難插隊的物理世界",
+      "date": "2025-11-23",
+      "url": "https://pro.manny-li.com/posts/None-frbpkafhxw3p",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "估值 21 億美元的 Gamma 是 PowerPoint 殺手，還是一個全新的物種？",
+      "date": "2025-11-17",
+      "url": "https://pro.manny-li.com/posts/None-za5znb6ngne6",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Brian Chesky：Airbnb 的 AI 時代轉型戰略",
+      "date": "2025-11-13",
+      "url": "https://pro.manny-li.com/posts/None-gfz2tt5jz22e",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "2025 年 10 月你問我答",
+      "date": "2025-11-12",
+      "url": "https://pro.manny-li.com/posts/ama-oct-2025-yfj6rhppp5rt",
+      "category": "club",
+      "tag": "曼報俱樂部",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Roelof Botha：Sequoia 在 AI 與資本過剩時代的實戰心法",
+      "date": "2025-10-30",
+      "url": "https://pro.manny-li.com/posts/None-qnjkum4j8g4u",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Aravind Srinivas：AI 將重新定義工作價值以及廣告經濟",
+      "date": "2025-10-30",
+      "url": "https://pro.manny-li.com/posts/None-w6ujnrs69ftz",
+      "category": "giants",
+      "tag": "巨人之聲",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "Base Power：顛覆性的分散式儲能網路",
+      "date": "2025-10-28",
+      "url": "https://pro.manny-li.com/posts/None-zcfm4vvqzqb8",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "史上最大的槓桿收購案：遊戲巨頭 EA 的 550 億美元私有化",
+      "date": "2025-10-27",
+      "url": "https://pro.manny-li.com/posts/None-g2abna6e4v4e",
+      "category": "tech",
+      "tag": "科技曼讀",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "落槌之前 Ⅲ：深度解析蘇富比",
+      "date": "2025-09-29",
+      "url": "https://pro.manny-li.com/posts/None-g3k2wuk5aasv",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "落槌之前 Ⅱ：藝術投資的表與裡",
+      "date": "2025-09-29",
+      "url": "https://pro.manny-li.com/posts/None-sd5nackg984j",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    },
+    {
+      "title": "落槌之前 Ⅰ：解碼拍賣行的商業模式",
+      "date": "2025-09-29",
+      "url": "https://pro.manny-li.com/posts/None-pqn8u2pyqzdq",
+      "category": "decode",
+      "tag": "商業解碼",
+      "memberOnly": true,
+      "access": "link-only"
+    }
+  ]
+}
