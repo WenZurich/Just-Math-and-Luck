@@ -4,7 +4,7 @@
  * - Network-first for data/*.json so daily updates prefer fresh
  */
 const BASE = "/Just-Math-and-Luck/";
-const SHELL_CACHE = "jml-shell-v10";
+const SHELL_CACHE = "jml-shell-v11";
 const DATA_CACHE = "jml-data-v3";
 
 const PRECACHE_URLS = [
@@ -15,7 +15,9 @@ const PRECACHE_URLS = [
   BASE + "icon-512.png",
   BASE + "apple-touch-icon.png",
   BASE + "favicon.png",
+  BASE + "favicon.svg",
   BASE + "logo.png",
+  BASE + "logo.svg",
 ];
 
 function toPathname(request) {

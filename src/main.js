@@ -693,7 +693,7 @@ function renderApp(data, paper) {
   const tw = data.tw || [];
   const disclaimer = escapeHtml(t("disclaimer"));
   const headers = renderListHeaders();
-  const logoUrl = `${import.meta.env.BASE_URL}logo.png?v=3`;
+  const logoUrl = `${import.meta.env.BASE_URL}logo.svg?v=4`;
 
   return `
     <header class="site-chrome">

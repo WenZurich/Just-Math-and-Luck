@@ -42,13 +42,13 @@
       <h3 class="paper-book-title">${a(i)}</h3>
       <p class="paper-start">${T("principal",n("principal"))} ${r}</p>
       <div class="paper-kpis">
+        <div class="paper-kpi paper-kpi--equity">
+          <div class="k-label">${T("position",n("equity"))}</div>
+          <div class="k-val" data-lq-kpi="equity">${Y(t.equity,o)}</div>
+        </div>
         <div class="paper-kpi">
           <div class="k-label">${a(n("cash"))}</div>
           <div class="k-val" data-lq-kpi="cash">${Y(t.cash,o)}</div>
-        </div>
-        <div class="paper-kpi">
-          <div class="k-label">${T("position",n("equity"))}</div>
-          <div class="k-val" data-lq-kpi="equity">${Y(t.equity,o)}</div>
         </div>
         <div class="paper-kpi">
           <div class="k-label">${a(n("totalPnl"))}</div>
@@ -2109,7 +2109,7 @@
     <header class="site-chrome">
       <div class="chrome-row">
         <div class="chrome-brand">
-          <img class="brand-mark" src="/Just-Math-and-Luck/logo.png?v=3" width="40" height="40" alt="每日數學選股" decoding="async" />
+          <img class="brand-mark" src="/Just-Math-and-Luck/logo.svg?v=4" width="40" height="40" alt="每日數學選股" decoding="async" />
           <div class="brand-text">
             <h1>${a(n("siteTitle"))}</h1>
             <p class="brand-meta"><span id="brand-asof">${a(n("dataAsOf"))} ${yd(e.asOf)}</span><span id="lq-live-suffix" class="lq-live-suffix" hidden aria-live="polite"></span></p>

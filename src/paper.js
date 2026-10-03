@@ -191,13 +191,13 @@ function renderBookCard(id, book, metrics) {
       <h3 class="paper-book-title">${escapeHtml(title)}</h3>
       <p class="paper-start">${term("principal", t("principal"))} ${start}</p>
       <div class="paper-kpis">
+        <div class="paper-kpi paper-kpi--equity">
+          <div class="k-label">${term("position", t("equity"))}</div>
+          <div class="k-val" data-lq-kpi="equity">${fmtMoney(book.equity, currency)}</div>
+        </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("cash"))}</div>
           <div class="k-val" data-lq-kpi="cash">${fmtMoney(book.cash, currency)}</div>
-        </div>
-        <div class="paper-kpi">
-          <div class="k-label">${term("position", t("equity"))}</div>
-          <div class="k-val" data-lq-kpi="equity">${fmtMoney(book.equity, currency)}</div>
         </div>
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("totalPnl"))}</div>

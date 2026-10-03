@@ -9,8 +9,8 @@
   "id": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#f5f7fa",
-  "theme_color": "#f5f7fa",
+  "background_color": "#f3efe6",
+  "theme_color": "#f3efe6",
   "categories": ["finance", "business"],
   "icons": [
     {
