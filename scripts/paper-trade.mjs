@@ -301,6 +301,7 @@ function sellPosition(book, pos, qty, price, reason, reasonText, date, asOf) {
     name: pos.name || "",
     qty: sellQty,
     price,
+    avgCostAtSale: roundMoney(pos.avgCost),
     reason,
     reasonText,
     realizedPnl: roundMoney(realized),

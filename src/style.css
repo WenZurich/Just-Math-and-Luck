@@ -1174,6 +1174,37 @@ a.term:hover {
   margin-bottom: 0.5rem;
 }
 
+.paper-realized-foot {
+  margin: 0.55rem 0 0;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+.paper-realized-foot strong {
+  font-family: var(--mono);
+  margin-left: 0.35rem;
+}
+.paper-table .rp-cost {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  font-family: var(--mono);
+}
+.paper-deriv-fills {
+  margin-top: 0.85rem;
+}
+.paper-deriv-fills h5 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+.paper-deriv-open-note {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
 /* —— Firstrade-like dense positions table —— */
 .paper-pos-block {
   margin-bottom: 1rem;

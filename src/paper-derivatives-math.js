@@ -217,3 +217,58 @@ export function strategyLabelPlain({ stockQty, optionRight, optionQtySigned, und
   if (optionQtySigned < 0 && (r === "put" || r === "p")) return "short-put";
   return null;
 }
+
+/**
+ * Equity book realized P&L: (fillPrice − avgCost) × sharesSold.
+ * Never invents prices. Returns null if any input is non-finite or sharesSold ≤ 0.
+ * Currency is the caller's book currency (USD or TWD); this helper is unitless money.
+ */
+export function stockRealizedPnl({ fillPrice, avgCost, sharesSold }) {
+  if (!isFiniteNumber(fillPrice) || !isFiniteNumber(avgCost) || !isFiniteNumber(sharesSold)) return null;
+  if (!(sharesSold > 0)) return null;
+  const pnl = (fillPrice - avgCost) * sharesSold;
+  return isFiniteNumber(pnl) ? pnl : null;
+}
+
+/**
+ * Resolve a trade row's realized P&L for display.
+ * Prefer stored trade.realizedPnl when finite; else recompute from avgCostAtSale/avgCost.
+ * BUY / open fills → status "open" (not 實現). Missing cost → status "missing-cost".
+ */
+export function resolveTradeRealizedPnl(trade) {
+  if (!trade || typeof trade !== "object") return { status: "missing-cost", value: null };
+  const side = String(trade.side || "").toUpperCase();
+  if (side === "BUY" || side === "OPEN") return { status: "open", value: null };
+  if (isFiniteNumber(trade.realizedPnl)) return { status: "ok", value: trade.realizedPnl };
+  const avg = trade.avgCostAtSale ?? trade.avgCost;
+  const computed = stockRealizedPnl({
+    fillPrice: trade.price ?? trade.premium,
+    avgCost: avg,
+    sharesSold: trade.qty,
+  });
+  if (computed != null) return { status: "ok", value: computed };
+  return { status: "missing-cost", value: null };
+}
+
+/**
+ * Sum realized P&L for SELL (or CLOSE) trades. Skips open/BUY.
+ * Returns { ok, sum, missing } — ok false only if sum becomes non-finite.
+ */
+export function sumSellRealizedPnl(trades) {
+  let sum = 0;
+  let missing = 0;
+  let counted = 0;
+  for (const tr of trades || []) {
+    const side = String(tr?.side || "").toUpperCase();
+    if (side !== "SELL" && side !== "CLOSE") continue;
+    const r = resolveTradeRealizedPnl(tr);
+    if (r.status === "ok") {
+      sum += r.value;
+      counted += 1;
+    } else if (r.status === "missing-cost") {
+      missing += 1;
+    }
+  }
+  if (!isFiniteNumber(sum)) return { ok: false, sum: null, missing, counted };
+  return { ok: true, sum, missing, counted };
+}

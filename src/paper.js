@@ -1,5 +1,10 @@
 import { term, escapeHtml } from "./glossary.js";
 import { t, numberLocale } from "./i18n.js";
+import {
+  isFiniteNumber,
+  resolveTradeRealizedPnl,
+  sumSellRealizedPnl,
+} from "./paper-derivatives-math.js";
 
 const PAPER_URL = "./data/paper-portfolio.json";
 
@@ -65,22 +70,61 @@ function windowCell(w) {
     </div>`;
 }
 
+function impliedAvgCost(row) {
+  if (isFiniteNumber(row?.avgCostAtSale)) return row.avgCostAtSale;
+  if (isFiniteNumber(row?.avgCost)) return row.avgCost;
+  // Identity: realized = (price − avg) × qty  →  avg = price − realized/qty
+  if (
+    isFiniteNumber(row?.realizedPnl) &&
+    isFiniteNumber(row?.price) &&
+    isFiniteNumber(row?.qty) &&
+    row.qty > 0
+  ) {
+    const avg = row.price - row.realizedPnl / row.qty;
+    return isFiniteNumber(avg) ? avg : null;
+  }
+  return null;
+}
+
+function realizedCell(row, currency) {
+  const side = String(row?.side || "").toUpperCase();
+  // Buys are not 實現損益 — leave blank dash.
+  if (side === "BUY") {
+    return { html: "—", cls: "flat", value: null, avgCost: null };
+  }
+  const r = resolveTradeRealizedPnl(row);
+  const avg = impliedAvgCost(row);
+  if (r.status === "ok" && isFiniteNumber(r.value)) {
+    return { html: fmtMoney(r.value, currency), cls: pctClass(r.value), value: r.value, avgCost: avg };
+  }
+  if (r.status === "open") {
+    return { html: escapeHtml(t("realizedOpenOnly")), cls: "flat", value: null, avgCost: avg };
+  }
+  return { html: escapeHtml(t("costMissing")), cls: "flat", value: null, avgCost: null };
+}
+
 function tradeRows(trades, currency) {
   if (!trades.length) {
-    return `<tr><td colspan="6" class="empty-cell">${escapeHtml(t("noTradesToday"))}</td></tr>`;
+    return `<tr><td colspan="7" class="empty-cell">${escapeHtml(t("noTradesToday"))}</td></tr>`;
   }
   return trades
-    .map(
-      (row) => `
+    .map((row) => {
+      const rp = realizedCell(row, currency);
+      const costHint =
+        isFiniteNumber(rp.avgCost)
+          ? `<div class="rp-cost">${escapeHtml(t("avgCost"))} ${fmtPrice(rp.avgCost, currency)}</div>`
+          : "";
+      return `
       <tr>
         <td><span class="ticker">${escapeHtml(row.ticker)}</span></td>
         <td class="name-cell">${escapeHtml(row.name || "")}</td>
         <td class="num">${row.qty?.toLocaleString(numberLocale())}</td>
         <td class="num">${fmtPrice(row.price, currency)}</td>
+        <td class="num ${rp.cls}">${rp.html}${costHint}</td>
         <td><span class="badge reason ${escapeHtml(row.reason || "")}">${escapeHtml(reasonLabel(row.reason))}</span></td>
         <td class="why-cell">${escapeHtml(row.reasonText || "")}</td>
-      </tr>`
-    )
+      </tr>`;
+    })
     .join("");
 }
 
@@ -138,6 +182,10 @@ function renderBookCard(id, book, metrics) {
   const pnlPct =
     metrics?.totalPnlPct ??
     (book.startCash ? ((book.equity - book.startCash) / book.startCash) * 100 : 0);
+  const realized = metrics?.realizedPnl ?? book.realizedPnl ?? 0;
+  const unrealized =
+    metrics?.unrealizedPnl ??
+    (isFiniteNumber(pnl) && isFiniteNumber(realized) ? pnl - realized : null);
   return `
     <article class="paper-book">
       <h3 class="paper-book-title">${escapeHtml(title)}</h3>
@@ -158,6 +206,14 @@ function renderBookCard(id, book, metrics) {
         <div class="paper-kpi">
           <div class="k-label">${escapeHtml(t("totalPnlPct"))}</div>
           <div class="k-val ${pctClass(pnlPct)}" data-lq-kpi="pnlPct">${fmtPct(pnlPct)}</div>
+        </div>
+        <div class="paper-kpi">
+          <div class="k-label">${escapeHtml(t("realizedPnl"))}</div>
+          <div class="k-val ${pctClass(realized)}" data-lq-kpi="realized">${fmtMoney(realized, currency)}</div>
+        </div>
+        <div class="paper-kpi">
+          <div class="k-label">${escapeHtml(t("unrealizedPnl"))}</div>
+          <div class="k-val ${pctClass(unrealized)}" data-lq-kpi="unrealized">${fmtMoney(unrealized, currency)}</div>
         </div>
       </div>
       <div class="paper-windows">
@@ -188,6 +244,11 @@ function tradeCards(trades, currency) {
   return trades
     .map((row) => {
       const side = row.side === "SELL" ? t("sell") : t("buy");
+      const rp = realizedCell(row, currency);
+      const costLine =
+        row.side === "SELL" && isFiniteNumber(rp.avgCost)
+          ? `<div style="font-family:var(--mono);font-size:0.82rem;color:var(--text-muted)">${escapeHtml(t("avgCost"))} ${fmtPrice(rp.avgCost, currency)}</div>`
+          : "";
       return `
       <div class="list-card paper-card">
         <div class="lc-head">
@@ -198,6 +259,8 @@ function tradeCards(trades, currency) {
           <div style="text-align:right">
             <div style="font-family:var(--mono)">${escapeHtml(side)} ${row.qty?.toLocaleString(numberLocale())} ${escapeHtml(t("shares"))}</div>
             <div style="font-family:var(--mono)">${fmtPrice(row.price, currency)}</div>
+            <div style="font-family:var(--mono)" class="${rp.cls}">${escapeHtml(t("realizedPnl"))} ${rp.html}</div>
+            ${costLine}
           </div>
         </div>
         <div class="flags" style="margin-bottom:0.35rem">
@@ -209,7 +272,23 @@ function tradeCards(trades, currency) {
     .join("");
 }
 
-function renderTradeTable(title, trades, currency) {
+function sellSessionFoot(trades, currency) {
+  const sells = (trades || []).filter((tr) => String(tr.side || "").toUpperCase() === "SELL");
+  if (!sells.length) return "";
+  const agg = sumSellRealizedPnl(sells);
+  if (!agg.ok) return "";
+  const missingNote =
+    agg.missing > 0
+      ? ` · ${escapeHtml(t("costMissingCount", { n: String(agg.missing) }))}`
+      : "";
+  return `
+    <p class="paper-realized-foot">
+      ${escapeHtml(t("sessionRealizedPnl"))}
+      <strong class="${pctClass(agg.sum)}">${fmtMoney(agg.sum, currency)}</strong>${missingNote}
+    </p>`;
+}
+
+function renderTradeTable(title, trades, currency, { showSessionRealized = false } = {}) {
   return `
     <div class="paper-table-block">
       <h4>${escapeHtml(title)}</h4>
@@ -221,6 +300,7 @@ function renderTradeTable(title, trades, currency) {
               <th>${escapeHtml(t("name"))}</th>
               <th>${escapeHtml(t("qty"))}</th>
               <th>${escapeHtml(t("price"))}</th>
+              <th class="num">${escapeHtml(t("realizedPnl"))}</th>
               <th>${escapeHtml(t("reason"))}</th>
               <th>${escapeHtml(t("note"))}</th>
             </tr>
@@ -229,6 +309,7 @@ function renderTradeTable(title, trades, currency) {
         </table>
       </div>
       <div class="mobile-list">${tradeCards(trades, currency)}</div>
+      ${showSessionRealized ? sellSessionFoot(trades, currency) : ""}
     </div>`;
 }
 
@@ -280,7 +361,7 @@ function renderBookPanel(id, book, metrics, asOfDate, active, startDate) {
       ${renderBookCard(id, book, metrics)}
       <p class="paper-session-note">${escapeHtml(t("paperSession", { date: asOfDate || "—", inception }))}</p>
       ${renderTradeTable(`${t("buy")} ${asOfDate || ""}`, todayBuys, currency)}
-      ${renderTradeTable(`${t("sell")} ${asOfDate || ""}`, todaySells, currency)}
+      ${renderTradeTable(`${t("sell")} ${asOfDate || ""}`, todaySells, currency, { showSessionRealized: true })}
       ${renderPosTable(book.positions || [], currency, book.positionsValue)}
       ${renderTradeTable(t("recentTrades"), recent, currency)}
     </div>`;

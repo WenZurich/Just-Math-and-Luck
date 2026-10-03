@@ -19,6 +19,7 @@ import {
   assertFinitePayload,
   strategyLabelPlain,
   isFiniteNumber,
+  resolveTradeRealizedPnl,
 } from "./paper-derivatives-math.js";
 
 const STORAGE_KEY = "jml-paper-deriv-v1";
@@ -872,6 +873,68 @@ function renderTwTicket(txf) {
     </form>`;
 }
 
+
+function renderDerivFills(trades, currency) {
+  const rows = [...(trades || [])].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0)).slice(0, 20);
+  if (!rows.length) return "";
+  const body = rows
+    .map((tr) => {
+      const side = String(tr.side || "").toUpperCase();
+      const isOpen = side === "BUY" || tr.reason === "server-open" || tr.reason === "user-open";
+      const label =
+        tr.asset === "option"
+          ? `${tr.underlying || ""} ${String(tr.right || "").toUpperCase()} ${tr.strike ?? ""} ${tr.expiry || ""}`
+          : `${tr.code || ""} ${tr.month || ""}`;
+      const px = tr.premium != null ? tr.premium : tr.price;
+      let rpHtml = "—";
+      let rpCls = "flat";
+      if (isOpen || side === "BUY") {
+        rpHtml = escapeHtml(t("realizedOpenOnly"));
+      } else {
+        const r = resolveTradeRealizedPnl({ ...tr, side: side === "SELL" || side === "CLOSE" ? "SELL" : tr.side });
+        if (r.status === "ok" && isFiniteNumber(r.value)) {
+          rpHtml = fmtMoney(r.value, currency);
+          rpCls = pctClass(r.value);
+        } else if (r.status === "missing-cost") {
+          rpHtml = escapeHtml(t("costMissing"));
+        } else {
+          rpHtml = escapeHtml(t("realizedOpenOnly"));
+        }
+      }
+      return `<tr>
+        <td>${escapeHtml(tr.date || "")}</td>
+        <td>${escapeHtml(label.trim() || "—")}</td>
+        <td>${escapeHtml(side === "BUY" ? t("buy") : side === "SELL" ? t("sell") : side)}</td>
+        <td class="num">${tr.qty?.toLocaleString(numberLocale()) ?? "—"}</td>
+        <td class="num">${fmtNum(px, currency === "TWD" ? 0 : 2)}</td>
+        <td class="num ${rpCls}">${rpHtml}</td>
+        <td class="why-cell">${escapeHtml(tr.reasonText || tr.reason || "")}</td>
+      </tr>`;
+    })
+    .join("");
+  return `
+    <div class="paper-deriv-fills">
+      <h5>${escapeHtml(t("paperDerivFills"))}</h5>
+      <p class="paper-deriv-open-note">${escapeHtml(t("realizedOpenOnly"))} ≠ ${escapeHtml(t("realizedPnl"))}</p>
+      <div class="table-wrap">
+        <table class="stock-table paper-table">
+          <thead>
+            <tr>
+              <th>${escapeHtml(t("tradeDate"))}</th>
+              <th>${escapeHtml(t("paperDerivContract"))}</th>
+              <th>${escapeHtml(t("buy"))}/${escapeHtml(t("sell"))}</th>
+              <th class="num">${escapeHtml(t("qty"))}</th>
+              <th class="num">${escapeHtml(t("price"))}</th>
+              <th class="num">${escapeHtml(t("realizedPnl"))}</th>
+              <th>${escapeHtml(t("note"))}</th>
+            </tr>
+          </thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
 export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
   const book = paper?.books?.[market];
   if (!book) return "";
@@ -905,6 +968,7 @@ export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
           <div><div class="k-label">${escapeHtml(t("realizedPnl"))}</div><div class="k-val ${pctClass(m.realizedPnl)}">${fmtMoney(m.realizedPnl, "USD")}</div></div>
         </div>
         ${renderUsTicket(optSnap)}
+        <p class="paper-deriv-open-note">${escapeHtml(t("unrealizedPnl"))} · ${escapeHtml(t("realizedOpenOnly"))}</p>
         <div class="pos-scroll" role="region">
           <table class="pos-table deriv-table">
             <thead><tr>
@@ -921,6 +985,7 @@ export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
             <tbody>${renderUsOptionRows(optPos, paper)}</tbody>
           </table>
         </div>
+        ${renderDerivFills(m.trades, "USD")}
       </div>`;
   }
 
@@ -951,6 +1016,7 @@ export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
         <div><div class="k-label">${escapeHtml(t("realizedPnl"))}</div><div class="k-val ${pctClass(m.realizedPnl)}">${fmtMoney(m.realizedPnl, "TWD")}</div></div>
       </div>
       ${renderTwTicket(txf)}
+      <p class="paper-deriv-open-note">${escapeHtml(t("unrealizedPnl"))} · ${escapeHtml(t("realizedOpenOnly"))}</p>
       <div class="pos-scroll" role="region">
         <table class="pos-table deriv-table pos-table">
           <thead><tr>
@@ -967,6 +1033,7 @@ export function renderDerivOverlay(market, paper, state, { optSnap, txf }) {
           <tbody>${renderTwFutRows(futPos)}</tbody>
         </table>
       </div>
+      ${renderDerivFills(m.trades, "TWD")}
     </div>`;
 }
 

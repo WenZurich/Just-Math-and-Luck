@@ -42,7 +42,15 @@ import {
   strategyLabelPlain,
   US_OPTION_MULTIPLIER,
   TXF_MULTIPLIERS,
+  stockRealizedPnl,
+  resolveTradeRealizedPnl,
+  sumSellRealizedPnl,
 } from "../src/paper-derivatives-math.js";
+import { readFileSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+const __mgDir = dirname(fileURLToPath(import.meta.url));
+const ROOT_MG = join(__mgDir, "..");
 
 const failures = [];
 function fail(msg) {
@@ -554,6 +562,68 @@ assert(strategyLabelPlain({ stockQty: 0, optionRight: "call", optionQtySigned: 1
 // Currency / book separation habit: multipliers never cross books
 assert(TXF_MULTIPLIERS.TX !== US_OPTION_MULTIPLIER, "TX multiplier ≠ US option 100 (units differ)");
 assert(pdFinite(TXF_MULTIPLIERS.TX) && pdFinite(US_OPTION_MULTIPLIER), "multipliers finite");
+
+// —— Equity paper realized P&L (fill − cost) × shares ——
+{
+  const r = stockRealizedPnl({ fillPrice: 264.8, avgCost: 236.22, sharesSold: 4 });
+  assert(approx(r, 114.32, 1e-6), `CRWD sample realized 114.32 (got ${r})`);
+  const o = stockRealizedPnl({ fillPrice: 213, avgCost: 186.75, sharesSold: 10 });
+  assert(approx(o, 262.5, 1e-6), `OKTA sample realized 262.5 (got ${o})`);
+  const a = stockRealizedPnl({ fillPrice: 296.49, avgCost: 250.9, sharesSold: 1 });
+  assert(approx(a, 45.59, 1e-6), `ARM sample realized 45.59 (got ${a})`);
+}
+assert(stockRealizedPnl({ fillPrice: 10, avgCost: 8, sharesSold: 0 }) === null, "sharesSold 0 → null");
+assert(stockRealizedPnl({ fillPrice: 10, avgCost: 8, sharesSold: -1 }) === null, "sharesSold neg → null");
+assert(stockRealizedPnl({ fillPrice: NaN, avgCost: 8, sharesSold: 1 }) === null, "NaN fill → null");
+assert(stockRealizedPnl({ fillPrice: 10, avgCost: Infinity, sharesSold: 1 }) === null, "Inf cost → null");
+{
+  const loss = stockRealizedPnl({ fillPrice: 90, avgCost: 100, sharesSold: 5 });
+  assert(approx(loss, -50), `loss (90−100)×5 = −50 (got ${loss})`);
+}
+{
+  const buy = resolveTradeRealizedPnl({ side: "BUY", price: 10, qty: 1, realizedPnl: 0 });
+  assert(buy.status === "open", "BUY is open / not 實現");
+  const miss = resolveTradeRealizedPnl({ side: "SELL", price: 10, qty: 2 });
+  assert(miss.status === "missing-cost", "SELL without cost/realized → missing-cost");
+  const okRow = resolveTradeRealizedPnl({ side: "SELL", price: 12, qty: 3, avgCostAtSale: 10, realizedPnl: 6 });
+  assert(okRow.status === "ok" && approx(okRow.value, 6), "prefer stored realizedPnl");
+  const recomputed = resolveTradeRealizedPnl({ side: "SELL", price: 12, qty: 3, avgCostAtSale: 10 });
+  assert(recomputed.status === "ok" && approx(recomputed.value, 6), "recompute from avgCostAtSale");
+}
+{
+  const agg = sumSellRealizedPnl([
+    { side: "SELL", realizedPnl: 10 },
+    { side: "BUY", realizedPnl: 0 },
+    { side: "SELL", realizedPnl: -3 },
+    { side: "SELL", price: 5, qty: 1 }, // missing cost
+  ]);
+  assert(agg.ok && approx(agg.sum, 7) && agg.missing === 1 && agg.counted === 2, `sum sells 7 missing 1 (got ${JSON.stringify(agg)})`);
+}
+
+// Live paper-portfolio.json: each SELL realized matches (price − avgCostAtSale)×qty; book totals match sum
+{
+  const raw = readFileSync(join(ROOT_MG, "public/data/paper-portfolio.json"), "utf8");
+  const folio = JSON.parse(raw);
+  for (const [mid, book] of Object.entries(folio.books || {})) {
+    let sum = 0;
+    for (const tr of book.trades || []) {
+      if (tr.side !== "SELL") continue;
+      assert(pdFinite(tr.realizedPnl), `${mid} ${tr.ticker} ${tr.date} realizedPnl finite`);
+      assert(pdFinite(tr.price) && pdFinite(tr.qty) && tr.qty > 0, `${mid} sell qty/price ok`);
+      if (tr.avgCostAtSale != null) {
+        const expect = stockRealizedPnl({ fillPrice: tr.price, avgCost: tr.avgCostAtSale, sharesSold: tr.qty });
+        assert(expect != null && approx(expect, tr.realizedPnl, 0.02), `${mid} ${tr.ticker} ${tr.date} realized identity (got ${tr.realizedPnl} expect ${expect})`);
+      }
+      sum += tr.realizedPnl;
+    }
+    assert(approx(sum, book.realizedPnl, 0.05), `${mid} book.realizedPnl ${book.realizedPnl} = sum sells ${sum}`);
+    const m = folio.metrics?.[mid];
+    if (m && m.realizedPnl != null) {
+      assert(approx(m.realizedPnl, book.realizedPnl, 0.05), `${mid} metrics.realizedPnl matches book`);
+    }
+  }
+  ok("paper-portfolio sell realized identities + book totals");
+}
 
 console.log("——");
 if (failures.length) {
