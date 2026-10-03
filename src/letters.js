@@ -1,6 +1,11 @@
 /**
  * Berkshire shareholder letters — official links plus short notes.
  * Never stores letter text.
+ *
+ * Framing check (2026-10-03): berkshirehathaway.com sends
+ * X-Frame-Options: SAMEORIGIN on both HTML (1977.html) and the 2024 PDF
+ * (2024ltr.pdf). A cross-origin iframe from this site is blocked, so the
+ * reader does not embed or copy the letter. It opens the official URL.
  */
 import { escapeHtml } from "./glossary.js";
 import { t } from "./i18n.js";
@@ -33,6 +38,7 @@ const CAT_ALIASES = {
 
 let data = null;
 let active = "menu";
+let activeYear = null;
 let rootEl = null;
 
 export function normalizeLettersCategory(raw) {
@@ -51,15 +57,53 @@ export function normalizeLettersCategory(raw) {
   return "menu";
 }
 
-function hashFor(catId) {
+function hashFor(catId, year) {
+  if (year === "special") return "#letters/special";
+  if (year && /^\d{4}$/.test(String(year))) return `#letters/${year}`;
   if (!catId || catId === "menu") return "#letters";
   return `#letters/${catId}`;
 }
 
-export function setLettersCategory(catId, { syncUrl = true } = {}) {
-  active = normalizeLettersCategory(catId);
+function lettersIn(catId) {
+  return (data?.letters || []).filter((x) => x.category === catId);
+}
+
+function latestYearIn(catId) {
+  const items = lettersIn(catId).filter((x) => x.access !== "link-only");
+  const latest = items.reduce((best, x) => (!best || x.year > best.year ? x : best), null);
+  return latest ? String(latest.year) : null;
+}
+
+function findLetter(year) {
+  if (year === "special") {
+    return (data?.letters || []).find((x) => x.access === "link-only") || null;
+  }
+  if (year == null || !/^\d{4}$/.test(String(year))) return null;
+  const y = Number(year);
+  return (data?.letters || []).find((x) => x.year === y && x.access !== "link-only") || null;
+}
+
+export function setLettersCategory(catId, { syncUrl = true, year } = {}) {
+  const raw = catId == null || catId === "" ? "menu" : String(catId).trim();
+  const yearFromCat = /^\d{4}$/.test(raw) ? raw : null;
+  const specialFromCat = raw.toLowerCase() === "special";
+  const chosen = year != null && year !== "" ? String(year) : yearFromCat;
+
+  if (chosen === "special" || (specialFromCat && !yearFromCat && chosen == null)) {
+    active = "special";
+    activeYear = "special";
+  } else if (chosen && /^\d{4}$/.test(chosen)) {
+    active = normalizeLettersCategory(chosen);
+    activeYear = chosen;
+  } else {
+    active = normalizeLettersCategory(raw);
+    if (active === "menu") activeYear = null;
+    else if (active === "special") activeYear = "special";
+    else activeYear = latestYearIn(active);
+  }
+
   if (syncUrl) {
-    const next = hashFor(active);
+    const next = hashFor(active, activeYear);
     if (location.hash !== next) history.replaceState(null, "", next);
   }
   paint();
@@ -70,25 +114,48 @@ function itemTitle(item) {
   return String(item.year);
 }
 
-function card(item) {
+function yearRail(items) {
+  const years = items.filter((x) => x.access !== "link-only");
+  if (years.length < 2) return "";
+  const chips = years
+    .slice()
+    .sort((a, b) => b.year - a.year)
+    .map((item) => {
+      const on = String(item.year) === String(activeYear);
+      return `<button type="button" class="lt-year-chip${on ? " is-on" : ""}" data-letter-year="${item.year}" aria-pressed="${on ? "true" : "false"}">${item.year}</button>`;
+    })
+    .join("");
+  return `
+    <div class="lt-year-rail" role="group" aria-label="${escapeHtml(t("lettersYearRail"))}">
+      ${chips}
+    </div>`;
+}
+
+function readerHtml(item) {
+  if (!item) {
+    return `<p class="lt-note">${escapeHtml(t("lettersMissing"))}</p>`;
+  }
   const read = item.access === "read";
   const badge = read ? t("lettersReadBadge") : t("lettersLinkBadge");
   const badgeClass = read ? "pc-badge-featured" : "pc-badge-stub";
   const bullets = read
     ? `<ul class="lt-points">${item.bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}</ul>`
-    : `<p class="lt-linkonly">${escapeHtml(t("lettersLinkBadge"))}</p>`;
+    : `<p class="lt-linkonly">${escapeHtml(t("lettersLinkOnlyNote"))}</p>`;
+  const pdf = String(item.url || "").toLowerCase().endsWith(".pdf");
+  const openLabel = pdf ? t("lettersReaderOpenPdf") : t("lettersReaderOpen");
+  const domId = item.access === "link-only" ? `letter-${item.year}-special` : `letter-${item.year}`;
   return `
-    <article class="pc-card" id="letter-${item.year}${item.access === "link-only" ? "-special" : ""}">
-      <header class="pc-card-head">
-        <div class="pc-card-identity">
-          <span class="pc-card-badge ${badgeClass}">${escapeHtml(badge)}</span>
-        </div>
-        <h3 class="pc-card-title">${escapeHtml(itemTitle(item))}</h3>
-        <p class="pc-card-handle">${escapeHtml(t("lettersAuthor"))}：${escapeHtml(item.author)}</p>
+    <article class="lt-reader" id="${domId}">
+      <header class="lt-reader-head">
+        <span class="pc-card-badge ${badgeClass}">${escapeHtml(badge)}</span>
+        <h3 class="lt-reader-title">${escapeHtml(itemTitle(item))}</h3>
+        <p class="lt-reader-by">${escapeHtml(t("lettersAuthor"))}：${escapeHtml(item.author)}</p>
       </header>
-      <div class="lt-body">
-        ${bullets}
-        <a class="lt-official" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("lettersOpen"))}</a>
+      ${bullets}
+      <div class="lt-reader-stage" role="region" aria-label="${escapeHtml(t("lettersReaderRegion"))}">
+        <p class="lt-reader-note">${escapeHtml(t("lettersReaderNote"))}</p>
+        <a class="lt-reader-open" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(openLabel)}</a>
+        <p class="lt-reader-src">${escapeHtml(t("lettersOfficialHost"))}</p>
       </div>
     </article>`;
 }
@@ -115,12 +182,14 @@ function menuHtml() {
 }
 
 function detailHtml() {
-  const items = (data?.letters || []).filter((x) => x.category === active);
+  const items = lettersIn(active);
   const cat = CATS.find((c) => c.id === active);
+  const item = findLetter(activeYear);
   return `
     <button type="button" class="lt-back" data-letter-cat="menu">${escapeHtml(t("lettersBack"))}</button>
     <h3 class="lt-cat-title">${escapeHtml(t(cat?.labelKey || "lettersTitle"))}</h3>
-    <div class="pc-list">${items.map(card).join("")}</div>`;
+    ${yearRail(items)}
+    ${readerHtml(item)}`;
 }
 
 function paint() {
@@ -129,6 +198,9 @@ function paint() {
   host.innerHTML = active === "menu" ? menuHtml() : detailHtml();
   host.querySelectorAll("[data-letter-cat]").forEach((btn) => {
     btn.addEventListener("click", () => setLettersCategory(btn.dataset.letterCat));
+  });
+  host.querySelectorAll("[data-letter-year]").forEach((btn) => {
+    btn.addEventListener("click", () => setLettersCategory(btn.dataset.letterYear));
   });
 }
 
@@ -144,7 +216,7 @@ export function renderLettersSection() {
     </section>`;
 }
 
-export async function initLetters(selector, { category = "menu", syncUrl = false } = {}) {
+export async function initLetters(selector, { category = "menu", year, syncUrl = false } = {}) {
   rootEl = document.querySelector(selector);
   if (!rootEl) return;
   if (!data) {
@@ -152,10 +224,5 @@ export async function initLetters(selector, { category = "menu", syncUrl = false
     if (!res.ok) throw new Error(`letters HTTP ${res.status}`);
     data = await res.json();
   }
-  active = normalizeLettersCategory(category);
-  if (syncUrl) {
-    const next = hashFor(active);
-    if (location.hash !== next) history.replaceState(null, "", next);
-  }
-  paint();
+  setLettersCategory(category, { syncUrl, year });
 }

@@ -596,7 +596,15 @@ function parseHashRoute() {
   if (view === "podcasts" && sub) {
     sub = normalizePodcastCategory(sub);
   }
-  if (view === "letters" && sub) sub = normalizeLettersCategory(sub);
+  let letterYear = null;
+  if (view === "letters") {
+    const yearSeg = parts.find((p) => /^\d{4}$/.test(p));
+    const wantsSpecial = parts.some((p) => String(p).toLowerCase() === "special");
+    if (wantsSpecial) letterYear = "special";
+    else if (yearSeg) letterYear = yearSeg;
+    const catSrc = wantsSpecial ? "special" : yearSeg || sub;
+    if (catSrc) sub = normalizeLettersCategory(catSrc);
+  }
   if (view === "manbao" && sub) sub = normalizeManbaoCategory(sub);
   if (view === "research" && sub) {
     // shelf deep-link: #research/shelf/<id>
@@ -605,7 +613,7 @@ function parseHashRoute() {
     }
     sub = normalizeResearchCategory(sub);
   }
-  return { view, sub, parts, shelf: null };
+  return { view, sub, parts, shelf: null, letterYear };
 }
 
 function parseViewFromHash() {
@@ -974,7 +982,7 @@ function applyCategoryRoute(route) {
     });
   }
   if (route.view === "letters") {
-    setLettersCategory(route.sub || "menu", { syncUrl: false });
+    setLettersCategory(route.sub || "menu", { syncUrl: false, year: route.letterYear });
   }
   if (route.view === "manbao") {
     setManbaoCategory(route.sub || "menu", { syncUrl: false });
@@ -1055,6 +1063,7 @@ async function mountUi(app) {
   });
   await initLetters("#lt-root", {
     category: routeAtMount.view === "letters" ? routeAtMount.sub || "menu" : "menu",
+    year: routeAtMount.view === "letters" ? routeAtMount.letterYear : undefined,
     syncUrl: false,
   });
   await initManbao("#mb-root", {
