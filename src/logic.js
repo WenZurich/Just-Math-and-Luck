@@ -4,7 +4,7 @@
  * + bookshelf-framework-2026-09-16 (operational rules only).
  */
 import { escapeHtml } from "./glossary.js";
-import { t, enumLabel, stanceTone, humanizeEnumsInText } from "./i18n.js";
+import { t, enumLabel, stanceTone } from "./i18n.js";
 
 /** Stance → size multiplier (STANCE_SIZE_MULT) */
 export const STANCE_SIZE_MULT = {
@@ -25,17 +25,6 @@ export const PHASE_TO_STANCE = {
   despondent: "aggressive",
   panic: "stabilize_first",
 };
-
-function fmtMult(n) {
-  if (n == null || Number.isNaN(n)) return "—";
-  return `${Number(n).toFixed(2)}×`;
-}
-
-function fmtTemp(n) {
-  if (n == null || Number.isNaN(n)) return "—";
-  const s = n > 0 ? "+" : "";
-  return `${s}${Number(n).toFixed(2)}`;
-}
 
 export function stanceBadgeHtml(stanceRaw) {
   if (!stanceRaw) {
@@ -64,26 +53,19 @@ export function renderRegimeCard(mkt, r, { detailed = false } = {}) {
   const liqRaw = r.liquidityBias;
   const phase = phaseRaw ? enumLabel(phaseRaw) : t("dataInsufficient");
   const liq = liqRaw ? enumLabel(liqRaw) : t("dataInsufficient");
-  const temp = fmtTemp(r.temperatureScore);
-  const size = fmtMult(r.sizeMult ?? STANCE_SIZE_MULT[stanceRaw]);
   const gaps =
     Array.isArray(r.dataGaps) && r.dataGaps.length
       ? `<div class="regime-gaps">${escapeHtml(t("dataGaps"))}: ${escapeHtml(r.dataGaps.slice(0, 5).join(", "))}${r.dataGaps.length > 5 ? "…" : ""}</div>`
       : "";
-  const impl =
-    detailed && Array.isArray(r.implications) && r.implications.length
-      ? `<ul class="logic-impl">${r.implications
-          .slice(0, 3)
-          .map((x) => `<li>${escapeHtml(humanizeEnumsInText(x))}</li>`)
-          .join("")}</ul>`
-      : "";
+  // Scanner implication strings stay in the data file. The logic page
+  // explains the same gates in plain language instead of reprinting them.
+  const impl = "";
   const metrics = detailed
     ? `<div class="logic-metrics" role="list">
         ${metricChip(t("psychologyPhase"), escapeHtml(phase))}
         ${metricChip(t("liquidityBias"), escapeHtml(liq))}
-        ${metricChip(t("temperatureScore"), escapeHtml(temp))}
-        ${metricChip(t("sizeMult"), escapeHtml(size))}
-      </div>`
+      </div>
+      <p class="logic-caption">${escapeHtml(t("logicRegimePlain"))}</p>`
     : `<div class="regime-meta">
         <span>${escapeHtml(t("psychologyPhase"))} <strong>${escapeHtml(phase)}</strong></span>
         <span>${escapeHtml(t("liquidityBias"))} <strong>${escapeHtml(liq)}</strong></span>
@@ -145,86 +127,44 @@ function kvTable(rows) {
   </table></div>`;
 }
 
-function codeList(items) {
-  return `<ul class="logic-bullets">${items
-    .map((x) => `<li>${x}</li>`)
-    .join("")}</ul>`;
+function rule(id) {
+  const row = (labelKey, bodyKey) =>
+    `<div><dt>${escapeHtml(t(labelKey))}</dt><dd>${escapeHtml(t(bodyKey))}</dd></div>`;
+  return `<article class="logic-rule">
+    <h4 class="logic-rule-title">${escapeHtml(t(`logic${id}Title`))}</h4>
+    <dl class="logic-rule-dl">
+      ${row("logicLblDoes", `logic${id}Does`)}
+      ${row("logicLblWhen", `logic${id}When`)}
+      ${row("logicLblRefuse", `logic${id}Refuse`)}
+      ${row("logicLblExample", `logic${id}Example`)}
+    </dl>
+  </article>`;
 }
 
 /**
- * Full Logic view — MSN Finance tone, real thresholds, minimal copy.
+ * Full Logic view — plain-language rules. Thresholds match market-regime,
+ * daily-scan, math-core, and paper-trade. No new gates.
  */
 export function renderLogicSection(data) {
   const regime = data?.marketRegime;
-
+  const phaseNote = {
+    defensive: "logicPhaseDefensive",
+    selective: "logicPhaseSelective",
+    balanced: "logicPhaseBalanced",
+    constructive: "logicPhaseConstructive",
+    aggressive: "logicPhaseAggressive",
+    stabilize_first: "logicPhaseStabilize",
+  };
   const phaseRows = Object.entries(PHASE_TO_STANCE).map(([phase, stance]) => [
     enumLabel(phase),
-    `${stanceBadgeHtml(stance)} <span class="logic-mult">${escapeHtml(fmtMult(STANCE_SIZE_MULT[stance]))}</span>`,
-  ]);
-
-  const screenABody = codeList([
-    escapeHtml(t("logicScreenABalanced")),
-    escapeHtml(t("logicScreenASelective")),
-    escapeHtml(t("logicScreenADefensive")),
-    escapeHtml(t("logicScreenAAggressive")),
-    escapeHtml(t("logicScreenAStabilize")),
-  ]);
-
-  const screenBBody = codeList([
-    escapeHtml(t("logicScreenBVol")),
-    escapeHtml(t("logicScreenBMom")),
-  ]);
-
-  const scoreBody = codeList([
-    escapeHtml(t("logicScoreFormula")),
-    escapeHtml(t("logicScoreSma")),
-    escapeHtml(t("logicScoreVol")),
-  ]);
-
-  const demoteBody = codeList([
-    escapeHtml(t("logicDemoteHot")),
-    escapeHtml(t("logicDemoteThin")),
-    escapeHtml(t("logicPromoteFirm")),
-    escapeHtml(t("logicDemotePanic")),
-  ]);
-
-  const whyBody = codeList([
-    escapeHtml(t("logicWhyRs")),
-    escapeHtml(t("logicWhyMom")),
-    escapeHtml(t("logicWhyVol")),
-    escapeHtml(t("logicWhySma")),
-    escapeHtml(t("logicWhyRegime")),
-  ]);
-
-  const xqBody = `
-    <p class="logic-lead">${escapeHtml(t("logicXqLead"))}</p>
-    ${codeList([
-      escapeHtml(t("logicXqPriceVol")),
-      escapeHtml(t("logicXqFlow")),
-      escapeHtml(t("logicXqFund")),
-      escapeHtml(t("logicXqMasters")),
-      escapeHtml(t("logicXqCycle")),
-    ])}
-    <p class="logic-jump"><button type="button" class="logic-link-btn" data-jump="strategies">${escapeHtml(t("logicOpenStrategies"))}</button></p>
-  `;
-
-  const paperBody = codeList([
-    escapeHtml(t("logicPaperCapital")),
-    escapeHtml(t("logicPaperBuy")),
-    escapeHtml(t("logicPaperSizeMult")),
-    escapeHtml(t("logicPaperSell")),
-  ]);
-
-  const ratesBody = codeList([
-    escapeHtml(t("logicRatesR2")),
-    escapeHtml(t("logicRatesR3")),
-    escapeHtml(t("logicRatesSeparate")),
+    `${stanceBadgeHtml(stance)} <span class="logic-phase-note">${escapeHtml(t(phaseNote[stance]))}</span>`,
   ]);
 
   return `
     <header class="view-header">
       <h2 class="view-title">${escapeHtml(t("logicTitle"))}</h2>
       <p class="logic-subtitle">${escapeHtml(t("logicSubtitle"))}</p>
+      <p class="logic-intro">${escapeHtml(t("logicLead"))}</p>
     </header>
 
     <section class="logic-live section" aria-labelledby="logic-live-h">
@@ -237,35 +177,47 @@ export function renderLogicSection(data) {
         <p class="logic-lead">${escapeHtml(t("logicStep1Lead"))}</p>
         ${kvTable(phaseRows)}
         <p class="logic-caption">${escapeHtml(t("logicStep1Caption"))}</p>
-        ${ratesBody}
+        ${rule("Sep")}
+        ${rule("Mood")}
+        ${rule("Rates")}
       `)}
 
       ${step(2, t("logicStep2"), `
         <p class="logic-lead">${escapeHtml(t("logicStep2Lead"))}</p>
-        <h4 class="logic-h4">${escapeHtml(t("logicScreenA"))}</h4>
-        ${screenABody}
-        <h4 class="logic-h4">${escapeHtml(t("logicScreenB"))}</h4>
-        ${screenBBody}
-        <h4 class="logic-h4">${escapeHtml(t("logicScore"))}</h4>
-        ${scoreBody}
+        ${rule("Bal")}
+        ${rule("Sel")}
+        ${rule("Def")}
+        ${rule("Agg")}
+        ${rule("Con")}
+        ${rule("Stab")}
+        ${rule("Vol")}
+        ${rule("Back")}
       `)}
 
-      ${step(3, t("logicStep3"), xqBody)}
+      ${step(3, t("logicStep3"), `
+        <p class="logic-lead">${escapeHtml(t("logicStep3Lead"))}</p>
+        ${rule("Xq")}
+        <p class="logic-jump"><button type="button" class="logic-link-btn" data-jump="strategies">${escapeHtml(t("logicOpenStrategies"))}</button></p>
+      `)}
 
       ${step(4, t("logicStep4"), `
         <p class="logic-lead">${escapeHtml(t("logicStep4Lead"))}</p>
-        ${demoteBody}
-        <p class="logic-caption">${escapeHtml(t("logicListSize"))}</p>
+        ${rule("Rank")}
+        ${rule("Hot")}
+        ${rule("Firm")}
+        ${rule("Panic")}
+        ${rule("Count")}
       `)}
 
       ${step(5, t("logicStep5"), `
         <p class="logic-lead">${escapeHtml(t("logicStep5Lead"))}</p>
-        ${whyBody}
+        ${rule("Why")}
       `)}
 
       ${step(6, t("logicStep6"), `
         <p class="logic-lead">${escapeHtml(t("logicStep6Lead"))}</p>
-        ${paperBody}
+        ${rule("Buy")}
+        ${rule("Sell")}
         <p class="logic-jump"><button type="button" class="logic-link-btn" data-jump="paper">${escapeHtml(t("logicOpenPaper"))}</button></p>
       `)}
     </div>
